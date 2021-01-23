@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import logo from './../../images/logo.png';
 import './CompanyRegister.css'
 import {useHistory} from 'react-router-dom';
-import {Button, Col, Container, Form, FormGroup, Input, Label, Modal, ModalHeader,ModalBody,ModalFooter} from 'reactstrap'
+import {Button, Col, Container, Form, FormGroup, Input, Label,Alert} from 'reactstrap'
 import validateInput from '../Validation/Validate';
 
 
@@ -17,25 +17,22 @@ function CompanyRegister(props){
     const [applicant, setApplicant] = useState('');
     const [applicant_department, setApplicantDepartment] = useState('');
     const [applicant_email, setApplicantEmail] = useState('');
-    const [isInputValid, setIsInputInvalid] = useState(true);
-    const [errorMessage, setErrorMessage] = useState('');
+    const [isInputValid, setIsInputInvalid] = useState(false);
+    const [errorMessage, setErrorMessage] = useState(false);
 
     
-
     function handleInputValidation(){
-        const { isInputValid, errorMessage } = validateInput(getPhone);
-        setIsInputInvalid(isInputValid);
-        setErrorMessage(errorMessage);
+        const regexp = /(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/;
+
+        if(regexp.exec(phone_number)){
+                setIsInputInvalid(true);
+                setErrorMessage(false)
+        }else{
+                setIsInputInvalid(false);
+                setErrorMessage(true);
+            
+        }
     }
-
-
-    function FormError(props) {
-        /* nếu isHidden = true, return null ngay từ đầu */
-        if (props.isHidden===true) { return null;}
-
-        return ( <div className="form-warning">{errorMessage}</div>)
-    }
-    
     
     function getCompanyName(event){
         setCompanyName(event.target.value)
@@ -64,7 +61,6 @@ function CompanyRegister(props){
                 <div>
                     <img src={logo} alt="" onClick={home}/>
                 </div>
-                
                 <Container>
                 <div className="banner">
                     Company Register/Editing
@@ -85,8 +81,7 @@ function CompanyRegister(props){
                         <FormGroup row>
                             <Label sm={2}>Phone Number</Label>
                             <Col sm={8}>
-                                <Input type="text" name="phone_number" required="required" onChange={getPhone} onBlur={handleInputValidation}/>
-                                <FormError isHidden={isInputValid} errorMessage={errorMessage} />
+                                <Input invalid={errorMessage} valid={isInputValid} type="tel" name="phone_number" required="required" onChange={getPhone} onBlur={handleInputValidation}/>
                             </Col>
                         </FormGroup>
                         <FormGroup row>
@@ -113,6 +108,21 @@ function CompanyRegister(props){
                                 <Input type="email" name="applicant_email" required="required" onChange={getEmail}/>
                             </Col>
                         </FormGroup>
+                        <FormGroup tag="fieldset" row>
+                            <Label sm={2}>Status</Label>
+                            <FormGroup check>
+                                <Label check sm={4}>
+                                    <Input type="radio" name="active"/>
+                                    Active
+                                </Label>
+                            </FormGroup>
+                            <FormGroup check>
+                                <Label check sm={4}>
+                                    <Input type="radio" name="deactive"/>
+                                    Deactive
+                                </Label>
+                            </FormGroup>
+                        </FormGroup>
                         <FormGroup row>
                             <Label sm={2}>Password</Label>
                             <Col sm={8}>
@@ -120,7 +130,7 @@ function CompanyRegister(props){
                             </Col>
                         </FormGroup>
                         <FormGroup>
-                            <Button style={{padding:'15px 10px 15px',width:'400px',marginLeft:'auto', marginRight:'auto',marginTop:'20px'}} color="primary" size="lg" block onClick={toggle}>Verification</Button>
+                            <Button style={{padding:'15px 10px 15px',width:'400px',marginLeft:'auto', marginRight:'auto',marginTop:'20px'}} color="primary" size="lg" block onSubmit={toggle}>Verification</Button>
                         </FormGroup>
                     </Form>
                 </Container>

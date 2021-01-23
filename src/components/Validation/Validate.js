@@ -5,10 +5,10 @@ function validateInput(checkingText){
     const checkingResult = regexp.exec(checkingText);
     if (checkingResult !== null) {
         return { isInputValid: true,
-                 errorMessage: ''};
+                 errorMessage: false};
     } else {
         return { isInputValid: false,
-                 errorMessage: 'Phone number is incorrect'};
+                 errorMessage: true};
     }
 }
 export default validateInput;
