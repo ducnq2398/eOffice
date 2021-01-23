@@ -2,38 +2,108 @@ import React, { useState } from 'react';
 import logo from './../../images/logo.png';
 import './CompanyRegister.css'
 import {useHistory} from 'react-router-dom';
-import {Button, Col, Container, Form, FormGroup, Input, Label,Alert} from 'reactstrap'
-import validateInput from '../Validation/Validate';
-
+import {Button, Col, Container, Form, FormGroup, Input, Label} from 'reactstrap'
+import ValidatePhone from '../Validation/ValidatePhone';
+import ValidateCompany from '../Validation/ValidateCompany';
+import ValidateAddress from '../Validation/ValidateAddress';
+import ValidateName from '../Validation/ValidateName';
+import ValidateDepartment from '../Validation/ValidateDepartment';
+import ValidateEmail from '../Validation/ValidateEmail';
+import ValidatePassword from '../Validation/ValidatePassword';
 
 function CompanyRegister(props){
     const history = useHistory();
     const home = () => history.push('/admin-manager');
-    const [modal, setModal] = useState(false);
-    const toggle = () => setModal(!modal);
     const [company_name, setCompanyName] = useState('');
     const [street_address, setStreetAddress] = useState('');
     const [phone_number, setPhoneNumber] = useState('');
     const [applicant, setApplicant] = useState('');
     const [applicant_department, setApplicantDepartment] = useState('');
     const [applicant_email, setApplicantEmail] = useState('');
-    const [isInputValid, setIsInputInvalid] = useState(false);
-    const [errorMessage, setErrorMessage] = useState(false);
+    const [validPhone, setValidPhone] = useState({
+        isValid: false,
+        isInValid: false
+    });
+    const [validCompany, setValidCompany] = useState({
+        isValid: false,
+        isInValid: false
+    });
+    const [validAddress, setValidAddress] = useState({
+        isValid: false,
+        isInValid: false
+    });
+    const [validName, setValidName] = useState({
+        isValid: false,
+        isInValid: false
+    });
+    const [validDepartment, setValidDepartment] = useState({
+        isValid: false,
+        isInValid: false
+    });
+    const [validEmail, setValidEmail] = useState({
+        isValid: false,
+        isInValid: false
+    });
+    const [validPassword, setValidPassword] = useState({
+        isValid: false,
+        isInValid: false
+    });
 
-    
-    function handleInputValidation(){
-        const regexp = /(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/;
-
-        if(regexp.exec(phone_number)){
-                setIsInputInvalid(true);
-                setErrorMessage(false)
-        }else{
-                setIsInputInvalid(false);
-                setErrorMessage(true);
-            
-        }
+    function checkEmail() {
+        const {isValid, isInValid} = ValidateEmail(applicant_email);
+        setValidEmail({
+            isValid: isValid,
+            isInValid: isInValid
+        })
     }
-    
+
+    function checkPhone(){
+        const {isValid, isInValid} = ValidatePhone(phone_number);
+        setValidPhone({
+            isValid: isValid,
+            isInValid: isInValid
+        })
+    }
+
+    function checkCompany() {
+        const {isValid, isInValid} = ValidateCompany(company_name);
+        setValidCompany({
+            isValid: isValid,
+            isInValid: isInValid
+        })
+    }
+
+    function checkAddress() {
+        const {isValid, isInValid} = ValidateAddress(street_address);
+        setValidAddress({
+            isValid: isValid,
+            isInValid: isInValid
+        })
+    }
+
+    function checkName() {
+        const{isValid , isInValid} = ValidateName(applicant);
+        setValidName({
+            isValid: isValid,
+            isInValid: isInValid
+        })
+    }
+    function checkDepartment() {
+        const{isValid , isInValid} = ValidateDepartment(applicant_department);
+        setValidDepartment({
+            isValid: isValid,
+            isInValid: isInValid
+        })
+    }
+
+    function checkPassword(e) {
+        const{isValid , isInValid} = ValidatePassword(e);
+        setValidPassword({
+            isValid: isValid,
+            isInValid: isInValid
+        })
+    }
+
     function getCompanyName(event){
         setCompanyName(event.target.value)
     }
@@ -69,31 +139,31 @@ function CompanyRegister(props){
                         <FormGroup row>
                             <Label sm={2}>Company Name</Label>
                             <Col sm={8}>
-                                <Input type="text" name="company_name" required="required" onChange={getCompanyName}/>
+                                <Input valid={validCompany.isValid} invalid={validCompany.isInValid} type="text" name="company_name" required="required" onChange={getCompanyName} onBlur={checkCompany}/>
                             </Col>
                         </FormGroup>
                         <FormGroup row>
                             <Label sm={2}>Street Address</Label>
                             <Col sm={8}>
-                                <Input type="text" name="street_address" onChange={getStreetAddress}/>
+                                <Input valid={validAddress.isValid} invalid={validAddress.isInValid} type="text" name="street_address" onChange={getStreetAddress} onBlur={checkAddress}/>
                             </Col>
                         </FormGroup>
                         <FormGroup row>
                             <Label sm={2}>Phone Number</Label>
                             <Col sm={8}>
-                                <Input invalid={errorMessage} valid={isInputValid} type="tel" name="phone_number" required="required" onChange={getPhone} onBlur={handleInputValidation}/>
+                                <Input invalid={validPhone.isInValid} valid={validPhone.isValid} type="tel" name="phone_number" required="required" onChange={getPhone} onBlur={checkPhone}/>
                             </Col>
                         </FormGroup>
                         <FormGroup row>
                             <Label sm={2}>Applicant</Label>
                             <Col sm={8}>
-                                <Input type="text" name="applicant" required="required" onChange={getApplicant}/>
+                                <Input valid={validName.isValid} invalid={validName.isInValid} onBlur={checkName} type="text" name="applicant" required="required" onChange={getApplicant}/>
                             </Col>
                         </FormGroup>
                         <FormGroup row>
                             <Label sm={2}>Applicant Department</Label>
                             <Col sm={8}>
-                                <Input type="select" name="applicant_department" id="exampleSelect" onChange={getDepartment}>
+                                <Input valid={validDepartment.isValid} invalid={validDepartment.isInValid} onBlur={checkDepartment} type="select" name="applicant_department" id="exampleSelect" onChange={getDepartment}>
                                     <option>Production</option>
                                     <option>Purchasing</option>
                                     <option>Marketing</option>
@@ -105,7 +175,7 @@ function CompanyRegister(props){
                         <FormGroup row>
                             <Label sm={2}>Applicant Email</Label>
                             <Col sm={8}>
-                                <Input type="email" name="applicant_email" required="required" onChange={getEmail}/>
+                                <Input valid={validEmail.isValid} invalid={validEmail.isInValid} onBlur={checkEmail} type="email" name="applicant_email" required="required" onChange={getEmail}/>
                             </Col>
                         </FormGroup>
                         <FormGroup tag="fieldset" row>
@@ -126,11 +196,11 @@ function CompanyRegister(props){
                         <FormGroup row>
                             <Label sm={2}>Password</Label>
                             <Col sm={8}>
-                                <Input type="password" name="applicant_password" required="required"/>
+                                <Input valid={validPassword.isValid} invalid={validPassword.isInValid} onBlur={e => checkPassword(e.target.value)} type="password" name="applicant_password" required="required"/>
                             </Col>
                         </FormGroup>
                         <FormGroup>
-                            <Button style={{padding:'15px 10px 15px',width:'400px',marginLeft:'auto', marginRight:'auto',marginTop:'20px'}} color="primary" size="lg" block onSubmit={toggle}>Verification</Button>
+                            <Button style={{padding:'15px 10px 15px',width:'400px',marginLeft:'auto', marginRight:'auto',marginTop:'20px'}} color="primary" size="lg" block>Verification</Button>
                         </FormGroup>
                     </Form>
                 </Container>
