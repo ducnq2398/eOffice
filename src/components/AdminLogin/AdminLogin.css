@@ -1,0 +1,13 @@
+.form{
+    width: 20%;
+    height: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    display: inline-block;
+    border-radius: 5px;
+    padding: 20px;
+    background-color: rgba(226, 211, 192, 0.685);
+}
+.bg{
+    padding-top: 10rem;
+}

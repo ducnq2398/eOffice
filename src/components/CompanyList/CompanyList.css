@@ -1,0 +1,22 @@
+.banner{
+    padding: 15px 10px 15px;
+    background: rgb(50, 50, 185);
+    text-align: left;
+    color: white;
+    margin-top: 30px;
+    width: auto;  
+}
+
+.search_form{
+    margin-top: 20px;
+    width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.table_css{
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+}
