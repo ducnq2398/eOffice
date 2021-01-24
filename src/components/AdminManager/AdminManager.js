@@ -3,15 +3,21 @@ import React from 'react';
 import { Link,useHistory} from 'react-router-dom';
 import './AdminManager.css';
 import logo from './../../images/logo.png';
-function AdminManager(){
+import { removeUserSession } from '../../utils/Common';
+function AdminManager(props){
         const history = useHistory();
         const companyRegister = () => history.push('/company-register'); 
         const companyList = () => history.push('/company-list'); 
+        function Logout(e) {
+            e.preventDefault();
+            removeUserSession();
+            props.history.push('/');
+        }
         return (
             <div>
                 <div>
                     <form className="logout">
-                        <Link to="/">Logout</Link>
+                        <Link to='' onClick={Logout}>Logout</Link>
                     </form>
                 </div>
                 <div>
