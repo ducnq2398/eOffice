@@ -13,14 +13,15 @@ import ValidateAddress from '../Validation/ValidateAddress';
 function CompanyRegister(){
     const history = useHistory();
     const home = () => history.push('/admin-manager');
-    const [modal, setModal] = useState(false);
-    const toggle = () => setModal(!modal);
-    const [company_name, setCompanyName] = useState('');
-    const [street_address, setStreetAddress] = useState('');
-    const [phone_number, setPhoneNumber] = useState('');
-    const [applicant, setApplicant] = useState('');
-    const [applicant_department, setApplicantDepartment] = useState('');
-    const [applicant_email, setApplicantEmail] = useState('');
+    const [editCompanyRegister, setEditCompanyRegister] = useState({
+        company_name: '',
+        street_address: '',
+        phone_number: '',
+        applicant: '',
+        applicant_department: 1,
+        applicant_email: '',
+        status: 1,
+    })
     const [validPhone, setValidPhone] = useState({
         isValid: false,
         isInValid: false
@@ -47,7 +48,7 @@ function CompanyRegister(){
     });
 
     function checkEmail() {
-        const {isValid, isInValid} = ValidateEmail(applicant_email);
+        const {isValid, isInValid} = ValidateEmail(editCompanyRegister.applicant_email);
         setValidEmail({
             isValid: isValid,
             isInValid: isInValid
@@ -55,7 +56,7 @@ function CompanyRegister(){
     }
 
     function checkPhone(){
-        const {isValid, isInValid} = ValidatePhone(phone_number);
+        const {isValid, isInValid} = ValidatePhone(editCompanyRegister.phone_number);
         setValidPhone({
             isValid: isValid,
             isInValid: isInValid
@@ -63,7 +64,7 @@ function CompanyRegister(){
     }
 
     function checkCompany() {
-        const {isValid, isInValid} = ValidateCompany(company_name);
+        const {isValid, isInValid} = ValidateCompany(editCompanyRegister.company_name);
         setValidCompany({
             isValid: isValid,
             isInValid: isInValid
@@ -71,7 +72,7 @@ function CompanyRegister(){
     }
 
     function checkAddress() {
-        const {isValid, isInValid} = ValidateAddress(street_address);
+        const {isValid, isInValid} = ValidateAddress(editCompanyRegister.street_address);
         setValidAddress({
             isValid: isValid,
             isInValid: isInValid
@@ -79,43 +80,34 @@ function CompanyRegister(){
     }
 
     function checkName() {
-        const{isValid , isInValid} = ValidateName(applicant);
+        const{isValid , isInValid} = ValidateName(editCompanyRegister.applicant);
         setValidName({
             isValid: isValid,
             isInValid: isInValid
         })
     }
     function checkDepartment() {
-        const{isValid , isInValid} = ValidateDepartment(applicant_department);
+        const{isValid , isInValid} = ValidateDepartment(editCompanyRegister.applicant_department);
         setValidDepartment({
             isValid: isValid,
             isInValid: isInValid
         })
     }
 
-    
-    
-    function getCompanyName(event){
-        setCompanyName(event.target.value)
+
+    function handleChange(event){
+        const target = event.target;
+        const name = target.name;
+        const value = target.value;
+        setEditCompanyRegister({
+            ... editCompanyRegister,
+            [name] : value,
+        })
     }
 
-    function getStreetAddress(e){
-        setStreetAddress(e.target.value)
-    }
-
-    function getPhone(e){
-        setPhoneNumber(e.target.value)
-    }
-
-    function getApplicant(e){
-        setApplicant(e.target.value)
-    }
-
-    function getDepartment(e){
-        setApplicantDepartment(e.target.value)
-    }
-    function getEmail(e){
-        setApplicantEmail(e.target.value)
+    function handleSubmit(event){
+        event.preventDefault();
+        console.log(editCompanyRegister)
     }
         return (
             <div>
@@ -127,66 +119,66 @@ function CompanyRegister(){
                 <div className="banner">
                     Editing Company
                 </div>
-                    <Form style={{marginTop:'20px'}}>
+                    <Form onSubmit={handleSubmit} style={{marginTop:'20px'}}>
                         <FormGroup row>
                             <Label sm={2}>Company Name</Label>
                             <Col sm={8}>
-                                <Input valid={validCompany.isValid} invalid={validCompany.isInValid} onBlur={checkCompany} type="text" name="company_name" required="required" onChange={getCompanyName}/>
+                                <Input valid={validCompany.isValid} invalid={validCompany.isInValid} onBlur={checkCompany} type="text" name="company_name" required="required" onChange={handleChange}/>
                             </Col>
                         </FormGroup>
                         <FormGroup row>
                             <Label sm={2}>Street Address</Label>
                             <Col sm={8}>
-                                <Input valid={validAddress.isValid} invalid={validAddress.isInValid} onBlur={checkAddress} type="text" name="street_address" onChange={getStreetAddress}/>
+                                <Input valid={validAddress.isValid} invalid={validAddress.isInValid} onBlur={checkAddress} type="text" name="street_address" onChange={handleChange}/>
                             </Col>
                         </FormGroup>
                         <FormGroup row>
                             <Label sm={2}>Phone Number</Label>
                             <Col sm={8}>
-                                <Input valid={validPhone.isValid} invalid={validPhone.isInValid} onBlur={checkPhone} type="text" name="phone_number" required="required" onChange={getPhone}/>
+                                <Input valid={validPhone.isValid} invalid={validPhone.isInValid} onBlur={checkPhone} type="text" name="phone_number" required="required" onChange={handleChange}/>
                             </Col>
                         </FormGroup>
                         <FormGroup row>
                             <Label sm={2}>Applicant</Label>
                             <Col sm={8}>
-                                <Input valid={validName.isValid} invalid={validName.isInValid} onBlur={checkName} type="text" name="applicant" required="required" onChange={getApplicant}/>
+                                <Input valid={validName.isValid} invalid={validName.isInValid} onBlur={checkName} type="text" name="applicant" required="required" onChange={handleChange}/>
                             </Col>
                         </FormGroup>
                         <FormGroup row>
                             <Label sm={2}>Applicant Department</Label>
                             <Col sm={8}>
-                                <Input valid={validDepartment.isValid} invalid={validDepartment.isInValid} onBlur={checkDepartment} type="select" name="applicant_department" id="exampleSelect" onChange={getDepartment}>
-                                    <option>Production</option>
-                                    <option>Purchasing</option>
-                                    <option>Marketing</option>
-                                    <option>Humman Resource Managerment</option>
-                                    <option>Accounting and Finance</option>
+                                <Input valid={validDepartment.isValid} invalid={validDepartment.isInValid} onBlur={checkDepartment} type="select" name="applicant_department" defaultValue="1" onChange={handleChange}>
+                                    <option value={1}>Production</option>
+                                    <option value={2}>Purchasing</option>
+                                    <option value={3}>Marketing</option>
+                                    <option value={4}>Humman Resource Managerment</option>
+                                    <option value={5}>Accounting and Finance</option>
                                 </Input>
                             </Col>
                         </FormGroup>
                         <FormGroup row>
                             <Label sm={2}>Applicant Email</Label>
                             <Col sm={8}>
-                                <Input valid={validEmail.isValid} invalid={validEmail.isInValid} onBlur={checkEmail} type="email" name="applicant_email" required="required" onChange={getEmail}/>
+                                <Input valid={validEmail.isValid} invalid={validEmail.isInValid} onBlur={checkEmail} type="email" name="applicant_email" required="required" onChange={handleChange}/>
                             </Col>
                         </FormGroup>
                         <FormGroup tag="fieldset" row>
                             <Label sm={2}>Status</Label>
                             <FormGroup check>
                                 <Label check sm={4}>
-                                    <Input type="radio" name="active"/>
+                                    <Input type="radio" name="status" value="1" onChange={handleChange} defaultChecked/>
                                     Active
                                 </Label>
                             </FormGroup>
                             <FormGroup check>
                                 <Label check sm={4}>
-                                    <Input type="radio" name="deactive"/>
+                                    <Input type="radio" name="status" value="2" onChange={handleChange}/>
                                     Deactive
                                 </Label>
                             </FormGroup>
                         </FormGroup>
                         <FormGroup>
-                            <Button style={{padding:'15px 10px 15px',width:'400px',marginLeft:'auto', marginRight:'auto',marginTop:'20px'}} color="primary" size="lg" block onClick={toggle}>Save</Button>
+                            <Button type="submit" style={{padding:'15px 10px 15px',width:'400px',marginLeft:'auto', marginRight:'auto',marginTop:'20px'}} color="primary" size="lg" block>Save</Button>
                         </FormGroup>
                     </Form>
                 </Container>
