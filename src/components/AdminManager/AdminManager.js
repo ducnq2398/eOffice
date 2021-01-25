@@ -13,7 +13,8 @@ function AdminManager(props){
             removeUserSession();
             props.history.push('/');
         }
-        getUser();
+        const user = getUser();
+        console.log(user.token)
         return (
             <div>
                 <div>
@@ -23,7 +24,7 @@ function AdminManager(props){
                 </div>
                 <div>
                     <img src={logo} alt=""/>
-                    <h1 style={{color:'blue'}}>ADMINISTRATOR</h1>
+                    <h1 style={{color:'blue'}}>Hello {user.token}</h1>
                 </div>
 
                 <div className="bt">
