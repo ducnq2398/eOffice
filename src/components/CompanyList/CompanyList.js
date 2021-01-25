@@ -1,10 +1,9 @@
-import { Container, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Table } from "reactstrap";
+import { Container, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Table, Form, FormGroup, Input, Row, Col } from "reactstrap";
 import './CompanyList.css';
 import logo from './../../images/logo.png';
-import {useHistory} from 'react-router-dom';
+import {useHistory, Link} from 'react-router-dom';
 import { useEffect, useState } from "react";
 import Panigations from "../Panigation/Panigation";
-import PostList from "../PostList/PostList";
 import companyListAPI from "../../api/companyListAPI";
 
 
@@ -57,25 +56,63 @@ function CompanyList(){
                     Company List
                 </div>
                 <div className="search_form">
-                    <span>
-                        <input type="search" className="form-control rounded" placeholder="Search by name company" value={searchTerm} onChange={handleChange}/>
-                        <Dropdown isOpen={filter}toggle={toggle}>
-                            <DropdownToggle caret>
-                                Filter
-                            </DropdownToggle>
-                            <DropdownMenu>
-                                <DropdownItem>Active</DropdownItem>
-                                <DropdownItem>Deactive</DropdownItem>
-                            </DropdownMenu>
-                        </Dropdown>
-                    </span>
+                    <Form>
+                        <FormGroup>
+                            <Row>
+                                <Col xs={10}>
+                                    <Input type="search" className="form-control rounded" placeholder="Search by name company" value={searchTerm} onChange={handleChange}/>
+                                </Col>
+                                <Col xs={2}>
+                                    <Dropdown isOpen={filter}toggle={toggle}>
+                                    <DropdownToggle caret>
+                                        Filter
+                                    </DropdownToggle>
+                                    <DropdownMenu>
+                                        <DropdownItem>Active</DropdownItem>
+                                        <DropdownItem>Deactive</DropdownItem>
+                                    </DropdownMenu>
+                                    </Dropdown>
+                                </Col>
+                            </Row>
+                        </FormGroup>
+                        
+                    </Form>
                 </div>
-            </Container>
-            <PostList posts={postList}/>
+                <Table className="table_css">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Company Name</th>
+                            <th>Aplicant Name</th>
+                            <th>Date Created</th>
+                            <th>Status</th>
+                            <th>Phone Number</th>
+                            <th>Email Address</th>
+                            <th>Edits/Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {postList.map(data => (
+                            <tr key={data.id}>
+                                    <th>{data.id}</th>
+                                    <td>{data.email}</td>
+                                    <td>{data.first_name}</td>
+                                    <td>{data.last_name}</td>
+                                    <td>{data.avatar}</td>
+                                    <td>{data.first_name}</td>
+                                    <td>{data.email}</td>
+                                    <td>
+                                        <Link to="/edit-company">Edit/Detail</Link>
+                                    </td>
+                            </tr>))}  
+                    </tbody>    
+            </Table>
             <Panigations
                 panigation={panigation}
                 onPageChange={handlePageChange}
             />
+            </Container>
+            
         </div>
     );
 }

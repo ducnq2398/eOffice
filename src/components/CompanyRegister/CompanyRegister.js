@@ -196,7 +196,7 @@ function CompanyRegister(props){
                             </Col>
                         </FormGroup>
                         <FormGroup>
-                            <Button type="submit" style={{padding:'15px 10px 15px',width:'400px',marginLeft:'auto', marginRight:'auto',marginTop:'20px'}} color="primary" size="lg" block>Verification</Button>
+                            <Button type="submit" style={{width:'400px',marginLeft:'auto', marginRight:'auto',marginTop:'20px'}} color="primary" size="lg" block>Verification</Button>
                         </FormGroup>
                     </Form>
                 </Container>

@@ -3,7 +3,7 @@ import React from 'react';
 import { Link,useHistory} from 'react-router-dom';
 import './AdminManager.css';
 import logo from './../../images/logo.png';
-import { removeUserSession } from '../../utils/Common';
+import { getUser, removeUserSession } from '../../utils/Common';
 function AdminManager(props){
         const history = useHistory();
         const companyRegister = () => history.push('/company-register'); 
@@ -13,6 +13,7 @@ function AdminManager(props){
             removeUserSession();
             props.history.push('/');
         }
+        getUser();
         return (
             <div>
                 <div>
