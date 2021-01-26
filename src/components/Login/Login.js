@@ -12,7 +12,7 @@ function Login(){
                 <form method="post">
                     <input type="email" placeholder="Enter email" required="required"/>
                     <input type="password" placeholder="Enter password" required="required"/>
-                    <Link to="">Forgot Password?</Link>
+                    <Link to="/forgot-password">Forgot Password?</Link>
                     <button type="submit" className="btn btn-primary btn-block btn-large">Sign In</button>
                 </form>
             </div>               

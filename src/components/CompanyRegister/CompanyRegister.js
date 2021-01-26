@@ -7,7 +7,6 @@ import ValidatePhone from '../Validation/ValidatePhone';
 import ValidateCompany from '../Validation/ValidateCompany';
 import ValidateAddress from '../Validation/ValidateAddress';
 import ValidateName from '../Validation/ValidateName';
-import ValidateDepartment from '../Validation/ValidateDepartment';
 import ValidateEmail from '../Validation/ValidateEmail';
 import ValidatePassword from '../Validation/ValidatePassword';
 
@@ -19,7 +18,6 @@ function CompanyRegister(props){
         street_address: '',
         phone_number: '',
         applicant: '',
-        applicant_department: 1,
         applicant_email: '',
         status: 1,
         applicant_password:'',
@@ -37,10 +35,6 @@ function CompanyRegister(props){
         isInValid: false
     });
     const [validName, setValidName] = useState({
-        isValid: false,
-        isInValid: false
-    });
-    const [validDepartment, setValidDepartment] = useState({
         isValid: false,
         isInValid: false
     });
@@ -88,13 +82,6 @@ function CompanyRegister(props){
     function checkName() {
         const{isValid , isInValid} = ValidateName(companyRegister.applicant);
         setValidName({
-            isValid: isValid,
-            isInValid: isInValid
-        })
-    }
-    function checkDepartment() {
-        const{isValid , isInValid} = ValidateDepartment(companyRegister.applicant_department);
-        setValidDepartment({
             isValid: isValid,
             isInValid: isInValid
         })
@@ -154,18 +141,6 @@ function CompanyRegister(props){
                             <Label sm={2}>Applicant</Label>
                             <Col sm={8}>
                                 <Input valid={validName.isValid} invalid={validName.isInValid} onBlur={checkName} type="text" name="applicant" required="required" onChange={handleChange}/>
-                            </Col>
-                        </FormGroup>
-                        <FormGroup row>
-                            <Label sm={2}>Applicant Department</Label>
-                            <Col sm={8}>
-                                <Input valid={validDepartment.isValid} invalid={validDepartment.isInValid} onBlur={checkDepartment} type="select" name="applicant_department" defaultValue="1" onChange={handleChange}>
-                                    <option value={1}>Production</option>
-                                    <option value={2}>Purchasing</option>
-                                    <option value={3}>Marketing</option>
-                                    <option value={4}>Humman Resource Managerment</option>
-                                    <option value={5}>Accounting and Finance</option>
-                                </Input>
                             </Col>
                         </FormGroup>
                         <FormGroup row>
