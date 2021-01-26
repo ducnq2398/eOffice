@@ -8,6 +8,7 @@ import ForgotPassword from "../ForgotPassword/ForgotPassword";
 import EditCompany from "../EditCompany/EditCompany";
 import { getToken } from "../../utils/Common";
 import ResetPassword from "../ForgotPassword/ResetPassword";
+import UserManagement from "../AdminCompany/UserManagement/UserManagement";
 
 function RouterURL(){
     const PrivateRoute = ({ component: Component, ...rest}) =>(
@@ -23,6 +24,7 @@ function RouterURL(){
             <Route path="/admin" component={AdminLogin}/>
             <Route path="/forgot-password" component={ForgotPassword}/>
             <Route path="/reset-password" component={ResetPassword}/>
+            <Route path="/user-management" component={UserManagement}/>
             <PrivateRoute path="/admin-manager" component={AdminManager}/>
             <PrivateRoute path="/company-register" component={CompanyRegister}/>
             <PrivateRoute path="/company-list" component={CompanyList}/>
