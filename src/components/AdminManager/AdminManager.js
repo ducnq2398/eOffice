@@ -14,7 +14,6 @@ function AdminManager(props){
             props.history.push('/');
         }
         const user = getUser();
-        console.log(user.token)
         return (
             <div>
                 <div>

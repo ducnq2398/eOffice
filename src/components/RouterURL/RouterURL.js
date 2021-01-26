@@ -20,10 +20,10 @@ function RouterURL(){
         <Router>
             <Route exact path="/" component={Login}/>
             <Route path="/admin" component={AdminLogin}/>
+            <Route path="/forgot-password" component={ForgotPassword}/>
             <PrivateRoute path="/admin-manager" component={AdminManager}/>
             <PrivateRoute path="/company-register" component={CompanyRegister}/>
             <PrivateRoute path="/company-list" component={CompanyList}/>
-            <PrivateRoute path="/forgot-password" component={ForgotPassword}/>
             <PrivateRoute path="/edit-company" component={EditCompany}/>
         </Router>
     );
