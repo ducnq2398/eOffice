@@ -24,8 +24,11 @@ function AdminLogin(props){
         }
         function handleSubmit(e){
             e.preventDefault();
-            const data = queryString.stringify(adminLogin);
-            axios.post(`https://datnxeoffice.azurewebsites.net/api/Admins?${data}`).then(function(res){
+            
+            axios.post('https://datnxeoffice.azurewebsites.net/api/Admins/login',{
+                username: adminLogin.username,
+                password: adminLogin.password
+            }).then(function(res){
                 if(res.data ==='fail'){
                     setSubmit(true);
                 }else{
