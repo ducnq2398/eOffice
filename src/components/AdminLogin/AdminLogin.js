@@ -3,7 +3,8 @@ import './AdminLogin.css';
 import React, {useState } from 'react';
 import { setUserSession } from '../../utils/Common';
 import axios from 'axios';
-import {Toast, ToastHeader, ToastBody, Alert} from 'reactstrap';
+import {Alert} from 'reactstrap';
+import queryString from 'query-string';
 
 function AdminLogin(props){
         const [adminLogin, setAdminLogin] = useState({
@@ -23,13 +24,14 @@ function AdminLogin(props){
         }
         function handleSubmit(e){
             e.preventDefault();
-            axios.post('https://reqres.in/api/login',{
-                email: adminLogin.username,
-                password: adminLogin.password
-            }).then(function(res){
-                console.log(res);
-                setUserSession(res.data.token,res.data);
-                props.history.push('/admin-manager');
+            const data = queryString.stringify(adminLogin);
+            axios.post(`https://datnxeoffice.azurewebsites.net/api/Admins?${data}`).then(function(res){
+                if(res.data ==='fail'){
+                    setSubmit(true);
+                }else{
+                    setUserSession(res.data.token,res.data);
+                    props.history.push('/admin-manager');
+                }
             }).catch(function(error){
                 console.log(error);
                 setSubmit(true);

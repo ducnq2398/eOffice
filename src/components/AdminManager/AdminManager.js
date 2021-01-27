@@ -10,7 +10,7 @@ function AdminManager(){
             <div>
                 <SidebarAdmin/>
                 <div className="main-panel">
-                  <h1 style={{color:'blue'}}>Hello {user.token}</h1>
+                  <h1 style={{color:'blue'}}>Hello {user.name}</h1>
                 </div>   
             </div>    
         );
