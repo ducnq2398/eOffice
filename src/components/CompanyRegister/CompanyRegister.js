@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import logo from './../../images/logo.png';
 import './CompanyRegister.css'
 import {useHistory} from 'react-router-dom';
 import {Button, Col, Container, Form, FormGroup, Input, Label} from 'reactstrap'
@@ -9,6 +8,7 @@ import ValidateAddress from '../Validation/ValidateAddress';
 import ValidateName from '../Validation/ValidateName';
 import ValidateEmail from '../Validation/ValidateEmail';
 import ValidatePassword from '../Validation/ValidatePassword';
+import SidebarAdmin from '../SidebarAdmin/SidebarAdmin';
 
 function CompanyRegister(props){
     const history = useHistory();
@@ -111,10 +111,9 @@ function CompanyRegister(props){
     }
         return (
             <div>
-                <div>
-                    <img src={logo} alt="" onClick={home}/>
-                </div>
-                <Container>
+                <SidebarAdmin/>
+                <div className="main-panel">
+                <Container fluid={true}>
                 <div className="banner">
                     Company Register/Editing
                 </div>
@@ -175,6 +174,8 @@ function CompanyRegister(props){
                         </FormGroup>
                     </Form>
                 </Container>
+                </div>
+                
             </div>
         );
     }

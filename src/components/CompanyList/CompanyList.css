@@ -3,7 +3,6 @@
     background: rgb(50, 50, 185);
     text-align: left;
     color: white;
-    margin-top: 30px;
     width: auto;  
 }
 
@@ -19,4 +18,11 @@
     margin-left: auto;
     margin-right: auto;
     margin-top: 20px;
+}
+
+.main-panel {
+    position: relative;
+    float: right;
+    width: calc(100% - 260px);
+    transition: 0.33s, cubic-bezier(0.685, 0.0473, 0.346, 1);
 }

@@ -3,12 +3,14 @@ import './AdminLogin.css';
 import React, {useState } from 'react';
 import { setUserSession } from '../../utils/Common';
 import axios from 'axios';
+import {Toast, ToastHeader, ToastBody, Alert} from 'reactstrap';
 
 function AdminLogin(props){
         const [adminLogin, setAdminLogin] = useState({
             username: '',
             password: '',
         })
+        const [submit, setSubmit] = useState(false);
 
         function handleChange(event){
             const target = event.target;
@@ -30,8 +32,8 @@ function AdminLogin(props){
                 props.history.push('/admin-manager');
             }).catch(function(error){
                 console.log(error);
-            });
-            console.log(adminLogin);        
+                setSubmit(true);
+            });     
         }
         return (
             <div className="bg">
@@ -39,11 +41,12 @@ function AdminLogin(props){
                 <h3/>
                 <form className="form" onSubmit={handleSubmit}>
                     <div className="form-group">
-                        <input type="text" className="form-control" name="username" onChange={handleChange} placeholder="Username"/>
+                        <input type="text" className="form-control" name="username" required onChange={handleChange} placeholder="Username"/>
                     </div>
                     <div className="form-group">
-                        <input type="password" className="form-control" name="password" onChange={handleChange} placeholder="Password"/>
+                        <input type="password" className="form-control" name="password" required onChange={handleChange} placeholder="Password"/>
                     </div>
+                    <Alert color="danger" isOpen={submit}>Incorrect username or password!</Alert>
                     <button type="submit" className="btn btn-primary btn-block btn-large">Login</button>
                 </form>
             </div>

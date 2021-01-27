@@ -1,10 +1,10 @@
 import { Container, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Table, Form, FormGroup, Input, Row, Col } from "reactstrap";
 import './CompanyList.css';
-import logo from './../../images/logo.png';
 import {useHistory, Link} from 'react-router-dom';
 import { useEffect, useState } from "react";
 import Panigations from "../Panigation/Panigation";
 import companyListAPI from "../../api/companyListAPI";
+import SidebarAdmin from "../SidebarAdmin/SidebarAdmin";
 
 
 function CompanyList(){
@@ -48,10 +48,9 @@ function CompanyList(){
 
     return(
         <div>
-            <Container>
-                <div>
-                    <img src={logo} alt="" onClick={home}/>
-                </div>
+            <SidebarAdmin/>
+            <div className="main-panel">
+            <Container fluid={true}>
                 <div className="banner">
                     Company List
                 </div>
@@ -112,7 +111,7 @@ function CompanyList(){
                 onPageChange={handlePageChange}
             />
             </Container>
-            
+            </div>
         </div>
     );
 }

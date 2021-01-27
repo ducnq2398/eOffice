@@ -10,3 +10,10 @@
     color: red;
     margin-top: 10px;
   }
+
+  .main-panel {
+    position: relative;
+    float: right;
+    width: calc(100% - 260px);
+    transition: 0.33s, cubic-bezier(0.685, 0.0473, 0.346, 1);
+}

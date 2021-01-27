@@ -9,6 +9,7 @@ import ValidateEmail from '../Validation/ValidateEmail';
 import ValidateName from '../Validation/ValidateName';
 import ValidateDepartment from '../Validation/ValidateDepartment';
 import ValidateAddress from '../Validation/ValidateAddress';
+import SidebarAdmin from '../SidebarAdmin/SidebarAdmin';
 
 function CompanyRegister(){
     const history = useHistory();
@@ -111,11 +112,9 @@ function CompanyRegister(){
     }
         return (
             <div>
-                <div>
-                    <img src={logo} alt="" onClick={home}/>
-                </div>
-                
-                <Container>
+                <SidebarAdmin/>
+                <div className="main-panel">
+                <Container fluid={true}>
                 <div className="banner">
                     Editing Company
                 </div>
@@ -145,18 +144,6 @@ function CompanyRegister(){
                             </Col>
                         </FormGroup>
                         <FormGroup row>
-                            <Label sm={2}>Applicant Department</Label>
-                            <Col sm={8}>
-                                <Input valid={validDepartment.isValid} invalid={validDepartment.isInValid} onBlur={checkDepartment} type="select" name="applicant_department" defaultValue="1" onChange={handleChange}>
-                                    <option value={1}>Production</option>
-                                    <option value={2}>Purchasing</option>
-                                    <option value={3}>Marketing</option>
-                                    <option value={4}>Humman Resource Managerment</option>
-                                    <option value={5}>Accounting and Finance</option>
-                                </Input>
-                            </Col>
-                        </FormGroup>
-                        <FormGroup row>
                             <Label sm={2}>Applicant Email</Label>
                             <Col sm={8}>
                                 <Input valid={validEmail.isValid} invalid={validEmail.isInValid} onBlur={checkEmail} type="email" name="applicant_email" required="required" onChange={handleChange}/>
@@ -178,10 +165,12 @@ function CompanyRegister(){
                             </FormGroup>
                         </FormGroup>
                         <FormGroup>
-                            <Button type="submit" style={{padding:'15px 10px 15px',width:'400px',marginLeft:'auto', marginRight:'auto',marginTop:'20px'}} color="primary" size="lg" block>Save</Button>
+                            <Button type="submit" color="primary" size="lg">Save</Button>
                         </FormGroup>
                     </Form>
                 </Container>
+                </div>
+                
             </div>
         );
     }
