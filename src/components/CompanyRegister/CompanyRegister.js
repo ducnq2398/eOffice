@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../../css/CompanyRegister.css'
 import register from '../../images/register.png';
-import {Button, Col, Container, Form, FormGroup, Input, Label} from 'reactstrap'
+import {Button, Col, Container, Form, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader} from 'reactstrap'
 import ValidatePhone from '../Validation/ValidatePhone';
 import ValidateCompany from '../Validation/ValidateCompany';
 import ValidateAddress from '../Validation/ValidateAddress';
@@ -44,6 +44,9 @@ function CompanyRegister(){
         isValid: false,
         isInValid: false
     });
+
+    const [modal, setModal] = useState(false);
+    const toogle = () => setModal(!modal);
 
     function checkEmail() {
         const {isValid, isInValid} = ValidateEmail(companyRegister.applicant_email);
@@ -147,9 +150,40 @@ function CompanyRegister(){
                             </Col>
                         </FormGroup>
                         <FormGroup>
-                            <Button type="submit" color="primary" size="lg">Verification</Button>
+                            <Button onClick={toogle} color="primary" size="lg">Verification</Button>
                         </FormGroup>
                     </Form>
+                    <Modal className="form-modal" isOpen={modal} toggle={toogle}>
+                        <ModalHeader style={{marginRight:'auto',marginLeft:'auto'}}>Confirm Information</ModalHeader>
+                        <ModalBody>
+                            <Form className="form-confirm">
+                                <FormGroup row>
+                                    <Label>Company Name:</Label>
+                                    <p style={{marginLeft:'20px'}}>{companyRegister.company_name}</p>
+                                </FormGroup>
+                                <FormGroup row>
+                                    <Label>Street Address:</Label>
+                                    <p style={{marginLeft:'20px'}}>{companyRegister.street_address}</p>
+                                </FormGroup>
+                                <FormGroup row>
+                                    <Label>Phone Number:</Label>
+                                    <p style={{marginLeft:'20px'}}>{companyRegister.phone_number}</p>
+                                </FormGroup>
+                                <FormGroup row>
+                                    <Label>Applicant Name:</Label>
+                                    <p style={{marginLeft:'20px'}}>{companyRegister.applicant}</p>
+                                </FormGroup>
+                                <FormGroup row>
+                                    <Label>Applicant Email:</Label>
+                                    <p style={{marginLeft:'20px'}}>{companyRegister.applicant_email}</p>
+                                </FormGroup>
+                            </Form>
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button color="secondary" onClick={toogle}>Cancel</Button>
+                            <Button color="primary" onClick={toogle}>Created</Button>
+                        </ModalFooter>
+                    </Modal>
                 </Container>
                 </div>
                 
