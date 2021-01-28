@@ -1,7 +1,7 @@
 import {useState } from "react";
 import {Button, Container, Form, FormGroup, Input} from "reactstrap";
 import logo from '../../images/logo.png';
-import './ForgotPassword.css';
+import '../../css/ForgotPassword.css';
 import ValidatePassword from '../Validation/ValidatePassword';
 
 function ResetPassword(){

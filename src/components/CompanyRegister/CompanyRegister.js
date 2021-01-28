@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import './CompanyRegister.css'
-import {useHistory} from 'react-router-dom';
+import '../../css/CompanyRegister.css'
+import register from '../../images/register.png';
 import {Button, Col, Container, Form, FormGroup, Input, Label} from 'reactstrap'
 import ValidatePhone from '../Validation/ValidatePhone';
 import ValidateCompany from '../Validation/ValidateCompany';
@@ -10,9 +10,7 @@ import ValidateEmail from '../Validation/ValidateEmail';
 import ValidatePassword from '../Validation/ValidatePassword';
 import SidebarAdmin from '../SidebarAdmin/SidebarAdmin';
 
-function CompanyRegister(props){
-    const history = useHistory();
-    const home = () => history.push('/admin-manager');
+function CompanyRegister(){
     const [companyRegister, setCompanyRegister] = useState({
         company_name: '',
         street_address: '',
@@ -114,63 +112,42 @@ function CompanyRegister(props){
                 <SidebarAdmin/>
                 <div className="main-panel">
                 <Container fluid={true}>
-                <div className="banner">
-                    Company Register/Editing
+                <div>
+                    <img style={{marginTop:'20px'}} src={register} alt=""/>
                 </div>
-                    <Form style={{marginTop:'20px'}} onSubmit={handleSubmit}>
+                    <Form className="register-form" onSubmit={handleSubmit}>
                         <FormGroup row>
-                            <Label sm={2}>Company Name</Label>
+                            <Label style={{color:'blue'}} sm={2}>Company Name</Label>
                             <Col sm={8}>
                                 <Input valid={validCompany.isValid} invalid={validCompany.isInValid} type="text" name="company_name" required="required" onChange={handleChange} onBlur={checkCompany}/>
                             </Col>
                         </FormGroup>
                         <FormGroup row>
-                            <Label sm={2}>Street Address</Label>
+                            <Label style={{color:'blue'}} sm={2}>Street Address</Label>
                             <Col sm={8}>
                                 <Input valid={validAddress.isValid} invalid={validAddress.isInValid} type="text" name="street_address" onChange={handleChange} onBlur={checkAddress}/>
                             </Col>
                         </FormGroup>
                         <FormGroup row>
-                            <Label sm={2}>Phone Number</Label>
+                            <Label style={{color:'blue'}} sm={2}>Phone Number</Label>
                             <Col sm={8}>
                                 <Input invalid={validPhone.isInValid} valid={validPhone.isValid} type="tel" name="phone_number" required="required" onChange={handleChange} onBlur={checkPhone}/>
                             </Col>
                         </FormGroup>
                         <FormGroup row>
-                            <Label sm={2}>Applicant</Label>
+                            <Label style={{color:'blue'}} sm={2}>Applicant Name</Label>
                             <Col sm={8}>
                                 <Input valid={validName.isValid} invalid={validName.isInValid} onBlur={checkName} type="text" name="applicant" required="required" onChange={handleChange}/>
                             </Col>
                         </FormGroup>
                         <FormGroup row>
-                            <Label sm={2}>Applicant Email</Label>
+                            <Label style={{color:'blue'}} sm={2}>Applicant Email</Label>
                             <Col sm={8}>
                                 <Input valid={validEmail.isValid} invalid={validEmail.isInValid} onBlur={checkEmail} type="email" name="applicant_email" required="required" onChange={handleChange}/>
                             </Col>
                         </FormGroup>
-                        <FormGroup tag="fieldset" row>
-                            <Label sm={2}>Status</Label>
-                            <FormGroup check>
-                                <Label check sm={4}>
-                                    <Input type="radio" name="status" value="1" defaultChecked onChange={handleChange}/>
-                                    Active
-                                </Label>
-                            </FormGroup>
-                            <FormGroup check>
-                                <Label check sm={4}>
-                                    <Input type="radio" name="status" value="2" onChange={handleChange}/>
-                                    Deactive
-                                </Label>
-                            </FormGroup>
-                        </FormGroup>
-                        <FormGroup row>
-                            <Label sm={2}>Password</Label>
-                            <Col sm={8}>
-                                <Input valid={validPassword.isValid} invalid={validPassword.isInValid} onBlur={checkPassword} type="password" name="applicant_password" required="required" onChange={handleChange}/>
-                            </Col>
-                        </FormGroup>
                         <FormGroup>
-                            <Button type="submit" style={{width:'400px',marginLeft:'auto', marginRight:'auto',marginTop:'20px'}} color="primary" size="lg" block>Verification</Button>
+                            <Button type="submit" color="primary" size="lg">Verification</Button>
                         </FormGroup>
                     </Form>
                 </Container>

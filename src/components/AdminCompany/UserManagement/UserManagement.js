@@ -1,6 +1,6 @@
 import Header from "../../Nav/Header";
 import Sidebar from "../../Sidebar/Sidebar";
-import './UserManagement.css';
+import './../../../css/UserManagement.css';
 
 function UserManagement(){
     return(

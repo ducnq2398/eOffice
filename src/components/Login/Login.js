@@ -1,22 +1,32 @@
-import './Login.css';
-import logo from './../../images/logo.png';
+import '../../css/Login.css';
+import eoffice from './../../images/eoffice.png';
 import {Link} from 'react-router-dom';
+import {Alert, Button, Container, Form, FormGroup, Input} from 'reactstrap';
 
 function Login(){
     return(
-        <div>
-            <div className="logo">
-                <img src={logo} alt=""/>
-            </div>
-            <div className="login">
-                <form method="post">
-                    <input type="email" placeholder="Enter email" required="required"/>
-                    <input type="password" placeholder="Enter password" required="required"/>
-                    <Link to="/forgot-password">Forgot Password?</Link>
-                    <button type="submit" className="btn btn-primary btn-block btn-large">Sign In</button>
-                </form>
-            </div>               
-        </div>
+        <Container fluid={true}>
+            <Form className="form-login">
+                <FormGroup>
+                    <img src={eoffice} alt=""/>
+                </FormGroup>
+                <FormGroup>
+                    <Input type="text" name="username" placeholder="Username"/>
+                </FormGroup>
+                <FormGroup>
+                    <Input type="password" name="password" placeholder="Password"/>
+                </FormGroup>
+                <FormGroup className="form-forgot">
+                    <Link to="/forgot-password">Forgot password?</Link>
+                </FormGroup>
+                <FormGroup>
+                    <Alert isOpen={false} color="danger">Incorrect username or password</Alert>
+                </FormGroup>
+                <FormGroup>
+                    <Button color="primary" type="submit" block>Sign In</Button>
+                </FormGroup>
+            </Form>
+        </Container>
     );
 }
 export default Login;

@@ -4,7 +4,7 @@ import homeicon from '../../images/Home.png';
 import usericon from '../../images/Profile.png'
 import group from '../../images/group.png';
 import logout from '../../images/logout.png';
-import './SidebarAdmin.css'; 
+import '../../css/SidebarAdmin.css'; 
 import {removeUserSession } from '../../utils/Common';
 
 function SidebarAdmin(props){
@@ -38,7 +38,7 @@ function SidebarAdmin(props){
                         </Link>
                     </li>
                     <li className="nav-item" onClick={Logout}>
-                        <Link className="nav-link" to='/'>
+                        <Link className="nav-link" to='/admin'>
                             <img src={logout} width="24px" height="24px" alt=""/>
                             <p>Logout</p>
                         </Link>

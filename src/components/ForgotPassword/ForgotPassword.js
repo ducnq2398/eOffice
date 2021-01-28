@@ -2,7 +2,7 @@ import {useState } from "react";
 import {Button, Col, Container, Form, FormGroup, Input, Modal, ModalBody, ModalFooter, ModalHeader, Row} from "reactstrap";
 import logo from '../../images/logo.png';
 import ValidatePhone from "../Validation/ValidatePhone";
-import './ForgotPassword.css';
+import '../../css/ForgotPassword.css';
 
 function ForgotPassword(){
     const [phone, setPhone] = useState('');
@@ -12,6 +12,18 @@ function ForgotPassword(){
     const [modal, setModal] = useState(false);
     const toggle = () => setModal(!modal);
 
+    const [vaildPhone, setValidPhone] = useState({
+        isValid: false,
+        isInvalid: false,
+    })
+
+    function checkPhone(){
+        const {isValid, isInvalid} = ValidatePhone(phone);
+        setValidPhone({
+            isValid: isValid,
+            isInvalid: isInvalid,
+        })
+    }
     return(
         <Container>
             <img src={logo} alt=""/>
@@ -34,7 +46,7 @@ function ForgotPassword(){
                             <span>Please enter the OTP sent to Phone number to retrieve your password</span>
                         </FormGroup>
                         <FormGroup>
-                            <Input type="text" name="otp"/>
+                            <Input valid={vaildPhone.isValid} invalid={vaildPhone.isInvalid} onChange={handleOnChange} onBlur={checkPhone} type="text" name="otp"/>
                         </FormGroup>
                     </Form>
                 </ModalBody>

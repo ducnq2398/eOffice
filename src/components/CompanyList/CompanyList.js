@@ -1,15 +1,12 @@
 import { Container, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Table, Form, FormGroup, Input, Row, Col } from "reactstrap";
-import './CompanyList.css';
-import {useHistory, Link} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import { useEffect, useState } from "react";
 import Panigations from "../Panigation/Panigation";
 import companyListAPI from "../../api/companyListAPI";
 import SidebarAdmin from "../SidebarAdmin/SidebarAdmin";
-
+import '../../css/CompanyList.css';
 
 function CompanyList(){
-    const history = useHistory();
-    const home = () => history.push('/admin-manager');
     const [filter, setFilter] = useState(false);
     const toggle = () => setFilter(prevState => ! prevState);
     const [searchTerm, setSearchTerm] = useState("");
@@ -24,10 +21,7 @@ function CompanyList(){
     useEffect(()=>{
         async function fetchPostList(){
             try {
-                const parmas = {
-                    page : 1,
-                };
-                const response = await companyListAPI.getAll(parmas);
+                const response = await companyListAPI.getAll();
                 console.log('heloo', response.data);
                 setPostList(response.data); 
             } catch (error) {
@@ -51,9 +45,6 @@ function CompanyList(){
             <SidebarAdmin/>
             <div className="main-panel">
             <Container fluid={true}>
-                <div className="banner">
-                    Company List
-                </div>
                 <div className="search_form">
                     <Form>
                         <FormGroup>
@@ -94,12 +85,12 @@ function CompanyList(){
                         {postList.map(data => (
                             <tr key={data.id}>
                                     <th>{data.id}</th>
-                                    <td>{data.email}</td>
-                                    <td>{data.first_name}</td>
-                                    <td>{data.last_name}</td>
-                                    <td>{data.avatar}</td>
-                                    <td>{data.first_name}</td>
-                                    <td>{data.email}</td>
+                                    <td>{data.name}</td>
+                                    <td>{data.admin}</td>
+                                    <td>{data.dateCreate}</td>
+                                    <td>{data.status===1? 'Active' : 'Deactive'}</td>
+                                    <td>{data.phone}</td>
+                                    <td>{data.address}</td>
                                     <td>
                                         <Link to="/edit-company">Edit/Detail</Link>
                                     </td>

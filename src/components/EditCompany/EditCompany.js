@@ -1,25 +1,20 @@
 import React, { useState } from 'react';
-import logo from './../../images/logo.png';
-import './EditCompany.css'
-import {useHistory} from 'react-router-dom';
+import '../../css/EditCompany.css'
+import register from '../../images/register.png';
 import {Button, Col, Container, Form, FormGroup, Input, Label} from 'reactstrap'
 import ValidateCompany from '../Validation/ValidateCompany';
 import ValidatePhone from '../Validation/ValidatePhone';
 import ValidateEmail from '../Validation/ValidateEmail';
 import ValidateName from '../Validation/ValidateName';
-import ValidateDepartment from '../Validation/ValidateDepartment';
 import ValidateAddress from '../Validation/ValidateAddress';
 import SidebarAdmin from '../SidebarAdmin/SidebarAdmin';
 
 function CompanyRegister(){
-    const history = useHistory();
-    const home = () => history.push('/admin-manager');
     const [editCompanyRegister, setEditCompanyRegister] = useState({
         company_name: '',
         street_address: '',
         phone_number: '',
         applicant: '',
-        applicant_department: 1,
         applicant_email: '',
         status: 1,
     })
@@ -36,10 +31,6 @@ function CompanyRegister(){
         isInValid: false
     });
     const [validName, setValidName] = useState({
-        isValid: false,
-        isInValid: false
-    });
-    const [validDepartment, setValidDepartment] = useState({
         isValid: false,
         isInValid: false
     });
@@ -87,14 +78,6 @@ function CompanyRegister(){
             isInValid: isInValid
         })
     }
-    function checkDepartment() {
-        const{isValid , isInValid} = ValidateDepartment(editCompanyRegister.applicant_department);
-        setValidDepartment({
-            isValid: isValid,
-            isInValid: isInValid
-        })
-    }
-
 
     function handleChange(event){
         const target = event.target;
@@ -115,42 +98,42 @@ function CompanyRegister(){
                 <SidebarAdmin/>
                 <div className="main-panel">
                 <Container fluid={true}>
-                <div className="banner">
-                    Editing Company
+                <div>
+                   <img style={{marginTop:'20px'}} src={register} alt=""/>
                 </div>
-                    <Form onSubmit={handleSubmit} style={{marginTop:'20px'}}>
+                    <Form onSubmit={handleSubmit} className="register-form">
                         <FormGroup row>
-                            <Label sm={2}>Company Name</Label>
+                            <Label style={{color:'blue'}} sm={2}>Company Name</Label>
                             <Col sm={8}>
                                 <Input valid={validCompany.isValid} invalid={validCompany.isInValid} onBlur={checkCompany} type="text" name="company_name" required="required" onChange={handleChange}/>
                             </Col>
                         </FormGroup>
                         <FormGroup row>
-                            <Label sm={2}>Street Address</Label>
+                            <Label style={{color:'blue'}} sm={2}>Street Address</Label>
                             <Col sm={8}>
                                 <Input valid={validAddress.isValid} invalid={validAddress.isInValid} onBlur={checkAddress} type="text" name="street_address" onChange={handleChange}/>
                             </Col>
                         </FormGroup>
                         <FormGroup row>
-                            <Label sm={2}>Phone Number</Label>
+                            <Label style={{color:'blue'}} sm={2}>Phone Number</Label>
                             <Col sm={8}>
                                 <Input valid={validPhone.isValid} invalid={validPhone.isInValid} onBlur={checkPhone} type="text" name="phone_number" required="required" onChange={handleChange}/>
                             </Col>
                         </FormGroup>
                         <FormGroup row>
-                            <Label sm={2}>Applicant</Label>
+                            <Label style={{color:'blue'}} sm={2}>Applicant Name</Label>
                             <Col sm={8}>
                                 <Input valid={validName.isValid} invalid={validName.isInValid} onBlur={checkName} type="text" name="applicant" required="required" onChange={handleChange}/>
                             </Col>
                         </FormGroup>
                         <FormGroup row>
-                            <Label sm={2}>Applicant Email</Label>
+                            <Label style={{color:'blue'}} sm={2}>Applicant Email</Label>
                             <Col sm={8}>
                                 <Input valid={validEmail.isValid} invalid={validEmail.isInValid} onBlur={checkEmail} type="email" name="applicant_email" required="required" onChange={handleChange}/>
                             </Col>
                         </FormGroup>
                         <FormGroup tag="fieldset" row>
-                            <Label sm={2}>Status</Label>
+                            <Label style={{color:'blue'}} sm={2}>Status</Label>
                             <FormGroup check>
                                 <Label check sm={4}>
                                     <Input type="radio" name="status" value="1" onChange={handleChange} defaultChecked/>
