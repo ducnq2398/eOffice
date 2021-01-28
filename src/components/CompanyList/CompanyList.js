@@ -1,44 +1,40 @@
 import { Container, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Table, Form, FormGroup, Input, Row, Col } from "reactstrap";
 import {Link} from 'react-router-dom';
 import { useEffect, useState } from "react";
-import Panigations from "../Panigation/Panigation";
+import Panigation from "../Panigation/Panigation";
 import companyListAPI from "../../api/companyListAPI";
 import SidebarAdmin from "../SidebarAdmin/SidebarAdmin";
 import '../../css/CompanyList.css';
+import find from '../../images/search.png';
 
 function CompanyList(){
     const [filter, setFilter] = useState(false);
     const toggle = () => setFilter(prevState => ! prevState);
-    const [searchTerm, setSearchTerm] = useState("");
-    const [searchResult, setSearchResult] = useState([]);
-    const [panigation, setPanigation] = useState({
-        page:1,
-        limit: 5,
-        totalRows: 6,
-    });
-
+    const [currentPage, setCurrentPage] = useState(1);
+    const [postPerPage] = useState(10);
+    const [search, setSearch] = useState('');
     const [postList, setPostList] = useState([]);
+    const indexOfLastPost = currentPage * postPerPage;
+    const indexOfFirstPost = indexOfLastPost - postPerPage;
+    const currentPosts = postList.slice(indexOfFirstPost, indexOfLastPost);
+    function paginate(pageNumber){
+        setCurrentPage(pageNumber);
+    }
     useEffect(()=>{
-        async function fetchPostList(){
+        async function fetListData(){
             try {
                 const response = await companyListAPI.getAll();
-                console.log('heloo', response.data);
-                setPostList(response.data); 
-            } catch (error) {
-                console.log(error);
+                setPostList(response.data)
+            } catch (error) {  
+                console.log(error)
             }
         }
-        fetchPostList();
-    },[filter])
-
+        fetListData();
+    },[]);
+    
     const handleChange = event =>{
-        setSearchTerm(event.target.value);
+        setSearch(event.target.value);
     }
-
-    function handlePageChange(newPage){
-        console.log(newPage);
-    }
-
 
     return(
         <div>
@@ -50,7 +46,7 @@ function CompanyList(){
                         <FormGroup>
                             <Row>
                                 <Col xs={10}>
-                                    <Input type="search" className="form-control rounded" placeholder="Search by name company" value={searchTerm} onChange={handleChange}/>
+                                    <Input type="search" className="form-control rounded" value={search} onChange={handleChange} placeholder="Search by name company"/>
                                 </Col>
                                 <Col xs={2}>
                                     <Dropdown isOpen={filter}toggle={toggle}>
@@ -77,30 +73,31 @@ function CompanyList(){
                             <th>Date Created</th>
                             <th>Status</th>
                             <th>Phone Number</th>
-                            <th>Email Address</th>
                             <th>Edits/Details</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {postList.map(data => (
+                        {currentPosts.map(data => (
                             <tr key={data.id}>
                                     <th>{data.id}</th>
                                     <td>{data.name}</td>
                                     <td>{data.admin}</td>
                                     <td>{data.dateCreate}</td>
-                                    <td>{data.status===1? 'Active' : 'Deactive'}</td>
+                                    <td>{data.status===1? <p style={{color:'green'}}>Active</p> : <p style={{color:'red'}}>Deactive</p>}</td>
                                     <td>{data.phone}</td>
-                                    <td>{data.address}</td>
                                     <td>
                                         <Link to="/edit-company">Edit/Detail</Link>
                                     </td>
                             </tr>))}  
                     </tbody>    
             </Table>
-            <Panigations
-                panigation={panigation}
-                onPageChange={handlePageChange}
-            />
+            <div className="pani">
+                <Panigation
+                    postsPerPage={postPerPage}
+                    totalPosts = {postList.length}
+                    paginate={paginate}
+                />
+            </div>
             </Container>
             </div>
         </div>
