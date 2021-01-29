@@ -1,7 +1,7 @@
 import logo from './../../images/logo.png';
 import './../../css/AdminLogin.css';
 import React, {useState } from 'react';
-import { setUserSession } from '../../utils/Common';
+import { setAdminSession, setUserSession } from '../../utils/Common';
 import axios from 'axios';
 import queryString from 'query-string';
 import {Alert, Button, Container, Form, FormGroup, Input} from 'reactstrap';
@@ -43,22 +43,19 @@ function AdminLogin(props){
             // })
         
             axios.post('https://datnxeoffice.azurewebsites.net/api/Admins/login',params).then(function(res){
-                if(res.status==='400'){
-                    setSubmit(true);
-                }else{
-                    setUserSession(res.data.token, res.data);
+                    setAdminSession(res.data.token);
                     props.history.push('/admin-manager');
-                }
-            }).catch(function(error){
-                console.log(error);
+                }).catch(function(error){
+                    setSubmit(true)
             })
         }
+        
         return (
             <Container fluid={true}>
-                <div>
-                    <img src={logo} alt=""/>
-                </div>
                 <Form className="form-admin" onSubmit={handleSubmit}>
+                    <FormGroup>
+                        <img src={logo} alt=""/>
+                    </FormGroup>
                     <FormGroup>
                         <Input type="text" name="username" required onChange={handleChange} placeholder="Username"/>
                     </FormGroup>

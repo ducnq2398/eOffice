@@ -1,7 +1,9 @@
 .form-admin{
     width: 30%;
-    padding: 0px 0px 0px;
+    padding: 10px 10px 40px;
     margin-left: auto;
+    border-radius: 10px;
     margin-right: auto;
     margin-top: 10%;
+    background: white;
 }

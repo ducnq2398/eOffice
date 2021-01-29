@@ -15,7 +15,7 @@ function Header(){
         <Navbar>
             <Container fluid={true}>
                 <Nav className="nav-right">
-                    
+                    <h3>Day la header</h3>
                 </Nav>
             </Container>
         </Navbar>

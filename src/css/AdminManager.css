@@ -7,8 +7,17 @@
 }
 
 .main-panel {
+    background: white;
     position: relative;
     float: right;
     width: calc(100% - 260px);
+    max-height: 100%;
     transition: 0.33s, cubic-bezier(0.685, 0.0473, 0.346, 1);
+}
+.main-panel .main-wrapper {
+    position: relative;
+    height: calc(100vh);
+    overflow: auto;
+    z-index: 4;
+    padding-bottom: 30px;
 }

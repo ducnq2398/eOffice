@@ -7,7 +7,9 @@ function AdminManager(){
             <div>
                 <SidebarAdmin/>
                 <div className="main-panel">
-                  <img className="img" src={banner} alt=""/>
+                    <div className="main-wrapper">
+                        <img className="img" src={banner} alt=""/>
+                    </div>
                 </div>   
             </div>    
         );

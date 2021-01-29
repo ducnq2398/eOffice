@@ -1,13 +1,9 @@
 body {
   overflow: scroll;
-  width: 100%;
-  height:100%;
   font-family: 'Open Sans', sans-serif;
-  /* background: linear-gradient(180deg, rgba(156, 154, 251, 0.48) 0%, rgba(255, 132, 18, 0) 100%, rgba(233, 231, 228, 0.880208) 100%), rgba(127, 130, 138, 0.67); */
-  
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  background-image: url('./images/background.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: white;
 }

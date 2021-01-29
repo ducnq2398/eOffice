@@ -10,6 +10,7 @@
   }
 
   .main-panel {
+    background: white;
     position: relative;
     float: right;
     width: calc(100% - 260px);

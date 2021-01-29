@@ -1,26 +1,32 @@
 html { width: 100%; height:100%;}
 
-.bg{
-  
-  height: 100%;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-}
-
 .form-login{
-  padding: 10px 40px 80px;
-  width: 30%;
-  margin-top: 10%;
-  margin-left: auto;
-  margin-right: auto;
-  background-color: white;
+  padding: 10px 50px 80px;
+  width: 60%;
+  margin-top: 12%;
+  margin-left: 10%;
+  background-color: #f8f8f8;
   border-radius: 10px;
 }
 
 .form-forgot{
   float: right;
 }
+
+.fpt{
+  margin-top: 10%;
+  float: left;
+  margin-left: 10%;
+}
+h1{
+  color: white;
+  font-weight: bold;
+  font-size: 50px;
+}
+.sp{
+  float: left;
+}
+
 
 input { 
     width: 100%; 
