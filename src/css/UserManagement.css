@@ -4,3 +4,25 @@
     width: calc(100% - 260px);
     transition: 0.33s, cubic-bezier(0.685, 0.0473, 0.346, 1);
 }
+
+.form-search{
+    width: 100%;
+    margin-left: 10%;
+    margin-top: 20px;
+}
+.form-search:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 15px;
+    height: 1px;
+    width: calc(100% - 30px);
+    background-color: rgba(180, 180, 180, 0.3);
+  }
+
+.form-add{
+    width: 500px;
+    height: 300px;
+    padding: 10px 10px;
+    background-color: cornflowerblue;
+}

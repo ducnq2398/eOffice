@@ -20,7 +20,7 @@ function Sidebar(){
                         </Link>
                     </li>
                     <li className="nav-item">
-                        <Link className="nav-link" to="">
+                        <Link className="nav-link" to="/user-management">
                             <img src={usericon} width="24px" height="24px" alt=""/>
                             <p>User Management</p>
                         </Link>

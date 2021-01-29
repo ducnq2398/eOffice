@@ -93,6 +93,7 @@ function CompanyList(){
             </Table>
             <div className="pani">
                 <Panigation
+                    currentPage={currentPage}
                     postsPerPage={postPerPage}
                     totalPosts = {postList.length}
                     paginate={paginate}

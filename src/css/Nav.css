@@ -1,0 +1,17 @@
+.nav-right{
+    float: right!important;
+    margin-right: 0;
+}
+
+.noti{
+    float: right;
+}
+.nav-right:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 15px;
+    height: 1px;
+    width: calc(100% - 30px);
+    background-color: rgba(180, 180, 180, 0.3);
+  }
