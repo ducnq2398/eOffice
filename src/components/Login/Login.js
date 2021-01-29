@@ -65,10 +65,10 @@ function Login(props){
                                 <img src={eoffice} alt=""/>
                             </FormGroup>
                             <FormGroup>
-                                <Input type="text" name="username" onChange={handleGetData} placeholder="Email"/>
+                                <Input type="text" name="username" onChange={handleGetData} required placeholder="Email"/>
                             </FormGroup>
                             <FormGroup>
-                                <Input type="password" name="password" onChange={handleGetData} placeholder="Password"/>
+                                <Input type="password" name="password" onChange={handleGetData} required placeholder="Password"/>
                             </FormGroup>
                             <FormGroup className="form-forgot">
                                 <Link to="/forgot-password">Forgot password?</Link>
