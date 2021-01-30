@@ -7,7 +7,7 @@
 .noti{
     float: right;
 }
-.nav-right:after {
+.con:after{
     content: '';
     position: absolute;
     bottom: 0;
@@ -15,4 +15,7 @@
     height: 1px;
     width: calc(100% - 30px);
     background-color: rgba(180, 180, 180, 0.3);
-  }
+}
+.avt{
+    margin-left: 80%;
+}

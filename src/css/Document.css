@@ -1,0 +1,35 @@
+.main-content{
+        background: white;
+        overflow: hidden;
+        display: block;
+        position: relative;
+        float: right;
+        width: calc(100% - 260px);
+        height: calc(100vh);
+        transition: 0.33s, cubic-bezier(0.685, 0.0473, 0.346, 1);
+    
+}
+
+.form-create{
+    width: 100%;
+    margin-left: 10%;
+    margin-top: 20px;
+}
+
+.se{
+    position:absolute;
+    bottom:20px;
+    left: 100%;
+    width:27px; 
+    height:27px;
+}
+.selectbox{
+    width: 27%;
+    margin-left: 40px;
+}
+.selectbox2{
+    width: 10%;
+}
+.form-create2{
+    width: 500px;
+}

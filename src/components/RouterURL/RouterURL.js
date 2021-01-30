@@ -11,6 +11,7 @@ import ResetPassword from "../ForgotPassword/ResetPassword";
 import UserManagement from "../AdminCompany/UserManagement/UserManagement";
 import CreateDocument from "../CreateDocument/CreateDocument";
 import Dashboard from "../Dashboard/Dashboard";
+import Document from "../Document/Document";
 
 function RouterURL(){
     const user = getUser();
@@ -37,6 +38,7 @@ function RouterURL(){
             <Route path="/forgot-password" component={ForgotPassword}/>
             <Route path="/reset-password" component={ResetPassword}/>
             <Route path="/dashboard" component={Dashboard}/>
+            <Route path="/document" component={Document}/>
             <AdminRoute path="/user-management" component={UserManagement}/>
             <PrivateRoute path="/admin-manager" component={AdminManager}/>
             <PrivateRoute path="/company-register" component={CompanyRegister}/>

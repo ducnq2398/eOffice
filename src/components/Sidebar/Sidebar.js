@@ -17,7 +17,7 @@ function Sidebar(){
             <div className="sidebar-wrapper">
                 <ul className="nav">
                     <li className="nav-item">
-                        <Link className="nav-link" to="/">
+                        <Link className="nav-link" to="/dashboard">
                             <Row>
                                 <Col sm={3}>
                                     <img src={homeicon} width="24px" height="24px" alt=""/>
@@ -29,7 +29,7 @@ function Sidebar(){
                         </Link>
                     </li>
                     <li className="nav-item">
-                        <Link className="nav-link" to="/">
+                        <Link className="nav-link" to="/document">
                             <Row>
                                 <Col sm={3}>
                                     <img src={doc} alt=""/>
