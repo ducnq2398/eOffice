@@ -7,7 +7,7 @@ import ValidatePhone from '../Validation/ValidatePhone';
 import ValidateEmail from '../Validation/ValidateEmail';
 import ValidateName from '../Validation/ValidateName';
 import ValidateAddress from '../Validation/ValidateAddress';
-import SidebarAdmin from '../SidebarAdmin/SidebarAdmin';
+import SidebarAdmin from '../Sidebar/SidebarAdmin';
 
 function CompanyRegister(){
     const [editCompanyRegister, setEditCompanyRegister] = useState({
@@ -152,8 +152,7 @@ function CompanyRegister(){
                         </FormGroup>
                     </Form>
                 </Container>
-                </div>
-                
+                </div>    
             </div>
         );
     }

@@ -1,9 +1,12 @@
 import { Link } from 'react-router-dom';
 import logo from '../../images/eoffice.png';
 import homeicon from '../../images/Home.png';
-import usericon from '../../images/Profile.png'
+import usericon from '../../images/user.png';
+import doc from '../../images/document.png';
+import noti from '../../images/coolicon.png';
 import group from '../../images/group.png';
 import '../../css/Sidebar.css'; 
+import { Col, Row } from 'reactstrap';
 
 function Sidebar(){
     return(
@@ -15,20 +18,64 @@ function Sidebar(){
                 <ul className="nav">
                     <li className="nav-item">
                         <Link className="nav-link" to="/">
-                            <img src={homeicon} alt=""/>
-                            <p>Dashboard</p>
+                            <Row>
+                                <Col sm={3}>
+                                    <img src={homeicon} width="24px" height="24px" alt=""/>
+                                </Col>
+                                <Col sm={5}>
+                                    <p>Dashboard</p>
+                                </Col>
+                            </Row>
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/">
+                            <Row>
+                                <Col sm={3}>
+                                    <img src={doc} alt=""/>
+                                </Col>
+                                <Col sm={5}>
+                                    <p>Storage Document</p>
+                                </Col>
+                            </Row>   
                         </Link>
                     </li>
                     <li className="nav-item">
                         <Link className="nav-link" to="/user-management">
-                            <img src={usericon} width="24px" height="24px" alt=""/>
-                            <p>User Management</p>
+                            <Row>
+                                <Col sm={3}>
+                                    <img src={usericon} width="24px" height="24px" alt=""/>
+                                </Col>
+                                <Col sm={5}>
+                                    <p>User Management</p>
+                                </Col>
+                            </Row>
+                            
+                            
                         </Link>
                     </li>
                     <li className="nav-item">
                         <Link className="nav-link" to="">
-                            <img src={group} width="24px" height="24px" alt=""/>
-                            <p>Department Management</p>
+                            <Row>
+                                <Col sm={3}>
+                                    <img src={group} width="24px" height="24px" alt=""/>
+                                </Col>
+                                <Col sm={5}>
+                                    <p>Department Management</p>
+                                </Col>
+                            </Row>
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" to="">
+                            <Row>
+                                <Col sm={3}>
+                                    <img src={noti} width="24px" height="24px" alt=""/>
+                                </Col>
+                                <Col sm={5}>
+                                    <p>Notification</p>
+                                </Col>
+                            </Row>
                         </Link>
                     </li>
                 </ul>

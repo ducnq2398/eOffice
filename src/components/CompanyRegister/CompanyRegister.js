@@ -8,7 +8,7 @@ import ValidateAddress from '../Validation/ValidateAddress';
 import ValidateName from '../Validation/ValidateName';
 import ValidateEmail from '../Validation/ValidateEmail';
 import ValidatePassword from '../Validation/ValidatePassword';
-import SidebarAdmin from '../SidebarAdmin/SidebarAdmin';
+import SidebarAdmin from '../Sidebar/SidebarAdmin';
 
 function CompanyRegister(){
     const [companyRegister, setCompanyRegister] = useState({

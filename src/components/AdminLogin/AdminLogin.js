@@ -1,7 +1,7 @@
 import logo from './../../images/logo.png';
 import './../../css/AdminLogin.css';
 import React, {useState } from 'react';
-import { setAdminSession, setUserSession } from '../../utils/Common';
+import { setAdminSession} from '../../utils/Common';
 import axios from 'axios';
 import queryString from 'query-string';
 import {Alert, Button, Container, Form, FormGroup, Input} from 'reactstrap';

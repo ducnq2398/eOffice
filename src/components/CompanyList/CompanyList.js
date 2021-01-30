@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import { useEffect, useState } from "react";
 import Panigation from "../Panigation/Panigation";
 import companyListAPI from "../../api/companyListAPI";
-import SidebarAdmin from "../SidebarAdmin/SidebarAdmin";
+import SidebarAdmin from "../Sidebar/SidebarAdmin";
 import '../../css/CompanyList.css';
 import find from '../../images/search.png';
 

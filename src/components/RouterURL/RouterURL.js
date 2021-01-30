@@ -10,6 +10,7 @@ import { getToken, getUser } from "../../utils/Common";
 import ResetPassword from "../ForgotPassword/ResetPassword";
 import UserManagement from "../AdminCompany/UserManagement/UserManagement";
 import CreateDocument from "../CreateDocument/CreateDocument";
+import Dashboard from "../Dashboard/Dashboard";
 
 function RouterURL(){
     const user = getUser();
@@ -35,6 +36,7 @@ function RouterURL(){
             <Route path="/admin" component={AdminLogin}/>
             <Route path="/forgot-password" component={ForgotPassword}/>
             <Route path="/reset-password" component={ResetPassword}/>
+            <Route path="/dashboard" component={Dashboard}/>
             <AdminRoute path="/user-management" component={UserManagement}/>
             <PrivateRoute path="/admin-manager" component={AdminManager}/>
             <PrivateRoute path="/company-register" component={CompanyRegister}/>

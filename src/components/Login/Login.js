@@ -35,15 +35,13 @@ function Login(props){
             email: getData.username,
             password: md5pass.trim().toString(),
         }
-        console.log(params)
         axios.post('https://datnxeoffice.azurewebsites.net/api/Accounts/login',params).then(function(res){
             setUserSession(res.data.token, res.data);
             if(res.data.roleId===1){
-                props.history.push('/user-management');
+                props.history.push('/dashboard');
             }else{
                 props.history.push('/admin-manager');
             }
-            console.log(res.data)
         }).catch(function(error){
             setSubmit(true)
         })

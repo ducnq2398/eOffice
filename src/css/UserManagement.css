@@ -1,5 +1,6 @@
 .main-panel1 {
     background: white;
+    overflow: hidden;
     display: block;
     position: relative;
     float: right;
@@ -19,8 +20,7 @@
     bottom: 0;
     right: 15px;
     height: 1px;
-    width: calc(100% - 30px);
-    background-color: rgba(180, 180, 180, 0.3);
+    background-color: rgba(17, 14, 14, 0.3);
   }
 
 .form-add{
