@@ -26,16 +26,18 @@ function ForgotPassword(){
     }
     return(
         <Container>
-            <img src={logo} alt=""/>
             <Form className="forgot">
+                <FormGroup>
+                    <img src={logo} alt=""/>
+                </FormGroup>
                 <FormGroup>
                     <h3>Forgot Password?</h3>
                 </FormGroup>
-                <FormGroup className="style_input">
+                <FormGroup>
                     <Input type="tel" required="required" placeholder="Please enter phone number" onChange={handleOnChange}/>
                 </FormGroup>
-                <FormGroup className="btn_next">
-                    <Button className="btn_next_2" color="primary" onClick={toggle}>Next</Button>
+                <FormGroup className="next">
+                    <Button color="primary" onClick={toggle}>Next</Button>
                 </FormGroup>
             </Form>
             <Modal style={{marginTop:'18%'}} isOpen={modal} toggle={toggle}>
