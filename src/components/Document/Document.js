@@ -8,7 +8,7 @@ import search from '../../images/search1.png';
 import del from '../../images/delete.png';
 import choo from '../../images/choo.png';
 
-function Document(){
+function Document(props){
     const [isOpen, setIsOpen] = useState(false);
     const toogle = () => setIsOpen(!isOpen);
     const [currentPage, setCurrentPage] = useState(1);
@@ -17,6 +17,9 @@ function Document(){
     const indexOfFirstPost = indexOfLastPost - postPerPage;
     function paginate(pageNumber){
         setCurrentPage(pageNumber);
+    }
+    function Contract() {
+        props.history.push('/create')
     }
     return(
         <div>
@@ -37,7 +40,7 @@ function Document(){
                                             <Label style={{marginLeft:'10%'}}>Please select the type of document you want to create</Label>
                                         </FormGroup>
                                         <FormGroup style={{marginLeft:'35%'}}>
-                                            <Button color="primary" onClick={toogle}>Contract</Button>{' '}
+                                            <Button color="primary" onClick={Contract}>Contract</Button>{' '}
                                             <Button color="primary" onClick={toogle}>Invoice</Button>
                                         </FormGroup>
                                     </Form>

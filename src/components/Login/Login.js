@@ -54,7 +54,7 @@ function Login(props){
                             <img src={fpt} alt="" width="350px" height="200px"/>
                             <h1>MANAGEMENT & CONTRACT</h1>
                             <p style={{color:'white', fontSize:'30px'}}>DOCUMENT SYSTEM</p>
-                            <img style={{marginTop:'70%', marginRight:'90%'}} src={support} alt="" width="500" height="100"/>
+                            <img style={{marginTop:'60%', marginRight:'90%'}} src={support} alt="" width="500" height="100"/>
                         </div>
                     </Col>
                     <Col>
