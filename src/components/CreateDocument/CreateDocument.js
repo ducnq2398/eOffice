@@ -1,25 +1,29 @@
-import { Container, Input } from "reactstrap";
+import { Button, Container, Input } from "reactstrap";
 import Header from "../Nav/Header";
 import PDF from "../PDF/PDF";
-import Sidebar from "../Sidebar/Sidebar";
 import { useState } from "react";
 import '../../css/CreateDoc.css'
+import VerticalLinearStepper from "../Sidebar/Stepper";
+import { Link, useHistory } from "react-router-dom";
 
 function CreateDocument(){
     const [url, setUrl] = useState('');
+    const [filename, setFileName] = useState('');
+    const history = useHistory();
     function onChange(e){
         const file = e.target.files;
-        const reader = new FileReader()
-        reader.readAsDataURL(file[0]);
-        reader.onload = (e) =>{
-            console.log("data", e.target.result)
-        }
+        setFileName(file);
         setUrl(URL.createObjectURL(file[0]));
+        
     };
-    console.log(url)
+    function handleClick(){
+        history.push('/document-title');
+        localStorage.setItem('pdf', url);
+        localStorage.setItem('filename', filename);
+    }
     return(
         <div>
-            <Sidebar/>
+            <VerticalLinearStepper activeStep={0} />
             <div className="main-panel">
                 <Container fluid={true}>
                     <Header/>
@@ -28,6 +32,7 @@ function CreateDocument(){
                         <PDF pdf={url}/>
                     </div>
                 </Container>
+                <Button style={{marginTop:'10px'}} color="primary" onClick={handleClick}>CONTINUE</Button> 
             </div>
         </div>
     );
