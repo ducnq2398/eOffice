@@ -25,7 +25,7 @@ function ForgotPassword(){
         })
     }
     return(
-        <Container>
+        <Container className="a">
             <Form className="forgot">
                 <FormGroup>
                     <img src={logo} alt=""/>

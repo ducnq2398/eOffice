@@ -108,7 +108,7 @@ function CompanyRegister(){
 
     function handleSubmit(event){
         event.preventDefault();
-        console.log(companyRegister)
+        
     }
         return (
             <div>
@@ -118,7 +118,7 @@ function CompanyRegister(){
                 <div>
                     <img style={{marginTop:'20px'}} src={register} alt=""/>
                 </div>
-                    <Form className="register-form" onSubmit={handleSubmit}>
+                    <Form className="register-form">
                         <FormGroup row>
                             <Label style={{color:'blue'}} sm={2}>Company Name</Label>
                             <Col sm={8}>

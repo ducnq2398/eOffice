@@ -47,7 +47,7 @@ function Login(props){
         })
     }
     return(
-            <Container fluid={true}>
+            <Container fluid={true} className="b">
                 <Row>
                     <Col>
                         <div className="fpt">

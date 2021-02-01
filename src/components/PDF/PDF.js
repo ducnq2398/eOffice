@@ -5,7 +5,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 
 function PDF(props){
     const [numPages, setNumPages] = useState('');
-    const [pageNumber, setPageNumber] = useState(1);
+    const [pageNumber, setPageNumber] = useState(0);
     function onDocumentLoadSuccess({numPages}){
         setNumPages(numPages);
         setPageNumber(1);
@@ -32,13 +32,14 @@ function PDF(props){
                 <Page pageNumber={pageNumber} />
             </Document>
             <div>
-                <p>
+                <p hidden={pageNumber===0}>
                     Page {pageNumber || (numPages ? 1 : "--")} of {numPages || "--"}
                 </p>
-                <Button type="button" color="primary" size="sm" outline disabled={pageNumber <= 1} onClick={previousPage}>
+                <Button hidden={pageNumber===0} type="button" color="primary" size="sm" outline disabled={pageNumber <= 1} onClick={previousPage}>
                 Prev
                 </Button> {' '}
                 <Button
+                hidden={pageNumber===0}
                 type="button" outline color="primary" size="sm"
                 disabled={pageNumber >= numPages}
                 onClick={nextPage}

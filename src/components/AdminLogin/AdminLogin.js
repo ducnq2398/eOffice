@@ -51,7 +51,7 @@ function AdminLogin(props){
         }
         
         return (
-            <Container fluid={true}>
+            <Container fluid={true} className="a">
                 <Form className="form-admin" onSubmit={handleSubmit}>
                     <FormGroup>
                         <img src={logo} alt=""/>

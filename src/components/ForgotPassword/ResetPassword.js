@@ -30,7 +30,7 @@ function ResetPassword(props){
     }
     console.log(password)
     return(
-        <Container>
+        <Container className="a">
             <Form className="reset" onSubmit={handleSubmit}>
                 <FormGroup>
                     <img src={logo} alt=""/>
