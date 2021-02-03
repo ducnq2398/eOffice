@@ -10,8 +10,8 @@ function Dashboard(){
         <div>
             <Sidebar/>
             <div className="main-panel">
+                <Header/>
                 <Container fluid={true}>
-                    <Header/>
                     <div>
                         <Row>
                             <Col>

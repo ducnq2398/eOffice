@@ -1,4 +1,4 @@
-import {Link} from 'react-router-dom';
+import {Link, NavLink} from 'react-router-dom';
 import logo from '../../images/eoffice.png';
 import homeicon from '../../images/Home.png';
 import usericon from '../../images/user.png'
@@ -23,7 +23,7 @@ function SidebarAdmin(){
             <div className="sidebar-wrapper">
                 <ul className="nav">
                     <li>
-                        <Link activeClassName="active" className="nav-link" to="/admin-manager">
+                        <NavLink activeClassName="active" className="nav-link" to="/admin-manager">
                             <Row>
                                 <Col sm={3}>
                                     <img src={homeicon} width="24px" height="24px" alt=""/>
@@ -32,10 +32,10 @@ function SidebarAdmin(){
                                     <p>Admin</p>
                                 </Col>
                             </Row>
-                        </Link>
+                        </NavLink>
                     </li>
                     <li>
-                        <Link className="nav-link" to="/company-register">
+                        <NavLink activeClassName="active" className="nav-link" to="/company-register">
                             <Row>
                                 <Col sm={3}>
                                     <img src={usericon} width="24px" height="24px" alt=""/>
@@ -44,10 +44,10 @@ function SidebarAdmin(){
                                     <p>Register Company</p>
                                 </Col>
                             </Row>
-                        </Link>
+                        </NavLink>
                     </li>
                     <li>
-                        <Link className="nav-link" to="/company-list">
+                        <NavLink activeClassName="active" className="nav-link" to="/company-list">
                             <Row>
                                 <Col sm={3}>
                                     <img src={group} width="24px" height="24px" alt=""/>
@@ -56,7 +56,7 @@ function SidebarAdmin(){
                                     <p>List Company</p>
                                 </Col>
                             </Row>
-                        </Link>
+                        </NavLink>
                     </li>
                     <li onClick={Logout}>
                         <Link className="nav-link" to='/admin'>

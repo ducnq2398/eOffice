@@ -12,6 +12,7 @@ import UserManagement from "../AdminCompany/UserManagement/UserManagement";
 import CreateDocument from "../CreateDocument/CreateDocument";
 import Dashboard from "../Dashboard/Dashboard";
 import Document from "../Document/Document";
+import Error from "../Error/Error";
 
 function RouterURL(){
     const user = getUser();
@@ -23,6 +24,12 @@ function RouterURL(){
     )
 
     const AdminRoute = ({ component: Component, ...rest}) =>(
+        <Route {...rest} render={(props) => 
+            getToken() && user.roleId===1 
+            ? <Component {... props}/> 
+            : <Redirect to={{pathname: '/', state:{from: props.location} }}/>}/>
+    )
+    const UserRoute = ({ component: Component, ...rest}) =>(
         <Route {...rest} render={(props) => 
             getToken() 
             ? <Component {... props}/> 
@@ -37,8 +44,9 @@ function RouterURL(){
             <Route path="/admin" component={AdminLogin}/>
             <Route path="/forgot-password" component={ForgotPassword}/>
             <Route path="/reset-password" component={ResetPassword}/>
-            <Route path="/dashboard" component={Dashboard}/>
-            <Route path="/document" component={Document}/>
+            <UserRoute path="/dashboard" component={Dashboard}/>
+            <UserRoute path="/document" component={Document}/>
+            <Route path="/error" component={Error}/>
             <AdminRoute path="/user-management" component={UserManagement}/>
             <PrivateRoute path="/admin-manager" component={AdminManager}/>
             <PrivateRoute path="/company-register" component={CompanyRegister}/>

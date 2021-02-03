@@ -6,7 +6,7 @@
   bottom: 0;
   left: 0;
   z-index: 2;
-  width: 260px;
+  width: 300px;
   background: white;
   box-shadow: 0 16px 38px -12px rgb(0 0 0 / 56%), 0 4px 25px 0 rgb(0 0 0 / 12%), 0 8px 10px -5px rgb(0 0 0 / 20%);
 }
@@ -17,6 +17,7 @@
   display: block;
   position: relative;
   z-index: 4;
+  background-color: rgba(0, 0, 0, 0.76);
 }
 
 .sidebar .logo:after {
@@ -26,14 +27,14 @@
   right: 15px;
   height: 1px;
   width: calc(100% - 30px);
-  background-color: rgba(180, 180, 180, 0.3);
+  background-color: black;
 }
 
 .sidebar .sidebar-wrapper {
   position: relative;
   height: calc(100vh - 75px);
   overflow: auto;
-  width: 260px;
+  width: 300px;
   z-index: 4;
   padding-bottom: 30px;
 }
@@ -63,14 +64,11 @@
 .sidebar .nav li .dropdown-menu a:hover,
 .sidebar .nav li .dropdown-menu a:focus,
 .sidebar .nav li.active>[data-toggle="collapse"] {
-  background-color: rgba(200, 200, 200, 0.2);
-  color: #3C4858;
+  background-color: rgba(255, 123, 0, 0.863);
+  color: #edeff1;
   box-shadow: none;
 }
 
-.sidebar .nav li.active>[data-toggle="collapse"] i {
-  color: #a9afbb;
-}
 
 .sidebar .nav li.active>a,
 .sidebar .nav li.active>a i {
@@ -143,5 +141,10 @@
 }
 
 .sidebar[data-background-color="black"] .nav .nav-item .nav-link {
+  color: #fff;
+}
+
+.active{
+  background-color: rgba(255, 123, 0, 0.863);
   color: #fff;
 }

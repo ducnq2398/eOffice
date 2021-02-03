@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import logo from '../../images/eoffice.png';
 import homeicon from '../../images/Home.png';
 import usericon from '../../images/user.png';
@@ -17,7 +17,7 @@ function Sidebar(){
             <div className="sidebar-wrapper">
                 <ul className="nav">
                     <li className="nav-item">
-                        <Link className="nav-link" to="/dashboard">
+                        <NavLink activeClassName="active" className="nav-link" to="/dashboard">
                             <Row>
                                 <Col sm={3}>
                                     <img src={homeicon} width="24px" height="24px" alt=""/>
@@ -26,10 +26,10 @@ function Sidebar(){
                                     <p>Dashboard</p>
                                 </Col>
                             </Row>
-                        </Link>
+                        </NavLink>
                     </li>
                     <li className="nav-item">
-                        <Link className="nav-link" to="/document">
+                        <NavLink activeClassName="active" className="nav-link" to="/document">
                             <Row>
                                 <Col sm={3}>
                                     <img src={doc} alt=""/>
@@ -38,10 +38,10 @@ function Sidebar(){
                                     <p>Storage Document</p>
                                 </Col>
                             </Row>   
-                        </Link>
+                        </NavLink>
                     </li>
                     <li className="nav-item">
-                        <Link className="nav-link" to="/user-management">
+                        <NavLink activeClassName="active" className="nav-link" to="/user-management">
                             <Row>
                                 <Col sm={3}>
                                     <img src={usericon} width="24px" height="24px" alt=""/>
@@ -52,10 +52,10 @@ function Sidebar(){
                             </Row>
                             
                             
-                        </Link>
+                        </NavLink>
                     </li>
                     <li className="nav-item">
-                        <Link className="nav-link" to="">
+                        <NavLink activeClassName="active" className="nav-link" to="/admin-manager">
                             <Row>
                                 <Col sm={3}>
                                     <img src={group} width="24px" height="24px" alt=""/>
@@ -64,10 +64,10 @@ function Sidebar(){
                                     <p>Department Management</p>
                                 </Col>
                             </Row>
-                        </Link>
+                        </NavLink>
                     </li>
                     <li className="nav-item">
-                        <Link className="nav-link" to="">
+                        <NavLink activeClassName="active" className="nav-link" to="/admin">
                             <Row>
                                 <Col sm={3}>
                                     <img src={noti} width="24px" height="24px" alt=""/>
@@ -76,7 +76,7 @@ function Sidebar(){
                                     <p>Notification</p>
                                 </Col>
                             </Row>
-                        </Link>
+                        </NavLink>
                     </li>
                 </ul>
             </div>

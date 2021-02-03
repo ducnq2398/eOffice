@@ -5,7 +5,7 @@ import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 function VerticalLinearStepper({activeStep}){
     function getStep(){
-        return ['Document information input', 'Signature setting', 'Enter the destination', 'Document preparation','Determine'];
+        return ['Upload file', 'Title description', 'Select signer', 'Select company guest','Select guest', 'Select the expiration date', 'Complete'];
     }
     const steps = getStep();
     return(
@@ -13,7 +13,7 @@ function VerticalLinearStepper({activeStep}){
             <div className="logo">
                 <img src={logo} alt="" />
             </div>
-            <Stepper activeStep={activeStep} orientation="vertical">
+            <Stepper activeStep={activeStep} orientation="vertical" style={{textAlign:'left'}}>
                 {steps.map((label) => (
                 <Step key={label}>
                     <StepLabel>{label}</StepLabel>

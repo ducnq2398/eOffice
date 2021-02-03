@@ -5,6 +5,10 @@ const companyListAPI = {
         const url = 'Companies/getall';
         return axiosClient.get(url);
     },
+    getCompanyById: (id) =>{
+        const url = `Companies/${id}`;
+        return axiosClient.get(url)
+    }
 }
 
 export default companyListAPI;

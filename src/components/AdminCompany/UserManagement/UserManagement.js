@@ -6,8 +6,11 @@ import Panigation from "../../Panigation/Panigation";
 import Sidebar from "../../Sidebar/Sidebar";
 import './../../../css/UserManagement.css';
 import icon from "../../../images/delete.png";
+import { getUser } from "../../../utils/Common";
 
 function UserManagement(){
+    const id = getUser()
+    const companyId = id.companyId;
     const [userList, setUserList] = useState([]);
     const [user, setUser] = useState({
         id: '',
@@ -28,7 +31,7 @@ function UserManagement(){
     useEffect(()=>{
         async function fetchUserList(){
             try {
-                const response = await userListAPI.getAll();
+                const response = await userListAPI.getUserByCompanyId(companyId);
                 setUserList(response.data);
             }catch (error) {
             console.log(error);
@@ -103,14 +106,6 @@ function UserManagement(){
                                 <Button outline color="primary">Deactive</Button>
                             </ButtonGroup>
                         </Col>
-                        <Col>
-                        <Panigation
-                                    currentPage= {currentPage}
-                                    postsPerPage={postPerPage}
-                                    totalPosts = {userList.length}
-                                    paginate={paginate}
-                                    />
-                        </Col>
                     </FormGroup>
                 </div>
                 <Table hover>
@@ -134,6 +129,14 @@ function UserManagement(){
                         ))}
                     </tbody>
                 </Table>
+                <div style={{width:'100px', marginLeft:'auto', marginRight:'auto', marginTop:'20px'}}>
+                    <Panigation
+                                        currentPage= {currentPage}
+                                        postsPerPage={postPerPage}
+                                        totalPosts = {userList.length}
+                                        paginate={paginate}
+                                        />
+                </div>
             <Modal isOpen={openEdit} toggle={openE}>
                 <ModalHeader>User Detail</ModalHeader>
                 <ModalBody>

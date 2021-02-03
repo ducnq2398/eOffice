@@ -3,7 +3,7 @@
     margin-top: 10px;
   }
   .react-pdf__Page__textContent {
-    border: 1px solid darkgrey;
+    border: 1px solid rgb(14, 12, 12);
     box-shadow: 5px 5px 5px 1px #ccc;
     border-radius: 5px;
     font-size: larger;
@@ -15,4 +15,32 @@
   
   .react-pdf__Page__canvas {
     margin: 0 auto;
+  }
+
+  .form-upload{
+    border: black;
+    padding: 20px 10px 10px;
+    margin-left: 30px;
+  }
+
+  .form-upload Label{
+    color: blue;
+    font-size: 25px;
+    font-weight: bolder;
+    float: left;
+    margin-bottom: 2rem;
+  }
+  .form-upload Input{
+    height: 45px;
+  }
+
+  .form-upload Input:selection{
+    height: 50px;
+  }
+
+  .form-upload .form-group{
+    margin-bottom: 2rem;
+  }
+  .form-upload .form-control{
+    height: 50px;
   }
