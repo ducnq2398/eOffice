@@ -13,7 +13,7 @@
 .form-search{
     width: 100%;
     margin-left: 10%;
-    margin-top: 20px;
+    margin-top: 2rem;
 }
 .form-search:after {
     content: '';

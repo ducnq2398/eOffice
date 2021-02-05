@@ -22,7 +22,7 @@ function UserManagement(){
     const [modalInfor, setModalInfor] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
-    const [postPerPage] = useState(15);
+    const [postPerPage] = useState(13);
     const indexOfLastPost = currentPage * postPerPage;
     const indexOfFirstPost = indexOfLastPost - postPerPage;
     const currentPosts = userList.slice(indexOfFirstPost, indexOfLastPost);
