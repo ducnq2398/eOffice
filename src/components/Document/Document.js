@@ -25,8 +25,8 @@ function Document(props){
         <div>
             <Sidebar/>
             <div className="main-content">
+                <Header/>
                 <Container fluid={true}>
-                    <Header/>
                     <div className="form-create">
                         <FormGroup row>
                             <ButtonDropdown direction="right" isOpen={isOpen} toggle={toogle} >

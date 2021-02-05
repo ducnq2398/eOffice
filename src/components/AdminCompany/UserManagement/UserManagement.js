@@ -28,6 +28,7 @@ function UserManagement(){
     const toogle = () => setIsOpen(!isOpen);
     const [openEdit, setOpenEdit] = useState(false);
     const openE = () => setOpenEdit(!openEdit);
+    const [search, setSearch] = useState('');
     useEffect(()=>{
         async function fetchUserList(){
             try {
@@ -55,12 +56,12 @@ function UserManagement(){
         <div>
             <Sidebar/>
             <div className="main-panel1">
+            <Header/>
             <Container fluid={true}>
-                <Header/>
                 <div className="form-search">
                     <FormGroup row>
                         <ButtonDropdown direction="right" isOpen={isOpen} toggle={toogle} >
-                            <DropdownToggle style={{height:'70%'}} color="primary">+Add user</DropdownToggle>
+                            <DropdownToggle style={{height:'90%'}} color="primary">+Add user</DropdownToggle>
                             <DropdownMenu className="form-add">
                                 <Form>
                                     <h3>Add User</h3>
@@ -98,7 +99,7 @@ function UserManagement(){
                             </DropdownMenu>
                         </ButtonDropdown>
                         <Col>
-                            <Input type="text" name="search" placeholder="Search by account name"/>
+                            <Input type="text" name="search" placeholder="Search by account name" onChange={event => {setSearch(event.target.value)}}/>
                         </Col>
                         <Col>
                             <ButtonGroup className="btn-group">
@@ -108,7 +109,7 @@ function UserManagement(){
                         </Col>
                     </FormGroup>
                 </div>
-                <Table hover>
+                <Table hidden={search !=='' ? true : false} hover>
                     <thead>
                         <tr>
                             <th>Account name</th>
@@ -129,13 +130,38 @@ function UserManagement(){
                         ))}
                     </tbody>
                 </Table>
-                <div style={{width:'100px', marginLeft:'auto', marginRight:'auto', marginTop:'20px'}}>
+                <Table hidden={search=== '' ? true : false} hover>
+                    <thead>
+                        <tr>
+                            <th>Account name</th>
+                            <th>Department</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {userList.filter((users) => {
+                            if(users.name.toLowerCase().includes(search.toLowerCase())){
+                                return users
+                            }
+                        }).map(user =>(
+                            <tr className="row_data" key={user.id}  >
+                                <td onClick={openE}>{user.name}</td>
+                                <td onClick={openE}>{user.subDepartment}</td>
+                                <td onClick={openE}>{user.email}</td>
+                                <td className="hide"> 
+                                    <img style={{width:'25px',height:'25px'}} src={icon} alt="" onClick={toogle}/>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </Table>
+                <div hidden={search !== '' ? true : false} style={{width:'100px', marginLeft:'auto', marginRight:'auto', marginTop:'20px'}}>
                     <Panigation
-                                        currentPage= {currentPage}
-                                        postsPerPage={postPerPage}
-                                        totalPosts = {userList.length}
-                                        paginate={paginate}
-                                        />
+                        currentPage= {currentPage}
+                        postsPerPage={postPerPage}
+                        totalPosts = {userList.length}
+                        paginate={paginate}
+                     />
                 </div>
             <Modal isOpen={openEdit} toggle={openE}>
                 <ModalHeader>User Detail</ModalHeader>

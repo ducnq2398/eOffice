@@ -1,11 +1,11 @@
-import { Container, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Table, Form, FormGroup, Input, Row, Col } from "reactstrap";
+import { Container, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Table, Form, FormGroup, Input, Row, Col, Button } from "reactstrap";
 import {Link} from 'react-router-dom';
 import { useEffect, useState } from "react";
 import Panigation from "../Panigation/Panigation";
 import companyListAPI from "../../api/companyListAPI";
 import SidebarAdmin from "../Sidebar/SidebarAdmin";
 import '../../css/CompanyList.css';
-import find from '../../images/search.png';
+import GetAdminCompany from "../GetAdminCompany/GetAdminCompany";
 
 function CompanyList(){
     const [filter, setFilter] = useState(false);
@@ -17,6 +17,7 @@ function CompanyList(){
     const indexOfLastPost = currentPage * postPerPage;
     const indexOfFirstPost = indexOfLastPost - postPerPage;
     const currentPosts = postList.slice(indexOfFirstPost, indexOfLastPost);
+
     function paginate(pageNumber){
         setCurrentPage(pageNumber);
     }
@@ -32,10 +33,6 @@ function CompanyList(){
         fetListData();
     },[]);
     
-    const handleChange = event =>{
-        setSearch(event.target.value);
-    }
-
     return(
         <div>
             <SidebarAdmin/>
@@ -46,14 +43,15 @@ function CompanyList(){
                         <FormGroup>
                             <Row>
                                 <Col xs={10}>
-                                    <Input type="search" className="form-control rounded" value={search} onChange={handleChange} placeholder="Search by name company"/>
+                                    <Input type="search" className="form-control rounded" value={search} onChange={event => {setSearch(event.target.value)}} placeholder="Search by name company"/>
                                 </Col>
                                 <Col xs={2}>
                                     <Dropdown isOpen={filter}toggle={toggle}>
-                                    <DropdownToggle caret>
+                                    <DropdownToggle color="primary" caret>
                                         Filter
                                     </DropdownToggle>
                                     <DropdownMenu>
+                                        <DropdownItem>All</DropdownItem>
                                         <DropdownItem>Active</DropdownItem>
                                         <DropdownItem>Deactive</DropdownItem>
                                     </DropdownMenu>
@@ -64,7 +62,7 @@ function CompanyList(){
                         
                     </Form>
                 </div>
-                <Table className="table_css">
+                <Table hidden={search!== '' ? true : false} className="table_css">
                     <thead>
                         <tr>
                             <th>STT</th>
@@ -77,21 +75,63 @@ function CompanyList(){
                         </tr>
                     </thead>
                     <tbody>
-                        {currentPosts.map(data => (
-                            <tr key={data.id}>
+                        {currentPosts.map((data, key) => (
+                            <tr key={key}>
                                     <th>{data.id}</th>
                                     <td>{data.name}</td>
-                                    <td>{data.admin}</td>
+                                    <td>
+                                        <GetAdminCompany id={data.adminId}/>
+                                    </td>
                                     <td>{data.dateCreate}</td>
                                     <td>{data.status===1? <p style={{color:'green'}}>Active</p> : <p style={{color:'red'}}>Deactive</p>}</td>
                                     <td>{data.phone}</td>
                                     <td>
-                                        <Link to="/edit-company">Edit/Detail</Link>
+                                        <Link to={{
+                                            pathname: '/edit-company',
+                                            state: data
+                                        }}>Edit/Detail</Link>
                                     </td>
                             </tr>))}  
                     </tbody>    
-            </Table>
-            <div className="pani">
+                </Table>
+                <Table hidden={search==='' ? true : false } className="table_css">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Company Name</th>
+                            <th>Aplicant Name</th>
+                            <th>Date Created</th>
+                            <th>Status</th>
+                            <th>Phone Number</th>
+                            <th>Edits/Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {postList.filter((data) =>{
+                            if(data.name.toLowerCase().includes(search.toLowerCase())){
+                                return data
+                            }
+                        }).map(data => (
+                            <tr key={data.id}>
+                                    <th>{data.id}</th>
+                                    <td>{data.name}</td>
+                                    <td>
+                                        <GetAdminCompany id={data.adminId}/>
+                                    </td>
+                                    <td>{data.dateCreate}</td>
+                                    <td>{data.status===1? <p style={{color:'green'}}>Active</p> : <p style={{color:'red'}}>Deactive</p>}</td>
+                                    <td>{data.phone}</td>
+                                    <td>
+                                        <Link to={{
+                                            pathname: '/edit-company',
+                                            state: data
+                                        }}>Edit/Detail</Link>
+                                    </td>
+                            </tr>))}  
+                    </tbody>    
+                </Table>
+        
+            <div className="pani" hidden={search!=='' ? true : false}>
                 <Panigation
                     currentPage={currentPage}
                     postsPerPage={postPerPage}

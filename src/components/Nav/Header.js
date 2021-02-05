@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import {Container, Navbar, Nav, NavItem, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Label} from 'reactstrap';
+import {Navbar, Nav, NavItem} from 'reactstrap';
 import noti from '../../images/coolicon.png';
 import '../../css/Nav.css';
 import { getUser } from '../../utils/Common';
@@ -24,16 +24,18 @@ function Header(){
     },[]);
     return(
         <Navbar>
-            <Container className="con" fluid={true}>
-                <div className="avt">
-                <img src={noti} alt="noti"/>
-                    <img style={{borderRadius:'50%'}} src={user.avatar} alt="avater" width="90px" height="90px"/>
-                <Label>
-                    <p style={{fontWeight:'bold', fontSize:'20px', marginLeft:'10px'}}>{user.name}</p>
-                    <p>{company.name}</p>                           
-                </Label>    
-                </div>
-            </Container>
+                <Nav>
+                    <NavItem>
+                        <img src={noti} alt="" width="30px" height="30px"/>
+                    </NavItem>
+                    <NavItem>
+                        <img style={{borderRadius:'50%'}} src={user.avatar} alt="avatar" width="70px" height="70px"/>
+                    </NavItem>
+                    <NavItem>
+                        <p style={{fontSize:'20px',fontWeight:'bold', color:'white'}}>{user.name}</p>
+                        <p style={{color:'white'}}>{company.name}</p>
+                    </NavItem>
+                </Nav>
         </Navbar>
     );
 }

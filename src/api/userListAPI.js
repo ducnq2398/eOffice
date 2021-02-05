@@ -8,6 +8,10 @@ const userListAPI = {
     getUserByCompanyId: (id) =>{
         const url = `Accounts/getbycompany?id=${id}`;
         return axiosClient.get(url);
+    },
+    getUserById: (id) =>{
+        const url = `Accounts/${id}`;
+        return axiosClient.get(url);
     }
 }
 export default userListAPI;

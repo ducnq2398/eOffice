@@ -131,13 +131,12 @@ function CreateDocument(){
         }
         fetListGuest();
     },[dataUpload.company_guest]);
-    console.log(file)
     return(
         <div>
             <VerticalLinearStepper activeStep={activeStep} />
             <div className="main-panel">
+            <Header/>
             <Container fluid={true}>
-                <Header/>
                 <Row>
                     <Col>
                         <Form className="form-upload">
@@ -190,9 +189,13 @@ function CreateDocument(){
                             <FormGroup>
                                 <Input disabled={activeStep===5 ? false : true} type="date" name="date" placeholder="Expiration date" onChange={handleOnChange}/>
                             </FormGroup>
-                            <FormGroup>
+                            <FormGroup hidden={activeStep !==6 ? false : true}>
                                 <Button color="primary" outline onClick={handlePrev}>Return</Button> {' '}
                                 <Button color="primary" outline onClick={handleNext}>Next</Button>
+                            </FormGroup>
+                            <FormGroup hidden={activeStep===6 ? false : true}>
+                                <Button color="primary">Cancel</Button> {' '}
+                                <Button color="primary">Create</Button> 
                             </FormGroup>
                         </Form>
                             

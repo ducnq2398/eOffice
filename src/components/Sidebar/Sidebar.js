@@ -32,7 +32,7 @@ function Sidebar(){
                         <NavLink activeClassName="active" className="nav-link" to="/document">
                             <Row>
                                 <Col sm={3}>
-                                    <img src={doc} alt=""/>
+                                    <img src={doc} alt="" width="24px" height="24px"/>
                                 </Col>
                                 <Col sm={5}>
                                     <p>Storage Document</p>

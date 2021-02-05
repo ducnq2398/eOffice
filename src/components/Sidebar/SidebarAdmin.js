@@ -1,8 +1,8 @@
 import {Link, NavLink} from 'react-router-dom';
 import logo from '../../images/eoffice.png';
 import homeicon from '../../images/Home.png';
-import usericon from '../../images/user.png'
-import group from '../../images/group.png';
+import usericon from '../../images/company.png'
+import group from '../../images/list.png';
 import logout from '../../images/logout.png';
 import '../../css/Sidebar.css'; 
 import {Col, Row} from 'reactstrap';

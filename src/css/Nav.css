@@ -10,7 +10,8 @@
     width: calc(100% - 30px);
     background-color:black;
 }
-.avt{
-    margin-left: 80%;
-    margin-bottom: -1rem;
+
+.navbar{
+    background-color: black;
+    padding: 0px 0px;
 }

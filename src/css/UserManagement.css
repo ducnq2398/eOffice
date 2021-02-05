@@ -1,4 +1,5 @@
 .main-panel1 {
+    overflow: scroll;
     background: white;
     overflow: hidden;
     display: block;
