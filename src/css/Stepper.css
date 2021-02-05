@@ -12,12 +12,12 @@
   }
 
 .logo{
-    padding: 8px 0;
+    padding: 4.5px 0;
     margin: 0;
     display: block;
     position: relative;
     z-index: 4;
-    background-color: black;
+    background-color: rgb(57, 57, 214);
 }
 .logo:after {
     content: '';
@@ -26,5 +26,4 @@
     right: 15px;
     height: 1px;
     width: calc(100% - 30px);
-    background-color: black;
   }

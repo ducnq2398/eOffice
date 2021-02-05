@@ -3,7 +3,7 @@ import logo from '../../images/eoffice.png';
 import homeicon from '../../images/Home.png';
 import usericon from '../../images/user.png';
 import doc from '../../images/document.png';
-import noti from '../../images/coolicon.png';
+import noti from '../../images/noti.png';
 import group from '../../images/group.png';
 import '../../css/Sidebar.css'; 
 import { Col, Row } from 'reactstrap';
@@ -55,7 +55,7 @@ function Sidebar(){
                         </NavLink>
                     </li>
                     <li className="nav-item">
-                        <NavLink activeClassName="active" className="nav-link" to="/admin-manager">
+                        <NavLink activeClassName="active" className="nav-link" to="/department">
                             <Row>
                                 <Col sm={3}>
                                     <img src={group} width="24px" height="24px" alt=""/>
@@ -67,7 +67,7 @@ function Sidebar(){
                         </NavLink>
                     </li>
                     <li className="nav-item">
-                        <NavLink activeClassName="active" className="nav-link" to="/admin">
+                        <NavLink activeClassName="active" className="nav-link" to="/notification">
                             <Row>
                                 <Col sm={3}>
                                     <img src={noti} width="24px" height="24px" alt=""/>

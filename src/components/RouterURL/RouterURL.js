@@ -13,6 +13,8 @@ import CreateDocument from "../CreateDocument/CreateDocument";
 import Dashboard from "../Dashboard/Dashboard";
 import Document from "../Document/Document";
 import Error from "../Error/Error";
+import DepartmentManagerment from "../AdminCompany/DepartmentManagement/DepartmentManagement";
+import Notification from "../Notification/Notification";
 
 function RouterURL(){
     const user = getUser();
@@ -44,9 +46,11 @@ function RouterURL(){
             <Route path="/admin" component={AdminLogin}/>
             <Route path="/forgot-password" component={ForgotPassword}/>
             <Route path="/reset-password" component={ResetPassword}/>
+            <Route path="/error" component={Error}/>
             <UserRoute path="/dashboard" component={Dashboard}/>
             <UserRoute path="/document" component={Document}/>
-            <Route path="/error" component={Error}/>
+            <UserRoute path="/notification" component={Notification}/>
+            <AdminRoute path="/department" component={DepartmentManagerment}/>
             <AdminRoute path="/user-management" component={UserManagement}/>
             <PrivateRoute path="/admin-manager" component={AdminManager}/>
             <PrivateRoute path="/company-register" component={CompanyRegister}/>

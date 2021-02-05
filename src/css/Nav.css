@@ -12,6 +12,17 @@
 }
 
 .navbar{
-    background-color: black;
+    background-color: rgb(57, 57, 214);
     padding: 0px 0px;
+}
+
+.navbar .nav{
+    display: grid;
+    grid-template-columns: repeat(5, auto);
+    grid-gap: 15px;
+    list-style: none;
+    text-align: center;
+    justify-content: end;
+    width: 80vw;
+    margin-right: 2rem;
 }

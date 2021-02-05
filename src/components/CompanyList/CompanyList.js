@@ -52,7 +52,7 @@ function CompanyList(){
                                     </DropdownToggle>
                                     <DropdownMenu>
                                         <DropdownItem>All</DropdownItem>
-                                        <DropdownItem>Active</DropdownItem>
+                                        <DropdownItem >Active</DropdownItem>
                                         <DropdownItem>Deactive</DropdownItem>
                                     </DropdownMenu>
                                     </Dropdown>

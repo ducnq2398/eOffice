@@ -12,12 +12,12 @@
 }
 
 .sidebar .logo{
-  padding: 8px 0;
+  padding: 4.5px 0;
   margin: 0;
   display: block;
   position: relative;
   z-index: 4;
-  background-color: black;
+  background-color: rgb(57, 57, 214);
 }
 
 .sidebar .logo:after {
@@ -27,7 +27,7 @@
   right: 15px;
   height: 1px;
   width: calc(100% - 30px);
-  background-color: black;
+  background-color: rgb(57, 57, 214);
 }
 
 .sidebar .sidebar-wrapper {
@@ -64,15 +64,15 @@
 .sidebar .nav li .dropdown-menu a:hover,
 .sidebar .nav li .dropdown-menu a:focus,
 .sidebar .nav li.active>[data-toggle="collapse"] {
-  background-color: rgba(255, 123, 0, 0.863);
-  color: #edeff1;
+  background-color:  rgb(57, 57, 214);
+  color: #0a0a0a;
   box-shadow: none;
 }
 
 
 .sidebar .nav li.active>a,
 .sidebar .nav li.active>a i {
-  color: #fff;
+  color: rgb(8, 8, 8);
 }
 
 .sidebar .nav li.separator {
@@ -95,11 +95,12 @@
 .sidebar .nav p {
   margin: 0;
   line-height: 30px;
-  font-size: 14px;
+  font-size: 16px;
   position: relative;
   display: block;
   height: auto;
   white-space: nowrap;
+  color: #0a0a0a;
 }
 
 .sidebar .nav i {
@@ -145,6 +146,6 @@
 }
 
 .active{
-  background-color: rgba(255, 123, 0, 0.863);
+  background-color:  rgb(57, 57, 214);
   color: #fff;
 }

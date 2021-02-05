@@ -7,6 +7,7 @@ import Sidebar from "../../Sidebar/Sidebar";
 import './../../../css/UserManagement.css';
 import icon from "../../../images/delete.png";
 import { getUser } from "../../../utils/Common";
+import GetDepartment from "../../GetDepartment/GetDepartment";
 
 function UserManagement(){
     const id = getUser()
@@ -121,7 +122,9 @@ function UserManagement(){
                         {currentPosts.map(user =>(
                             <tr className="row_data" key={user.id}  >
                                 <td onClick={openE}>{user.name}</td>
-                                <td onClick={openE}>{user.subDepartment}</td>
+                                <td onClick={openE}>
+                                    <GetDepartment id={user.departmentId}/>
+                                </td>
                                 <td onClick={openE}>{user.email}</td>
                                 <td className="hide"> 
                                     <img style={{width:'25px',height:'25px'}} src={icon} alt="" onClick={toogle}/>
@@ -146,7 +149,9 @@ function UserManagement(){
                         }).map(user =>(
                             <tr className="row_data" key={user.id}  >
                                 <td onClick={openE}>{user.name}</td>
-                                <td onClick={openE}>{user.subDepartment}</td>
+                                <td onClick={openE}>
+                                    <GetDepartment id={user.departmentId}/>
+                                </td>
                                 <td onClick={openE}>{user.email}</td>
                                 <td className="hide"> 
                                     <img style={{width:'25px',height:'25px'}} src={icon} alt="" onClick={toogle}/>
