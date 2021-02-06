@@ -52,7 +52,6 @@ function CreateDocument(){
         signer_guest: '',
         date: '',
     });
-    const [company_guest, setCompanyGuest] = useState('');
     const {getRootProps, getInputProps,isDragActive,
         isDragAccept,
         isDragReject} = useDropzone({

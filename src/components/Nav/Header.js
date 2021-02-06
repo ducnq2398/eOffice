@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
-import {Navbar, Nav, NavItem} from 'reactstrap';
+import {Navbar, Nav, NavItem, UncontrolledButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap';
 import noti from '../../images/noti.png';
 import '../../css/Nav.css';
-import { getUser } from '../../utils/Common';
+import { getUser, removeUserSession } from '../../utils/Common';
 import companyListAPI from '../../api/companyListAPI';
+import { useHistory } from 'react-router-dom';
 
 function Header(){
     const user = getUser();
+    const history = useHistory();
     const companyId = user.companyId;
     const [company, setCompany] = useState([]);
     useEffect(()=>{
@@ -20,15 +22,32 @@ function Header(){
         }
         fetCompany();
     },[]);
+    function Logout() {
+        removeUserSession();
+        history.push('/');
+    }
     return(
         <Navbar>
                 <Nav>
                     <NavItem>
                         <img style={{marginTop:'25px'}} src={noti} alt="" width="30px" height="30px"/>
                     </NavItem>
-                    <NavItem>
-                        <img style={{borderRadius:'50%'}} src={user.avatar} alt="avatar" width="70px" height="70px"/>
-                    </NavItem>
+                        
+                            <UncontrolledButtonDropdown nav inNavbar>
+                                <DropdownToggle nav caret>
+                                    <img style={{borderRadius:'50%'}} src={user.avatar} alt="avatar" width="70px" height="70px"/>
+                                </DropdownToggle>
+                                <DropdownMenu right>
+                                    <DropdownItem>
+                                        View Profile
+                                    </DropdownItem>
+                                    <DropdownItem onClick={Logout}>
+                                        Logout
+                                    </DropdownItem>
+                                </DropdownMenu>
+                            </UncontrolledButtonDropdown>
+                    
+                  
                     <NavItem>
                         <p style={{fontSize:'20px',fontWeight:'bold', color:'black'}}>{user.name}</p>
                         <p style={{color:'black', marginBottom:'5px'}}>{company.name}</p>

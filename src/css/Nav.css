@@ -26,3 +26,7 @@
     width: 80vw;
     margin-right: 2rem;
 }
+.navbar .nav-link{
+    padding: 0;
+}
+

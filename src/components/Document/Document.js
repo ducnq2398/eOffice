@@ -21,6 +21,9 @@ function Document(props){
     function Contract() {
         props.history.push('/create')
     }
+    function Invoice() {
+        props.history.push('/invoice');
+    }
     return(
         <div>
             <Sidebar/>
@@ -41,7 +44,7 @@ function Document(props){
                                         </FormGroup>
                                         <FormGroup style={{marginLeft:'35%'}}>
                                             <Button color="primary" onClick={Contract}>Contract</Button>{' '}
-                                            <Button color="primary" onClick={toogle}>Invoice</Button>
+                                            <Button color="primary" onClick={Invoice}>Invoice</Button>
                                         </FormGroup>
                                     </Form>
                                 </DropdownMenu>
