@@ -17,7 +17,7 @@
   display: block;
   position: relative;
   z-index: 4;
-  background-color: rgb(57, 57, 214);
+  background-color: white;
 }
 
 .sidebar .logo:after {
@@ -27,7 +27,7 @@
   right: 15px;
   height: 1px;
   width: calc(100% - 30px);
-  background-color: rgb(57, 57, 214);
+  background-color: black;
 }
 
 .sidebar .sidebar-wrapper {

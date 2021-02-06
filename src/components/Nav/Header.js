@@ -30,8 +30,8 @@ function Header(){
                         <img style={{borderRadius:'50%'}} src={user.avatar} alt="avatar" width="70px" height="70px"/>
                     </NavItem>
                     <NavItem>
-                        <p style={{fontSize:'20px',fontWeight:'bold', color:'white'}}>{user.name}</p>
-                        <p style={{color:'white', marginBottom:'5px'}}>{company.name}</p>
+                        <p style={{fontSize:'20px',fontWeight:'bold', color:'black'}}>{user.name}</p>
+                        <p style={{color:'black', marginBottom:'5px'}}>{company.name}</p>
                     </NavItem>
                 </Nav>
         </Navbar>

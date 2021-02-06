@@ -1,7 +1,7 @@
 .noti{
     float: right;
 }
-.con:after{
+.navbar:after{
     content: '';
     position: absolute;
     bottom: 0;
@@ -12,7 +12,7 @@
 }
 
 .navbar{
-    background-color: rgb(57, 57, 214);
+    background-color: white;
     padding: 0px 0px;
 }
 
