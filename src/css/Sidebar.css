@@ -8,7 +8,11 @@
   z-index: 2;
   width: 300px;
   background: white;
-  box-shadow: 0 16px 38px -12px rgb(0 0 0 / 56%), 0 4px 25px 0 rgb(0 0 0 / 12%), 0 8px 10px -5px rgb(0 0 0 / 20%);
+  border: gray;
+  border-style: solid;
+  border-left: white;
+  border-top: white;
+  border-bottom: white;
 }
 
 .sidebar .logo{
@@ -19,24 +23,12 @@
   z-index: 4;
   background-color: white;
 }
-
-.sidebar .logo:after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  right: 15px;
-  height: 1px;
-  width: calc(100% - 30px);
-  background-color: black;
-}
-
-.sidebar .sidebar-wrapper {
-  position: relative;
-  height: calc(100vh - 75px);
-  overflow: auto;
+.bot{
+  bottom: 10px;
+  position: fixed;
   width: 300px;
-  z-index: 4;
-  padding-bottom: 30px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .sidebar .nav {
@@ -44,27 +36,11 @@
   display: block;
 }
 
-.sidebar .nav .caret {
-  margin-top: 13px;
-  position: absolute;
-  right: 6px;
-}
-
-.sidebar .nav li>a:hover,
-.sidebar .nav li>a:focus {
-  background-color: transparent;
-  outline: none;
-}
-
-.sidebar .nav li:first-child>a {
-  margin: 0 15px;
-}
-
 .sidebar .nav li:hover>a,
 .sidebar .nav li .dropdown-menu a:hover,
 .sidebar .nav li .dropdown-menu a:focus,
 .sidebar .nav li.active>[data-toggle="collapse"] {
-  background-color:  rgb(57, 57, 214);
+  background-color:  rgb(57, 94, 214);
   color: #0a0a0a;
   box-shadow: none;
 }
@@ -79,19 +55,6 @@
   margin: 15px 0;
 }
 
-.sidebar .nav li.separator:after {
-  width: calc(100% - 30px);
-  content: "";
-  position: absolute;
-  height: 1px;
-  left: 15px;
-  background-color: rgba(180, 180, 180, 0.3);
-}
-
-.sidebar .nav li.separator+li {
-  margin-top: 31px;
-}
-
 .sidebar .nav p {
   margin: 0;
   line-height: 30px;
@@ -103,19 +66,9 @@
   color: #0a0a0a;
 }
 
-.sidebar .nav i {
-  font-size: 24px;
-  float: left;
-  margin-right: 15px;
-  line-height: 30px;
-  width: 30px;
-  text-align: center;
-  color: #a9afbb;
-}
-
 .sidebar .nav li a,
 .sidebar .nav li .dropdown-menu a {
-  margin: 10px 15px 0;
+  margin: 10px 10px 0;
   border-radius: 3px;
   color: #3C4858;
   padding-left: 10px;

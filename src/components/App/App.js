@@ -1,16 +1,16 @@
 import './../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import RouterURL from '../RouterURL/RouterURL';
-import { BrowserRouter } from 'react-router-dom';
+import {BrowserRouter as Router} from 'react-router-dom';
 import '../../css/App.css';
 
 
 function App() {
   return (
-    <div className="App">
-      <BrowserRouter>
+    <Router>
+        <div className="App">
           <RouterURL></RouterURL>
-      </BrowserRouter>
-    </div>
+       </div>
+    </Router>
   );
 }
 

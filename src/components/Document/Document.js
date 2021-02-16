@@ -1,20 +1,28 @@
-import { Container, Form, FormGroup , Col, Row , Input, Button, ButtonGroup, ButtonDropdown, DropdownToggle, DropdownMenu, Table, Label } from "reactstrap";
+import { Container, Form, FormGroup,Col ,Input, Button, ButtonDropdown, DropdownToggle, DropdownMenu, Table, Label } from "reactstrap";
 import Header from "../Nav/Header";
 import '../../css/Document.css';
 import Sidebar from "../Sidebar/Sidebar";
-import Panigation from "../Panigation/Panigation";
 import { useState } from "react";
 import search from '../../images/search1.png';
 import del from '../../images/delete.png';
+import notsigned from "../../images/not-signed.png";
+import done from '../../images/true.png';
 import choo from '../../images/choo.png';
+import StepDoc from "../Sidebar/StepDoc";
+import PagDoc from "../Panigation/PagDoc";
 
 function Document(props){
     const [isOpen, setIsOpen] = useState(false);
     const toogle = () => setIsOpen(!isOpen);
+    const [postList, setPostList] = useState([]);
+    const [listAll, setListAll] = useState([]);
+    const [listContract, setListContract] = useState([]);
+    const [listInvoice, setListInvoice] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [postPerPage] = useState(15);
+    const [postPerPage] = useState(10);
     const indexOfLastPost = currentPage * postPerPage;
     const indexOfFirstPost = indexOfLastPost - postPerPage;
+    const currentPosts = postList.slice(indexOfFirstPost, indexOfLastPost);
     function paginate(pageNumber){
         setCurrentPage(pageNumber);
     }
@@ -24,6 +32,7 @@ function Document(props){
     function Invoice() {
         props.history.push('/invoice');
     }
+    
     return(
         <div>
             <Sidebar/>
@@ -49,40 +58,90 @@ function Document(props){
                                     </Form>
                                 </DropdownMenu>
                             </ButtonDropdown>
-                            <Col>
+                            <Col sm={4}>
                                 <Input type="text" name="search"/>
                                 <img className="se" src={search} alt="search"/>
                             </Col>
-                            <Col>
+                            <Col sm={4}>
                                 <Input className="selectbox" type="select" defaultValue="1" name="selectDocument">
-                                    <option value={1}>All</option>
-                                    <option value={2}>Contract</option>
-                                    <option value={3}>Invoice</option>
+                                    <option value={1} onClick={() => setPostList(listAll)}>All</option>
+                                    <option value={2} onClick={() => setPostList(listContract)}>Contract</option>
+                                    <option value={3} onClick={() => setPostList(listInvoice)}>Invoice</option>
                                 </Input>
                             </Col>
-                                <Input className="selectbox2" type="select" defaultValue="1" name="selectTime">
-                                    <option value={1}>New date</option>
-                                    <option value={2}>Contract</option>
-                                    <option value={3}>Invoice</option>
-                                </Input>
-                            <Col>
-                            <Panigation
-                                        currentPage= {currentPage}
-                                        postsPerPage={postPerPage}
-                                        totalPosts = {20}
-                                        paginate={paginate}
-                                        />
+                            <Col sm={2}>
+                                <PagDoc
+                                            currentPage= {currentPage}
+                                            postsPerPage={postPerPage}
+                                            totalPosts = {20}
+                                            paginate={paginate}
+                                            />
                             </Col>
                         </FormGroup>
                     </div>
                     <Table>
                         <tbody>
                             <tr>
-                                <td>Account name</td>
-                                <td>Title document</td>
-                                <td>status</td>
-                                <td>2021-01-01</td>
-                                <td>{<img src={del} alt="" width="25px" height="25px"/>}</td>
+                                <td>
+                                    <Label style={{fontWeight:'bold'}}>Account name</Label>
+                                    <br/>
+                                    <Label>Duc dep trai</Label>
+                                </td>
+                                <td>
+                                    <Label style={{fontWeight:'bold'}}>Title document</Label>
+                                    <br/>
+                                    <Label className="step">
+                                        <StepDoc activeStep={3}/>
+                                    </Label>
+                                </td>
+                                <td>
+                                    <Label></Label>
+                                    <br/>
+                                    <Label>
+                                        <img src={done} alt="" width="35px" height="30px"/>
+                                    </Label>
+                                </td>
+                                <td>
+                                    <Label></Label>
+                                    <br/>
+                                    <Label>2021-02-01</Label>
+                                </td>
+                                <td>
+                                    <Label></Label>
+                                    <br/>
+                                    <Label  hidden={true}><img src={del} alt="" width="25px" height="25px"/></Label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <Label style={{fontWeight:'bold'}}>Account name</Label>
+                                    <br/>
+                                    <Label>Duc dep trai</Label>
+                                </td>
+                                <td>
+                                    <Label style={{fontWeight:'bold'}}>Title document</Label>
+                                    <br/>
+                                    <Label className="step">
+                                        <StepDoc activeStep={1}/>
+                                    </Label>
+                                </td>
+                                <td>
+                                    <Label></Label>
+                                    <br/>
+                                    <Label>
+                                        <img src={notsigned} alt=""/>
+                                    </Label>
+                                </td>
+                                <td>
+                                    <Label></Label>
+                                    <br/>
+                                    <Label>2021-01-02</Label>
+                                </td>
+                                <td>
+                                    <Label></Label>
+                                    <br/>
+                                    <Label>{<img src={del} alt="" width="25px" height="25px"/>}</Label>
+                                </td>
                             </tr>
                         </tbody>
                     </Table>

@@ -1,4 +1,4 @@
-import { BrowserRouter as Router,Redirect,Route } from "react-router-dom";
+import { BrowserRouter as Router,Redirect,Route, Switch } from "react-router-dom";
 import AdminLogin from "../AdminLogin/AdminLogin";
 import AdminManager from "../AdminManager/AdminManager";
 import Login from "../Login/Login";
@@ -17,6 +17,7 @@ import DepartmentManagerment from "../AdminCompany/DepartmentManagement/Departme
 import Notification from "../Notification/Notification";
 import CreateInvoice from "../CreateDocument/CreateInvoice";
 import InvoiceContent from "../CreateDocument/InvoiceContent";
+import Profile from "../Profile/Profile";
 
 function RouterURL(){
     const user = getUser();
@@ -41,26 +42,29 @@ function RouterURL(){
     )
 
     return(
-        <Router>
-            <Route exact path="/" component={Login}/>
-            <Route path="/login" component={Login}/>
-            <Route path="/admin" component={AdminLogin}/>
-            <Route path="/forgot-password" component={ForgotPassword}/>
-            <Route path="/reset-password" component={ResetPassword}/>
-            <Route path="/error" component={Error}/>
-            <UserRoute path="/create" component={CreateDocument}/>
-            <UserRoute path="/invoice" component={CreateInvoice}/>
-            <UserRoute path="/dashboard" component={Dashboard}/>
-            <UserRoute path="/invoice-confirm" component={InvoiceContent}/>
-            <UserRoute path="/document" component={Document}/>
-            <UserRoute path="/notification" component={Notification}/>
-            <AdminRoute path="/department" component={DepartmentManagerment}/>
-            <AdminRoute path="/user-management" component={UserManagement}/>
-            <PrivateRoute path="/admin-manager" component={AdminManager}/>
-            <PrivateRoute path="/company-register" component={CompanyRegister}/>
-            <PrivateRoute path="/company-list" component={CompanyList}/>
-            <PrivateRoute path="/edit-company" component={EditCompany}/>
-        </Router>
+        <div>
+            <Switch>
+                <Route exact path="/" component={Login}/>
+                <Route path="/login" component={Login}/>
+                <Route path="/admin" component={AdminLogin}/>
+                <Route path="/forgot-password" component={ForgotPassword}/>
+                <Route path="/reset-password" component={ResetPassword}/>
+                <Route path="/error" component={Error}/>
+                <Route path="/create" component={CreateDocument}/>
+                <Route path="/invoice" component={CreateInvoice}/>
+                <Route path="/dashboard" component={Dashboard}/>
+                <Route path="/invoice-confirm" component={InvoiceContent}/>
+                <Route path="/document" component={Document}/>
+                <Route path="/notification" component={Notification}/>
+                <Route path="/department" component={DepartmentManagerment}/>
+                <Route path="/user-management" component={UserManagement}/>
+                <Route path="/admin-manager" component={AdminManager}/>
+                <Route path="/company-register" component={CompanyRegister}/>
+                <Route path="/company-list" component={CompanyList}/>
+                <Route path="/edit-company" component={EditCompany}/>
+                <Route path="/profile" component={Profile}/>
+            </Switch>
+        </div>
     );
 }
 export default RouterURL;

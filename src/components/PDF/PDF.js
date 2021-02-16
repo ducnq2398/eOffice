@@ -5,7 +5,7 @@ import next from '../../images/next.png';
 import back from '../../images/back.png';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
-function PDF(props){
+function PDF({pdf}){
     const [numPages, setNumPages] = useState('');
     const [pageNumber, setPageNumber] = useState(1);
     function onDocumentLoadSuccess({numPages}){
@@ -24,7 +24,6 @@ function PDF(props){
         changPage(1);
     }
     
-    const {pdf} = props;
     return(
         <div>
             <Document 

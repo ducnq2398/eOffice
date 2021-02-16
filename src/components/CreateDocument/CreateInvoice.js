@@ -9,7 +9,6 @@ import {useHistory } from "react-router-dom";
 import {useDropzone} from 'react-dropzone';
 import { getUser } from "../../utils/Common";
 import demo from '../../images/demo.png';
-import companyListAPI from "../../api/companyListAPI";
 import userListAPI from "../../api/userListAPI";
 
 const baseStyle = {
@@ -37,7 +36,6 @@ const baseStyle = {
     borderColor: '#ff1744'
   };
 function CreateInvoice() {
-    const companyId = getUser().companyId;
     const [listSinger, setListSigner] = useState([]);
     const history = useHistory();
     const [show, setShow] = useState(false);
@@ -63,6 +61,7 @@ function CreateInvoice() {
             setShow(true)
         }
     })
+    
     const style = useMemo(() => ({
         ...baseStyle,
         ...(isDragActive ? activeStyle : {}),
@@ -78,7 +77,7 @@ function CreateInvoice() {
         const name = target.name;
         const value = target.value;
         setDataUpload({
-            ... dataUpload,
+            ...dataUpload,
             [name] : value,
         })
     }
@@ -114,7 +113,9 @@ function CreateInvoice() {
             }
         })
     }
+    console.log(signer)
     useEffect(()=>{
+        const companyId = getUser().companyId;
         async function fetListUser(){
             try {
                 const response = await userListAPI.getUserByCompanyId(companyId);

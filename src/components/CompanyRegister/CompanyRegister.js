@@ -7,7 +7,6 @@ import ValidateCompany from '../Validation/ValidateCompany';
 import ValidateAddress from '../Validation/ValidateAddress';
 import ValidateName from '../Validation/ValidateName';
 import ValidateEmail from '../Validation/ValidateEmail';
-import ValidatePassword from '../Validation/ValidatePassword';
 import SidebarAdmin from '../Sidebar/SidebarAdmin';
 
 function CompanyRegister(){
@@ -37,10 +36,6 @@ function CompanyRegister(){
         isInValid: false
     });
     const [validEmail, setValidEmail] = useState({
-        isValid: false,
-        isInValid: false
-    });
-    const [validPassword, setValidPassword] = useState({
         isValid: false,
         isInValid: false
     });
@@ -88,20 +83,12 @@ function CompanyRegister(){
         })
     }
 
-    function checkPassword() {
-        const{isValid , isInValid} = ValidatePassword(companyRegister.applicant_password);
-        setValidPassword({
-            isValid: isValid,
-            isInValid: isInValid
-        })
-    }
-
     function handleChange(event){
         const target = event.target;
         const name = target.name;
         const value = target.value;
         setCompanyRegister({
-            ... companyRegister,
+            ...companyRegister,
             [name] : value,
         })
     }
@@ -181,7 +168,7 @@ function CompanyRegister(){
                         </ModalBody>
                         <ModalFooter>
                             <Button color="secondary" onClick={toogle}>Cancel</Button>
-                            <Button color="primary" onClick={toogle}>Created</Button>
+                            <Button color="primary" onClick={handleSubmit}>Created</Button>
                         </ModalFooter>
                     </Modal>
                 </Container>

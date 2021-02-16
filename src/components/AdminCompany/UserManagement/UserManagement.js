@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Form, FormGroup, Input, Col, ButtonGroup, Table, ButtonDropdown, DropdownToggle, DropdownMenu, Label, Modal, ModalHeader, ModalBody, Container, Alert } from "reactstrap";
+import { Button, Form, FormGroup, Input, Col, ButtonGroup, Table, ButtonDropdown, DropdownToggle, DropdownMenu, Label, Modal, ModalHeader, ModalBody, Container} from "reactstrap";
 import userListAPI from "../../../api/userListAPI";
 import Header from "../../Nav/Header";
 import Panigation from "../../Panigation/Panigation";
@@ -10,8 +10,6 @@ import { getUser } from "../../../utils/Common";
 import GetDepartment from "../../GetDepartment/GetDepartment";
 
 function UserManagement(){
-    const id = getUser()
-    const companyId = id.companyId;
     const [userList, setUserList] = useState([]);
     const [user, setUser] = useState({
         id: '',
@@ -19,7 +17,6 @@ function UserManagement(){
         subDepartment: 1,
         email:''
     })
-    const [modalInfor, setModalInfor] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [postPerPage] = useState(13);
@@ -31,9 +28,11 @@ function UserManagement(){
     const openE = () => setOpenEdit(!openEdit);
     const [search, setSearch] = useState('');
     useEffect(()=>{
+        const user = getUser();
+        const id = user.companyId;
         async function fetchUserList(){
             try {
-                const response = await userListAPI.getUserByCompanyId(companyId);
+                const response = await userListAPI.getUserByCompanyId(id);
                 setUserList(response.data);
             }catch (error) {
             console.log(error);
@@ -49,7 +48,7 @@ function UserManagement(){
         const name = target.name;
         const value = target.value;
         setUser({
-            ... user,
+            ...user,
             [name] : value,
         })
     }
@@ -146,13 +145,13 @@ function UserManagement(){
                             if(users.name.toLowerCase().includes(search.toLowerCase())){
                                 return users
                             }
-                        }).map(user =>(
-                            <tr className="row_data" key={user.id}  >
-                                <td onClick={openE}>{user.name}</td>
+                        }).map(users =>(
+                            <tr className="row_data" key={users.id}  >
+                                <td onClick={openE}>{users.name}</td>
                                 <td onClick={openE}>
-                                    <GetDepartment id={user.departmentId}/>
+                                    <GetDepartment id={users.departmentId}/>
                                 </td>
-                                <td onClick={openE}>{user.email}</td>
+                                <td onClick={openE}>{users.email}</td>
                                 <td className="hide"> 
                                     <img style={{width:'25px',height:'25px'}} src={icon} alt="" onClick={toogle}/>
                                 </td>

@@ -20,7 +20,7 @@ function Dashboard(){
                                         <Label className="title">Contract</Label>
                                     </FormGroup>
                                     <FormGroup>
-                                        <Table bordered>
+                                        <Table hover>
                                             <tbody>
                                                 <tr>
                                                     <td>Document_01</td>
@@ -51,6 +51,9 @@ function Dashboard(){
                                         </Table>
                                     </FormGroup>
                                 </Form>
+                                <div>
+                                    <Link to="/document">See more</Link>
+                                </div>
                             </Col>
                             <Col>
                                 <Form>
@@ -58,7 +61,7 @@ function Dashboard(){
                                         <Label className="title">Invoice</Label>
                                     </FormGroup>
                                     <FormGroup>
-                                        <Table bordered>
+                                        <Table hover>
                                             <tbody>
                                                 <tr>
                                                     <td>Document_01</td>
@@ -89,6 +92,9 @@ function Dashboard(){
                                         </Table>
                                     </FormGroup>
                                 </Form>
+                                <div>
+                                    <Link to="/document">See more</Link>
+                                </div>
                             </Col>
                         </Row>
                         <Col>
@@ -100,25 +106,38 @@ function Dashboard(){
                                     <Table responsive>
                                         <tbody>
                                             <tr>
-                                                <td style={{float:'left'}}>The contract documents has been signed by guest.</td>
+                                                <td style={{float:'left'}}>
+                                                    <Label>The contract documents has been signed by guest.</Label>
+                                                    <br/>
+                                                    <Link to="/">View detail</Link>
+                                                
+                                                </td>
                                                 <td>21/01/2021</td>
-                                                <td><Link to="/">View detail</Link></td>
+                                            </tr>    
+                                            <tr>
+                                                <td style={{float:'left'}}>
+                                                    <Label>The contract documents has been signed by guest.</Label>
+                                                    <Link to="/">View detail</Link>
+                                                
+                                                </td>
+                                                <td>21/01/2021</td>
+                                            </tr>    
+                                            <tr>
+                                                <td style={{float:'left'}}>
+                                                    <Label>The contract documents has been signed by guest.</Label>
+                                                    <Link to="/">View detail</Link>
+                                                
+                                                </td>
+                                                <td>21/01/2021</td>
                                             </tr>                                                
                                             <tr>
-                                                <td style={{float:'left'}}>The contract documents has been signed by guest.</td>
+                                                <td style={{float:'left'}}>
+                                                    <Label>The contract documents has been signed by guest.</Label>
+                                                    <Link to="/">View detail</Link>
+                                                
+                                                </td>
                                                 <td>21/01/2021</td>
-                                                <td><Link to="/">View detail</Link></td>
-                                            </tr>                      
-                                            <tr>
-                                                <td style={{float:'left'}}>The contract documents has been signed by guest.</td>
-                                                <td>21/01/2021</td>
-                                                <td><Link to="/">View detail</Link></td>
-                                            </tr>
-                                            <tr>
-                                                <td style={{float:'left'}}>The contract documents has been signed by guest.</td>
-                                                <td>21/01/2021</td>
-                                                <td><Link to="/">View detail</Link></td>
-                                            </tr>
+                                            </tr>    
                                         </tbody>
                                     </Table>
                                 </FormGroup>

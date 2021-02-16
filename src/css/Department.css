@@ -1,0 +1,26 @@
+.add{
+    margin-top: 5px;
+    margin-left: 5px;
+}
+.add:after{
+    content: '';
+    position: absolute;
+    height: 1px;
+    width: 100%;
+    left: 0;
+    top: 105px;
+    background-color:gray;
+}
+
+.addd{
+    width: 600px;
+    height: 130px;
+}
+
+.btn-form{
+    margin-left: 436px;
+}
+
+.colll{
+    padding: 0px 10px 0px;
+}

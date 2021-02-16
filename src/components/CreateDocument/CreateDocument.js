@@ -37,7 +37,7 @@ const baseStyle = {
     borderColor: '#ff1744'
   };
 function CreateDocument(){
-    const companyId = getUser().companyId;
+    
     const [listCompany, setListCompany] = useState([]);
     const [listSinger, setListSigner] = useState([]);
     const [listGuest, setListGuest] = useState([]);
@@ -81,8 +81,8 @@ function CreateDocument(){
         const name = target.name;
         const value = target.value;
         setDataUpload({
-            ... dataUpload,
-            [name] : value,
+            ...dataUpload,
+            [name]:value,
         })
     }
     function handleNext(){
@@ -109,6 +109,7 @@ function CreateDocument(){
     
     useEffect(()=>{
         async function fetListUser(){
+            const companyId = getUser().companyId;
             try {
                 const response = await userListAPI.getUserByCompanyId(companyId);
                 setListSigner(response.data)

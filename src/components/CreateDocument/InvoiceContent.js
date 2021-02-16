@@ -1,18 +1,17 @@
-import { Button, Container, Input, Form, FormGroup, Row, Col, Label } from "reactstrap";
+import {Container,Form, FormGroup, Row, Col, Label } from "reactstrap";
 import Header from "../Nav/Header";
 import StepInvoice from "../Sidebar/StepInvoice";
 import PDF from "../PDF/PDF";
-import { useEffect, useState} from "react";
 import '../../css/CreateDoc.css';
-import {useHistory, useLocation } from "react-router-dom";
-import { getUser } from "../../utils/Common";
-import userListAPI from "../../api/userListAPI";
+import {useLocation } from "react-router-dom";
+
 
 
 
 function InvoiceContent() {
-    const history = useHistory();
     const location = useLocation();
+    console.log(location.state.file[0],"Test");
+
     return(
         <div>
             <StepInvoice activeStep={4}/>

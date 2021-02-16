@@ -3,10 +3,7 @@ import './../../css/AdminLogin.css';
 import React, {useState } from 'react';
 import { setAdminSession} from '../../utils/Common';
 import axios from 'axios';
-import queryString from 'query-string';
 import {Alert, Button, Container, Form, FormGroup, Input} from 'reactstrap';
-import loginAPI from '../../api/loginAPI';
-import axiosClient from '../../api/axiosClient';
 
 function AdminLogin(props){
         const [adminLogin, setAdminLogin] = useState({
@@ -20,7 +17,7 @@ function AdminLogin(props){
             const name = target.name;
             const value = target.value;
             setAdminLogin({
-                ... adminLogin,
+                ...adminLogin,
                 [name] : value,
             })
         }
@@ -30,17 +27,6 @@ function AdminLogin(props){
                 username: adminLogin.username,
                 password: adminLogin.password,
             }
-            
-            // loginAPI.loginAdmin(params).then(function(res){
-            //     if(res.status==='400'){
-            //         setSubmit(true);
-            //     }else{
-            //         setUserSession(res.data.token, res.data);
-            //         props.history.push('/admin-manager');
-            //     }
-            // }).catch(function(error){
-            //     console.log(error);
-            // })
         
             axios.post('https://datnxeoffice.azurewebsites.net/api/Admins/login',params).then(function(res){
                     setAdminSession(res.data.token);

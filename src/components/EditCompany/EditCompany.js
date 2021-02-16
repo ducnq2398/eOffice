@@ -91,7 +91,7 @@ function CompanyRegister(){
         const name = target.name;
         const value = target.value;
         setEditCompanyRegister({
-            ... editCompanyRegister,
+            ...editCompanyRegister,
             [name] : value,
         })
     }
@@ -102,8 +102,9 @@ function CompanyRegister(){
     }
     useEffect(() =>{
         async function GetAdmin(){
+            const id = data.state.adminId;
             try {
-                const response = await userListAPI.getUserById(data.state.adminId);
+                const response = await userListAPI.getUserById(id);
                 setAdmin({
                     name : response.data.name,
                     email: response.data.email,
@@ -113,7 +114,7 @@ function CompanyRegister(){
             }
         }
         GetAdmin();
-    },[])
+    },[data.state.adminId])
     return (
             <div>
                 <SidebarAdmin/>

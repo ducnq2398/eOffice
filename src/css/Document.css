@@ -10,6 +10,14 @@
     
 }
 
+.step {
+    padding: 0px;
+}
+.step .MuiStepper-root {
+    display: flex;
+    padding: 0px;
+}
+
 .form-create{
     width: 100%;
     margin-left: 10%;

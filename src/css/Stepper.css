@@ -19,12 +19,4 @@
     z-index: 4;
     background-color: white;
 }
-.logo:after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    right: 15px;
-    height: 1px;
-    width: calc(100% - 30px);
-    background-color: black;
-  }
+
