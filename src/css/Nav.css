@@ -22,10 +22,16 @@
     list-style: none;
     text-align: center;
     justify-content: end;
-    width: 80vw;
+    width: 100vw;
     margin-right: 2rem;
 }
 .navbar .nav-link{
     padding: 0;
+}
+.dropdown-toggle:after {
+    display: none;
+    margin-left: .255em;
+    vertical-align: .255em;
+    content: "";
 }
 

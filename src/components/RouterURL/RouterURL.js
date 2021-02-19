@@ -63,6 +63,7 @@ function RouterURL(){
                 <Route path="/company-list" component={CompanyList}/>
                 <Route path="/edit-company" component={EditCompany}/>
                 <Route path="/profile" component={Profile}/>
+                <Route path="/error" component={Error}/>
             </Switch>
         </div>
     );

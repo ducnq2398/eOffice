@@ -1,6 +1,6 @@
 function Error(){
     return(
-        <div>
+        <div className="main-panel">
             Somethings wrong server!!!
         </div>
     )

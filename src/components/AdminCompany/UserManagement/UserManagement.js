@@ -8,9 +8,11 @@ import './../../../css/UserManagement.css';
 import icon from "../../../images/delete.png";
 import { getUser } from "../../../utils/Common";
 import GetDepartment from "../../GetDepartment/GetDepartment";
+import Switch from 'react-switch';
 
 function UserManagement(){
     const [userList, setUserList] = useState([]);
+    const [checkAcitve, setCheckActive] = useState(true);
     const [user, setUser] = useState({
         id: '',
         username: '',
@@ -52,6 +54,7 @@ function UserManagement(){
             [name] : value,
         })
     }
+    
     return(
         <div>
             <Sidebar/>
@@ -61,7 +64,7 @@ function UserManagement(){
                 <div className="form-search">
                     <FormGroup row>
                         <ButtonDropdown direction="right" isOpen={isOpen} toggle={toogle} >
-                            <DropdownToggle style={{height:'90%'}} color="primary">+Add user</DropdownToggle>
+                            <DropdownToggle style={{height:'80%', borderRadius:'1px'}} color="primary">+Add user</DropdownToggle>
                             <DropdownMenu className="form-add">
                                 <Form>
                                     <h3>Add User</h3>
@@ -111,7 +114,7 @@ function UserManagement(){
                 </div>
                 <Table hidden={search !=='' ? true : false} hover>
                     <thead>
-                        <tr>
+                        <tr style={{textAlign:'left'}}>
                             <th>Account name</th>
                             <th>Department</th>
                             <th>Email</th>
@@ -197,7 +200,10 @@ function UserManagement(){
                         </FormGroup>
                         <FormGroup row>
                             <Col>
-                                <Label>Active</Label>
+                                <Label>
+                                    <span>{checkAcitve===true ? 'Active' : 'Deactive'}</span>
+                                    <Switch onChange={()=> setCheckActive(!checkAcitve)} checked={checkAcitve}/>
+                                </Label>
                             </Col>
                         </FormGroup>
                         <FormGroup row>

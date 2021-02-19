@@ -37,7 +37,7 @@ function PDF({pdf}){
                     Page {pageNumber || (numPages ? 1 : "--")} of {numPages || "--"}
                 </p>
                 <Button hidden={pageNumber===0} type="button" color="link"  disabled={pageNumber <= 1} onClick={previousPage}>
-                    <img src={back} alt="back"/>
+                    <img src={back} alt="back" width="20px" height="20px"/>
                 </Button> {' '}
                 <Button
                 hidden={pageNumber===0}
@@ -45,7 +45,7 @@ function PDF({pdf}){
                 disabled={pageNumber >= numPages}
                 onClick={nextPage}
                 >
-                <img src={next} width="45px" height="45px" alt="next"/>
+                <img src={next} width="20px" height="20px" alt="next"/>
                 </Button>
             </div>
         </div>

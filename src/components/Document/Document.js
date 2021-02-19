@@ -80,7 +80,7 @@ function Document(props){
                         </FormGroup>
                     </div>
                     <Table>
-                        <tbody>
+                        <tbody style={{textAlign:'left'}}>
                             <tr>
                                 <td>
                                     <Label style={{fontWeight:'bold'}}>Account name</Label>

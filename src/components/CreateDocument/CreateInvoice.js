@@ -1,4 +1,4 @@
-import { Button, Container, Input, Form, FormGroup, Row, Col, Label } from "reactstrap";
+import { Button, Container, Input, Form, FormGroup, Row, Col, Label, Alert } from "reactstrap";
 import Header from "../Nav/Header";
 import StepInvoice from "../Sidebar/StepInvoice";
 import PDF from "../PDF/PDF";
@@ -47,6 +47,7 @@ function CreateInvoice() {
         signer: '',
         date: '',
     });
+    const [show2, setShow2] = useState(false);
     const {getRootProps, getInputProps,isDragActive,
         isDragAccept,
         isDragReject} = useDropzone({
@@ -102,16 +103,23 @@ function CreateInvoice() {
         fetchSigner();
     },[dataUpload.signer])
     function handleContent() {
-        history.push({
-            pathname: '/invoice-confirm',
-            state: {
-                file: file.map(url=>(
-                    url.preview
-                )),
-                data: dataUpload,
-                signer: signer
-            }
-        })
+        if(file === '' || dataUpload.title === '' || dataUpload.signer === '' || dataUpload.date===''){
+            setShow2(true)
+            setTimeout(()=>{
+                setShow2(false)
+            },2000)
+        }else{
+            history.push({
+                pathname: '/invoice-confirm',
+                state: {
+                    file: file.map(url=>(
+                        url.preview
+                    )),
+                    data: dataUpload,
+                    signer: signer
+                }
+            })
+        }
     }
     console.log(signer)
     useEffect(()=>{
@@ -155,18 +163,19 @@ function CreateInvoice() {
                                     </div>
                                 </FormGroup>
                                 <FormGroup>
-                                    <Input disabled={activeStep===1 ? false : true} type="text" name="title" placeholder="Title" required onChange={handleOnChange}/>
+                                    <Input disabled={activeStep===1 ? true : false} type="text" name="title" placeholder="Title" required onChange={handleOnChange}/>
                                 </FormGroup>
                                 <FormGroup>
-                                    <Input disabled={activeStep===2 ? false : true} type="select" name="signer" onChange={handleOnChange}>
+                                    <Input disabled={activeStep===2 ? true : false} type="select" name="signer" onChange={handleOnChange} required>
                                         <option value="">Select signer</option>
                                         {listSinger.map(signer =>(
                                             <option key={signer.id} value={signer.id}>{signer.name}</option>
                                         ))}
                                     </Input>
+                                    
                                 </FormGroup>
                                 <FormGroup>
-                                    <Input disabled={activeStep===3 ? false : true} type="date" name="date" placeholder="Expiration date" onChange={handleOnChange}/>
+                                    <Input disabled={activeStep===3 ? true : false} type="date" name="date" placeholder="Expiration date" onChange={handleOnChange} required/>
                                 </FormGroup>
                                 <FormGroup hidden={activeStep !==4 ? false : true}>
                                     <Button color="primary" outline onClick={handlePrev}>Return</Button> {' '}
@@ -176,6 +185,7 @@ function CreateInvoice() {
                                     <Button color="primary">Cancel</Button> {' '}
                                     <Button color="primary" onClick={handleContent}>Next</Button> 
                                 </FormGroup>
+                                <Alert isOpen={show2} color="warning">PLEASE CHECK YOUR INPUT</Alert>
                             </Form>
                                 
                         </Col>
@@ -194,7 +204,6 @@ function CreateInvoice() {
                                     </div>
                                 </FormGroup>
                             </Form>
-                            
                         </Col>
                     </Row>
                 </Container>

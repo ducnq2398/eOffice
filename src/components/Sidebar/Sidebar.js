@@ -1,4 +1,4 @@
-import { BrowserRouter, Link, NavLink, Router } from 'react-router-dom';
+import {NavLink,useHistory } from 'react-router-dom';
 import logo from '../../images/eoffice.png';
 import homeicon from '../../images/Home.png';
 import usericon from '../../images/user.png';
@@ -7,12 +7,23 @@ import noti from '../../images/noti.png';
 import group from '../../images/group.png';
 import '../../css/Sidebar.css'; 
 import { Col, Row } from 'reactstrap';
+import { getUser } from '../../utils/Common';
+import { useEffect, useState } from 'react';
 
+const user = getUser();
 function Sidebar(){
+    const history = useHistory();
+    const role = user.role;
+    const [show, setShow] = useState(false);
+    useEffect(()=>{
+        if(role !=='1'){
+            setShow(true);
+        }
+    },[role])
     return(
         <div className="sidebar">
             <div className="logo">
-                <img src={logo} alt="" />
+                <img src={logo} alt="" onClick={()=> history.push('/dashboard')} />
             </div>
             <div className="sidebar-wrapper">
                     <ul className="nav">
@@ -40,7 +51,7 @@ function Sidebar(){
                                 </Row>   
                             </NavLink>
                         </li>
-                        <li className="nav-item">
+                        <li className="nav-item" hidden={show}>
                             <NavLink activeClassName="active" className="nav-link" to="/user-management">
                                 <Row>
                                     <Col sm={3}>
@@ -54,7 +65,7 @@ function Sidebar(){
                                 
                             </NavLink>
                         </li>
-                        <li className="nav-item">
+                        <li className="nav-item" hidden={show}>
                             <NavLink activeClassName="active" className="nav-link" to="/department">
                                 <Row>
                                     <Col sm={3}>

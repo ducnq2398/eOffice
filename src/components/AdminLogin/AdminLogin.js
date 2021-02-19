@@ -33,6 +33,9 @@ function AdminLogin(props){
                     props.history.push('/admin-manager');
                 }).catch(function(error){
                     setSubmit(true)
+                    setTimeout(()=>{
+                        setSubmit(false)
+                    },2000)
             })
         }
         

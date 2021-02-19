@@ -106,38 +106,41 @@ function Dashboard(){
                                     <Table responsive>
                                         <tbody>
                                             <tr>
-                                                <td style={{float:'left'}}>
+                                                <td style={{float:'left', textAlign:'left'}}>
                                                     <Label>The contract documents has been signed by guest.</Label>
                                                     <br/>
                                                     <Link to="/">View detail</Link>
                                                 
                                                 </td>
                                                 <td>21/01/2021</td>
-                                            </tr>    
+                                            </tr>
                                             <tr>
-                                                <td style={{float:'left'}}>
+                                                <td style={{float:'left', textAlign:'left'}}>
                                                     <Label>The contract documents has been signed by guest.</Label>
+                                                    <br/>
                                                     <Link to="/">View detail</Link>
                                                 
                                                 </td>
                                                 <td>21/01/2021</td>
-                                            </tr>    
+                                            </tr>       
                                             <tr>
-                                                <td style={{float:'left'}}>
+                                                <td style={{float:'left', textAlign:'left'}}>
                                                     <Label>The contract documents has been signed by guest.</Label>
+                                                    <br/>
                                                     <Link to="/">View detail</Link>
                                                 
                                                 </td>
                                                 <td>21/01/2021</td>
-                                            </tr>                                                
+                                            </tr>   
                                             <tr>
-                                                <td style={{float:'left'}}>
+                                                <td style={{float:'left', textAlign:'left'}}>
                                                     <Label>The contract documents has been signed by guest.</Label>
+                                                    <br/>
                                                     <Link to="/">View detail</Link>
                                                 
                                                 </td>
                                                 <td>21/01/2021</td>
-                                            </tr>    
+                                            </tr>   
                                         </tbody>
                                     </Table>
                                 </FormGroup>

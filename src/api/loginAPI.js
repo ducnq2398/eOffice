@@ -7,7 +7,7 @@ const loginAPI = {
     },
 
     loginUser: (params) =>{
-        const url = '/Accounts/login';
+        const url = '/Accounts/loginstaff';
         return axiosClient.post(url, {params});
     }
 }

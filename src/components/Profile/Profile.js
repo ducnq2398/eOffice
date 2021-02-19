@@ -1,12 +1,47 @@
-import { Button, Col, Container, Form, FormGroup, Label, Row, Table } from "reactstrap";
-import {Link} from 'react-router-dom';
+import { Button, Col, Container, Form, FormGroup, Label, Row} from "reactstrap";
 import Header from "../Nav/Header";
 import Sidebar from "../Sidebar/Sidebar";
-import avt from '../../images/avatar.png';
+import companyListAPI from '../../api/companyListAPI';
 import '../../css/Profile.css';
-import { LabelImportant } from "@material-ui/icons";
+import { getUser, removeUserSession } from "../../utils/Common";
+import { useHistory } from "react-router-dom";
+import { useEffect, useState } from "react";
+import departmentAPI from "../../api/departmentAPI";
 
+const user = getUser();
 function Profile() {
+    const history = useHistory();
+    const [company, setCompany] = useState('');
+    const [department, setDepartment] = useState('');
+    function logout() {
+        removeUserSession();
+        history.push('/');
+    }
+    useEffect(()=>{
+        async function fetCompany() {
+            const companyId = user.companyId;
+            try {
+                const response = await companyListAPI.getCompanyById(companyId);
+                setCompany(response.data);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        fetCompany();
+    },[]);
+
+    useEffect(()=>{
+        async function fetDepartment() {
+            const id = user.departmentId;
+            try {
+                const response = await departmentAPI.getDepartmentById(id);
+                setDepartment(response.data);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        fetDepartment();
+    },[]);
     return(
         <div>
             <Sidebar/>
@@ -15,11 +50,11 @@ function Profile() {
                 <Container fluid={true}>
                     <Row className="roww">
                         <Col>
-                            <img style={{borderRadius:'50%'}} src={avt} alt="" width="150px" height="150px"/>
+                            <img style={{borderRadius:'50%'}} src={user.avatar} alt="" width="150px" height="150px"/>
                             <br/>
                             <Button color="link">Change Password</Button>
                             <br/>
-                            <Button color="link">Logout</Button>
+                            <Button color="link" onClick={logout}>Logout</Button>
                         </Col>
                         <Col>
                             <Form className="infor">
@@ -29,37 +64,37 @@ function Profile() {
                                 <FormGroup row>
                                     <Label>Name</Label>
                                     <Col style={{marginLeft:'185px'}}>
-                                        <Label style={{float:'left'}}>Tuan Account</Label>
+                                        <Label style={{float:'left'}}>{user.name}</Label>
                                     </Col>
                                 </FormGroup>
                                 <FormGroup row>
                                     <Label>Phone number</Label>
                                     <Col style={{marginLeft:'121px'}}>
-                                        <Label style={{float:'left'}}>0982525596</Label>
+                                        <Label style={{float:'left'}}>{user.phone}</Label>
                                     </Col>
                                 </FormGroup>
                                 <FormGroup row>
                                     <Label>Email</Label>
-                                    <Col style={{marginLeft:'186px'}}>
-                                        <Label style={{float:'left'}}>Tuan Account</Label>
+                                    <Col style={{marginLeft:'185px'}}>
+                                        <Label style={{float:'left'}}>{user.email}</Label>
                                     </Col>
                                 </FormGroup>
                                 <FormGroup row>
                                     <Label>Company name</Label>
                                     <Col style={{marginLeft:'111px'}}>
-                                        <Label style={{float:'left'}}>Tuan Account</Label>
+                                        <Label style={{float:'left'}}>{company.name}</Label>
                                     </Col>
                                 </FormGroup>
                                 <FormGroup row>
                                     <Label style={{float:'left'}}>Department</Label>
                                     <Col style={{marginLeft:'138px'}}>
-                                        <Label style={{float:'left'}}>CEO</Label>
+                                        <Label style={{float:'left'}}>{department.name}</Label>
                                     </Col>
                                 </FormGroup>
                                 <FormGroup row>
                                     <Label>Address</Label>
                                     <Col style={{marginLeft:'164px'}}>
-                                        <Label style={{float:'left'}}>137 Tran Binh Ha Noi</Label>
+                                        <Label style={{float:'left'}}>{user.address}</Label>
                                     </Col>
                                 </FormGroup>
                                 

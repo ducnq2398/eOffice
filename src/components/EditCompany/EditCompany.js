@@ -164,7 +164,7 @@ function CompanyRegister(){
                             </FormGroup>
                             <FormGroup check>
                                 <Label check sm={4}>
-                                    <Input type="radio" name="status" value="2" onChange={handleChange} checked={data.state.status !==1 ? true : false}/>
+                                    <Input type="radio" name="status" value="2" onChange={handleChange} checked={data.state.status === 2 ? true : false}/>
                                     Deactive
                                 </Label>
                             </FormGroup>

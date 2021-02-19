@@ -14,10 +14,11 @@ function CompanyList(){
     const [postPerPage] = useState(10);
     const [search, setSearch] = useState('');
     const [postList, setPostList] = useState([]);
+    const [listActive, setListActive] = useState([]);
     const indexOfLastPost = currentPage * postPerPage;
     const indexOfFirstPost = indexOfLastPost - postPerPage;
-    const currentPosts = postList.slice(indexOfFirstPost, indexOfLastPost);
-
+    const currentPosts = postList.slice(indexOfFirstPost, indexOfLastPost)
+    
     function paginate(pageNumber){
         setCurrentPage(pageNumber);
     }
@@ -32,7 +33,25 @@ function CompanyList(){
         }
         fetListData();
     },[]);
-    
+    function Active() {
+        setListActive(
+            postList.filter(data =>{
+                if(data.status===1){
+                    return data
+                }
+            })    
+        )
+        console.log(listActive)
+    }
+    function listDeactive() {
+        setPostList(
+            postList.filter(data =>{
+                if(data.status!==1){
+                    return data
+                }
+            })    
+        )
+    }
     return(
         <div>
             <SidebarAdmin/>
@@ -52,8 +71,8 @@ function CompanyList(){
                                     </DropdownToggle>
                                     <DropdownMenu>
                                         <DropdownItem>All</DropdownItem>
-                                        <DropdownItem >Active</DropdownItem>
-                                        <DropdownItem>Deactive</DropdownItem>
+                                        <DropdownItem onClick={Active} >Active</DropdownItem>
+                                        <DropdownItem onClick={listDeactive}>Deactive</DropdownItem>
                                     </DropdownMenu>
                                     </Dropdown>
                                 </Col>

@@ -1,6 +1,6 @@
 import '../../css/Login.css';
 import eoffice from './../../images/logo.png';
-import {Link} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import fpt from '../../images/fpt.png';
 import support from '../../images/support.png';
 import {Alert, Button, Col,Row, Container, Form, FormGroup, Input} from 'reactstrap';
@@ -10,7 +10,8 @@ import { getUser, setUserSession } from '../../utils/Common';
 import axios from 'axios';
 import md5 from 'md5';
 
-function Login(props){
+function Login(){
+    const history = useHistory();
     const [getData, setGetData] =useState({
         username: '',
         password: '',
@@ -35,15 +36,18 @@ function Login(props){
             email: getData.username,
             password: md5pass.trim().toString(),
         }
-        axios.post('https://datnxeoffice.azurewebsites.net/api/Accounts/login',params).then(function(res){
+        axios.post('https://datnxeoffice.azurewebsites.net/api/Accounts/loginstaff',params).then(function(res){
             setUserSession(res.data.token, res.data);
-            if(res.data.roleId===1){
-                props.history.push('/dashboard');
+            if(res.data.role!==''){
+                history.push('/dashboard');
             }else{
-                props.history.push('/admin-manager');
+                history.push('/admin-manager');
             }
         }).catch(function(error){
-            setSubmit(true)
+            setSubmit(true);
+            setTimeout(()=>{
+                setSubmit(false)
+            },2000)
         })
     }
     return(

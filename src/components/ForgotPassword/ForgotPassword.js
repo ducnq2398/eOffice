@@ -3,6 +3,7 @@ import {Button, Col, Container, Form, FormGroup, Input, Modal, ModalBody, ModalF
 import logo from '../../images/logo.png';
 import ValidatePhone from "../Validation/ValidatePhone";
 import '../../css/ForgotPassword.css';
+import CountDown from 'react-countdown';
 
 function ForgotPassword(){
     const [phone, setPhone] = useState('');
@@ -24,6 +25,14 @@ function ForgotPassword(){
             isInvalid: isInvalid,
         })
     }
+    const renderer = ({seconds, completed }) => {
+        if (completed) {
+            
+        } else {
+          // Render a countdown
+          return <span>{seconds}</span>;
+        }
+      };
     return(
         <Container className="a">
             <Form className="forgot">
@@ -48,7 +57,14 @@ function ForgotPassword(){
                             <span>Please enter the OTP sent to Phone number to retrieve your password</span>
                         </FormGroup>
                         <FormGroup>
-                            <Input valid={vaildPhone.isValid} invalid={vaildPhone.isInvalid} onChange={handleOnChange} onBlur={checkPhone} type="text" name="otp"/>
+                            <Row>
+                                <Col sm={6}>
+                                    <Input valid={vaildPhone.isValid} invalid={vaildPhone.isInvalid} onChange={handleOnChange} onBlur={checkPhone} type="text" name="otp"/>
+                                </Col>
+                                <Col sm={2}>
+                                    <CountDown date={Date.now() + 59000} renderer={renderer}/>s
+                                </Col>
+                            </Row>
                         </FormGroup>
                     </Form>
                 </ModalBody>

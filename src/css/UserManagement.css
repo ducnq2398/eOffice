@@ -36,6 +36,10 @@
 .hide{
     display: none;
 }
+
+.row_data{
+    text-align: left;
+}
 .row_data:hover .hide{
     display: block;
 }
