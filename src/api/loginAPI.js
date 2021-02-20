@@ -2,12 +2,12 @@ import axiosClient from './axiosClient';
 
 const loginAPI = {
     loginAdmin: (params) =>{
-        const url = '/Admins/login';
+        const url = '/admins/login';
         return axiosClient.post(url, { params });
     },
 
     loginUser: (params) =>{
-        const url = '/Accounts/loginstaff';
+        const url = '/accounts/login';
         return axiosClient.post(url, {params});
     }
 }

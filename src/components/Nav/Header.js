@@ -45,7 +45,7 @@ function Header(){
                       
                     <UncontrolledButtonDropdown nav inNavbar>
                         <DropdownToggle nav caret>
-                            <img style={{borderRadius:'50%'}} src={user.avatar} alt="avatar" width="70px" height="70px"/>
+                            <img style={{borderRadius:'50%'}} src={user.profilePicture} alt="avatar" width="70px" height="70px"/>
                         </DropdownToggle>
                         <DropdownMenu right>
                             <DropdownItem onClick={()=> history.push('/profile')}>
@@ -57,8 +57,8 @@ function Header(){
                         </DropdownMenu>
                     </UncontrolledButtonDropdown>
                     <NavItem>
-                        <p style={{fontSize:'20px',fontWeight:'bold', color:'black'}}>{company.name}</p>
-                        <p style={{color:'black', marginBottom:'5px'}}>{user.name}</p>
+                        <p style={{fontSize:'20px',fontWeight:'bold', color:'black'}}>{user.displayName}</p>
+                        <p style={{color:'black', marginBottom:'5px'}}>{user.displayName}</p>
                     </NavItem>
                 </Nav>
         </Navbar>

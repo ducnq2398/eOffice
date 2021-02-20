@@ -28,7 +28,7 @@ function AdminLogin(props){
                 password: adminLogin.password,
             }
         
-            axios.post('https://datnxeoffice.azurewebsites.net/api/Admins/login',params).then(function(res){
+            axios.post('https://datnxeoffice.azurewebsites.net/api/admins/login',params).then(function(res){
                     setAdminSession(res.data.token);
                     props.history.push('/admin-manager');
                 }).catch(function(error){

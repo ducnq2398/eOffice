@@ -2,15 +2,15 @@ import axiosClient from './axiosClient';
 
 const userListAPI = {
     getAll: () =>{
-        const url = 'Accounts/getall';
+        const url = 'accounts/getall';
         return axiosClient.get(url);
     },
     getUserByCompanyId: (id) =>{
-        const url = `Accounts/getbycompany?id=${id}`;
+        const url = `accounts/getbycompany?id=${id}`;
         return axiosClient.get(url);
     },
     getUserById: (id) =>{
-        const url = `Accounts/${id}`;
+        const url = `accounts/${id}`;
         return axiosClient.get(url);
     }
 }

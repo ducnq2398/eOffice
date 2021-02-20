@@ -52,18 +52,17 @@ function RouterURL(){
                 <Route path="/error" component={Error}/>
                 <Route path="/create" component={CreateDocument}/>
                 <Route path="/invoice" component={CreateInvoice}/>
-                <Route path="/dashboard" component={Dashboard}/>
-                <Route path="/invoice-confirm" component={InvoiceContent}/>
-                <Route path="/document" component={Document}/>
-                <Route path="/notification" component={Notification}/>
+                <UserRoute path="/dashboard" component={Dashboard}/>
+                <UserRoute path="/invoice-confirm" component={InvoiceContent}/>
+                <UserRoute path="/document" component={Document}/>
+                <UserRoute path="/notification" component={Notification}/>
                 <Route path="/department" component={DepartmentManagerment}/>
                 <Route path="/user-management" component={UserManagement}/>
-                <Route path="/admin-manager" component={AdminManager}/>
-                <Route path="/company-register" component={CompanyRegister}/>
-                <Route path="/company-list" component={CompanyList}/>
-                <Route path="/edit-company" component={EditCompany}/>
-                <Route path="/profile" component={Profile}/>
-                <Route path="/error" component={Error}/>
+                <PrivateRoute path="/admin-manager" component={AdminManager}/>
+                <PrivateRoute path="/company-register" component={CompanyRegister}/>
+                <PrivateRoute path="/company-list" component={CompanyList}/>
+                <PrivateRoute path="/edit-company" component={EditCompany}/>
+                <UserRoute path="/profile" component={Profile}/>
             </Switch>
         </div>
     );

@@ -2,7 +2,7 @@ import axiosClient from './axiosClient';
 
 const departmentAPI = {
     getDepartmentById: (id) =>{
-        const url = `Departments/${id}`;
+        const url = `departments/${id}`;
         return axiosClient.get(url);
     }
 }

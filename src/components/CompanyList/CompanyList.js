@@ -13,8 +13,8 @@ function CompanyList(){
     const [currentPage, setCurrentPage] = useState(1);
     const [postPerPage] = useState(10);
     const [search, setSearch] = useState('');
+    const [data, setData] = useState([]);
     const [postList, setPostList] = useState([]);
-    const [listActive, setListActive] = useState([]);
     const indexOfLastPost = currentPage * postPerPage;
     const indexOfFirstPost = indexOfLastPost - postPerPage;
     const currentPosts = postList.slice(indexOfFirstPost, indexOfLastPost)
@@ -27,6 +27,7 @@ function CompanyList(){
             try {
                 const response = await companyListAPI.getAll();
                 setPostList(response.data)
+                setData(response.data)
             } catch (error) {  
                 console.log(error)
             }
@@ -34,14 +35,13 @@ function CompanyList(){
         fetListData();
     },[]);
     function Active() {
-        setListActive(
+        setPostList(
             postList.filter(data =>{
                 if(data.status===1){
                     return data
                 }
             })    
         )
-        console.log(listActive)
     }
     function listDeactive() {
         setPostList(
@@ -51,6 +51,9 @@ function CompanyList(){
                 }
             })    
         )
+    }
+    function All(){
+        setPostList(data)
     }
     return(
         <div>
@@ -126,7 +129,7 @@ function CompanyList(){
                         </tr>
                     </thead>
                     <tbody>
-                        {postList.filter((data) =>{
+                        {data.filter((data) =>{
                             if(data.name.toLowerCase().includes(search.toLowerCase())){
                                 return data
                             }

@@ -137,7 +137,7 @@ function UserManagement(){
                 </Table>
                 <Table hidden={search=== '' ? true : false} hover>
                     <thead>
-                        <tr>
+                        <tr style={{textAlign:'left'}}>
                             <th>Account name</th>
                             <th>Department</th>
                             <th>Email</th>
@@ -149,7 +149,7 @@ function UserManagement(){
                                 return users
                             }
                         }).map(users =>(
-                            <tr className="row_data" key={users.id}  >
+                            <tr className="row_data" key={users.id} style={{textAlign:'left'}} >
                                 <td onClick={openE}>{users.name}</td>
                                 <td onClick={openE}>
                                     <GetDepartment id={users.departmentId}/>

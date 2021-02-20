@@ -12,10 +12,27 @@
 
 .step {
     padding: 0px;
+    width: 340px;
 }
 .step .MuiStepper-root {
     display: flex;
     padding: 0px;
+}
+.col-doc{
+    flex-basis: 0;
+    flex-grow: 73;
+    max-width: 10%;
+}
+.col-status{
+    flex-basis: 0;
+    flex-grow: 73;
+    max-width: 10%;
+}
+.col-pag{
+    flex-basis: 0;
+    flex-grow: 73;
+    max-width: 10%;
+    margin-left: 15%;
 }
 
 .form-create{
@@ -32,7 +49,7 @@
     height:27px;
 }
 .selectbox{
-    width: 27%;
+    width: 100%;
     margin-left: 40px;
 }
 .selectbox2{

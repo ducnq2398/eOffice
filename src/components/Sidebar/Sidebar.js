@@ -10,16 +10,10 @@ import { Col, Row } from 'reactstrap';
 import { getUser } from '../../utils/Common';
 import { useEffect, useState } from 'react';
 
-const user = getUser();
 function Sidebar(){
     const history = useHistory();
-    const role = user.role;
     const [show, setShow] = useState(false);
-    useEffect(()=>{
-        if(role !=='1'){
-            setShow(true);
-        }
-    },[role])
+   
     return(
         <div className="sidebar">
             <div className="logo">
