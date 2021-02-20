@@ -36,7 +36,7 @@ function CompanyList(){
     },[]);
     function Active() {
         setPostList(
-            postList.filter(data =>{
+            data.filter(data =>{
                 if(data.status===1){
                     return data
                 }
@@ -45,7 +45,7 @@ function CompanyList(){
     }
     function listDeactive() {
         setPostList(
-            postList.filter(data =>{
+            data.filter(data =>{
                 if(data.status!==1){
                     return data
                 }
