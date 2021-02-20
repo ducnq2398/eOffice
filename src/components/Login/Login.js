@@ -4,9 +4,9 @@ import {Link, useHistory} from 'react-router-dom';
 import fpt from '../../images/fpt.png';
 import support from '../../images/support.png';
 import {Alert, Button, Col,Row, Container, Form, FormGroup, Input} from 'reactstrap';
-import { useEffect, useState } from 'react';
+import {useState } from 'react';
 import loginAPI from '../../api/loginAPI';
-import { getUser, setUserSession } from '../../utils/Common';
+import {setUserSession } from '../../utils/Common';
 import axios from 'axios';
 import md5 from 'md5';
 
@@ -17,6 +17,7 @@ function Login(){
         password: '',
     })
     const [submit, setSubmit] = useState(false);
+   
 
     function handleGetData(e){
         const target = e.target;
@@ -27,7 +28,6 @@ function Login(){
             [name] : value,
         })
     }
-    
 
     function handleSubmit(e){
         e.preventDefault();
@@ -36,8 +36,8 @@ function Login(){
             email: getData.username,
             password: md5pass.trim().toString(),
         }
-        axios.post('https://datnxeoffice.azurewebsites.net/api/Accounts/login',params).then(function(res){
-            setUserSession(res.data.idToken, res.data);
+        axios.post('https://datnxeoffice.azurewebsites.net/api/accounts/loginauthen',params).then(function(res){
+            setUserSession(res.data.token, res.data);
             if(res.data.role!==''){
                 history.push('/dashboard');
             }else{
@@ -50,6 +50,7 @@ function Login(){
             },2000)
         })
     }
+    
     return(
             <Container fluid={true} className="b">
                 <Row>

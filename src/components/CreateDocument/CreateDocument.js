@@ -20,6 +20,9 @@ const baseStyle = {
     borderWidth: 2,
     borderRadius: 5,
     height: '50px',
+    width: '50%',
+    marginLeft:'auto',
+    marginRight:'auto',
     backgroundColor: '#000000f',
     color: 'black',
     outline: 'none',
@@ -45,6 +48,7 @@ function CreateDocument(){
     const [show, setShow] = useState(false);
     const [activeStep, setActiveStep] = useState(0);
     const [file, setFile] = useState([]);
+    const [signer, setSigner] = useState();
     const [dataUpload, setDataUpload] =useState({
         title : '',
         signer: '',
@@ -62,7 +66,6 @@ function CreateDocument(){
                     preview: URL.createObjectURL(url)
                 }))
             )
-            setActiveStep(1)
             setShow(true)
         }
     })
@@ -131,6 +134,19 @@ function CreateDocument(){
         }
         fetListGuest();
     },[dataUpload.company_guest]);
+
+    function handleContent() {
+        history.push({
+            pathname: '/contract-confirm',
+            state: {
+                file: file.map(url=>(
+                    url.preview
+                )),
+                data: dataUpload,
+                signer: signer
+            }
+        })
+    }
     return(
         <div>
             <VerticalLinearStepper activeStep={activeStep} />
@@ -138,68 +154,69 @@ function CreateDocument(){
             <Header/>
             <Container fluid={true}>
                 <Row>
-                    <Col>
-                        <Form className="form-upload">
-                            <FormGroup>
-                                <Label>Document information input</Label>
-                            </FormGroup>
-                            <FormGroup>
-                                <Input type="text" disabled defaultValue="Contract"/>
-                            </FormGroup>
-                            <FormGroup>
-                                <div {... getRootProps({style})}>
-                                    <input {... getInputProps()}/>
-                                    <div>
-                                        <img style={{float:'left'}} src={up} alt=""/>
-                                        {file.map(url =>(
-                                            <div key={url.name}>
-                                                <p>{url.name}</p>
-                                            </div>
-                                        ))}
-                                    </div>
+                    <Col className="form-upload">
+                                <div hidden={activeStep===0 ? false : true} style={{marginTop:'30%'}}>
+                                    <Label style={{fontSize:'30px', fontWeight:'bold', color:'blue'}}>Document information input</Label>
+                                    <br/>
+                                    <Label>Type Document</Label>
+                                    <br/>
+                                    <Input style={{textAlign:'center', width:'50%', marginLeft:'auto',marginRight:'auto'}} disabled={true} type="text" defaultValue="Contract"/>
+                                    <br/>
+                                    <Label>Choose file</Label>
+                                    <div {... getRootProps({style})}>
+                                        <input {... getInputProps()}/>
+                                        <div>
+                                            <img style={{float:'left', marginTop:'7px'}} src={up} alt=""/>
+                                            {file.map(url =>(
+                                                <div key={url.name}>
+                                                    <p>{url.name}</p>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div> 
                                 </div>
-                            </FormGroup>
-                            <FormGroup>
-                                <Input disabled={activeStep===1 ? false : true} type="text" name="title" placeholder="Title" required onChange={handleOnChange}/>
-                            </FormGroup>
-                            <FormGroup>
-                                <Input disabled={activeStep===2 ? false : true} type="select" name="signer" onChange={handleOnChange}>
-                                    <option value="">Select signer</option>
-                                    {listSinger.map(signer =>(
-                                        <option key={signer.id} value={signer.id}>{signer.name}</option>
-                                    ))}
-                                </Input>
-                            </FormGroup>
-                            <FormGroup>
-                                <Input disabled={activeStep===3 ? false : true} type="select" name="company_guest" onChange={handleOnChange}>
-                                    <option value="">Select company guest</option>
-                                    {listCompany.map(company =>(
-                                        <option key={company.id} value={company.id}>{company.name}</option>
-                                    ))}
-                                </Input>
-                            </FormGroup>
-                            <FormGroup>
-                                <Input disabled={activeStep===4 ? false : true} type="select" name="signer_guest" onChange={handleOnChange}>
-                                    <option value="">Select guest</option>
-                                    {listGuest.map(guest =>(
-                                        <option key={guest.id} value={guest.id}>{guest.name}</option>
-                                    ))}
-                                </Input>
-                            </FormGroup>
-                            <FormGroup>
-                                <Input disabled={activeStep===5 ? false : true} type="date" name="date" placeholder="Expiration date" onChange={handleOnChange}/>
-                            </FormGroup>
-                            <FormGroup hidden={activeStep !==6 ? false : true}>
-                                <Button color="primary" outline onClick={handlePrev}>Return</Button> {' '}
-                                <Button color="primary" outline onClick={handleNext}>Next</Button>
-                            </FormGroup>
-                            <FormGroup hidden={activeStep===6 ? false : true}>
-                                <Button color="primary">Cancel</Button> {' '}
-                                <Button color="primary">Create</Button> 
-                            </FormGroup>
-                        </Form>
-                            
-                    </Col>
+                                <div hidden={activeStep===1 ? false : true} style={{marginTop:'30%'}}>
+                                    <Label>Title Document</Label>
+                                    <Input style={{width:'50%', marginLeft:'auto', marginRight:'auto'}} type="text" name="title" placeholder="Title" required onChange={handleOnChange}/>
+                                </div>
+                                <div hidden={activeStep===2 ? false : true} style={{marginTop:'30%'}}>
+                                    <Label>Select Signer</Label>
+                                    <Input style={{width:'50%', marginLeft:'auto', marginRight:'auto'}} type="select" name="signer" onChange={handleOnChange} required>
+                                        <option value="">Select signer</option>
+                                        {listSinger.map(signer =>(
+                                            <option key={signer.id} value={signer.id}>{signer.name}</option>
+                                        ))}
+                                    </Input>
+                                </div>
+                                <div hidden={activeStep===3 ? false : true} style={{marginTop:'30%'}}>
+                                    <Label>Select Company Guest</Label>
+                                    <Input style={{width:'50%', marginLeft:'auto', marginRight:'auto'}} type="select" name="signer" onChange={handleOnChange} required>
+                                        <option value="">Select company guest</option>
+                                            {listCompany.map(company =>(
+                                                <option key={company.id} value={company.id}>{company.name}</option>
+                                        ))}
+                                    </Input>
+                                </div>
+                                <div hidden={activeStep===4 ? false : true} style={{marginTop:'30%'}}>
+                                    <Label>Select Signer Guest</Label>
+                                    <Input style={{width:'50%', marginLeft:'auto', marginRight:'auto'}} type="select" name="signer" onChange={handleOnChange} required>
+                                        <option value="">Select signer guest</option>
+                                            {listGuest.map(guest =>(
+                                                <option key={guest.id} value={guest.id}>{guest.name}</option>
+                                        ))}
+                                    </Input>
+                                </div>
+                                <div hidden={activeStep===5 ? false : true} style={{marginTop:'30%'}}>
+                                    <Label>Expiration Date</Label>
+                                    <Input style={{width:'50%', marginLeft:'auto', marginRight:'auto'}} type="date" name="date" placeholder="Expiration date" onChange={handleOnChange} required/>
+                                </div>
+                                
+                                <div style={{marginTop:'20px'}}>
+                                    <Button hidden={activeStep===0 ? true : false} color="primary" onClick={handlePrev}>Return</Button> {' '}
+                                    <Button hidden={activeStep===5 ? true : false} style={{width:'72px'}} color="primary" onClick={handleNext}>Next</Button>
+                                    <Button hidden={activeStep===5 ? false : true}style={{width:'72px'}} color="primary" onClick={handleContent}>Next</Button>
+                                </div>
+                        </Col>
                     <Col>
                         <Form className="form-doc">
                             <FormGroup row>

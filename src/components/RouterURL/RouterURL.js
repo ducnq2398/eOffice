@@ -18,6 +18,7 @@ import Notification from "../Notification/Notification";
 import CreateInvoice from "../CreateDocument/CreateInvoice";
 import InvoiceContent from "../CreateDocument/InvoiceContent";
 import Profile from "../Profile/Profile";
+import ContractContent from "../CreateDocument/ContractContent";
 
 function RouterURL(){
     const user = getUser();
@@ -50,10 +51,11 @@ function RouterURL(){
                 <Route path="/forgot-password" component={ForgotPassword}/>
                 <Route path="/reset-password" component={ResetPassword}/>
                 <Route path="/error" component={Error}/>
-                <Route path="/create" component={CreateDocument}/>
+                <Route path="/contract" component={CreateDocument}/>
                 <Route path="/invoice" component={CreateInvoice}/>
                 <UserRoute path="/dashboard" component={Dashboard}/>
                 <UserRoute path="/invoice-confirm" component={InvoiceContent}/>
+                <UserRoute path="/contract-confirm" component={ContractContent}/>
                 <UserRoute path="/document" component={Document}/>
                 <UserRoute path="/notification" component={Notification}/>
                 <Route path="/department" component={DepartmentManagerment}/>

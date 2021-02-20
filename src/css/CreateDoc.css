@@ -23,19 +23,13 @@
     margin-left: 30px;
   }
 
-  .form-upload Label{
-    color: blue;
-    font-size: 25px;
-    font-weight: bolder;
-    float: left;
-    margin-bottom: 2rem;
-  }
   .form-upload Input{
     height: 45px;
   }
 
   .form-upload Input:selection{
-    height: 50px;
+    height: 40px;
+    width: 10%;
   }
 
   .form-upload .form-group{
@@ -44,3 +38,25 @@
   .form-upload .form-control{
     height: 50px;
   }
+  .form-upload ._2iA8p44d0WZ-WqRBGcAuEV {
+    border-radius: 4px;
+    padding: 5px;
+    min-height: 22px;
+    position: relative;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+.form-upload ._3vt7_Mh4hRCFbp__dFqBCI ul {
+  display: block;
+  padding: 0;
+  margin: 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  max-height: 250px;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  overflow-y: auto;
+}
+ 

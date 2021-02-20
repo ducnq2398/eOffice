@@ -25,7 +25,7 @@ function Document(props){
         setCurrentPage(pageNumber);
     }
     function Contract() {
-        props.history.push('/create')
+        props.history.push('/contract')
     }
     function Invoice() {
         props.history.push('/invoice');

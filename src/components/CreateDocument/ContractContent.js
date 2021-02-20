@@ -1,14 +1,15 @@
 import {Container,Form, FormGroup, Row, Col, Label, Button, Modal, ModalFooter, ModalHeader} from "reactstrap";
 import Header from "../Nav/Header";
-import StepInvoice from "../Sidebar/StepInvoice";
+import StepContract from "../Sidebar/Stepper";
 import PDF from "../PDF/PDF";
 import '../../css/CreateDoc.css';
 import {useHistory, useLocation } from "react-router-dom";
 import { useState } from "react";
 
-function InvoiceContent() {
+function ContractContent() {
     const location = useLocation();
     const history = useHistory();
+
     const [create, setCreate] = useState(false);
     function toogle() {
         setCreate(!create)
@@ -17,7 +18,7 @@ function InvoiceContent() {
 
     return(
         <div>
-            <StepInvoice activeStep={4}/>
+            <StepContract activeStep={6}/>
             <div className="main-panel">
                 <Header/>
                 <Container fluid={true}>
@@ -32,7 +33,7 @@ function InvoiceContent() {
                                         <p style={{float:'right', fontSize:'20px'}}>Type Document:</p>
                                     </Col>
                                     <Col>
-                                        <p style={{float:'left', fontSize:'20px'}}>Invoice</p>
+                                        <p style={{float:'left', fontSize:'20px'}}>Contract</p>
                                     </Col>
                                 </FormGroup>
                                 <FormGroup row>
@@ -48,7 +49,23 @@ function InvoiceContent() {
                                         <p style={{float:'right', fontSize:'20px'}}>Signer:</p>
                                     </Col>
                                     <Col>
-                                        <p style={{float:'left', fontSize:'20px'}}>{location.state.signer.name}</p>
+                                        <p style={{float:'left', fontSize:'20px'}}></p>
+                                    </Col>
+                                </FormGroup>
+                                <FormGroup row>
+                                    <Col sm={5}>
+                                        <p style={{float:'right', fontSize:'20px'}}>Company Guest:</p>
+                                    </Col>
+                                    <Col>
+                                        <p style={{float:'left', fontSize:'20px'}}></p>
+                                    </Col>
+                                </FormGroup>
+                                <FormGroup row>
+                                    <Col sm={5}>
+                                        <p style={{float:'right', fontSize:'20px'}}>Signer Guest:</p>
+                                    </Col>
+                                    <Col>
+                                        <p style={{float:'left', fontSize:'20px'}}></p>
                                     </Col>
                                 </FormGroup>
                                 <FormGroup row>
@@ -56,7 +73,7 @@ function InvoiceContent() {
                                         <p style={{float:'right', fontSize:'20px'}}>The expiration date:</p>
                                     </Col>
                                     <Col>
-                                        <p style={{float:'left', fontSize:'20px'}}>{location.state.data.date}</p>
+                                        <p style={{float:'left', fontSize:'20px'}}></p>
                                     </Col>
                                 </FormGroup>
                                 <div>
@@ -89,4 +106,4 @@ function InvoiceContent() {
         </div>
     );
 }
-export default InvoiceContent;
+export default ContractContent;

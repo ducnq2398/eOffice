@@ -3,6 +3,10 @@ import { Container, FormGroup, ButtonDropdown, DropdownToggle, DropdownMenu, Col
 import Header from "../../Nav/Header";
 import Sidebar from "../../Sidebar/Sidebar";
 import '../../../css/Department.css';
+import TreeView from '@material-ui/lab/TreeView';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+// import { TreeItem } from "@material-ui/lab";
 
 function DepartmentManagerment() {
     const [isOpen, setIsOpen] = useState(false);
@@ -41,6 +45,13 @@ function DepartmentManagerment() {
                                 </DropdownMenu>
                             </ButtonDropdown>
                         </FormGroup>
+                    </div>
+                    <div>
+                        {/* <TreeView defaultCollapseIcon={<ExpandMoreIcon/>} defaultExpandIcon={<ChevronRightIcon/>}>
+                            <TreeItem nodeId="1" label="AAAA">
+                                <TreeItem nodeId="2" label="BBB"/>
+                            </TreeItem>
+                        </TreeView> */}
                     </div>
                 </Container>
             </div>

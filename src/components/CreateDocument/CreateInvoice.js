@@ -10,6 +10,7 @@ import {useDropzone} from 'react-dropzone';
 import { getUser } from "../../utils/Common";
 import demo from '../../images/demo.png';
 import userListAPI from "../../api/userListAPI";
+import {Multiselect} from 'multiselect-react-dropdown';
 
 const baseStyle = {
     flex: 1,
@@ -19,6 +20,9 @@ const baseStyle = {
     borderWidth: 2,
     borderRadius: 5,
     height: '50px',
+    width: '50%',
+    marginLeft:'auto',
+    marginRight:'auto',
     backgroundColor: '#000000f',
     color: 'black',
     outline: 'none',
@@ -47,7 +51,6 @@ function CreateInvoice() {
         signer: '',
         date: '',
     });
-    const [show2, setShow2] = useState(false);
     const {getRootProps, getInputProps,isDragActive,
         isDragAccept,
         isDragReject} = useDropzone({
@@ -58,7 +61,6 @@ function CreateInvoice() {
                     preview: URL.createObjectURL(url)
                 }))
             )
-            setActiveStep(1)
             setShow(true)
         }
     })
@@ -103,27 +105,24 @@ function CreateInvoice() {
         fetchSigner();
     },[dataUpload.signer])
     function handleContent() {
-        if(file === '' || dataUpload.title === '' || dataUpload.signer === '' || dataUpload.date===''){
-            setShow2(true)
-            setTimeout(()=>{
-                setShow2(false)
-            },2000)
-        }else{
-            history.push({
-                pathname: '/invoice-confirm',
-                state: {
-                    file: file.map(url=>(
-                        url.preview
-                    )),
-                    data: dataUpload,
-                    signer: signer
-                }
-            })
-        }
+        history.push({
+            pathname: '/invoice-confirm',
+            state: {
+                file: file.map(url=>(
+                    url.preview
+                )),
+                data: dataUpload,
+                signer: signer
+            }
+        })
     }
-    console.log(signer)
+    const data = [
+        {siger: 'Duc', id: 1},
+        {siger: 'Name', id: 2}
+    ]
+    const [option] = useState(data)
     useEffect(()=>{
-        const companyId = getUser().companyId;
+        const companyId = 1;
         async function fetListUser(){
             try {
                 const response = await userListAPI.getUserByCompanyId(companyId);
@@ -141,53 +140,59 @@ function CreateInvoice() {
                 <Header/>
                 <Container fluid={true}>
                     <Row>
-                        <Col>
-                            <Form className="form-upload">
-                                <FormGroup>
-                                    <Label>Document information input</Label>
-                                </FormGroup>
-                                <FormGroup>
-                                    <Input type="text" disabled defaultValue="Invoice"/>
-                                </FormGroup>
-                                <FormGroup>
+                        <Col className="form-upload">
+                                <div hidden={activeStep===0 ? false : true} style={{marginTop:'30%'}}>
+                                    <Label style={{fontSize:'30px', fontWeight:'bold', color:'blue'}}>Document information input</Label>
+                                    <br/>
+                                    <Label>Type Document</Label>
+                                    <br/>
+                                    <Input style={{textAlign:'center', width:'50%', marginLeft:'auto',marginRight:'auto'}} disabled={true} type="text" defaultValue="Invoice"/>
+                                    <br/>
+                                    <Label>Choose file</Label>
                                     <div {... getRootProps({style})}>
                                         <input {... getInputProps()}/>
                                         <div>
-                                            <img style={{float:'left'}} src={up} alt=""/>
+                                            <img style={{float:'left', marginTop:'7px'}} src={up} alt=""/>
                                             {file.map(url =>(
                                                 <div key={url.name}>
                                                     <p>{url.name}</p>
                                                 </div>
                                             ))}
                                         </div>
-                                    </div>
-                                </FormGroup>
-                                <FormGroup>
-                                    <Input disabled={activeStep===1 ? true : false} type="text" name="title" placeholder="Title" required onChange={handleOnChange}/>
-                                </FormGroup>
-                                <FormGroup>
-                                    <Input disabled={activeStep===2 ? true : false} type="select" name="signer" onChange={handleOnChange} required>
+                                    </div> 
+                                </div>
+                                <div hidden={activeStep===1 ? false : true} style={{marginTop:'30%'}}>
+                                    <Label>Title Document</Label>
+                                    <Input style={{width:'50%', marginLeft:'auto', marginRight:'auto'}} type="text" name="title" placeholder="Title" required onChange={handleOnChange}/>
+                                </div>
+                                <div hidden={activeStep===2 ? false : true} style={{marginTop:'30%'}}>
+                                    <Label>Select Signer</Label>
+                                    <Input style={{width:'50%', marginLeft:'auto', marginRight:'auto'}} type="select" name="signer" onChange={handleOnChange} required>
                                         <option value="">Select signer</option>
                                         {listSinger.map(signer =>(
                                             <option key={signer.id} value={signer.id}>{signer.name}</option>
                                         ))}
                                     </Input>
+                                    <Label style={{marginTop:'20px'}}>Select Viewer</Label>
+                                    {/* <Input style={{width:'50%', marginLeft:'auto', marginRight:'auto'}} type="select" name="signer" onChange={handleOnChange} required>
+                                        <option value="">Select viewer</option>
+                                        {listSinger.map(signer =>(
+                                            <option key={signer.id} value={signer.id}>{signer.name}</option>
+                                        ))}
+                                    </Input> */}
+                                    <Multiselect options={listSinger} displayValue="name" selectedValues="id" />
                                     
-                                </FormGroup>
-                                <FormGroup>
-                                    <Input disabled={activeStep===3 ? true : false} type="date" name="date" placeholder="Expiration date" onChange={handleOnChange} required/>
-                                </FormGroup>
-                                <FormGroup hidden={activeStep !==4 ? false : true}>
-                                    <Button color="primary" outline onClick={handlePrev}>Return</Button> {' '}
-                                    <Button color="primary" outline onClick={handleNext}>Next</Button>
-                                </FormGroup>
-                                <FormGroup hidden={activeStep===4 ? false : true}>
-                                    <Button color="primary">Cancel</Button> {' '}
-                                    <Button color="primary" onClick={handleContent}>Next</Button> 
-                                </FormGroup>
-                                <Alert isOpen={show2} color="warning">PLEASE CHECK YOUR INPUT</Alert>
-                            </Form>
+                                </div>
+                                <div hidden={activeStep===3 ? false : true} style={{marginTop:'30%'}}>
+                                    <Label>Expiration Date</Label>
+                                    <Input style={{width:'50%', marginLeft:'auto', marginRight:'auto'}} type="date" name="date" placeholder="Expiration date" onChange={handleOnChange} required/>
+                                </div>
                                 
+                                <div style={{marginTop:'20px'}}>
+                                    <Button hidden={activeStep===0 ? true : false} color="primary" onClick={handlePrev}>Return</Button> {' '}
+                                    <Button hidden={activeStep===3 ? true : false} style={{width:'72px'}} color="primary" onClick={handleNext}>Next</Button>
+                                    <Button hidden={activeStep===3 ? false : true}style={{width:'72px'}} color="primary" onClick={handleContent}>Next</Button>
+                                </div>
                         </Col>
                         <Col>
                             <Form className="form-doc">
