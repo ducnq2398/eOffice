@@ -39,18 +39,26 @@ const baseStyle = {
   const rejectStyle = {
     borderColor: '#ff1744'
   };
+
 function CreateInvoice() {
     const [listSinger, setListSigner] = useState([]);
     const history = useHistory();
     const [show, setShow] = useState(false);
     const [activeStep, setActiveStep] = useState(0);
     const [file, setFile] = useState([]);
-    const [signer, setSigner] = useState();
     const [dataUpload, setDataUpload] =useState({
         title : '',
         signer: '',
         date: '',
     });
+    const [viewer, setViewer] = useState([]);
+    function onSelect(data) {       
+        setViewer(data)
+    }
+    function onRemove(data) {  
+        setViewer(data)
+    }
+    
     const {getRootProps, getInputProps,isDragActive,
         isDragAccept,
         isDragReject} = useDropzone({
@@ -93,17 +101,6 @@ function CreateInvoice() {
             history.push('/dashboard');
         }
     }
-    useEffect(() =>{
-        async function fetchSigner() {
-            try {
-                const response = await userListAPI.getUserById(dataUpload.signer);
-                setSigner(response.data)
-            } catch (error) {
-                console.log(error);
-            }
-        }
-        fetchSigner();
-    },[dataUpload.signer])
     function handleContent() {
         history.push({
             pathname: '/invoice-confirm',
@@ -112,17 +109,13 @@ function CreateInvoice() {
                     url.preview
                 )),
                 data: dataUpload,
-                signer: signer
+                viewer: viewer
             }
         })
     }
-    const data = [
-        {siger: 'Duc', id: 1},
-        {siger: 'Name', id: 2}
-    ]
-    const [option] = useState(data)
+    
     useEffect(()=>{
-        const companyId = 1;
+        const companyId = getUser().CompanyId;
         async function fetListUser(){
             try {
                 const response = await userListAPI.getUserByCompanyId(companyId);
@@ -133,6 +126,7 @@ function CreateInvoice() {
         }
         fetListUser();
     },[]);
+    
     return(
         <div>
             <StepInvoice activeStep={activeStep}/>
@@ -174,13 +168,7 @@ function CreateInvoice() {
                                         ))}
                                     </Input>
                                     <Label style={{marginTop:'20px'}}>Select Viewer</Label>
-                                    {/* <Input style={{width:'50%', marginLeft:'auto', marginRight:'auto'}} type="select" name="signer" onChange={handleOnChange} required>
-                                        <option value="">Select viewer</option>
-                                        {listSinger.map(signer =>(
-                                            <option key={signer.id} value={signer.id}>{signer.name}</option>
-                                        ))}
-                                    </Input> */}
-                                    <Multiselect options={listSinger} displayValue="name" selectedValues="id" />
+                                    <Multiselect options={listSinger} displayValue="name" onSelect={onSelect} onRemove={onRemove} placeholder="Select viewer"/>
                                     
                                 </div>
                                 <div hidden={activeStep===3 ? false : true} style={{marginTop:'30%'}}>

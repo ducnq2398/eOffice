@@ -36,7 +36,7 @@ function Login(){
             email: getData.username,
             password: md5pass.trim().toString(),
         }
-        axios.post('https://datnxeoffice.azurewebsites.net/api/accounts/loginauthen',params).then(function(res){
+        axios.post('https://datnxeoffice.azurewebsites.net/api/accounts/login',params).then(function(res){
             setUserSession(res.data.token, res.data);
             if(res.data.role!==''){
                 history.push('/dashboard');

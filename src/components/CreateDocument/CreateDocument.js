@@ -11,6 +11,7 @@ import companyListAPI from "../../api/companyListAPI";
 import userListAPI from "../../api/userListAPI";
 import { getUser } from "../../utils/Common";
 import demo from '../../images/demo.png';
+import {Multiselect} from 'multiselect-react-dropdown';
 
 const baseStyle = {
     flex: 1,
@@ -48,7 +49,6 @@ function CreateDocument(){
     const [show, setShow] = useState(false);
     const [activeStep, setActiveStep] = useState(0);
     const [file, setFile] = useState([]);
-    const [signer, setSigner] = useState();
     const [dataUpload, setDataUpload] =useState({
         title : '',
         signer: '',
@@ -56,6 +56,13 @@ function CreateDocument(){
         signer_guest: '',
         date: '',
     });
+    const [viewer, setViewer] = useState([]);
+    function onSelect(data) {       
+        setViewer(data)
+    }
+    function onRemove(data) {  
+        setViewer(data)
+    }
     const {getRootProps, getInputProps,isDragActive,
         isDragAccept,
         isDragReject} = useDropzone({
@@ -112,7 +119,7 @@ function CreateDocument(){
     
     useEffect(()=>{
         async function fetListUser(){
-            const companyId = getUser().companyId;
+            const companyId = getUser().CompanyId;
             try {
                 const response = await userListAPI.getUserByCompanyId(companyId);
                 setListSigner(response.data)
@@ -134,7 +141,7 @@ function CreateDocument(){
         }
         fetListGuest();
     },[dataUpload.company_guest]);
-
+    
     function handleContent() {
         history.push({
             pathname: '/contract-confirm',
@@ -143,7 +150,7 @@ function CreateDocument(){
                     url.preview
                 )),
                 data: dataUpload,
-                signer: signer
+                viewer: viewer
             }
         })
     }
@@ -190,7 +197,7 @@ function CreateDocument(){
                                 </div>
                                 <div hidden={activeStep===3 ? false : true} style={{marginTop:'30%'}}>
                                     <Label>Select Company Guest</Label>
-                                    <Input style={{width:'50%', marginLeft:'auto', marginRight:'auto'}} type="select" name="signer" onChange={handleOnChange} required>
+                                    <Input style={{width:'50%', marginLeft:'auto', marginRight:'auto'}} type="select" name="company_guest" onChange={handleOnChange} required>
                                         <option value="">Select company guest</option>
                                             {listCompany.map(company =>(
                                                 <option key={company.id} value={company.id}>{company.name}</option>
@@ -199,12 +206,14 @@ function CreateDocument(){
                                 </div>
                                 <div hidden={activeStep===4 ? false : true} style={{marginTop:'30%'}}>
                                     <Label>Select Signer Guest</Label>
-                                    <Input style={{width:'50%', marginLeft:'auto', marginRight:'auto'}} type="select" name="signer" onChange={handleOnChange} required>
+                                    <Input style={{width:'50%', marginLeft:'auto', marginRight:'auto'}} type="select" name="signer_guest" onChange={handleOnChange} required>
                                         <option value="">Select signer guest</option>
                                             {listGuest.map(guest =>(
                                                 <option key={guest.id} value={guest.id}>{guest.name}</option>
                                         ))}
                                     </Input>
+                                    <Label style={{marginTop:'20px'}}>Select Viewer</Label>
+                                    <Multiselect options={listSinger} displayValue="name" onSelect={onSelect} onRemove={onRemove} placeholder="Select viewer" />
                                 </div>
                                 <div hidden={activeStep===5 ? false : true} style={{marginTop:'30%'}}>
                                     <Label>Expiration Date</Label>

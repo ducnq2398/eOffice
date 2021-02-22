@@ -3,8 +3,9 @@ import Header from "../Nav/Header";
 import StepInvoice from "../Sidebar/StepInvoice";
 import PDF from "../PDF/PDF";
 import '../../css/CreateDoc.css';
+import userListAPI from "../../api/userListAPI";
 import {useHistory, useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function InvoiceContent() {
     const location = useLocation();
@@ -13,7 +14,21 @@ function InvoiceContent() {
     function toogle() {
         setCreate(!create)
     }
-    console.log(location.state.file[0],"Test");
+    const [signer, setSigner] = useState('');
+    const viewer = location.state.viewer;
+    console.log(location.state)
+    useEffect(()=>{
+        async function getSigner() {
+            try {
+                const res = await userListAPI.getUserById(location.state.data.signer)
+                setSigner(res.data)
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        getSigner();
+    },[])
+    
 
     return(
         <div>
@@ -48,7 +63,19 @@ function InvoiceContent() {
                                         <p style={{float:'right', fontSize:'20px'}}>Signer:</p>
                                     </Col>
                                     <Col>
-                                        <p style={{float:'left', fontSize:'20px'}}>{location.state.signer.name}</p>
+                                        <p style={{float:'left', fontSize:'20px'}}>{signer.name}</p>
+                                    </Col>
+                                </FormGroup>
+                                <FormGroup row>
+                                    <Col sm={5}>
+                                        <p style={{float:'right', fontSize:'20px'}}>Viewer:</p>
+                                    </Col>
+                                    <Col>
+                                            {viewer.map((data) => (
+                                                <tr key={data.id}>
+                                                    <td style={{float:'left', fontSize:'20px'}}>{data.name}</td>
+                                                </tr>
+                                            ))}  
                                     </Col>
                                 </FormGroup>
                                 <FormGroup row>

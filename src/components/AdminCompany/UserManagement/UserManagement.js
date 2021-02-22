@@ -31,7 +31,7 @@ function UserManagement(){
     const [search, setSearch] = useState('');
     useEffect(()=>{
         const user = getUser();
-        const id = user.companyId;
+        const id = user.CompanyId;
         async function fetchUserList(){
             try {
                 const response = await userListAPI.getUserByCompanyId(id);
