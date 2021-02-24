@@ -73,7 +73,7 @@ function CompanyList(){
                                         Filter
                                     </DropdownToggle>
                                     <DropdownMenu>
-                                        <DropdownItem>All</DropdownItem>
+                                        <DropdownItem onClick={All}>All</DropdownItem>
                                         <DropdownItem onClick={Active} >Active</DropdownItem>
                                         <DropdownItem onClick={listDeactive}>Deactive</DropdownItem>
                                     </DropdownMenu>

@@ -52,6 +52,7 @@ function ContractContent() {
         }
         getGuest();
     },[])
+    
     return(
         <div>
             <StepContract activeStep={6}/>
@@ -62,7 +63,7 @@ function ContractContent() {
                         <Col>
                             <Form>
                                 <FormGroup row>
-                                    <Label style={{fontWeight:'bold',color:'blue', fontSize:'30px', marginTop:'20%',marginLeft:'18%'}}>Document content</Label>
+                                    <Label style={{fontWeight:'bold',color:'blue', fontSize:'30px', marginTop:'2%',marginLeft:'18%'}}>Document content</Label>
                                 </FormGroup>
                                 <FormGroup row style={{marginTop:'2rem'}}>
                                     <Col sm={5}>
@@ -145,7 +146,7 @@ function ContractContent() {
                     </Row>
                 </Container>
                 <Modal isOpen={create} toggle={toogle} style={{marginTop:'20%', marginRight:'50%'}}>
-                    <ModalHeader>Do you want create Invoice?</ModalHeader>
+                    <ModalHeader>Do you want create Contract?</ModalHeader>
                         <ModalFooter>
                             <Button color="secondary" onClick={toogle}>No</Button>{' '}
                             <Button color="primary">Yes</Button>

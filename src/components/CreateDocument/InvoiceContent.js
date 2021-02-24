@@ -16,7 +16,6 @@ function InvoiceContent() {
     }
     const [signer, setSigner] = useState('');
     const viewer = location.state.viewer;
-    console.log(location.state)
     useEffect(()=>{
         async function getSigner() {
             try {
@@ -40,7 +39,7 @@ function InvoiceContent() {
                         <Col>
                             <Form>
                                 <FormGroup row>
-                                    <Label style={{fontWeight:'bold',color:'blue', fontSize:'30px', marginTop:'20%',marginLeft:'18%'}}>Document content</Label>
+                                    <Label style={{fontWeight:'bold',color:'blue', fontSize:'30px',marginTop:'2%',marginLeft:'18%'}}>Document content</Label>
                                 </FormGroup>
                                 <FormGroup row style={{marginTop:'2rem'}}>
                                     <Col sm={5}>

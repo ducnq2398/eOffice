@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Form, FormGroup, Input, Col, ButtonGroup, Table, ButtonDropdown, DropdownToggle, DropdownMenu, Label, Modal, ModalHeader, ModalBody, Container} from "reactstrap";
+import { Button, Form, FormGroup, Input, Col, ButtonGroup, Table, ButtonDropdown, DropdownToggle, DropdownMenu, Label, Modal, ModalHeader, ModalBody, Container, ModalFooter} from "reactstrap";
 import userListAPI from "../../../api/userListAPI";
 import Header from "../../Nav/Header";
 import Panigation from "../../Panigation/Panigation";
@@ -9,9 +9,11 @@ import icon from "../../../images/delete.png";
 import { getUser } from "../../../utils/Common";
 import GetDepartment from "../../GetDepartment/GetDepartment";
 import Switch from 'react-switch';
+import departmentAPI from "../../../api/departmentAPI";
 
 function UserManagement(){
     const [userList, setUserList] = useState([]);
+    const [department, setDepartment] = useState([]);
     const [checkAcitve, setCheckActive] = useState(true);
     const [user, setUser] = useState({
         id: '',
@@ -20,6 +22,7 @@ function UserManagement(){
         email:''
     })
     const [isOpen, setIsOpen] = useState(false);
+    const [del, setDel] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [postPerPage] = useState(13);
     const indexOfLastPost = currentPage * postPerPage;
@@ -29,6 +32,7 @@ function UserManagement(){
     const [openEdit, setOpenEdit] = useState(false);
     const openE = () => setOpenEdit(!openEdit);
     const [search, setSearch] = useState('');
+    const [data, setData] = useState('');
     useEffect(()=>{
         const user = getUser();
         const id = user.CompanyId;
@@ -41,6 +45,20 @@ function UserManagement(){
         }}
         fetchUserList();
     },[])
+    useEffect(()=>{
+        async function getDepartment() {
+            const user = getUser();
+            const id = user.CompanyId;
+            try {
+                const res = await departmentAPI.getDepartmentByCompanyId(id);
+                setDepartment(res.data)
+            } catch (error) {
+                console.log(error);
+            }   
+        }
+        getDepartment();
+    },[])
+
     function paginate(pageNumber){
         setCurrentPage(pageNumber);
     }
@@ -54,7 +72,6 @@ function UserManagement(){
             [name] : value,
         })
     }
-    
     return(
         <div>
             <Sidebar/>
@@ -78,9 +95,10 @@ function UserManagement(){
                                     </FormGroup>
                                     <FormGroup row>
                                         <Col>
-                                            <Input type="select" name="subDepartment" defaultValue="1" onChange={handleOnInput}>
-                                                <option value={1}>1</option>
-                                                <option value={2}>2</option>
+                                            <Input type="select" name="subDepartment" onChange={handleOnInput}>
+                                                {department.map(depart =>(
+                                                    <option key={depart.id} value={depart.id}>{depart.name}</option>
+                                                ))}
                                             </Input>
                                         </Col>
                                         <Col>
@@ -114,7 +132,7 @@ function UserManagement(){
                 </div>
                 <Table hidden={search !=='' ? true : false} hover>
                     <thead>
-                        <tr style={{textAlign:'left'}}>
+                        <tr>
                             <th>Account name</th>
                             <th>Department</th>
                             <th>Email</th>
@@ -122,14 +140,14 @@ function UserManagement(){
                     </thead>
                     <tbody>
                         {currentPosts.map(user =>(
-                            <tr className="row_data" key={user.id}  >
-                                <td onClick={openE}>{user.name}</td>
-                                <td onClick={openE}>
+                            <tr key={user.id}  >
+                                <td onClick={()=>{setData(user); setOpenEdit(true)}}>{user.name}</td>
+                                <td onClick={()=>{setData(user); setOpenEdit(true)}}>
                                     <GetDepartment id={user.departmentId}/>
                                 </td>
-                                <td onClick={openE}>{user.email}</td>
-                                <td className="hide"> 
-                                    <img style={{width:'25px',height:'25px'}} src={icon} alt="" onClick={toogle}/>
+                                <td onClick={()=>{setData(user); setOpenEdit(true)}}>{user.email}</td>
+                                <td> 
+                                    <img style={{width:'25px',height:'25px'}} src={icon} alt="" onClick={()=>setDel(!del)}/>
                                 </td>
                             </tr>
                         ))}
@@ -137,7 +155,7 @@ function UserManagement(){
                 </Table>
                 <Table hidden={search=== '' ? true : false} hover>
                     <thead>
-                        <tr style={{textAlign:'left'}}>
+                        <tr>
                             <th>Account name</th>
                             <th>Department</th>
                             <th>Email</th>
@@ -149,14 +167,14 @@ function UserManagement(){
                                 return users
                             }
                         }).map(users =>(
-                            <tr className="row_data" key={users.id} style={{textAlign:'left'}} >
-                                <td onClick={openE}>{users.name}</td>
-                                <td onClick={openE}>
+                            <tr className="row_data" key={users.id} >
+                                <td onClick={()=>{setData(user); setOpenEdit(true)}}>{users.name}</td>
+                                <td onClick={()=>{setData(user); setOpenEdit(true)}}>
                                     <GetDepartment id={users.departmentId}/>
                                 </td>
-                                <td onClick={openE}>{users.email}</td>
+                                <td onClick={()=>{setData(user); setOpenEdit(true)}}>{users.email}</td>
                                 <td className="hide"> 
-                                    <img style={{width:'25px',height:'25px'}} src={icon} alt="" onClick={toogle}/>
+                                    <img style={{width:'25px',height:'25px'}} src={icon} alt="" onClick={()=> setDel(!del)}/>
                                 </td>
                             </tr>
                         ))}
@@ -176,26 +194,27 @@ function UserManagement(){
                 <Form>
                         <FormGroup row>
                             <Col>
-                                <Input type="text" name="username" required placeholder="User name"/>
+                                <Input type="text" name="username" required value={data.name} onChange={handleOnInput}/>
                             </Col>
                             <Col>
-                                <Input type="number" name="phone" required placeholder="User phone number"/>
+                                <Input type="tel" name="phone" required value={data.phone} onChange={handleOnInput}/>
                             </Col>
                         </FormGroup>
                         <FormGroup row>
                             <Col>
-                                <Input type="select" name="department">
-                                    <option>1</option>
-                                    <option>2</option>
+                                <Input type="select" name="subDepartment" onChange={handleOnInput}>
+                                    {department.map(depart =>(
+                                        <option key={depart.id} value={depart.id}>{depart.name}</option>
+                                    ))}
                                 </Input>
                             </Col>
                             <Col>
-                                <Input type="email" name="email" placeholder="Email" required/>
+                                <Input type="email" name="email" value={data.email} onChange={handleOnInput} required/>
                             </Col>
                         </FormGroup>
                         <FormGroup row>
                             <Col>
-                                <Input type="text" name="address" placeholder="Address"/>
+                                <Input type="text" name="address" value={data.address} onChange={handleOnInput}/>
                             </Col>
                         </FormGroup>
                         <FormGroup row>
@@ -215,6 +234,13 @@ function UserManagement(){
                     </Form>
                 </ModalBody>
             </Modal>
+            <Modal isOpen={del} toggle={()=>setDel(!del)}>
+                    <ModalHeader>Do you want delete user?</ModalHeader>
+                        <ModalFooter>
+                            <Button color="secondary" onClick={()=>setDel(!del)}>No</Button>{' '}
+                            <Button color="primary">Yes</Button>
+                        </ModalFooter>
+                </Modal>
             </Container>
             </div>
         </div>

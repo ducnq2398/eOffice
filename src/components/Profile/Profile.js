@@ -19,7 +19,7 @@ function Profile() {
     }
     useEffect(()=>{
         async function fetCompany() {
-            const companyId = user.companyId;
+            const companyId = user.CompanyId;
             try {
                 const response = await companyListAPI.getCompanyById(companyId);
                 setCompany(response.data);
@@ -32,7 +32,7 @@ function Profile() {
 
     useEffect(()=>{
         async function fetDepartment() {
-            const id = user.departmentId;
+            const id = user.DepartmentId;
             try {
                 const response = await departmentAPI.getDepartmentById(id);
                 setDepartment(response.data);
@@ -50,7 +50,7 @@ function Profile() {
                 <Container fluid={true}>
                     <Row className="roww">
                         <Col>
-                            <img style={{borderRadius:'50%'}} src={user.avatar} alt="" width="150px" height="150px"/>
+                            <img style={{borderRadius:'50%'}} src={user.Avatar} alt="" width="150px" height="150px"/>
                             <br/>
                             <Button color="link">Change Password</Button>
                             <br/>
@@ -64,19 +64,19 @@ function Profile() {
                                 <FormGroup row>
                                     <Label>Name</Label>
                                     <Col style={{marginLeft:'185px'}}>
-                                        <Label style={{float:'left'}}>{user.name}</Label>
+                                        <Label style={{float:'left'}}>{user.Name}</Label>
                                     </Col>
                                 </FormGroup>
                                 <FormGroup row>
                                     <Label>Phone number</Label>
                                     <Col style={{marginLeft:'121px'}}>
-                                        <Label style={{float:'left'}}>{user.phone}</Label>
+                                        <Label style={{float:'left'}}>{user.Phone}</Label>
                                     </Col>
                                 </FormGroup>
                                 <FormGroup row>
                                     <Label>Email</Label>
                                     <Col style={{marginLeft:'185px'}}>
-                                        <Label style={{float:'left'}}>{user.email}</Label>
+                                        <Label style={{float:'left'}}>{user.Email}</Label>
                                     </Col>
                                 </FormGroup>
                                 <FormGroup row>
@@ -94,7 +94,7 @@ function Profile() {
                                 <FormGroup row>
                                     <Label>Address</Label>
                                     <Col style={{marginLeft:'164px'}}>
-                                        <Label style={{float:'left'}}>{user.address}</Label>
+                                        <Label style={{float:'left'}}>{user.Address}</Label>
                                     </Col>
                                 </FormGroup>
                                 

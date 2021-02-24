@@ -29,8 +29,9 @@ function PDF({pdf}){
             <Document 
                 file={pdf}
                 onLoadSuccess={onDocumentLoadSuccess}
+                renderMode="svg"
             >
-                <Page pageNumber={pageNumber} />
+            <Page pageNumber={pageNumber} />
             </Document>
             <div>
                 <p hidden={pageNumber===0}>

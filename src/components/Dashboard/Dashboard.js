@@ -109,7 +109,7 @@ function Dashboard(){
                                                 <td style={{float:'left', textAlign:'left'}}>
                                                     <Label>The contract documents has been signed by guest.</Label>
                                                     <br/>
-                                                    <Link to="/">View detail</Link>
+                                                    <Link to="/notification">View detail</Link>
                                                 
                                                 </td>
                                                 <td>21/01/2021</td>
@@ -140,11 +140,22 @@ function Dashboard(){
                                                 
                                                 </td>
                                                 <td>21/01/2021</td>
-                                            </tr>   
+                                            </tr>
+                                            <tr>
+                                                <td style={{float:'left', textAlign:'left'}}>
+                                                    <Label>The contract documents has been signed by guest.</Label>
+                                                    <br/>
+                                                    <Link to="/">View detail</Link>
+                                                
+                                                </td>
+                                                <td>21/01/2021</td>
+                                            </tr>      
                                         </tbody>
+                                       
                                     </Table>
                                 </FormGroup>
                             </Form>
+                            <div><Link to="/notification">See more</Link></div>
                         </Col>
                     </div>
                 </Container>
