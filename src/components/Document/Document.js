@@ -2,7 +2,7 @@ import { Container, Form, FormGroup,Col ,Input, Button, ButtonDropdown, Dropdown
 import Header from "../Nav/Header";
 import '../../css/Document.css';
 import Sidebar from "../Sidebar/Sidebar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import search from '../../images/search1.png';
 import del from '../../images/delete.png';
 import notsigned from "../../images/not-signed.png";
@@ -10,17 +10,32 @@ import done from '../../images/true.png';
 import choo from '../../images/choo.png';
 import StepDoc from "../Sidebar/StepDoc";
 import PagDoc from "../Panigation/PagDoc";
+import invoiceAPI from "../../api/invoiceAPI";
+import GetCreater from "../GetData/GetCreater";
 
 function Document(props){
     const [isOpen, setIsOpen] = useState(false);
     const toogle = () => setIsOpen(!isOpen);
     const [postList, setPostList] = useState([]);
+    const [listInvoice, setListInvoice] = useState([]);
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [postPerPage] = useState(10);
+    const [postPerPage] = useState(6);
     const indexOfLastPost = currentPage * postPerPage;
     const indexOfFirstPost = indexOfLastPost - postPerPage;
-    const currentPosts = postList.slice(indexOfFirstPost, indexOfLastPost);
+    const currentPosts = listInvoice.slice(indexOfFirstPost, indexOfLastPost);
+    useEffect(()=>{
+        async function getInvoice() {
+            try {
+                const res = await invoiceAPI.getAllInvoice();
+                console.log(res.data)
+                setListInvoice(res.data)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        getInvoice();
+    },[])
     function paginate(pageNumber){
         setCurrentPage(pageNumber);
     }
@@ -117,7 +132,7 @@ function Document(props){
                                 <PagDoc
                                             currentPage= {currentPage}
                                             postsPerPage={postPerPage}
-                                            totalPosts = {20}
+                                            totalPosts = {listInvoice.length}
                                             paginate={paginate}
                                             />
                             </Col>
@@ -125,78 +140,46 @@ function Document(props){
                     </div>
                     <Table>
                         <tbody>
-                            <tr>
-                                <td>
+                            {currentPosts.map((doc) =>(
+                                <tr key={doc.id}>
+                                    <td>
                                     <Label style={{fontWeight:'bold'}}>Creater name</Label>
                                     <br/>
-                                    <Label>Duc dep trai</Label>
-                                </td>
-                                <td>
-                                    <Label style={{fontWeight:'bold'}}>Title document</Label>
-                                    <br/>
-                                    <Label>Document_01</Label>
-                                </td>
-                                <td>
-                                    <Label style={{fontWeight:'bold'}}>Status</Label>
-                                    <br/>
-                                    <Label className="step">
-                                        <StepDoc activeStep={3}/>
-                                    </Label>
-                                </td>
-                                <td>
-                                    <Label></Label>
-                                    <br/>
-                                    <Label>
-                                        <img src={done} alt="" width="35px" height="30px"/>
-                                    </Label>
-                                </td>
-                                <td>
-                                    <Label></Label>
-                                    <br/>
-                                    <Label>2021-02-01</Label>
-                                </td>
-                                <td>
-                                    <Label></Label>
-                                    <br/>
-                                    <Label  hidden={true}><img src={del} alt="" width="25px" height="25px"/></Label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <Label style={{fontWeight:'bold'}}>Creater name</Label>
-                                    <br/>
-                                    <Label>Duc dep trai</Label>
-                                </td>
-                                <td>
-                                    <Label style={{fontWeight:'bold'}}>Title document</Label>
-                                    <br/>
-                                    <Label>Document_01</Label>
-                                </td>
-                                <td>
-                                    <Label style={{fontWeight:'bold'}}>Status</Label>
-                                    <br/>
-                                    <Label className="step">
-                                        <StepDoc activeStep={2}/>
-                                    </Label>
-                                </td>
-                                <td>
-                                    <Label></Label>
-                                    <br/>
-                                    <Label>
-                                        <img src={notsigned} alt="" />
-                                    </Label>
-                                </td>
-                                <td>
-                                    <Label></Label>
-                                    <br/>
-                                    <Label>2021-02-01</Label>
-                                </td>
-                                <td>
-                                    <Label></Label>
-                                    <br/>
-                                    <Label  hidden={false}><img src={del} alt="" width="25px" height="25px"/></Label>
-                                </td>
-                            </tr>
+                                    <Label><GetCreater id={doc.createrId}/></Label>
+                                    </td>
+                                    <td>
+                                        <Label style={{fontWeight:'bold'}}>Title document</Label>
+                                        <br/>
+                                        <Label>{doc.description}</Label>
+                                    </td>
+                                    <td>
+                                        <Label style={{fontWeight:'bold'}}>Status</Label>
+                                        <br/>
+                                        <Label className="step">
+                                            <StepDoc activeStep={doc.status+1}/>
+                                        </Label>
+                                    </td>
+                                    <td>
+                                        <Label></Label>
+                                        <br/>
+                                        <Label>
+                                            <img hidden={doc.status===3 ? false : true} src={done} alt="" width="35px" height="30px"/>
+                                            <img hidden={doc.status===3 ? true : false} src={notsigned} alt=""/>
+                                        </Label>
+                                    </td>
+                                    <td>
+                                        <Label style={{fontWeight:'bold'}}>Date expire</Label>
+                                        <br/>
+                                        <Label>{doc.dateExpire.slice(0,-9)}</Label>
+                                    </td>
+                                    <td>
+                                        <Label></Label>
+                                        <br/>
+                                        <Label  hidden={doc.status===3 ? true : false}><img src={del} alt="" width="25px" height="25px"/></Label>
+                                    </td>
+                                </tr>
+                            ))}
+                            
                         </tbody>
                     </Table>
                 </Container>

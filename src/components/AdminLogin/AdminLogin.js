@@ -4,6 +4,7 @@ import React, {useState } from 'react';
 import { setAdminSession} from '../../utils/Common';
 import axios from 'axios';
 import {Alert, Button, Container, Form, FormGroup, Input} from 'reactstrap';
+import loginAPI from '../../api/loginAPI';
 
 function AdminLogin(props){
         const [adminLogin, setAdminLogin] = useState({
@@ -28,7 +29,7 @@ function AdminLogin(props){
                 password: adminLogin.password,
             }
         
-            axios.post('https://datnxeoffice.azurewebsites.net/api/admins/login',params).then(function(res){
+            loginAPI.loginAdmin(params).then(function(res){
                     setAdminSession(res.data.token);
                     props.history.push('/admin-manager');
                 }).catch(function(error){

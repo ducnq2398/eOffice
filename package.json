@@ -29,6 +29,7 @@
     "react-scripts": "^4.0.2",
     "react-select": "^4.1.0",
     "react-switch": "^6.0.0",
+    "react-toastify": "^7.0.3",
     "react-transition-group": "^2.3.0-beta.0",
     "reactstrap": "^8.8.1",
     "rsuite": "^4.8.8",

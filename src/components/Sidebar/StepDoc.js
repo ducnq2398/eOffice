@@ -3,7 +3,7 @@ import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 function StepDoc({activeStep}){
     function getStep(){
-        return ['Send', 'Signer Signed', 'Guest Signed'];
+        return ['Send', 'Signer 1', 'Signer 2'];
     }
     const steps = getStep();
     return(

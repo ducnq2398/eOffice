@@ -105,9 +105,7 @@ function CreateInvoice() {
         history.push({
             pathname: '/invoice-confirm',
             state: {
-                file: file.map(url=>(
-                    url.preview
-                )),
+                file: file,
                 data: dataUpload,
                 viewer: viewer
             }

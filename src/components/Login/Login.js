@@ -7,7 +7,6 @@ import {Alert, Button, Col,Row, Container, Form, FormGroup, Input} from 'reactst
 import {useState } from 'react';
 import loginAPI from '../../api/loginAPI';
 import {setUserSession } from '../../utils/Common';
-import axios from 'axios';
 import md5 from 'md5';
 
 function Login(){
@@ -36,7 +35,7 @@ function Login(){
             email: getData.username,
             password: md5pass.trim().toString(),
         }
-        axios.post('https://datnxeoffice.azurewebsites.net/api/accounts/login',params).then(function(res){
+        loginAPI.loginUser(params).then(function(res){
             setUserSession(res.data.token, res.data);
             if(res.data.role!==''){
                 history.push('/dashboard');
@@ -84,9 +83,7 @@ function Login(){
                             </FormGroup>
                         </Form>
                     </Col>
-
-                </Row>
-                    
+                </Row>                  
             </Container>
     );
 }

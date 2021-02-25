@@ -7,7 +7,7 @@ import Sidebar from "../../Sidebar/Sidebar";
 import './../../../css/UserManagement.css';
 import icon from "../../../images/delete.png";
 import { getUser } from "../../../utils/Common";
-import GetDepartment from "../../GetDepartment/GetDepartment";
+import GetDepartment from "../../GetData/GetDepartment";
 import Switch from 'react-switch';
 import departmentAPI from "../../../api/departmentAPI";
 
@@ -96,6 +96,7 @@ function UserManagement(){
                                     <FormGroup row>
                                         <Col>
                                             <Input type="select" name="subDepartment" onChange={handleOnInput}>
+                                                <option value="">Select department</option>
                                                 {department.map(depart =>(
                                                     <option key={depart.id} value={depart.id}>{depart.name}</option>
                                                 ))}
@@ -135,6 +136,7 @@ function UserManagement(){
                         <tr>
                             <th>Account name</th>
                             <th>Department</th>
+                            <th>Phone number</th>
                             <th>Email</th>
                         </tr>
                     </thead>
@@ -145,6 +147,7 @@ function UserManagement(){
                                 <td onClick={()=>{setData(user); setOpenEdit(true)}}>
                                     <GetDepartment id={user.departmentId}/>
                                 </td>
+                                <td onClick={()=>{setData(user); setOpenEdit(true)}}>{user.phone}</td>
                                 <td onClick={()=>{setData(user); setOpenEdit(true)}}>{user.email}</td>
                                 <td> 
                                     <img style={{width:'25px',height:'25px'}} src={icon} alt="" onClick={()=>setDel(!del)}/>
@@ -158,6 +161,7 @@ function UserManagement(){
                         <tr>
                             <th>Account name</th>
                             <th>Department</th>
+                            <th>Phone number</th>
                             <th>Email</th>
                         </tr>
                     </thead>
@@ -167,13 +171,14 @@ function UserManagement(){
                                 return users
                             }
                         }).map(users =>(
-                            <tr className="row_data" key={users.id} >
+                            <tr key={users.id} >
                                 <td onClick={()=>{setData(user); setOpenEdit(true)}}>{users.name}</td>
                                 <td onClick={()=>{setData(user); setOpenEdit(true)}}>
                                     <GetDepartment id={users.departmentId}/>
                                 </td>
+                                <td onClick={()=>{setData(user); setOpenEdit(true)}}>{users.phone}</td>
                                 <td onClick={()=>{setData(user); setOpenEdit(true)}}>{users.email}</td>
-                                <td className="hide"> 
+                                <td> 
                                     <img style={{width:'25px',height:'25px'}} src={icon} alt="" onClick={()=> setDel(!del)}/>
                                 </td>
                             </tr>

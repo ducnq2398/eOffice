@@ -4,6 +4,7 @@ import logo from '../../images/logo.png';
 import ValidatePhone from "../Validation/ValidatePhone";
 import '../../css/ForgotPassword.css';
 import CountDown from 'react-countdown';
+import { render } from "@testing-library/react";
 
 function ForgotPassword(){
     const [phone, setPhone] = useState('');
@@ -11,7 +12,12 @@ function ForgotPassword(){
         setPhone(e.target.value)
     }
     const [modal, setModal] = useState(false);
-    const toggle = () => setModal(!modal);
+    const toggle = () =>{
+        setModal(true);
+        setTimeout(()=>{
+            setModal(false)
+        },59000)
+    } 
 
     const [vaildPhone, setValidPhone] = useState({
         isValid: false,
@@ -25,14 +31,9 @@ function ForgotPassword(){
             isInvalid: isInvalid,
         })
     }
-    const renderer = ({seconds, completed }) => {
-        if (completed) {
-            
-        } else {
-          // Render a countdown
+    const renderer = ({seconds}) => {
           return <span>{seconds}</span>;
-        }
-      };
+    }
     return(
         <Container className="a">
             <Form className="forgot">
@@ -58,11 +59,11 @@ function ForgotPassword(){
                         </FormGroup>
                         <FormGroup>
                             <Row>
-                                <Col sm={6}>
+                                <Col style={{width:'10%'}}>
                                     <Input valid={vaildPhone.isValid} invalid={vaildPhone.isInvalid} onChange={handleOnChange} onBlur={checkPhone} type="text" name="otp"/>
                                 </Col>
                                 <Col sm={2}>
-                                    <CountDown date={Date.now() + 59000} renderer={renderer}/>s
+                                    <CountDown date={Date.now() + 59000} renderer={renderer} />s
                                 </Col>
                             </Row>
                         </FormGroup>
@@ -71,10 +72,10 @@ function ForgotPassword(){
                 <ModalFooter>
                     <Row>
                         <Col sm={5}>
-                            <Button color="secondary" onClick={toggle}>Cancel</Button>
+                            <Button color="secondary" onClick={() =>setModal(false)}>Cancel</Button>
                         </Col>
                         <Col sm={5}>
-                            <Button color="primary" onClick={toggle}>Verifying</Button>
+                            <Button color="primary">Verifying</Button>
                         </Col>
                     </Row>
                 </ModalFooter>

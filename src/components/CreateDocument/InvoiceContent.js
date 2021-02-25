@@ -6,7 +6,13 @@ import '../../css/CreateDoc.css';
 import userListAPI from "../../api/userListAPI";
 import {useHistory, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { getUser } from "../../utils/Common";
+import axios from "axios";
+import 'react-toastify/dist/ReactToastify.css';
+import {toast} from "react-toastify";
+import invoiceAPI from "../../api/invoiceAPI";
 
+toast.configure();
 function InvoiceContent() {
     const location = useLocation();
     const history = useHistory();
@@ -27,8 +33,39 @@ function InvoiceContent() {
         }
         getSigner();
     },[])
-    
-
+    var today = new Date(),
+    date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+    async function handleCreated(e) {
+        e.preventDefault(); 
+        const file = location.state.file[0];
+        const convertBase64 = await base64(file)
+        const url = convertBase64.slice(28)
+        const params = {
+            dateCreate: date,
+            createrId : getUser().Id,
+            dateExpire: location.state.data.date,
+            description: location.state.data.title,
+            signerId: location.state.data.signer,
+            invoiceURL: url
+        }
+        invoiceAPI.addInvoice(params).then(function(res) {
+            toast.success("You has created invoice successfully", {position: toast.POSITION.TOP_CENTER});
+            history.push('/document'); 
+        }).catch(function(error) {
+            console.log(error)
+        })
+    }
+  
+    function base64(file) {
+        return new Promise((resolve)=>{
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(file);
+            fileReader.onload = ()=>{
+                resolve(fileReader.result);
+            };
+        });
+    }
+   
     return(
         <div>
             <StepInvoice activeStep={4}/>
@@ -108,7 +145,7 @@ function InvoiceContent() {
                     <ModalHeader>Do you want create Invoice?</ModalHeader>
                         <ModalFooter>
                             <Button color="secondary" onClick={toogle}>No</Button>{' '}
-                            <Button color="primary">Yes</Button>
+                            <Button color="primary" onClick={handleCreated}>Yes</Button>
                         </ModalFooter>
                 </Modal>
             </div>
