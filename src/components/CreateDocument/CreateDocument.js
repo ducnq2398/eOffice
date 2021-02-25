@@ -41,7 +41,7 @@ const baseStyle = {
     borderColor: '#ff1744'
   };
 function CreateDocument(){
-    
+    const [listSignId] = useState([]);
     const [listCompany, setListCompany] = useState([]);
     const [listSinger, setListSigner] = useState([]);
     const [listGuest, setListGuest] = useState([]);
@@ -57,6 +57,7 @@ function CreateDocument(){
         date: '',
     });
     const [viewer, setViewer] = useState([]);
+    const [viewerId, setViewerId] = useState([]);
     function onSelect(data) {       
         setViewer(data)
     }
@@ -143,14 +144,19 @@ function CreateDocument(){
     },[dataUpload.company_guest]);
     
     function handleContent() {
+        const list = [dataUpload.signer, dataUpload.signer_guest];
+        const listViewerId = [];
+        viewer.map(view=>{
+            listViewerId.push(view.id);
+        })
         history.push({
             pathname: '/contract-confirm',
             state: {
-                file: file.map(url=>(
-                    url.preview
-                )),
+                file: file,
                 data: dataUpload,
-                viewer: viewer
+                viewer: viewer,
+                listSignId: list,
+                listViewerId: listViewerId
             }
         })
     }

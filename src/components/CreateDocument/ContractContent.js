@@ -7,6 +7,11 @@ import {useHistory, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import userListAPI from "../../api/userListAPI";
 import companyListAPI from "../../api/companyListAPI";
+import { getUser } from "../../utils/Common";
+import contractAPI from "../../api/contractAPI";
+import 'react-toastify/dist/ReactToastify.css';
+import {toast} from "react-toastify";
+import axios from "axios";
 
 function ContractContent() {
     const location = useLocation();
@@ -15,6 +20,7 @@ function ContractContent() {
     const [signer, setSigner] = useState('');
     const [guest, setGuest] = useState('');
     const [company, setCompany] = useState('');
+
     function toogle() {
         setCreate(!create)
     }
@@ -52,7 +58,53 @@ function ContractContent() {
         }
         getGuest();
     },[])
-    
+    var today = new Date(),
+    date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+    console.log(location.state)
+    async function handleCreated(e) {
+        e.preventDefault(); 
+        const file = location.state.file[0];
+        const convertBase64 = await base64(file)
+        const url = convertBase64.slice(28)
+        const params = {
+            dateCreate: date,
+            createrId : getUser().Id,
+            dateExpire: location.state.data.date,
+            description: location.state.data.title,
+            contractURL: url
+        }
+        contractAPI.addContract(params).then(function(res) {
+            const contractId = res.data.id;
+            const data = {
+                contractId : contractId,
+                listSignId : location.state.listSignId
+            }
+            axios.post("https://datnxeoffice.azurewebsites.net/api/contracts/addsigntocontract",data).catch(function(error){
+                console.log(error);
+            })
+            const viewer = {
+                contractId : contractId,
+                listViewersId: location.state.listViewerId
+            }
+            axios.post("https://datnxeoffice.azurewebsites.net/api/contracts/addviewertocontract",viewer).catch(function(error){
+                console.log(error)
+            })
+            toast.success("You has created contract successfully", {position: toast.POSITION.TOP_CENTER});
+            history.push('/document')
+        }).catch(function(error) {
+            console.log(error)
+        })
+    }
+  
+    function base64(file) {
+        return new Promise((resolve)=>{
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(file);
+            fileReader.onload = ()=>{
+                resolve(fileReader.result);
+            };
+        });
+    }
     return(
         <div>
             <StepContract activeStep={6}/>
@@ -149,7 +201,7 @@ function ContractContent() {
                     <ModalHeader>Do you want create Contract?</ModalHeader>
                         <ModalFooter>
                             <Button color="secondary" onClick={toogle}>No</Button>{' '}
-                            <Button color="primary">Yes</Button>
+                            <Button color="primary" onClick={handleCreated}>Yes</Button>
                         </ModalFooter>
                 </Modal>
             </div>

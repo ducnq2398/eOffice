@@ -7,7 +7,6 @@ import userListAPI from "../../api/userListAPI";
 import {useHistory, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getUser } from "../../utils/Common";
-import axios from "axios";
 import 'react-toastify/dist/ReactToastify.css';
 import {toast} from "react-toastify";
 import invoiceAPI from "../../api/invoiceAPI";
