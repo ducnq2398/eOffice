@@ -6,7 +6,8 @@ import '../../../css/Department.css';
 import TreeView from '@material-ui/lab/TreeView';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-// import { TreeItem } from "@material-ui/lab";
+import { TreeItem } from "@material-ui/lab";
+
 
 function DepartmentManagerment() {
     const [isOpen, setIsOpen] = useState(false);
@@ -38,7 +39,7 @@ function DepartmentManagerment() {
                                             </Col>
                                         </Row>
                                         <div className="btn-form">
-                                            <Button color="secondary">Cancel</Button> {' '}
+                                            <Button color="secondary" onClick={() => setIsOpen(false)}>Cancel</Button> {' '}
                                             <Button color="primary">Create</Button>
                                         </div>
                                     </Form>
@@ -47,11 +48,11 @@ function DepartmentManagerment() {
                         </FormGroup>
                     </div>
                     <div>
-                        {/* <TreeView defaultCollapseIcon={<ExpandMoreIcon/>} defaultExpandIcon={<ChevronRightIcon/>}>
+                        <TreeView defaultCollapseIcon={<ExpandMoreIcon/>} defaultExpandIcon={<ChevronRightIcon/>}>
                             <TreeItem nodeId="1" label="AAAA">
                                 <TreeItem nodeId="2" label="BBB"/>
                             </TreeItem>
-                        </TreeView> */}
+                        </TreeView>
                     </div>
                 </Container>
             </div>
