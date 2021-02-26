@@ -2,7 +2,6 @@ import logo from './../../images/logo.png';
 import './../../css/AdminLogin.css';
 import React, {useState } from 'react';
 import { setAdminSession} from '../../utils/Common';
-import axios from 'axios';
 import {Alert, Button, Container, Form, FormGroup, Input} from 'reactstrap';
 import loginAPI from '../../api/loginAPI';
 

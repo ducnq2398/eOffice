@@ -8,6 +8,10 @@ const departmentAPI = {
     getDepartmentByCompanyId: (id)=>{
         const url = `departments/getbycompany?companyId=${id}`
         return axiosClient.get(url)
+    },
+    getSubDepartment: (id) =>{
+        const url = `subdepartments/getbydepartment?derpartmentId=${id}`;
+        return axiosClient.get(url)
     }
 }
 export default departmentAPI;

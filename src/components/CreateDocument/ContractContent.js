@@ -1,4 +1,4 @@
-import {Container,Form, FormGroup, Row, Col, Label, Button, Modal, ModalFooter, ModalHeader, Table} from "reactstrap";
+import {Container,Form, FormGroup, Row, Col, Label, Button, Modal, ModalFooter, ModalHeader} from "reactstrap";
 import Header from "../Nav/Header";
 import StepContract from "../Sidebar/Stepper";
 import PDF from "../PDF/PDF";

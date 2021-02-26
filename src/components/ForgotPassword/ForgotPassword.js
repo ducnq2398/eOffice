@@ -4,7 +4,6 @@ import logo from '../../images/logo.png';
 import ValidatePhone from "../Validation/ValidatePhone";
 import '../../css/ForgotPassword.css';
 import CountDown from 'react-countdown';
-import { render } from "@testing-library/react";
 
 function ForgotPassword(){
     const [phone, setPhone] = useState('');

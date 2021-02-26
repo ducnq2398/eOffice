@@ -23,7 +23,7 @@ function Login(){
         const name = target.name;
         const value = target.value;
         setGetData({
-            ... getData,
+            ...getData,
             [name] : value,
         })
     }

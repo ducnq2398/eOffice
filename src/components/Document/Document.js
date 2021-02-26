@@ -1,4 +1,4 @@
-import { Container, Form, FormGroup,Col ,Input, Button, ButtonDropdown, DropdownToggle, DropdownMenu, Table, Label } from "reactstrap";
+import { Container, Form, FormGroup,Col ,Input, Button, ButtonDropdown, DropdownToggle, DropdownMenu, Table, Label, Modal, ModalHeader, ModalFooter } from "reactstrap";
 import Header from "../Nav/Header";
 import '../../css/Document.css';
 import Sidebar from "../Sidebar/Sidebar";
@@ -15,6 +15,7 @@ import GetCreater from "../GetData/GetCreater";
 
 function Document(props){
     const [isOpen, setIsOpen] = useState(false);
+    const [dele, setDel] =useState(false);
     const toogle = () => setIsOpen(!isOpen);
     const [postList, setPostList] = useState([]);
     const [listInvoice, setListInvoice] = useState([]);
@@ -28,7 +29,6 @@ function Document(props){
         async function getInvoice() {
             try {
                 const res = await invoiceAPI.getAllInvoice();
-                console.log(res.data)
                 setListInvoice(res.data)
             } catch (error) {
                 console.log(error)
@@ -138,7 +138,7 @@ function Document(props){
                             </Col>
                         </FormGroup>
                     </div>
-                    <Table>
+                    <Table hover>
                         <tbody>
                             {currentPosts.map((doc) =>(
                                 <tr key={doc.id}>
@@ -170,18 +170,25 @@ function Document(props){
                                     <td>
                                         <Label style={{fontWeight:'bold'}}>Date expire</Label>
                                         <br/>
-                                        <Label>{doc.dateExpire.slice(0,-9)}</Label>
+                                        <Label>{doc.dateExpire}</Label>
                                     </td>
                                     <td>
                                         <Label></Label>
                                         <br/>
-                                        <Label  hidden={doc.status===3 ? true : false}><img src={del} alt="" width="25px" height="25px"/></Label>
+                                        <Label  hidden={doc.status===3 ? true : false}><img src={del} onClick={()=>setDel(true)} alt="" width="25px" height="25px"/></Label>
                                     </td>
                                 </tr>
                             ))}
                             
                         </tbody>
                     </Table>
+                    <Modal isOpen={dele}>
+                        <ModalHeader>Are you sure delete document?</ModalHeader>
+                        <ModalFooter>
+                            <Button color="secondary" onClick={()=>setDel(!dele)}>No</Button>{' '}
+                            <Button color="primary">Yes</Button>
+                        </ModalFooter>
+                    </Modal>
                 </Container>
             </div>
         </div>
