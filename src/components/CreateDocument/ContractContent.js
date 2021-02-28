@@ -68,7 +68,7 @@ function ContractContent() {
         const url = convertBase64.slice(28)
         const params = {
             dateCreate: date,
-            createrId : getUser().Id,
+            creatorId : getUser().Id,
             dateExpire: location.state.data.date,
             description: location.state.data.title,
             contractURL: url
@@ -77,7 +77,7 @@ function ContractContent() {
             const contractId = res.data.id;
             const data = {
                 contractId : contractId,
-                listSignId : location.state.listSignId
+                signId : location.state.listSignId
             }
             axios.post("https://datnxeoffice.azurewebsites.net/api/contracts/addsigntocontract",data).catch(function(error){
                 console.log(error);
@@ -108,7 +108,7 @@ function ContractContent() {
     }
     return(
         <div>
-            <StepContract activeStep={6}/>
+            <StepContract activeStep={7}/>
             <div className="main-panel">
                 <Header/>
                 <Container fluid={true}>

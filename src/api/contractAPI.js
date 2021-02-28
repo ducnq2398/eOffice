@@ -12,6 +12,10 @@ const contractAPI = {
     addViewerContract: (params) =>{
         const url = "/api/contracts/addviewertocontract";
         return axiosClient.post(url, params);
-    }
+    },
+    getContractBySignerId: (id) =>{
+        const url = `contracts/getcontractsbysignerid?id=${id}`;
+        return axiosClient.get(url);
+    } 
 }
 export default contractAPI;

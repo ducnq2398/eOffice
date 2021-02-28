@@ -7,14 +7,12 @@ import logout from '../../images/logout.png';
 import '../../css/Sidebar.css'; 
 import {Col, Row} from 'reactstrap';
 import {removeUserSession } from '../../utils/Common';
-import { useState } from 'react';
 
 function SidebarAdmin(){
     function Logout(e) {
         e.preventDefault();
         removeUserSession();
     }
-    
     return(
         <div className="sidebar">
             <div className="logo">

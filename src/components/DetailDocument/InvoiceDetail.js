@@ -4,6 +4,9 @@ import StepDetail from "../Sidebar/StepDetail";
 import PDF from "../PDF/PDF";
 import notsigned from "../../images/status.png";
 import done from '../../images/true.png';
+import download from '../../images/download.png';
+import iconprint from '../../images/iconprint.png';
+import print from '../../images/print.png';
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import userListAPI from "../../api/userListAPI";
@@ -14,7 +17,7 @@ import axios from "axios";
 
 function InvoiceDetail(){
     const location = useLocation();
-    const [activeStep, setActiveStep] = useState(1);
+    const [activeStep, setActiveStep] = useState(3);
     const [signer, setSigner] = useState([]);
     const [creator, setCreator] = useState([]);
     const [viewer, setViewer] = useState([]);
@@ -55,9 +58,6 @@ function InvoiceDetail(){
         getDocument();
     },[])
 
-    function handleDownload(url, fileName) {
-        
-    }
     return(
         <div>
             <StepDetail activeStep={activeStep}/>
@@ -75,8 +75,8 @@ function InvoiceDetail(){
                                     <p style={{float:'right', fontSize:'20px'}}>Status:</p>
                                 </Col>
                                 <Col>
-                                    <img style={{float:'left'}} hidden={location.state.status===3 ? false : true} src={done} alt="" width="40px" height="30px"/>
-                                    <img style={{float:'left', marginTop:'6px'}} hidden={location.state.status===3 ? true : false} src={notsigned} alt=""/>
+                                    <img style={{float:'left', marginTop:'6px'}} hidden={activeStep===3 ? false : true} src={done} alt=""/>
+                                    <img style={{float:'left', marginTop:'6px'}} hidden={activeStep===3 ? true : false} src={notsigned} alt=""/>
                                 </Col>
                             </FormGroup>
                             <FormGroup row>
@@ -138,17 +138,25 @@ function InvoiceDetail(){
                                 </Col>
                             </FormGroup>
                             </Form>
-                            <div style={{marginTop:'20px'}}> 
-                                <Button color="primary" onClick={(e)=>{
-                                    e.preventDefault();
-                                    axios.get(location.state.invoiceURL, {
-                                        responseType: 'blob'
-                                    }).then(function(res) {
-                                        fileDownload(res.data, location.state.description+".pdf")
-                                    }).catch(function(error) {
-                                        console.log(error)
-                                    })
-                                }}>Download</Button>        
+                            <div hidden={activeStep===3 ? false : true} style={{marginTop:'10%'}}> 
+                                <Row>
+                                    <Col>
+                                        <img onClick={(e)=>{
+                                            e.preventDefault();
+                                            axios.get(location.state.invoiceURL, {
+                                                responseType: 'blob'
+                                            }).then(function(res) {
+                                                fileDownload(res.data, location.state.description+".pdf")
+                                            }).catch(function(error) {
+                                                console.log(error)
+                                            })
+                                        }} src={download} alt=""/>
+                                    </Col>
+                                    <Col>
+                                        <img src={print} alt=""/>
+                                        <img style={{position:'absolute',left:'33%', top:'10px'}} src={iconprint} alt=""/>
+                                    </Col>
+                                </Row>      
                             </div>     
                         </Col>
                         <Col>

@@ -1,4 +1,4 @@
-import { Container, Form, FormGroup, Label, Row,Col, Table, Tooltip } from "reactstrap";
+import { Container, Form, FormGroup, Label, Row,Col, Table} from "reactstrap";
 import Header from "../Nav/Header";
 import '../../css/Dashboard.css';
 import Sidebar from "../Sidebar/Sidebar";
@@ -18,10 +18,7 @@ function Dashboard(){
     const indexOfLastPost = currentPage * postPerPage;
     const indexOfFirstPost = indexOfLastPost - postPerPage;
     const currentPosts = listInvoice.slice(indexOfFirstPost, indexOfLastPost);
-    const [tooltipOpen, setTooltipOpen] = useState(false);
-    const toggle = () => setTooltipOpen(!tooltipOpen);
-    const [tooltipOpen1, setTooltipOpen1] = useState(false);
-    const toggle1 = () => setTooltipOpen1(!tooltipOpen1);
+
     useEffect(()=>{
         async function getInvoice() {
             try {
@@ -55,12 +52,9 @@ function Dashboard(){
                                                         state: data
                                                     })}>
                                                         <td>
-                                                            <p className="demo-2" id="TooltipExample1">{data.description}</p>
-                                                            <Tooltip placement="right" isOpen={tooltipOpen1} target="TooltipExample1" toggle={toggle1}>
-                                                                {data.description}
-                                                            </Tooltip>
+                                                            <p className="demo-2" >{data.description}</p>    
                                                         </td>
-                                                        <td>{data.status!==3 ? <img src={notsigned} alt=""/> : <img src={done} alt="" width="40px" height="30px"/>}</td>
+                                                        <td>{data.status!==3 ? <img src={notsigned} alt=""/> : <img src={done} alt=""/>}</td>
                                                         <td>{data.dateExpire.substring(10,0)}</td>
                                                     </tr>
                                                 ))}
@@ -86,12 +80,9 @@ function Dashboard(){
                                                         state: data
                                                     })}>
                                                         <td>
-                                                            <p className="demo-2" id="TooltipExample">{data.description}</p>
-                                                            <Tooltip placement="right" isOpen={tooltipOpen} target="TooltipExample" toggle={toggle}>
-                                                                {data.description}
-                                                            </Tooltip>
+                                                            <p className="demo-2">{data.description}</p>
                                                         </td>
-                                                        <td>{data.status!==3 ? <img src={notsigned} alt=""/> : <img src={done} alt="" width="40px" height="30px"/>}</td>
+                                                        <td>{data.status!==3 ? <img src={notsigned} alt=""/> : <img src={done} alt=""/>}</td>
                                                         <td>{data.dateExpire.substring(10,0)}</td>
                                                     </tr>
                                                 ))}

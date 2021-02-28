@@ -13,16 +13,19 @@ import PagDoc from "../Panigation/PagDoc";
 import invoiceAPI from "../../api/invoiceAPI";
 import GetCreater from "../GetData/GetCreater";
 import {useHistory} from "react-router-dom";
+import contractAPI from "../../api/contractAPI";
+import { getUser } from "../../utils/Common";
 
 function Document(){
     const history = useHistory();
-    const [tooltipOpen, setTooltipOpen] = useState(false);
-    const tooltip = () => setTooltipOpen(!tooltipOpen);
     const [isOpen, setIsOpen] = useState(false);
     const [dele, setDel] =useState(false);
     const toogle = () => setIsOpen(!isOpen);
     const [postList, setPostList] = useState([]);
     const [listInvoice, setListInvoice] = useState([]);
+    const [listAllInvoice, setListAllInvoice] = useState([]);
+    const [listAllContract, setListAllContract] = useState([]);
+    const [listContract, setListContract] = useState([]);
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [postPerPage] = useState(6);
@@ -34,12 +37,28 @@ function Document(){
             try {
                 const res = await invoiceAPI.getAllInvoice();
                 setListInvoice(res.data);
+                setListAllInvoice(res.data);
+                postList.push(res.data)
             } catch (error) {
                 console.log(error)
             }
         }
         getInvoice();
     },[])
+    useEffect(()=>{
+        async function getContract() {
+            const id = getUser().Id;
+            try {
+                const res = await contractAPI.getContractBySignerId(id)
+                setListContract(res.data);
+                postList.push(res.data)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        getContract();
+    },[])
+    console.log(postList)
     function paginate(pageNumber){
         setCurrentPage(pageNumber);
     }
@@ -160,10 +179,7 @@ function Document(){
                                     })}>
                                         <Label style={{fontWeight:'bold'}}>Title document</Label>
                                         <br/>
-                                        <Label className="demo" id="TooltipExample">{doc.description}</Label>
-                                        <Tooltip placement="right" isOpen={tooltipOpen} target="TooltipExample" toggle={tooltip}>
-                                            {doc.description}
-                                        </Tooltip>
+                                        <Label className="demo">{doc.description}</Label>
                                     </td>
                                     <td onClick={()=> history.push({
                                         pathname: '/detail/' + doc.id + '/' + doc.description,
@@ -182,7 +198,7 @@ function Document(){
                                         <Label></Label>
                                         <br/>
                                         <Label>
-                                            <img hidden={doc.status===3 ? false : true} src={done} alt="" width="35px" height="30px"/>
+                                            <img hidden={doc.status===3 ? false : true} src={done} alt=""/>
                                             <img hidden={doc.status===3 ? true : false} src={notsigned} alt=""/>
                                         </Label>
                                     </td>
