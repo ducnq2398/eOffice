@@ -7,7 +7,7 @@ import { useHistory } from 'react-router-dom';
 function VerticalLinearStepper({activeStep}){
     const history = useHistory();
     function getStep(){
-        return ['Upload file', 'Title description', 'Select signer', 'Select company guest','Select guest and viewer', 'Select the expiration date', 'Complete'];
+        return ['Upload file', 'Title description', 'Select Signer', 'Select Company','Select Guest','Select Viewer','Select the expiration date', 'Complete'];
     }
     const steps = getStep();
     return(

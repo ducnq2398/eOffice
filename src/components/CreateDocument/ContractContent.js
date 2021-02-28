@@ -60,7 +60,7 @@ function ContractContent() {
     },[])
     var today = new Date(),
     date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-    console.log(location.state)
+    
     async function handleCreated(e) {
         e.preventDefault(); 
         const file = location.state.file[0];
@@ -86,11 +86,12 @@ function ContractContent() {
                 contractId : contractId,
                 listViewersId: location.state.listViewerId
             }
-            axios.post("https://datnxeoffice.azurewebsites.net/api/contracts/addviewertocontract",viewer).catch(function(error){
+            axios.post("https://datnxeoffice.azurewebsites.net/api/contracts/addviewertocontract",viewer).then(function(res) {
+                toast.success("You has created contract successfully", {position: toast.POSITION.TOP_CENTER});
+                history.push('/document')
+            }).catch(function(error){
                 console.log(error)
-            })
-            toast.success("You has created contract successfully", {position: toast.POSITION.TOP_CENTER});
-            history.push('/document')
+            }) 
         }).catch(function(error) {
             console.log(error)
         })

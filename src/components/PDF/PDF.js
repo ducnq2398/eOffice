@@ -29,16 +29,15 @@ function PDF({pdf}){
             <Document 
                 file={pdf}
                 onLoadSuccess={onDocumentLoadSuccess}
-                renderMode="svg"
             >
             <Page pageNumber={pageNumber} />
             </Document>
             <div>
-                <p hidden={pageNumber===0}>
+                <p hidden={pageNumber===0} style={{fontWeight:'bold'}}>
                     Page {pageNumber || (numPages ? 1 : "--")} of {numPages || "--"}
                 </p>
                 <Button hidden={pageNumber===0} type="button" color="link"  disabled={pageNumber <= 1} onClick={previousPage}>
-                    <img src={back} alt="back" width="20px" height="20px"/>
+                    <img src={back} alt="back" width="15px" height="15px"/>
                 </Button> {' '}
                 <Button
                 hidden={pageNumber===0}
@@ -46,7 +45,7 @@ function PDF({pdf}){
                 disabled={pageNumber >= numPages}
                 onClick={nextPage}
                 >
-                <img src={next} width="20px" height="20px" alt="next"/>
+                <img src={next} width="15px" height="15px" alt="next"/>
                 </Button>
             </div>
         </div>

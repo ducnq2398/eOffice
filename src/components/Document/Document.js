@@ -1,19 +1,23 @@
-import { Container, Form, FormGroup,Col ,Input, Button, ButtonDropdown, DropdownToggle, DropdownMenu, Table, Label, Modal, ModalHeader, ModalFooter } from "reactstrap";
+import { Container, Form, FormGroup,Col ,Input, Button, ButtonDropdown, DropdownToggle, DropdownMenu, Table, Label, Modal, ModalHeader, ModalFooter, Tooltip } from "reactstrap";
 import Header from "../Nav/Header";
 import '../../css/Document.css';
 import Sidebar from "../Sidebar/Sidebar";
 import { useEffect, useState } from "react";
 import search from '../../images/search1.png';
 import del from '../../images/delete.png';
-import notsigned from "../../images/not-signed.png";
+import notsigned from "../../images/status.png";
 import done from '../../images/true.png';
 import choo from '../../images/choo.png';
 import StepDoc from "../Sidebar/StepDoc";
 import PagDoc from "../Panigation/PagDoc";
 import invoiceAPI from "../../api/invoiceAPI";
 import GetCreater from "../GetData/GetCreater";
+import {useHistory} from "react-router-dom";
 
-function Document(props){
+function Document(){
+    const history = useHistory();
+    const [tooltipOpen, setTooltipOpen] = useState(false);
+    const tooltip = () => setTooltipOpen(!tooltipOpen);
     const [isOpen, setIsOpen] = useState(false);
     const [dele, setDel] =useState(false);
     const toogle = () => setIsOpen(!isOpen);
@@ -29,7 +33,7 @@ function Document(props){
         async function getInvoice() {
             try {
                 const res = await invoiceAPI.getAllInvoice();
-                setListInvoice(res.data)
+                setListInvoice(res.data);
             } catch (error) {
                 console.log(error)
             }
@@ -40,10 +44,10 @@ function Document(props){
         setCurrentPage(pageNumber);
     }
     function Contract() {
-        props.history.push('/contract')
+        history.push('/contract')
     }
     function Invoice() {
-        props.history.push('/invoice');
+        history.push('/invoice');
     }
     function All() {
         setPostList(data)
@@ -93,7 +97,7 @@ function Document(props){
                     <div className="form-create">
                         <FormGroup row>
                             <ButtonDropdown direction="right" isOpen={isOpen} toggle={toogle} >
-                                <DropdownToggle style={{height:'70%'}} color="primary">+Create</DropdownToggle>
+                                <DropdownToggle style={{height:'60%', borderRadius:'5px'}} color="primary">+Create</DropdownToggle>
                                 <DropdownMenu>
                                     <Form className="form-create2">
                                         <FormGroup>
@@ -102,9 +106,9 @@ function Document(props){
                                         <FormGroup>
                                             <Label style={{marginLeft:'10%'}}>Please select the type of document you want to create</Label>
                                         </FormGroup>
-                                        <FormGroup style={{marginLeft:'35%'}}>
-                                            <Button color="primary" onClick={Contract}>Contract</Button>{' '}
-                                            <Button color="primary" onClick={Invoice}>Invoice</Button>
+                                        <FormGroup style={{marginLeft:'30%'}}>
+                                            <Button color="primary" style={{width:'100px'}} onClick={Contract}>Contract</Button>{' '}
+                                            <Button color="primary" style={{width:'100px'}} onClick={Invoice}>Invoice</Button>
                                         </FormGroup>
                                     </Form>
                                 </DropdownMenu>
@@ -130,36 +134,51 @@ function Document(props){
                             
                             <Col className="col-pag">
                                 <PagDoc
-                                            currentPage= {currentPage}
-                                            postsPerPage={postPerPage}
-                                            totalPosts = {listInvoice.length}
-                                            paginate={paginate}
-                                            />
+                                        currentPage= {currentPage}
+                                        postsPerPage={postPerPage}
+                                        totalPosts = {listInvoice.length}
+                                        paginate={paginate}
+                                />
                             </Col>
                         </FormGroup>
                     </div>
                     <Table hover>
                         <tbody>
-                            {currentPosts.map((doc) =>(
+                            {currentPosts.sort((a,b)=> a.dateExpire > b.dateExpire ? 1 : -1).map(doc =>(
                                 <tr key={doc.id}>
-                                    <td>
-                                    <Label style={{fontWeight:'bold'}}>Creater name</Label>
-                                    <br/>
-                                    <Label><GetCreater id={doc.createrId}/></Label>
+                                    <td onClick={()=> history.push({
+                                        pathname: '/detail/' + doc.id + '/' + doc.description,
+                                        state: doc
+                                    })}>
+                                        <Label style={{fontWeight:'bold'}}>Creator name</Label>
+                                        <br/>
+                                        <Label><GetCreater id={doc.creatorId}/></Label>
                                     </td>
-                                    <td>
+                                    <td onClick={()=> history.push({
+                                        pathname: '/detail/' + doc.id + '/' + doc.description,
+                                        state: doc
+                                    })}>
                                         <Label style={{fontWeight:'bold'}}>Title document</Label>
                                         <br/>
-                                        <Label>{doc.description}</Label>
+                                        <Label className="demo" id="TooltipExample">{doc.description}</Label>
+                                        <Tooltip placement="right" isOpen={tooltipOpen} target="TooltipExample" toggle={tooltip}>
+                                            {doc.description}
+                                        </Tooltip>
                                     </td>
-                                    <td>
+                                    <td onClick={()=> history.push({
+                                        pathname: '/detail/' + doc.id + '/' + doc.description,
+                                        state: doc
+                                    })}>
                                         <Label style={{fontWeight:'bold'}}>Status</Label>
                                         <br/>
                                         <Label className="step">
                                             <StepDoc activeStep={doc.status+1}/>
                                         </Label>
                                     </td>
-                                    <td>
+                                    <td onClick={()=> history.push({
+                                        pathname: '/detail/' + doc.id + '/' + doc.description,
+                                        state: doc
+                                    })}>
                                         <Label></Label>
                                         <br/>
                                         <Label>
@@ -167,10 +186,13 @@ function Document(props){
                                             <img hidden={doc.status===3 ? true : false} src={notsigned} alt=""/>
                                         </Label>
                                     </td>
-                                    <td>
+                                    <td onClick={()=> history.push({
+                                        pathname: '/detail/' + doc.id + '/' + doc.description,
+                                        state: doc
+                                    })}>
                                         <Label style={{fontWeight:'bold'}}>Date expire</Label>
                                         <br/>
-                                        <Label>{doc.dateExpire}</Label>
+                                        <Label>{doc.dateExpire.substring(0,10)}</Label>
                                     </td>
                                     <td>
                                         <Label></Label>
@@ -178,8 +200,7 @@ function Document(props){
                                         <Label  hidden={doc.status===3 ? true : false}><img src={del} onClick={()=>setDel(true)} alt="" width="25px" height="25px"/></Label>
                                     </td>
                                 </tr>
-                            ))}
-                            
+                            ))}  
                         </tbody>
                     </Table>
                     <Modal isOpen={dele}>

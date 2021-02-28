@@ -36,7 +36,7 @@ function Login(){
             password: md5pass.trim().toString(),
         }
         loginAPI.loginUser(params).then(function(res){
-            setUserSession(res.data.token, res.data);
+            setUserSession(res.data.IdToken, res.data);
             if(res.data.role!==''){
                 history.push('/dashboard');
             }else{

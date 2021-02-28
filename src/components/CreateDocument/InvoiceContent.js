@@ -1,4 +1,4 @@
-import {Container,Form, FormGroup, Row, Col, Label, Button, Modal, ModalFooter, ModalHeader} from "reactstrap";
+import {Container,Form, FormGroup, Row, Col, Label, Button, Modal, ModalFooter, ModalHeader, Input} from "reactstrap";
 import Header from "../Nav/Header";
 import StepInvoice from "../Sidebar/StepInvoice";
 import PDF from "../PDF/PDF";
@@ -10,6 +10,7 @@ import { getUser } from "../../utils/Common";
 import 'react-toastify/dist/ReactToastify.css';
 import {toast} from "react-toastify";
 import invoiceAPI from "../../api/invoiceAPI";
+import axios from "axios";
 
 toast.configure();
 function InvoiceContent() {
@@ -34,6 +35,8 @@ function InvoiceContent() {
     },[])
     var today = new Date(),
     date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+    console.log(location.state)
+
     async function handleCreated(e) {
         e.preventDefault(); 
         const file = location.state.file[0];
@@ -41,20 +44,30 @@ function InvoiceContent() {
         const url = convertBase64.slice(28)
         const params = {
             dateCreate: date,
-            createrId : getUser().Id,
+            creatorId : getUser().Id,
             dateExpire: location.state.data.date,
             description: location.state.data.title,
             signerId: location.state.data.signer,
             invoiceURL: url
         }
         invoiceAPI.addInvoice(params).then(function(res) {
-            toast.success("You has created invoice successfully", {position: toast.POSITION.TOP_CENTER});
-            history.push('/document'); 
+            const invoiceId = res.data.id;
+            console.log(invoiceId)
+            const viewer = {
+                invoiceId : invoiceId,
+                listViewersId: location.state.listViewerId
+            }
+            axios.post("https://datnxeoffice.azurewebsites.net/api/invoices/addviewertoinvoice",viewer).then(function(res){
+                toast.success("You has created invoice successfully", {position: toast.POSITION.TOP_CENTER});
+                history.push('/document');
+            }).catch(function(error){
+                console.log(error);
+            })
+
         }).catch(function(error) {
             console.log(error)
         })
     }
-  
     function base64(file) {
         return new Promise((resolve)=>{
             const fileReader = new FileReader();
@@ -64,10 +77,9 @@ function InvoiceContent() {
             };
         });
     }
-   
     return(
         <div>
-            <StepInvoice activeStep={4}/>
+            <StepInvoice activeStep={5}/>
             <div className="main-panel">
                 <Header/>
                 <Container fluid={true}>
@@ -90,7 +102,7 @@ function InvoiceContent() {
                                         <p style={{float:'right', fontSize:'20px'}}>Title:</p>
                                     </Col>
                                     <Col>
-                                        <p style={{float:'left', fontSize:'20px'}}>{location.state.data.title}</p>
+                                        <Input style={{fontSize:'20px'}} type="text" defaultValue={location.state.data.title} disabled />
                                     </Col>
                                 </FormGroup>
                                 <FormGroup row>
@@ -98,7 +110,7 @@ function InvoiceContent() {
                                         <p style={{float:'right', fontSize:'20px'}}>Signer:</p>
                                     </Col>
                                     <Col>
-                                        <p style={{float:'left', fontSize:'20px'}}>{signer.name}</p>
+                                        <Input style={{fontSize:'20px'}} type="text" defaultValue={signer.name} disabled />
                                     </Col>
                                 </FormGroup>
                                 <FormGroup row>
@@ -106,11 +118,15 @@ function InvoiceContent() {
                                         <p style={{float:'right', fontSize:'20px'}}>Viewer:</p>
                                     </Col>
                                     <Col>
-                                            {viewer.map((data) => (
-                                                <tr key={data.id}>
-                                                    <td style={{float:'left', fontSize:'20px'}}>{data.name}</td>
-                                                </tr>
-                                            ))}  
+                                        <table>
+                                            <tbody>
+                                                {viewer.map((data) => (
+                                                    <tr key={data.id}>
+                                                        <td style={{float:'left', fontSize:'20px'}}>{data.name}</td>
+                                                    </tr>
+                                                ))}          
+                                            </tbody>                      
+                                        </table>
                                     </Col>
                                 </FormGroup>
                                 <FormGroup row>
@@ -118,7 +134,7 @@ function InvoiceContent() {
                                         <p style={{float:'right', fontSize:'20px'}}>The expiration date:</p>
                                     </Col>
                                     <Col>
-                                        <p style={{float:'left', fontSize:'20px'}}>{location.state.data.date}</p>
+                                        <Input style={{fontSize:'20px'}} type="text" defaultValue={location.state.data.date} disabled />
                                     </Col>
                                 </FormGroup>
                                 <div>

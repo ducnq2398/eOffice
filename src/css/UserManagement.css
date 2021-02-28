@@ -1,7 +1,7 @@
 .main-panel1 {
     overflow: scroll;
     background: white;
-    overflow: hidden;
+    overflow: auto;
     display: block;
     position: relative;
     float: right;
@@ -11,7 +11,6 @@
 }
 
 .form-search{
-    width: 100%;
     margin-left: 10%;
     margin-top: 2rem;
 }

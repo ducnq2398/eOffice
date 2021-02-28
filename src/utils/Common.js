@@ -12,9 +12,6 @@ export const removeUserSession = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
 }
-export const setAdminSession = (token)=>{
-    localStorage.setItem('token', token)
-}
 
 export const setUserSession = (token, user) =>{
     localStorage.setItem('token', token);

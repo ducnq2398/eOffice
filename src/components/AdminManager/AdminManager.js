@@ -2,7 +2,9 @@ import React from 'react';
 import './../../css/AdminManager.css';
 import banner from '../../images/banner.png';
 import SidebarAdmin from '../Sidebar/SidebarAdmin';
+import { getUser } from '../../utils/Common';
 function AdminManager(){
+        console.log(getUser())
         return (
             <div>
                 <SidebarAdmin/>

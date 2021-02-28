@@ -13,7 +13,14 @@ import { useEffect, useState } from 'react';
 function Sidebar(){
     const history = useHistory();
     const [show, setShow] = useState(false);
-   
+    useEffect(()=>{
+        const check = () =>{
+            if(getUser().Role==='2'){
+                setShow(true);
+            }
+        }
+        check();
+    })
     return(
         <div className="sidebar">
             <div className="logo">

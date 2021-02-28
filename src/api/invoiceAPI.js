@@ -8,6 +8,10 @@ const invoiceAPI = {
     getAllInvoice: () =>{
         const url = "invoices/getall";
         return axiosClient.get(url);
+    },
+    getInvoiceById: (id) =>{
+        const url = `invoices/${id}`;
+        return axiosClient.get(url);
     }
 }
 export default invoiceAPI;

@@ -1,15 +1,18 @@
 import React from 'react';
 import back from '../../images/back.png';
 import next from '../../images/next.png';
-import {Pagination, PaginationItem, PaginationLink} from 'reactstrap';
+import {Input, Pagination, PaginationItem, PaginationLink} from 'reactstrap';
 
 
 function PagDoc({currentPage,postsPerPage, totalPosts, paginate}) {
     const pageNumbers = Math.ceil(totalPosts/postsPerPage)
     return (
         <Pagination>
-            <PaginationItem disabled={true}>
-                <PaginationLink>{currentPage}/{pageNumbers}</PaginationLink>
+            <Input style={{width:'60px'}} type="number" value={currentPage} onChange={(e)=>paginate(e.target.value)}/>    
+            <PaginationItem disabled>
+                <PaginationLink>
+                    {currentPage}/{pageNumbers} 
+                </PaginationLink>
             </PaginationItem>
             <PaginationItem disabled={currentPage<=1}>
                 <PaginationLink onClick={() => paginate(currentPage-1)}>

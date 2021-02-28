@@ -24,7 +24,7 @@ function UserManagement(){
     const [isOpen, setIsOpen] = useState(false);
     const [del, setDel] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
-    const [postPerPage] = useState(13);
+    const [postPerPage] = useState(12);
     const indexOfLastPost = currentPage * postPerPage;
     const indexOfFirstPost = indexOfLastPost - postPerPage;
     const currentPosts = userList.slice(indexOfFirstPost, indexOfLastPost);
@@ -133,7 +133,7 @@ function UserManagement(){
                 </div>
                 <Table hidden={search !=='' ? true : false} hover>
                     <thead>
-                        <tr>
+                        <tr style={{textAlign:'left'}}>
                             <th>Account name</th>
                             <th>Department</th>
                             <th>Phone number</th>
@@ -142,7 +142,7 @@ function UserManagement(){
                     </thead>
                     <tbody>
                         {currentPosts.map(user =>(
-                            <tr key={user.id}  >
+                            <tr key={user.id} className="row_data" >
                                 <td onClick={()=>{setData(user); setOpenEdit(true)}}>{user.name}</td>
                                 <td onClick={()=>{setData(user); setOpenEdit(true)}}>
                                     <GetDepartment id={user.departmentId}/>
@@ -150,7 +150,7 @@ function UserManagement(){
                                 <td onClick={()=>{setData(user); setOpenEdit(true)}}>{user.phone}</td>
                                 <td onClick={()=>{setData(user); setOpenEdit(true)}}>{user.email}</td>
                                 <td> 
-                                    <img style={{width:'25px',height:'25px'}} src={icon} alt="" onClick={()=>setDel(!del)}/>
+                                    <img className="hide" style={{width:'25px',height:'25px'}} src={icon} alt="" onClick={()=>setDel(!del)}/>
                                 </td>
                             </tr>
                         ))}

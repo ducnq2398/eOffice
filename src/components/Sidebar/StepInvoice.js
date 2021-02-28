@@ -7,7 +7,7 @@ import { useHistory } from 'react-router-dom';
 function StepInvoice({activeStep}){
     const history = useHistory();
     function getStep(){
-        return ['Upload file', 'Title description', 'Select signer and viewer', 'Select the expiration date', 'Complete'];
+        return ['Upload file', 'Title description', 'Select Signer','Select Viewer', 'Select the expiration date', 'Complete'];
     }
     const steps = getStep();
     return(

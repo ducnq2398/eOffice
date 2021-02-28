@@ -20,7 +20,7 @@ const baseStyle = {
     borderWidth: 2,
     borderRadius: 5,
     height: '50px',
-    width: '50%',
+    width: '80%',
     marginLeft:'auto',
     marginRight:'auto',
     backgroundColor: '#000000f',
@@ -102,12 +102,17 @@ function CreateInvoice() {
         }
     }
     function handleContent() {
+        const listViewerId = [];
+        viewer.map(view=>{
+            listViewerId.push(view.id);
+        })
         history.push({
             pathname: '/invoice-confirm',
             state: {
                 file: file,
                 data: dataUpload,
-                viewer: viewer
+                viewer: viewer,
+                listViewerId: listViewerId
             }
         })
     }
@@ -138,7 +143,7 @@ function CreateInvoice() {
                                     <br/>
                                     <Label>Type Document</Label>
                                     <br/>
-                                    <Input style={{textAlign:'center', width:'50%', marginLeft:'auto',marginRight:'auto'}} disabled={true} type="text" defaultValue="Invoice"/>
+                                    <Input style={{textAlign:'center', width:'80%', marginLeft:'auto',marginRight:'auto'}} disabled={true} type="text" defaultValue="Invoice"/>
                                     <br/>
                                     <Label>Choose file</Label>
                                     <div {... getRootProps({style})}>
@@ -154,30 +159,31 @@ function CreateInvoice() {
                                     </div> 
                                 </div>
                                 <div hidden={activeStep===1 ? false : true} style={{marginTop:'30%'}}>
-                                    <Label>Title Document</Label>
-                                    <Input style={{width:'50%', marginLeft:'auto', marginRight:'auto'}} type="text" name="title" placeholder="Title" required onChange={handleOnChange}/>
+                                    <Label style={{fontSize:'25px', color:'blue'}}>Please input title of invoice</Label>
+                                    <Input style={{width:'80%', marginLeft:'auto', marginRight:'auto'}} type="text" name="title" placeholder="Title" required onChange={handleOnChange}/>
                                 </div>
                                 <div hidden={activeStep===2 ? false : true} style={{marginTop:'30%'}}>
-                                    <Label>Select Signer</Label>
-                                    <Input style={{width:'50%', marginLeft:'auto', marginRight:'auto'}} type="select" name="signer" onChange={handleOnChange} required>
+                                    <Label style={{fontSize:'25px', color:'blue'}}>Please select signer to sign the invoice</Label>
+                                    <Input style={{width:'80%', marginLeft:'auto', marginRight:'auto'}} type="select" name="signer" onChange={handleOnChange} required>
                                         <option value="">Select signer</option>
                                         {listSinger.map(signer =>(
                                             <option key={signer.id} value={signer.id}>{signer.name}</option>
                                         ))}
                                     </Input>
-                                    <Label style={{marginTop:'20px'}}>Select Viewer</Label>
-                                    <Multiselect options={listSinger} displayValue="name" onSelect={onSelect} onRemove={onRemove} placeholder="Select viewer"/>
-                                    
                                 </div>
                                 <div hidden={activeStep===3 ? false : true} style={{marginTop:'30%'}}>
-                                    <Label>Expiration Date</Label>
-                                    <Input style={{width:'50%', marginLeft:'auto', marginRight:'auto'}} type="date" name="date" placeholder="Expiration date" onChange={handleOnChange} required/>
+                                    <Label style={{fontSize:'25px', color:'blue'}}>Please select viewer can view the invoice</Label>
+                                    <Multiselect options={listSinger} displayValue="name" onSelect={onSelect} onRemove={onRemove} placeholder="Select viewer"/>   
+                                </div>
+                                <div hidden={activeStep===4 ? false : true} style={{marginTop:'30%'}}>
+                                    <Label style={{fontSize:'25px', color:'blue'}}>Please select the contract expiration date</Label>
+                                    <Input style={{width:'80%', marginLeft:'auto', marginRight:'auto'}} type="date" name="date" placeholder="Expiration date" onChange={handleOnChange} required/>
                                 </div>
                                 
                                 <div style={{marginTop:'20px'}}>
                                     <Button hidden={activeStep===0 ? true : false} color="primary" onClick={handlePrev}>Return</Button> {' '}
-                                    <Button hidden={activeStep===3 ? true : false} style={{width:'72px'}} color="primary" onClick={handleNext}>Next</Button>
-                                    <Button hidden={activeStep===3 ? false : true}style={{width:'72px'}} color="primary" onClick={handleContent}>Next</Button>
+                                    <Button hidden={activeStep===4 ? true : false} style={{width:'72px'}} color="primary" onClick={handleNext}>Next</Button>
+                                    <Button hidden={activeStep===4 ? false : true}style={{width:'72px'}} color="primary" onClick={handleContent}>Next</Button>
                                 </div>
                         </Col>
                         <Col>

@@ -17,4 +17,10 @@
     width: 100%;
     padding: 10px 10px 10px;
 }
+ .demo-2 {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 300px;
+  } 
 

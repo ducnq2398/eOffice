@@ -1,7 +1,7 @@
 import logo from './../../images/logo.png';
 import './../../css/AdminLogin.css';
 import React, {useState } from 'react';
-import { setAdminSession} from '../../utils/Common';
+import {setUserSession} from '../../utils/Common';
 import {Alert, Button, Container, Form, FormGroup, Input} from 'reactstrap';
 import loginAPI from '../../api/loginAPI';
 
@@ -29,7 +29,7 @@ function AdminLogin(props){
             }
         
             loginAPI.loginAdmin(params).then(function(res){
-                    setAdminSession(res.data.token);
+                    setUserSession(res.data.token, res.data)
                     props.history.push('/admin-manager');
                 }).catch(function(error){
                     setSubmit(true)

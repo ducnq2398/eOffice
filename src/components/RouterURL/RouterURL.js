@@ -1,4 +1,4 @@
-import { BrowserRouter as Router,Redirect,Route, Switch } from "react-router-dom";
+import { BrowserRouter as Redirect,Route, Switch } from "react-router-dom";
 import AdminLogin from "../AdminLogin/AdminLogin";
 import AdminManager from "../AdminManager/AdminManager";
 import Login from "../Login/Login";
@@ -9,7 +9,7 @@ import EditCompany from "../EditCompany/EditCompany";
 import { getToken, getUser } from "../../utils/Common";
 import ResetPassword from "../ForgotPassword/ResetPassword";
 import UserManagement from "../AdminCompany/UserManagement/UserManagement";
-import CreateDocument from "../CreateDocument/CreateDocument";
+import CreateContract from "../CreateDocument/CreateContract";
 import Dashboard from "../Dashboard/Dashboard";
 import Document from "../Document/Document";
 import Error from "../Error/Error";
@@ -19,25 +19,26 @@ import CreateInvoice from "../CreateDocument/CreateInvoice";
 import InvoiceContent from "../CreateDocument/InvoiceContent";
 import Profile from "../Profile/Profile";
 import ContractContent from "../CreateDocument/ContractContent";
+import InvoiceDetail from "../DetailDocument/InvoiceDetail";
 
 function RouterURL(){
     const user = getUser();
     const PrivateRoute = ({ component: Component, ...rest}) =>(
         <Route {...rest} render={(props) => 
-            getToken()
+            getToken() && user.role===0
             ? <Component {... props}/> 
             : <Redirect to={{pathname: '/', state:{from: props.location} }}/>}/>
     )
 
     const AdminRoute = ({ component: Component, ...rest}) =>(
         <Route {...rest} render={(props) => 
-            getToken() && user.roleId===1 
+            getToken() && user.Role==='1' 
             ? <Component {... props}/> 
             : <Redirect to={{pathname: '/', state:{from: props.location} }}/>}/>
     )
     const UserRoute = ({ component: Component, ...rest}) =>(
         <Route {...rest} render={(props) => 
-            getToken() 
+            getToken() && user.Role!=='0'
             ? <Component {... props}/> 
             : <Redirect to={{pathname: '/', state:{from: props.location} }}/>}/>
     )
@@ -51,15 +52,16 @@ function RouterURL(){
                 <Route path="/forgot-password" component={ForgotPassword}/>
                 <Route path="/reset-password" component={ResetPassword}/>
                 <Route path="/error" component={Error}/>
-                <Route path="/contract" component={CreateDocument}/>
-                <Route path="/invoice" component={CreateInvoice}/>
+                <UserRoute path="/contract" component={CreateContract}/>
+                <UserRoute path="/invoice" component={CreateInvoice}/>
                 <UserRoute path="/dashboard" component={Dashboard}/>
                 <UserRoute path="/invoice-confirm" component={InvoiceContent}/>
                 <UserRoute path="/contract-confirm" component={ContractContent}/>
                 <UserRoute path="/document" component={Document}/>
+                <UserRoute path="/detail/:id/:name" component={InvoiceDetail}/>
                 <UserRoute path="/notification" component={Notification}/>
-                <Route path="/department" component={DepartmentManagerment}/>
-                <Route path="/user-management" component={UserManagement}/>
+                <AdminRoute path="/department" component={DepartmentManagerment}/>
+                <AdminRoute path="/user-management" component={UserManagement}/>
                 <PrivateRoute path="/admin-manager" component={AdminManager}/>
                 <PrivateRoute path="/company-register" component={CompanyRegister}/>
                 <PrivateRoute path="/company-list" component={CompanyList}/>

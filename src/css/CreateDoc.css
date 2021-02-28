@@ -43,7 +43,7 @@
     padding: 5px;
     min-height: 22px;
     position: relative;
-    width: 50%;
+    width: 80%;
     margin-left: auto;
     margin-right: auto;
 }
@@ -53,8 +53,8 @@
   margin: 0;
   border: 1px solid #ccc;
   border-radius: 4px;
-  max-height: 250px;
-  width: 50%;
+  max-height: 300px;
+  width: 80%;
   margin-left: auto;
   margin-right: auto;
   overflow-y: auto;
