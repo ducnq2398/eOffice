@@ -60,7 +60,6 @@ function ContractContent() {
     },[])
     var today = new Date(),
     date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-    
     async function handleCreated(e) {
         e.preventDefault(); 
         const file = location.state.file[0];
@@ -77,9 +76,9 @@ function ContractContent() {
             const contractId = res.data.id;
             const data = {
                 contractId : contractId,
-                signId : location.state.listSignId
+                listSignersId : location.state.listSignId
             }
-            axios.post("https://datnxeoffice.azurewebsites.net/api/contracts/addsigntocontract",data).catch(function(error){
+            axios.post("https://datnxeoffice.azurewebsites.net/api/contracts/addsignertocontract",data).catch(function(error){
                 console.log(error);
             })
             const viewer = {

@@ -22,6 +22,10 @@ function StepInvoice({activeStep}){
                 </Step>
                 ))}
             </Stepper>
+            <div className="bot">
+                <p>Requirements | Terms of Service</p>
+                <p>@2021 EOffice inc.</p>
+            </div>
         </div>
     );
 }

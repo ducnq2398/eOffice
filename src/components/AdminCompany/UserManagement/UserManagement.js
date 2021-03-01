@@ -8,7 +8,7 @@ import './../../../css/UserManagement.css';
 import icon from "../../../images/delete.png";
 import { getUser } from "../../../utils/Common";
 import GetDepartment from "../../GetData/GetDepartment";
-import Switch from 'react-switch';
+import Switch from '@material-ui/core/Switch';
 import departmentAPI from "../../../api/departmentAPI";
 
 function UserManagement(){
@@ -138,6 +138,7 @@ function UserManagement(){
                             <th>Department</th>
                             <th>Phone number</th>
                             <th>Email</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -226,7 +227,12 @@ function UserManagement(){
                             <Col>
                                 <Label>
                                     <span>{checkAcitve===true ? 'Active' : 'Deactive'}</span>
-                                    <Switch onChange={()=> setCheckActive(!checkAcitve)} checked={checkAcitve}/>
+                                    <Switch
+                                        checked={checkAcitve}
+                                        onChange={()=> setCheckActive(!checkAcitve)}
+                                        name="checkedA"
+                                        color="primary"
+                                    />
                                 </Label>
                             </Col>
                         </FormGroup>

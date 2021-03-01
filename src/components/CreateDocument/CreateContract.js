@@ -56,12 +56,18 @@ function CreateDocument(){
         date: '',
     });
     const [viewer, setViewer] = useState([]);
-    const [viewerId, setViewerId] = useState([]);
+    const [viewerGuest, setViewerGuest] = useState([]);
     function onSelect(data) {       
         setViewer(data)
     }
     function onRemove(data) {  
         setViewer(data)
+    }
+    function onSelect1(data) {       
+        setViewerGuest(data)
+    }
+    function onRemove1(data) {  
+        setViewerGuest(data)
     }
     const {getRootProps, getInputProps,isDragActive,
         isDragAccept,
@@ -150,6 +156,10 @@ function CreateDocument(){
         viewer.map(view=>{
             listViewerId.push(view.id);
         })
+        viewerGuest.map(view=>{
+            listViewerId.push(view.id);
+            viewer.push(view);
+        })
         history.push({
             pathname: '/contract-confirm',
             state: {
@@ -222,7 +232,10 @@ function CreateDocument(){
                                 </div>
                                 <div hidden={activeStep===5 ? false : true} style={{marginTop:'30%'}}>
                                     <Label style={{fontSize:'25px', color:'blue'}}>Please select viewer can view the contract</Label>
-                                    <Multiselect options={listSinger} displayValue="name" onSelect={onSelect} onRemove={onRemove} placeholder="Select viewer" />
+                                    <Multiselect options={listSinger} displayValue="name" onSelect={onSelect} onRemove={onRemove} placeholder="Select viewer company" />
+                                    <div style={{marginTop:'20px'}}>
+                                        <Multiselect options={listGuest} displayValue="name" onSelect={onSelect1} onRemove={onRemove1} placeholder="Select viewer guest" />
+                                    </div>
                                 </div>
                                 <div hidden={activeStep===6 ? false : true} style={{marginTop:'30%'}}>
                                     <Label style={{fontSize:'25px', color:'blue'}}>Please select the contract expiration date</Label>

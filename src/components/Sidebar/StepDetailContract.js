@@ -3,7 +3,7 @@ import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import '../../css/Stepper.css';
 import '../../css/StepDetail.css';
-import signerinvoice from '../../images/signinvoice.png';
+import signercontract from '../../images/sign1contract.png';
 import showall from '../../images/showall.png';
 import completed from '../../images/completeInvoice.png';
 import completed1 from '../../images/complete.png';
@@ -15,9 +15,9 @@ import Tooltip from '@material-ui/core/Tooltip';
 import { getUser } from '../../utils/Common';
 import companyListAPI from '../../api/companyListAPI';
 
-function StepDetail({activeStep}) {
+function StepDetailContract({activeStep}) {
     function getStep(){
-        return ['Create Invoice', 'Person sign','Invoice Completed'];
+        return ['Create Contract', 'Person 1 sign','Person 2 sign','Contract Completed'];
     }
     const [signer, setSigner] = useState([]);
     const [company, setCompany] = useState([]);
@@ -60,12 +60,15 @@ function StepDetail({activeStep}) {
                 </Step>
                 ))}
             </Stepper>
-            <div hidden={activeStep!==3 ? true : false}>
+            <div hidden={activeStep!==4 ? true : false}>
                 <img style={{marginTop:'10px'}} src={completed1} alt=""/>
-                <Tooltip title={'Company name: '+ company.name+ '. Sign '+ location.state.dateSign.substring(10,0)+ ' Signer Name: '+signer.name} placement="right">
-                    <img style={{marginTop:'10px'}} src={signerinvoice} alt=""/>
+                <Tooltip  placement="right">
+                    <img style={{marginTop:'10px'}} src={signercontract} alt=""/>
                 </Tooltip>
-                <Tooltip title={'Invoice status: Completed  '+ location.state.dateSign.substring(10,0)} placement="right">
+                <Tooltip  placement="right">
+                    <img style={{marginTop:'10px'}} src={signercontract} alt=""/>
+                </Tooltip> 
+                <Tooltip  placement="right">
                     <img style={{marginTop:'10px'}} src={completed} alt=""/>
                 </Tooltip>
                 <img style={{marginTop:'10px'}} src={showall} alt=""/>
@@ -77,4 +80,4 @@ function StepDetail({activeStep}) {
         </div>
     )
 }
-export default StepDetail;
+export default StepDetailContract;

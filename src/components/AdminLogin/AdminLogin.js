@@ -4,6 +4,7 @@ import React, {useState } from 'react';
 import {setUserSession} from '../../utils/Common';
 import {Alert, Button, Container, Form, FormGroup, Input} from 'reactstrap';
 import loginAPI from '../../api/loginAPI';
+import md5 from 'md5';
 
 function AdminLogin(props){
         const [adminLogin, setAdminLogin] = useState({
@@ -23,9 +24,10 @@ function AdminLogin(props){
         }
         function handleSubmit(e){
             e.preventDefault();
+            const md5pass = md5(adminLogin.password);
             const params = {
                 username: adminLogin.username,
-                password: adminLogin.password,
+                password: md5pass.trim().toString(),
             }
         
             loginAPI.loginAdmin(params).then(function(res){
@@ -46,7 +48,7 @@ function AdminLogin(props){
                         <img src={logo} alt=""/>
                     </FormGroup>
                     <FormGroup>
-                        <Input type="text" name="username" required onChange={handleChange} placeholder="Username"/>
+                        <Input type="email" name="username" required onChange={handleChange} placeholder="Email"/>
                     </FormGroup>
                     <FormGroup>
                         <Input type="password" name="password" required onChange={handleChange} placeholder="Password"/>

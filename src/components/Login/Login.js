@@ -27,7 +27,6 @@ function Login(){
             [name] : value,
         })
     }
-
     function handleSubmit(e){
         e.preventDefault();
         const md5pass = md5(getData.password);

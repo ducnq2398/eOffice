@@ -1,4 +1,4 @@
-import { Container, Form, FormGroup,Col ,Input, Button, ButtonDropdown, DropdownToggle, DropdownMenu, Table, Label, Modal, ModalHeader, ModalFooter, Tooltip } from "reactstrap";
+import { Container, Form, FormGroup,Col ,Input, Button, ButtonDropdown, DropdownToggle, DropdownMenu, Table, Label, Modal, ModalHeader, ModalFooter} from "reactstrap";
 import Header from "../Nav/Header";
 import '../../css/Document.css';
 import Sidebar from "../Sidebar/Sidebar";
@@ -22,43 +22,77 @@ function Document(){
     const [dele, setDel] =useState(false);
     const toogle = () => setIsOpen(!isOpen);
     const [postList, setPostList] = useState([]);
-    const [listInvoice, setListInvoice] = useState([]);
     const [listAllInvoice, setListAllInvoice] = useState([]);
     const [listAllContract, setListAllContract] = useState([]);
-    const [listContract, setListContract] = useState([]);
+    const [listContractById, setListContractById] = useState([]);
+    const [listInvoiceById, setListInvoiceById] = useState([]);
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [postPerPage] = useState(6);
     const indexOfLastPost = currentPage * postPerPage;
     const indexOfFirstPost = indexOfLastPost - postPerPage;
-    const currentPosts = listInvoice.slice(indexOfFirstPost, indexOfLastPost);
+    const currentPosts = [];
     useEffect(()=>{
-        async function getInvoice() {
+        async function getAllContrac() {
+            const id = getUser().CompanyId;
             try {
-                const res = await invoiceAPI.getAllInvoice();
-                setListInvoice(res.data);
-                setListAllInvoice(res.data);
-                postList.push(res.data)
+                await contractAPI.getContractByCompanyId(id).then(function(res) {
+                    setListAllContract(res.data)            
+                });
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        getAllContrac();
+    },[])
+    useEffect(()=>{
+        async function getAllInvoice() {
+            const id = getUser().CompanyId;
+            try {
+                await invoiceAPI.getInvoiceByCompanyId(id).then(function(res) {
+                   setListAllInvoice(res.data)
+                });
             } catch (error) {
                 console.log(error)
             }
         }
-        getInvoice();
+        getAllInvoice();
     },[])
+    
     useEffect(()=>{
-        async function getContract() {
+        async function getContractById() {
             const id = getUser().Id;
             try {
-                const res = await contractAPI.getContractBySignerId(id)
-                setListContract(res.data);
-                postList.push(res.data)
+                await contractAPI.getContractBySignerId(id).then(function(res) {
+                    contractAPI.getContractByViewerId(id).then(function(res2) {
+                        const list = [...res.data, ...res2.data];
+                        setListContractById(list);  
+                    })
+                })
             } catch (error) {
                 console.log(error)
             }
         }
-        getContract();
+        getContractById();
     },[])
-    console.log(postList)
+    
+    useEffect(()=>{
+        async function getInvoiceById() {
+            const id = getUser().Id;
+            try {
+                await invoiceAPI.getInvoiceByViewerId(id).then(function(res) {
+                    invoiceAPI.getInvoiceBySignerId(id).then(function(res2) {
+                        const list = [...res.data, ...res2.data];
+                        setListInvoiceById(list);
+                    })
+                })  
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        getInvoiceById();
+    },[])
+        
     function paginate(pageNumber){
         setCurrentPage(pageNumber);
     }
@@ -89,23 +123,33 @@ function Document(){
             })
         )
     }
-    function ListSigned() {
+    function ListSigned(e) {
+        e.preventDefault();
         setPostList( 
             postList.filter(data =>{
-            if(data.status===1){
+            if(data.status===3){
                 return data
                 }
             })
         )
     }
-    function ListNotSigned() {
+    function ListNotSigned(e) {
+        e.preventDefault();
         setPostList( 
             postList.filter(data =>{
-            if(data.status===1){
+            if(data.status!==3){
                 return data
                 }
             })
         )
+    }
+    const list = [...listAllInvoice,...listAllContract];
+    const list2 = [...listContractById,...listInvoiceById];
+    if(getUser().Role==='1'){
+        currentPosts.push(list.slice(indexOfFirstPost, indexOfLastPost));
+    }
+    if(getUser().Role==='2'){
+        currentPosts.push(list2.slice(indexOfFirstPost, indexOfLastPost));
     }
     return(
         <div>
@@ -155,7 +199,7 @@ function Document(){
                                 <PagDoc
                                         currentPage= {currentPage}
                                         postsPerPage={postPerPage}
-                                        totalPosts = {listInvoice.length}
+                                        totalPosts = {getUser().Role==='1' ? list.length : list2.length}
                                         paginate={paginate}
                                 />
                             </Col>
@@ -163,10 +207,10 @@ function Document(){
                     </div>
                     <Table hover>
                         <tbody>
-                            {currentPosts.sort((a,b)=> a.dateExpire > b.dateExpire ? 1 : -1).map(doc =>(
-                                <tr key={doc.id}>
+                            {currentPosts[0].map((doc, key )=>(
+                                <tr key={key}>
                                     <td onClick={()=> history.push({
-                                        pathname: '/detail/' + doc.id + '/' + doc.description,
+                                        pathname: '/detail/invoice/' + doc.id + '/' + doc.description,
                                         state: doc
                                     })}>
                                         <Label style={{fontWeight:'bold'}}>Creator name</Label>
@@ -174,7 +218,7 @@ function Document(){
                                         <Label><GetCreater id={doc.creatorId}/></Label>
                                     </td>
                                     <td onClick={()=> history.push({
-                                        pathname: '/detail/' + doc.id + '/' + doc.description,
+                                        pathname: '/detail/invoice/' + doc.id + '/' + doc.description,
                                         state: doc
                                     })}>
                                         <Label style={{fontWeight:'bold'}}>Title document</Label>
@@ -182,17 +226,17 @@ function Document(){
                                         <Label className="demo">{doc.description}</Label>
                                     </td>
                                     <td onClick={()=> history.push({
-                                        pathname: '/detail/' + doc.id + '/' + doc.description,
+                                        pathname: '/detail/invoice/' + doc.id + '/' + doc.description,
                                         state: doc
                                     })}>
                                         <Label style={{fontWeight:'bold'}}>Status</Label>
                                         <br/>
                                         <Label className="step">
-                                            <StepDoc activeStep={doc.status+1}/>
+                                            <StepDoc activeStep={doc.status}/>
                                         </Label>
                                     </td>
                                     <td onClick={()=> history.push({
-                                        pathname: '/detail/' + doc.id + '/' + doc.description,
+                                        pathname: '/detail/invoice/' + doc.id + '/' + doc.description,
                                         state: doc
                                     })}>
                                         <Label></Label>
@@ -203,12 +247,12 @@ function Document(){
                                         </Label>
                                     </td>
                                     <td onClick={()=> history.push({
-                                        pathname: '/detail/' + doc.id + '/' + doc.description,
+                                        pathname: '/detail/invoice/' + doc.id + '/' + doc.description,
                                         state: doc
                                     })}>
                                         <Label style={{fontWeight:'bold'}}>Date expire</Label>
                                         <br/>
-                                        <Label>{doc.dateExpire.substring(0,10)}</Label>
+                                        <Label>{doc.dateExpire.substring(10,0)}</Label>
                                     </td>
                                     <td>
                                         <Label></Label>

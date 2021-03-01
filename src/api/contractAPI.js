@@ -14,8 +14,20 @@ const contractAPI = {
         return axiosClient.post(url, params);
     },
     getContractBySignerId: (id) =>{
-        const url = `contracts/getcontractsbysignerid?id=${id}`;
+        const url = `/contracts/getcontractsbysignerid?id=${id}`;
         return axiosClient.get(url);
+    },
+    getContractByViewerId: (id) =>{
+        const url = `/contracts/getcontractsbyviewrid?id=${id}`;
+        return axiosClient.get(url);
+    },
+    getContractById: (id) =>{
+        const url = `/contracts/${id}`;
+        return axiosClient.get(url);
+    },
+    getContractByCompanyId: (id) =>{
+        const url = `/contracts/getbycompany?id=${id}`;
+        return axiosClient.get(url)
     } 
 }
 export default contractAPI;

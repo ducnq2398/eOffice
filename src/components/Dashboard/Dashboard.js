@@ -7,29 +7,111 @@ import { useEffect, useState } from "react";
 import notsigned from "../../images/status.png";
 import done from '../../images/true.png';
 import invoiceAPI from "../../api/invoiceAPI";
+import { getUser } from "../../utils/Common";
+import contractAPI from "../../api/contractAPI";
 
 function Dashboard(){
     const history = useHistory();
-    const [postList, setPostList] = useState([]);
     const [listInvoice, setListInvoice] = useState([]);
-    const [data, setData] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
+    const [listContract, setListContract] = useState([]);
+    const [listContractById] = useState([]);
+    const [listInvoiceById] = useState([]);
+    const [currentPage] = useState(1);
     const [postPerPage] = useState(5);
     const indexOfLastPost = currentPage * postPerPage;
     const indexOfFirstPost = indexOfLastPost - postPerPage;
-    const currentPosts = listInvoice.slice(indexOfFirstPost, indexOfLastPost);
+    const currentPostsContract = [];
+    const currentPostsInvoice = [];
 
     useEffect(()=>{
-        async function getInvoice() {
+        async function getAllDocument() {
+            const id = getUser().CompanyId;
             try {
-                const res = await invoiceAPI.getAllInvoice();
+                const res = await invoiceAPI.getInvoiceByCompanyId(id);
                 setListInvoice(res.data)
             } catch (error) {
                 console.log(error)
             }
         }
-        getInvoice();
+        getAllDocument();
     },[])
+    useEffect(()=>{
+        async function getAllDocument() {
+            const id = getUser().CompanyId;
+            try {
+                const res = await contractAPI.getContractByCompanyId(id);
+                setListContract(res.data)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        getAllDocument();
+    },[])
+    useEffect(()=>{
+        async function getDocumentById() {
+            const id = getUser().Id;
+            try {
+                await contractAPI.getContractBySignerId(id).then(function(res){
+                    res.data.forEach(element => {
+                        listContractById.push(element)
+                    });
+                })        
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        getDocumentById();
+    },[])
+    useEffect(()=>{
+        async function getDocumentById() {
+            const id = getUser().Id;
+            try {             
+                await contractAPI.getContractByViewerId(id).then(function(res){
+                    res.data.forEach(element => {
+                        listContractById.push(element)
+                    });
+                })
+                
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        getDocumentById();
+    },[])
+    useEffect(()=>{
+        async function getDocumentById() {
+            const id = getUser().Id;
+            try {          
+                
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        getDocumentById();
+    },[])
+    useEffect(()=>{
+        async function getDocumentById() {
+            const id = getUser().Id;
+            try {
+                await invoiceAPI.getInvoiceByViewerId(id).then(function(res){
+                    res.data.forEach(element => {
+                        listInvoiceById.push(element)
+                    });
+                })
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        getDocumentById();
+    },[])
+    if(getUser().Role==='1'){
+        currentPostsContract.push(listContract.slice(indexOfFirstPost, indexOfLastPost));
+        currentPostsInvoice.push(listInvoice.slice(indexOfFirstPost, indexOfLastPost));
+    }
+    if(getUser().Role==='2'){
+        currentPostsContract.push(listContractById.slice(indexOfFirstPost, indexOfLastPost));
+        currentPostsInvoice.push(listInvoiceById.slice(indexOfFirstPost, indexOfLastPost));
+    }
     return(
         <div>
             <Sidebar/>
@@ -45,10 +127,10 @@ function Dashboard(){
                                     </FormGroup>
                                     <FormGroup>
                                         <Table hover>
-                                        <tbody>
-                                                {currentPosts.map(data =>(
+                                        <tbody style={{textAlign:'left'}}>
+                                                {currentPostsContract[0].map(data =>(
                                                     <tr key={data.id} onClick={()=> history.push({
-                                                        pathname: '/detail/' + data.id + '/' + data.description,
+                                                        pathname: '/detail/contract/' + data.id + '/' + data.description,
                                                         state: data
                                                     })}>
                                                         <td>
@@ -73,10 +155,10 @@ function Dashboard(){
                                     </FormGroup>
                                     <FormGroup>
                                         <Table hover>
-                                            <tbody>
-                                                {currentPosts.map(data =>(
+                                            <tbody style={{textAlign:'left'}}>
+                                                {currentPostsInvoice[0].map(data =>(
                                                     <tr key={data.id} onClick={()=> history.push({
-                                                        pathname: '/detail/' + data.id + '/' + data.description,
+                                                        pathname: '/detail/invoice/' + data.id + '/' + data.description,
                                                         state: data
                                                     })}>
                                                         <td>

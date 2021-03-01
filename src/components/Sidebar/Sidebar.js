@@ -93,7 +93,7 @@ function Sidebar(){
                     </ul>
             </div>
             <div className="bot">
-                <p>Yêu cầu | Điều khoản dịch vụ</p>
+                <p>Requirements | Terms of Service</p>
                 <p>@2021 EOffice inc.</p>
             </div>
         </div>

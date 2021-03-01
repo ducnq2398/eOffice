@@ -1,52 +1,79 @@
-import {Container,Form, FormGroup, Row, Col, Label, Input, Button} from "reactstrap";
+import {Container,Form, FormGroup, Row, Col, Label, Input} from "reactstrap";
 import Header from "../Nav/Header";
 import StepDetail from "../Sidebar/StepDetail";
 import PDF from "../PDF/PDF";
 import notsigned from "../../images/status.png";
-import done from '../../images/invoicecompleted.png';
+import done from '../../images/true.png';
 import download from '../../images/download.png';
 import iconprint from '../../images/iconprint.png';
 import print from '../../images/print.png';
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import userListAPI from "../../api/userListAPI";
-import invoiceAPI from "../../api/invoiceAPI";
 import GetCreater from "../GetData/GetCreater";
 import fileDownload from "js-file-download";
 import axios from "axios";
+import contractAPI from "../../api/contractAPI";
+import StepDetailContract from "../Sidebar/StepDetailContract";
+import companyListAPI from "../../api/companyListAPI";
 
-function InvoiceDetail(){
+function ContractDetail(){
     const location = useLocation();
-    const [activeStep, setActiveStep] = useState(3);
-    const [signer, setSigner] = useState([]);
-    const [creator, setCreator] = useState([]);
-    const viewer = location.state.viewers;
+    const [activeStep, setActiveStep] = useState(4);
+    const [signer1, setSigner1] = useState([]);
+    const [signer2, setSigner2] = useState([]);
+    const [company1, setCompany1] = useState([]);
+    const [company2, setCompany2] = useState([]);
+    const [document, setDocument] = useState('');
+    const viewer = location.state.contractViewers;
     useEffect(()=>{
-        async function getSigner() {
+        async function getSigner1() {
             try {
-                const res = await userListAPI.getUserById(location.state.signerId);
-                setSigner(res.data);
+                const res = await userListAPI.getUserById(location.state.contractSigners[0].signerId);
+                setSigner1(res.data);
             } catch (error) {
                 console.log(error);
             }
         }
-        getSigner();
+        getSigner1();
+    },[])
+    useEffect(()=>{
+        async function getSigner2() {
+            try {
+                const res = await userListAPI.getUserById(location.state.contractSigners[1].signerId);
+                setSigner2(res.data);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        getSigner2();
     },[])
 
     useEffect(()=>{
-        async function getCreator() {
+        async function getCompany1() {
             try {
-                const res = await userListAPI.getUserById(location.state.creatorId);
-                setCreator(res.data);
+                const res = await companyListAPI.getCompanyById(signer1.companyId);
+                setCompany1(res.data);
             } catch (error) {
                 console.log(error);
             }
         }
-        getCreator();
-    },[])
+        getCompany1();
+    },[signer1.companyId])
+    useEffect(()=>{
+        async function getCompany2() {
+            try {
+                const res = await companyListAPI.getCompanyById(signer2.companyId);
+                setCompany2(res.data);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        getCompany2();
+    },[signer2.companyId])
     return(
         <div>
-            <StepDetail activeStep={activeStep}/>
+            <StepDetailContract activeStep={activeStep}/>
             <div className="main-panel">
                 <Header/>
                 <Container fluid={true}>
@@ -61,8 +88,8 @@ function InvoiceDetail(){
                                     <p style={{float:'right', fontSize:'20px'}}>Status:</p>
                                 </Col>
                                 <Col>
-                                    <img style={{float:'left', marginTop:'6px'}} hidden={activeStep===3 ? false : true} src={done} alt=""/>
-                                    <img style={{float:'left', marginTop:'6px'}} hidden={activeStep===3 ? true : false} src={notsigned} alt=""/>
+                                    <img style={{float:'left', marginTop:'6px'}} hidden={activeStep===4 ? false : true} src={done} alt=""/>
+                                    <img style={{float:'left', marginTop:'6px'}} hidden={activeStep===4 ? true : false} src={notsigned} alt=""/>
                                 </Col>
                             </FormGroup>
                             <FormGroup row>
@@ -70,15 +97,7 @@ function InvoiceDetail(){
                                     <p style={{float:'right', fontSize:'20px'}}>Type Document:</p>
                                 </Col>
                                 <Col>
-                                    <p style={{float:'left', fontSize:'20px'}}>Invoice</p>
-                                </Col>
-                            </FormGroup>
-                            <FormGroup row>
-                                <Col sm={5}>
-                                    <p style={{float:'right', fontSize:'20px'}}>Creator:</p>
-                                </Col>
-                                <Col>
-                                    <Input style={{fontSize:'20px'}} type="text" defaultValue={creator.name} disabled />
+                                    <p style={{float:'left', fontSize:'20px'}}>Contract</p>
                                 </Col>
                             </FormGroup>
                             <FormGroup row>
@@ -91,10 +110,34 @@ function InvoiceDetail(){
                             </FormGroup>
                             <FormGroup row>
                                 <Col sm={5}>
+                                    <p style={{float:'right', fontSize:'20px'}}>Company name:</p>
+                                </Col>
+                                <Col>
+                                    <Input style={{fontSize:'20px'}} type="text" defaultValue={company1.name} disabled />
+                                </Col>
+                            </FormGroup>
+                            <FormGroup row>
+                                <Col sm={5}>
                                     <p style={{float:'right', fontSize:'20px'}}>Signer:</p>
                                 </Col>
                                 <Col>
-                                    <Input style={{fontSize:'20px'}} type="text" defaultValue={signer.name} disabled />
+                                    <Input style={{fontSize:'20px'}} type="text" defaultValue={signer1.name} disabled />
+                                </Col>
+                            </FormGroup>
+                            <FormGroup row>
+                                <Col sm={5}>
+                                    <p style={{float:'right', fontSize:'20px'}}>Company name:</p>
+                                </Col>
+                                <Col>
+                                    <Input style={{fontSize:'20px'}} type="text" defaultValue={company2.name} disabled />
+                                </Col>
+                            </FormGroup>
+                            <FormGroup row>
+                                <Col sm={5}>
+                                    <p style={{float:'right', fontSize:'20px'}}>Signer:</p>
+                                </Col>
+                                <Col>
+                                    <Input style={{fontSize:'20px'}} type="text" defaultValue={signer2.name} disabled />
                                 </Col>
                             </FormGroup>
                             <FormGroup row>
@@ -124,12 +167,12 @@ function InvoiceDetail(){
                                 </Col>
                             </FormGroup>
                             </Form>
-                            <div hidden={activeStep===3 ? false : true} style={{marginTop:'10%'}}> 
+                            <div hidden={activeStep===4 ? false : true} style={{marginTop:'10%'}}> 
                                 <Row>
-                                    <Col >
+                                    <Col>
                                         <img style={{marginLeft:'80px'}} onClick={(e)=>{
                                             e.preventDefault();
-                                            axios.get(location.state.invoiceURL, {
+                                            axios.get(location.state.contractUrl, {
                                                 responseType: 'blob'
                                             }).then(function(res) {
                                                 fileDownload(res.data, location.state.description+".pdf")
@@ -149,7 +192,7 @@ function InvoiceDetail(){
                             <Form className="form-doc">
                                 <FormGroup row>
                                     <div>
-                                        <PDF pdf={location.state.invoiceURL}/>                                  
+                                        <PDF pdf={location.state.contractUrl}/>                                  
                                     </div>
                                 </FormGroup>
                             </Form>
@@ -161,4 +204,4 @@ function InvoiceDetail(){
         </div>
     )
 }
-export default InvoiceDetail;
+export default ContractDetail;
