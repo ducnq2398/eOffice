@@ -78,19 +78,20 @@ function ContractContent() {
                 contractId : contractId,
                 listSignersId : location.state.listSignId
             }
-            axios.post("https://datnxeoffice.azurewebsites.net/api/contracts/addsignertocontract",data).catch(function(error){
-                console.log(error);
-            })
-            const viewer = {
-                contractId : contractId,
-                listViewersId: location.state.listViewerId
-            }
-            axios.post("https://datnxeoffice.azurewebsites.net/api/contracts/addviewertocontract",viewer).then(function(res) {
-                toast.success("You has created contract successfully", {position: toast.POSITION.TOP_CENTER});
-                history.push('/document')
+            axios.post("https://datnxeoffice.azurewebsites.net/api/contracts/addsignertocontract",data).then(function(res) {
+                const viewer = {
+                    contractId : contractId,
+                    listViewersId: location.state.listViewerId
+                }
+                axios.post("https://datnxeoffice.azurewebsites.net/api/contracts/addviewertocontract",viewer).then(function(res) {
+                    toast.success("You has created contract successfully", {position: toast.POSITION.TOP_CENTER});
+                    history.push('/document')
+                }).catch(function(error){
+                    console.log(error)
+                }) 
             }).catch(function(error){
-                console.log(error)
-            }) 
+                console.log(error);
+            })           
         }).catch(function(error) {
             console.log(error)
         })

@@ -14,15 +14,15 @@ const invoiceAPI = {
         return axiosClient.get(url);
     },
     getInvoiceBySignerId: (id) =>{
-        const url = `/invoices/getinvoicesbysignerid?signerId=${id}`;
+        const url = `/invoices/getbysignerid?signerId=${id}`;
         return axiosClient.get(url);
     },
     getInvoiceByViewerId: (id) =>{
-        const url = `/invoices/getinvoicesbyviewerid?viewerId=${id}`;
+        const url = `/invoices/getbyviewerid?viewerId=${id}`;
         return axiosClient.get(url);
     },
     getInvoiceByCompanyId: (id) =>{
-        const url = `/invoices/getbycompanyid?id=${id}`;
+        const url = `/invoices/getbycompany?id=${id}`;
         return axiosClient.get(url);
     }
 }

@@ -258,6 +258,7 @@ function CreateDocument(){
                                     {file.map(url =>(
                                         <div key={url.name}>
                                             <PDF pdf={url.preview}/>
+                                            {/* <iframe  src={url.preview} type="application/pdf"/> */}
                                         </div>
                                     ))}
                                 </div>

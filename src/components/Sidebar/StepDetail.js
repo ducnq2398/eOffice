@@ -60,7 +60,7 @@ function StepDetail({activeStep}) {
                 </Step>
                 ))}
             </Stepper>
-            <div hidden={activeStep!==3 ? true : false}>
+            <div hidden={activeStep<3 ? true : false}>
                 <img style={{marginTop:'10px'}} src={completed1} alt=""/>
                 <Tooltip title={'Company name: '+ company.name+ '. Sign '+ location.state.dateSign.substring(10,0)+ ' Signer Name: '+signer.name} placement="right">
                     <img style={{marginTop:'10px'}} src={signerinvoice} alt=""/>

@@ -35,7 +35,6 @@ function InvoiceContent() {
     },[])
     var today = new Date(),
     date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-    console.log(location.state)
 
     async function handleCreated(e) {
         e.preventDefault(); 
@@ -63,7 +62,6 @@ function InvoiceContent() {
             }).catch(function(error){
                 console.log(error);
             })
-
         }).catch(function(error) {
             console.log(error)
         })
@@ -120,8 +118,8 @@ function InvoiceContent() {
                                     <Col>
                                         <table>
                                             <tbody>
-                                                {viewer.map((data) => (
-                                                    <tr key={data.id}>
+                                                {viewer.map((data, key) => (
+                                                    <tr key={key}>
                                                         <td style={{float:'left', fontSize:'20px'}}>{data.name}</td>
                                                     </tr>
                                                 ))}          

@@ -12,6 +12,10 @@ const departmentAPI = {
     getSubDepartment: (id) =>{
         const url = `subdepartments/getbydepartment?derpartmentId=${id}`;
         return axiosClient.get(url)
+    },
+    addDepartment: (params) =>{
+        const url = '/departments/adddepartment';
+        return axiosClient.post(url, params);
     }
 }
 export default departmentAPI;

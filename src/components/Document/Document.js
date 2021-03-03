@@ -27,6 +27,7 @@ function Document(){
     const [listContractById, setListContractById] = useState([]);
     const [listInvoiceById, setListInvoiceById] = useState([]);
     const [data, setData] = useState([]);
+    const [find, setFind] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [postPerPage] = useState(6);
     const indexOfLastPost = currentPage * postPerPage;
@@ -45,6 +46,7 @@ function Document(){
         }
         getAllContrac();
     },[])
+    
     useEffect(()=>{
         async function getAllInvoice() {
             const id = getUser().CompanyId;
@@ -74,7 +76,7 @@ function Document(){
             }
         }
         getContractById();
-    },[])
+    },[getUser().Id])
     
     useEffect(()=>{
         async function getInvoiceById() {
@@ -91,7 +93,7 @@ function Document(){
             }
         }
         getInvoiceById();
-    },[])
+    },[getUser().Id])
         
     function paginate(pageNumber){
         setCurrentPage(pageNumber);
@@ -133,6 +135,9 @@ function Document(){
             })
         )
     }
+    
+    const list = [...listAllInvoice,...listAllContract];
+    const list2 = [...listContractById,...listInvoiceById];
     function ListNotSigned(e) {
         e.preventDefault();
         setPostList( 
@@ -143,8 +148,7 @@ function Document(){
             })
         )
     }
-    const list = [...listAllInvoice,...listAllContract];
-    const list2 = [...listContractById,...listInvoiceById];
+    console.log(list)
     if(getUser().Role==='1'){
         currentPosts.push(list.slice(indexOfFirstPost, indexOfLastPost));
     }
@@ -177,8 +181,8 @@ function Document(){
                                 </DropdownMenu>
                             </ButtonDropdown>
                             <Col sm={4}>
-                                <Input type="text" name="search"/>
-                                <img className="se" src={search} alt="search"/>
+                                <Input type="text" name="search" value={find} onChange={event => setFind(event.target.value)} placeholder="Search by name document"/>
+                                <img className="se" src={search} alt=''/>
                             </Col>
                             <Col className="col-doc">
                                 <Input className="selectbox" type="select" defaultValue="1" name="selectDocument">
@@ -205,12 +209,12 @@ function Document(){
                             </Col>
                         </FormGroup>
                     </div>
-                    <Table hover>
+                    <Table hidden={find!== '' ? true : false} hover>
                         <tbody>
-                            {currentPosts[0].map((doc, key )=>(
+                            {currentPosts[0].map((doc,key)=>(
                                 <tr key={key}>
                                     <td onClick={()=> history.push({
-                                        pathname: '/detail/invoice/' + doc.id + '/' + doc.description,
+                                        pathname: '/detail/contract/' + doc.id + '/' + doc.description,
                                         state: doc
                                     })}>
                                         <Label style={{fontWeight:'bold'}}>Creator name</Label>
@@ -218,7 +222,7 @@ function Document(){
                                         <Label><GetCreater id={doc.creatorId}/></Label>
                                     </td>
                                     <td onClick={()=> history.push({
-                                        pathname: '/detail/invoice/' + doc.id + '/' + doc.description,
+                                        pathname: '/detail/contract/' + doc.id + '/' + doc.description,
                                         state: doc
                                     })}>
                                         <Label style={{fontWeight:'bold'}}>Title document</Label>
@@ -232,7 +236,7 @@ function Document(){
                                         <Label style={{fontWeight:'bold'}}>Status</Label>
                                         <br/>
                                         <Label className="step">
-                                            <StepDoc activeStep={doc.status}/>
+                                            <StepDoc activeStep={doc.status+1}/>
                                         </Label>
                                     </td>
                                     <td onClick={()=> history.push({
@@ -242,25 +246,144 @@ function Document(){
                                         <Label></Label>
                                         <br/>
                                         <Label>
-                                            <img hidden={doc.status===3 ? false : true} src={done} alt=""/>
-                                            <img hidden={doc.status===3 ? true : false} src={notsigned} alt=""/>
+                                            <img hidden={doc.status>3 ? false : true} src={done} alt=""/>
+                                            <img hidden={doc.status<3 ? false : true} src={notsigned} alt=""/>
                                         </Label>
                                     </td>
                                     <td onClick={()=> history.push({
                                         pathname: '/detail/invoice/' + doc.id + '/' + doc.description,
                                         state: doc
                                     })}>
-                                        <Label style={{fontWeight:'bold'}}>Date expire</Label>
+                                        <Label style={{fontWeight:'bold'}}></Label>
                                         <br/>
-                                        <Label>{doc.dateExpire.substring(10,0)}</Label>
+                                        <Label>{doc.dateCreate.substring(10,0)}</Label>
                                     </td>
                                     <td>
                                         <Label></Label>
                                         <br/>
-                                        <Label  hidden={doc.status===3 ? true : false}><img src={del} onClick={()=>setDel(true)} alt="" width="25px" height="25px"/></Label>
+                                        <Label  hidden={doc.status<3 ? false : true}><img src={del} onClick={()=>setDel(true)} alt="" width="25px" height="25px"/></Label>
                                     </td>
                                 </tr>
                             ))}  
+                        </tbody>
+                    </Table>
+                    <Table hover hidden={find==='' ? true : false}>
+                        <tbody>
+                            {getUser().Role === '1' ? list.filter((data)=>{
+                                if(data.description.toLowerCase().includes(find.toLowerCase())){
+                                    return data
+                                }
+                            }).map((data,key) =>(
+                                <tr key={key}>
+                                    <td onClick={()=> history.push({
+                                        pathname: '/detail/contract/' + data.id + '/' + data.description,
+                                        state: data
+                                    })}>
+                                        <Label style={{fontWeight:'bold'}}>Creator name</Label>
+                                        <br/>
+                                        <Label><GetCreater id={data.creatorId}/></Label>
+                                    </td>
+                                    <td onClick={()=> history.push({
+                                        pathname: '/detail/contract/' + data.id + '/' + data.description,
+                                        state: data
+                                    })}>
+                                        <Label style={{fontWeight:'bold'}}>Title document</Label>
+                                        <br/>
+                                        <Label className="demo">{data.description}</Label>
+                                    </td>
+                                    <td onClick={()=> history.push({
+                                        pathname: '/detail/invoice/' + data.id + '/' + data.description,
+                                        state: data
+                                    })}>
+                                        <Label style={{fontWeight:'bold'}}>Status</Label>
+                                        <br/>
+                                        <Label className="step">
+                                            <StepDoc activeStep={data.status+1}/>
+                                        </Label>
+                                    </td>
+                                    <td onClick={()=> history.push({
+                                        pathname: '/detail/invoice/' + data.id + '/' + data.description,
+                                        state: data
+                                    })}>
+                                        <Label></Label>
+                                        <br/>
+                                        <Label>
+                                            <img hidden={data.status>3 ? false : true} src={done} alt=""/>
+                                            <img hidden={data.status<3 ? false : true} src={notsigned} alt=""/>
+                                        </Label>
+                                    </td>
+                                    <td onClick={()=> history.push({
+                                        pathname: '/detail/invoice/' + data.id + '/' + data.description,
+                                        state: data
+                                    })}>
+                                        <Label style={{fontWeight:'bold'}}></Label>
+                                        <br/>
+                                        <Label>{data.dateCreate.substring(10,0)}</Label>
+                                    </td>
+                                    <td>
+                                        <Label></Label>
+                                        <br/>
+                                        <Label  hidden={data.status<3 ? false : true}><img src={del} onClick={()=>setDel(true)} alt="" width="25px" height="25px"/></Label>
+                                    </td>
+                                </tr>
+                            )) : list2.filter((data)=>{
+                                if(data.description.toLowerCase().includes(find.toLowerCase())){
+                                    return data
+                                }
+                            }).map((data,key) =>(
+                                <tr key={key}>
+                                    <td onClick={()=> history.push({
+                                        pathname: '/detail/contract/' + data.id + '/' + data.description,
+                                        state: data
+                                    })}>
+                                        <Label style={{fontWeight:'bold'}}>Creator name</Label>
+                                        <br/>
+                                        <Label><GetCreater id={data.creatorId}/></Label>
+                                    </td>
+                                    <td onClick={()=> history.push({
+                                        pathname: '/detail/contract/' + data.id + '/' + data.description,
+                                        state: data
+                                    })}>
+                                        <Label style={{fontWeight:'bold'}}>Title document</Label>
+                                        <br/>
+                                        <Label className="demo">{data.description}</Label>
+                                    </td>
+                                    <td onClick={()=> history.push({
+                                        pathname: '/detail/invoice/' + data.id + '/' + data.description,
+                                        state: data
+                                    })}>
+                                        <Label style={{fontWeight:'bold'}}>Status</Label>
+                                        <br/>
+                                        <Label className="step">
+                                            <StepDoc activeStep={data.status+1}/>
+                                        </Label>
+                                    </td>
+                                    <td onClick={()=> history.push({
+                                        pathname: '/detail/invoice/' + data.id + '/' + data.description,
+                                        state: data
+                                    })}>
+                                        <Label></Label>
+                                        <br/>
+                                        <Label>
+                                            <img hidden={data.status>3 ? false : true} src={done} alt=""/>
+                                            <img hidden={data.status<3 ? false : true} src={notsigned} alt=""/>
+                                        </Label>
+                                    </td>
+                                    <td onClick={()=> history.push({
+                                        pathname: '/detail/invoice/' + data.id + '/' + data.description,
+                                        state: data
+                                    })}>
+                                        <Label style={{fontWeight:'bold'}}></Label>
+                                        <br/>
+                                        <Label>{data.dateCreate.substring(10,0)}</Label>
+                                    </td>
+                                    <td>
+                                        <Label></Label>
+                                        <br/>
+                                        <Label  hidden={data.status<3 ? false : true}><img src={del} onClick={()=>setDel(true)} alt="" width="25px" height="25px"/></Label>
+                                    </td>
+                                </tr>
+                            ))}
                         </tbody>
                     </Table>
                     <Modal isOpen={dele}>

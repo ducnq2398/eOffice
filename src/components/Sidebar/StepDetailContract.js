@@ -60,7 +60,7 @@ function StepDetailContract({activeStep}) {
                 </Step>
                 ))}
             </Stepper>
-            <div hidden={activeStep!==4 ? true : false}>
+            <div hidden={activeStep<3 ? true : false}>
                 <img style={{marginTop:'10px'}} src={completed1} alt=""/>
                 <Tooltip  placement="right">
                     <img style={{marginTop:'10px'}} src={signercontract} alt=""/>

@@ -14,11 +14,11 @@ const contractAPI = {
         return axiosClient.post(url, params);
     },
     getContractBySignerId: (id) =>{
-        const url = `/contracts/getcontractsbysignerid?id=${id}`;
+        const url = `/contracts/getbysignerid?id=${id}`;
         return axiosClient.get(url);
     },
     getContractByViewerId: (id) =>{
-        const url = `/contracts/getcontractsbyviewrid?id=${id}`;
+        const url = `/contracts/getbyviewrid?id=${id}`;
         return axiosClient.get(url);
     },
     getContractById: (id) =>{

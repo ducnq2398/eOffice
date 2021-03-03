@@ -5,6 +5,7 @@ import Sidebar from "../Sidebar/Sidebar";
 import { Link, useHistory } from "react-router-dom";
 import { useEffect, useState } from "react";
 import notsigned from "../../images/status.png";
+import doneinvoice from '../../images/invoicecompleted.png';
 import done from '../../images/true.png';
 import invoiceAPI from "../../api/invoiceAPI";
 import { getUser } from "../../utils/Common";
@@ -12,10 +13,10 @@ import contractAPI from "../../api/contractAPI";
 
 function Dashboard(){
     const history = useHistory();
-    const [listInvoice, setListInvoice] = useState([]);
-    const [listContract, setListContract] = useState([]);
-    const [listContractById] = useState([]);
-    const [listInvoiceById] = useState([]);
+    const [listAllInvoice, setListAllInvoice] = useState([]);
+    const [listAllContract, setListAllContract] = useState([]);
+    const [listContractById, setListContractById] = useState([]);
+    const [listInvoiceById, setListInvoiceById] = useState([]);
     const [currentPage] = useState(1);
     const [postPerPage] = useState(5);
     const indexOfLastPost = currentPage * postPerPage;
@@ -24,89 +25,67 @@ function Dashboard(){
     const currentPostsInvoice = [];
 
     useEffect(()=>{
-        async function getAllDocument() {
+        async function getAllContrac() {
             const id = getUser().CompanyId;
             try {
-                const res = await invoiceAPI.getInvoiceByCompanyId(id);
-                setListInvoice(res.data)
+                await contractAPI.getContractByCompanyId(id).then(function(res) {
+                    setListAllContract(res.data)            
+                });
             } catch (error) {
-                console.log(error)
+                console.log(error);
             }
         }
-        getAllDocument();
+        getAllContrac();
     },[])
     useEffect(()=>{
-        async function getAllDocument() {
+        async function getAllInvoice() {
             const id = getUser().CompanyId;
             try {
-                const res = await contractAPI.getContractByCompanyId(id);
-                setListContract(res.data)
+                await invoiceAPI.getInvoiceByCompanyId(id).then(function(res) {
+                   setListAllInvoice(res.data)
+                });
             } catch (error) {
                 console.log(error)
             }
         }
-        getAllDocument();
+        getAllInvoice();
     },[])
     useEffect(()=>{
-        async function getDocumentById() {
+        async function getInvoiceById() {
             const id = getUser().Id;
             try {
-                await contractAPI.getContractBySignerId(id).then(function(res){
-                    res.data.forEach(element => {
-                        listContractById.push(element)
-                    });
-                })        
+                await invoiceAPI.getInvoiceByViewerId(id).then(function(res) {
+                    invoiceAPI.getInvoiceBySignerId(id).then(function(res2) {
+                        const list = [...res.data, ...res2.data];
+                        setListInvoiceById(list);
+                    })
+                })  
             } catch (error) {
                 console.log(error)
             }
         }
-        getDocumentById();
-    },[])
+        getInvoiceById();
+    },[getUser().Id])
+
     useEffect(()=>{
-        async function getDocumentById() {
-            const id = getUser().Id;
-            try {             
-                await contractAPI.getContractByViewerId(id).then(function(res){
-                    res.data.forEach(element => {
-                        listContractById.push(element)
-                    });
-                })
-                
-            } catch (error) {
-                console.log(error)
-            }
-        }
-        getDocumentById();
-    },[])
-    useEffect(()=>{
-        async function getDocumentById() {
-            const id = getUser().Id;
-            try {          
-                
-            } catch (error) {
-                console.log(error)
-            }
-        }
-        getDocumentById();
-    },[])
-    useEffect(()=>{
-        async function getDocumentById() {
+        async function getContractById() {
             const id = getUser().Id;
             try {
-                await invoiceAPI.getInvoiceByViewerId(id).then(function(res){
-                    res.data.forEach(element => {
-                        listInvoiceById.push(element)
-                    });
+                await contractAPI.getContractBySignerId(id).then(function(res) {
+                    contractAPI.getContractByViewerId(id).then(function(res2) {
+                        const list = [...res.data, ...res2.data];
+                        setListContractById(list);  
+                    })
                 })
             } catch (error) {
                 console.log(error)
             }
         }
-        getDocumentById();
-    },[])
+        getContractById();
+    },[getUser().Id])
     if(getUser().Role==='1'){
-        currentPostsContract.push(listContract.slice(indexOfFirstPost, indexOfLastPost));
-        currentPostsInvoice.push(listInvoice.slice(indexOfFirstPost, indexOfLastPost));
+        currentPostsContract.push(listAllContract.slice(indexOfFirstPost, indexOfLastPost));
+        currentPostsInvoice.push(listAllInvoice.slice(indexOfFirstPost, indexOfLastPost));
     }
     if(getUser().Role==='2'){
         currentPostsContract.push(listContractById.slice(indexOfFirstPost, indexOfLastPost));
@@ -136,8 +115,8 @@ function Dashboard(){
                                                         <td>
                                                             <p className="demo-2" >{data.description}</p>    
                                                         </td>
-                                                        <td>{data.status!==3 ? <img src={notsigned} alt=""/> : <img src={done} alt=""/>}</td>
-                                                        <td>{data.dateExpire.substring(10,0)}</td>
+                                                        <td>{data.status<3 ? <img src={notsigned} alt=""/> : <img src={done} alt=""/>}</td>
+                                                        <td>{data.dateCreate.substring(10,0)}</td>
                                                     </tr>
                                                 ))}
                                             </tbody>
@@ -164,8 +143,8 @@ function Dashboard(){
                                                         <td>
                                                             <p className="demo-2">{data.description}</p>
                                                         </td>
-                                                        <td>{data.status!==3 ? <img src={notsigned} alt=""/> : <img src={done} alt=""/>}</td>
-                                                        <td>{data.dateExpire.substring(10,0)}</td>
+                                                        <td>{data.status<3 ? <img src={notsigned} alt=""/> : <img src={doneinvoice} alt=""/>}</td>
+                                                        <td>{data.dateCreate.substring(10,0)}</td>
                                                     </tr>
                                                 ))}
                                             </tbody>

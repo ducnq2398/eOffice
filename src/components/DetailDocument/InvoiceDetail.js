@@ -17,10 +17,10 @@ import axios from "axios";
 
 function InvoiceDetail(){
     const location = useLocation();
-    const [activeStep, setActiveStep] = useState(3);
+    const [activeStep, setActiveStep] = useState(1);
     const [signer, setSigner] = useState([]);
     const [creator, setCreator] = useState([]);
-    const viewer = location.state.viewers;
+    const [viewer, setViewer] = useState([]);
     useEffect(()=>{
         async function getSigner() {
             try {
@@ -44,6 +44,19 @@ function InvoiceDetail(){
         }
         getCreator();
     },[])
+    
+    useEffect(()=>{
+        async function getInvoiceById() {
+            try {
+                const res = await invoiceAPI.getInvoiceById(location.state.id);
+                setViewer(res.data.viewers);
+                setActiveStep(res.data.status+1);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        getInvoiceById();
+    },[])
     return(
         <div>
             <StepDetail activeStep={activeStep}/>
@@ -61,8 +74,8 @@ function InvoiceDetail(){
                                     <p style={{float:'right', fontSize:'20px'}}>Status:</p>
                                 </Col>
                                 <Col>
-                                    <img style={{float:'left', marginTop:'6px'}} hidden={activeStep===3 ? false : true} src={done} alt=""/>
-                                    <img style={{float:'left', marginTop:'6px'}} hidden={activeStep===3 ? true : false} src={notsigned} alt=""/>
+                                    <img style={{float:'left', marginTop:'6px'}} hidden={activeStep>3 ? false : true} src={done} alt=""/>
+                                    <img style={{float:'left', marginTop:'6px'}} hidden={activeStep<3 ? false : true} src={notsigned} alt=""/>
                                 </Col>
                             </FormGroup>
                             <FormGroup row>

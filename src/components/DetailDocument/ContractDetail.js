@@ -19,35 +19,52 @@ import companyListAPI from "../../api/companyListAPI";
 
 function ContractDetail(){
     const location = useLocation();
-    const [activeStep, setActiveStep] = useState(4);
+    const [activeStep, setActiveStep] = useState(1);
     const [signer1, setSigner1] = useState([]);
     const [signer2, setSigner2] = useState([]);
     const [company1, setCompany1] = useState([]);
     const [company2, setCompany2] = useState([]);
-    const [document, setDocument] = useState('');
-    const viewer = location.state.contractViewers;
+    const [document, setDocument] = useState([]);
+    const [viewer, setViewer] = useState([]);
+    const [id1, setId1] = useState();
+    const [id2, setId2] = useState();
     useEffect(()=>{
-        async function getSigner1() {
+        async function getDocument() {
             try {
-                const res = await userListAPI.getUserById(location.state.contractSigners[0].signerId);
+                const res = await contractAPI.getContractById(location.state.id);
+                setDocument(res.data);
+                setViewer(res.data.contractViewers);
+                setId1(res.data.contractSigners[0].signerId);
+                setId2(res.data.contractSigners[1].signerId);
+                setActiveStep(res.data.status+1);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        getDocument();
+    },[])
+    useEffect(()=>{
+        async function getSigner1(){
+            try {
+                const res = await userListAPI.getUserById(id1);
                 setSigner1(res.data);
             } catch (error) {
                 console.log(error);
             }
         }
         getSigner1();
-    },[])
+    },[id1])
     useEffect(()=>{
         async function getSigner2() {
             try {
-                const res = await userListAPI.getUserById(location.state.contractSigners[1].signerId);
+                const res = await userListAPI.getUserById(id2);
                 setSigner2(res.data);
             } catch (error) {
                 console.log(error);
             }
         }
         getSigner2();
-    },[])
+    },[id2])
 
     useEffect(()=>{
         async function getCompany1() {
@@ -71,6 +88,7 @@ function ContractDetail(){
         }
         getCompany2();
     },[signer2.companyId])
+
     return(
         <div>
             <StepDetailContract activeStep={activeStep}/>
@@ -88,8 +106,8 @@ function ContractDetail(){
                                     <p style={{float:'right', fontSize:'20px'}}>Status:</p>
                                 </Col>
                                 <Col>
-                                    <img style={{float:'left', marginTop:'6px'}} hidden={activeStep===4 ? false : true} src={done} alt=""/>
-                                    <img style={{float:'left', marginTop:'6px'}} hidden={activeStep===4 ? true : false} src={notsigned} alt=""/>
+                                    <img style={{float:'left', marginTop:'6px'}} hidden={activeStep>3 ? false : true} src={done} alt=""/>
+                                    <img style={{float:'left', marginTop:'6px'}} hidden={activeStep<3 ? false : true} src={notsigned} alt=""/>
                                 </Col>
                             </FormGroup>
                             <FormGroup row>
@@ -192,11 +210,10 @@ function ContractDetail(){
                             <Form className="form-doc">
                                 <FormGroup row>
                                     <div>
-                                        <PDF pdf={location.state.contractUrl}/>                                  
+                                        <PDF pdf={document.contractUrl}/>                                  
                                     </div>
                                 </FormGroup>
                             </Form>
-                            
                         </Col>
                     </Row>
                 </Container>
