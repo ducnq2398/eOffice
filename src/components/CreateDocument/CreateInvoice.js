@@ -11,6 +11,10 @@ import { getUser } from "../../utils/Common";
 import demo from '../../images/demo.png';
 import userListAPI from "../../api/userListAPI";
 import {Multiselect} from 'multiselect-react-dropdown';
+import next from '../../images/next.png';
+import back from '../../images/back.png';
+import {Document, Page, pdfjs} from 'react-pdf';
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const baseStyle = {
     flex: 1,
@@ -51,12 +55,35 @@ function CreateInvoice() {
         signer: '',
         date: '',
     });
+    const [position, setPosition] = useState({
+        x: 0,
+        y: 0
+    })
     const [viewer, setViewer] = useState([]);
     function onSelect(data) {       
         setViewer(data)
     }
     function onRemove(data) {  
         setViewer(data)
+    }
+    const [numPages, setNumPages] = useState('');
+    const [pageNumber, setPageNumber] = useState(1);
+    
+    function onDocumentLoadSuccess({numPages}){
+        setNumPages(numPages);
+        setPageNumber(1);
+        
+    }
+
+    function changPage(offset){
+        setPageNumber(prev => prev +offset);
+    }
+    function previousPage() {
+        changPage(-1);
+    }
+    
+    function nextPage() {
+        changPage(1);
     }
     
     const {getRootProps, getInputProps,isDragActive,
@@ -112,7 +139,9 @@ function CreateInvoice() {
                 file: file,
                 data: dataUpload,
                 viewer: viewer,
-                listViewerId: listViewerId
+                listViewerId: listViewerId,
+                signLocation : position,
+                numberPage: numPages
             }
         })
     }
@@ -129,7 +158,12 @@ function CreateInvoice() {
         }
         fetListUser();
     },[]);
-    
+    function getLocation(e) {
+        setPosition({
+            x: e.nativeEvent.offsetX,
+            y: e.nativeEvent.offsetY 
+        })
+    }
     return(
         <div>
             <StepInvoice activeStep={activeStep}/>
@@ -195,7 +229,32 @@ function CreateInvoice() {
                                     <div>
                                         {file.map(url =>(
                                             <div key={url.name}>
-                                                <PDF pdf={url.preview}/>
+                                                {/* <PDF pdf={url.preview}/> */}
+                                                {/* <iframe onMouseMoveCapture={getLocation} src={url.preview} type="application/pdf" width="500px" height="800px"/> */}
+                                                <div>
+                                                    <Document 
+                                                        file={url.preview}
+                                                        onLoadSuccess={onDocumentLoadSuccess}
+                                                    >
+                                                    <Page pageNumber={pageNumber} onClick={getLocation}/>
+                                                    </Document>
+                                                    <div>
+                                                        <p hidden={pageNumber===0} style={{fontWeight:'bold', marginBottom:'0rem'}}>
+                                                            Page {pageNumber || (numPages ? 1 : "--")} of {numPages || "--"}
+                                                        </p>
+                                                        <Button hidden={pageNumber===0} type="button" color="link"  disabled={pageNumber <= 1} onClick={previousPage}>
+                                                            <img src={back} alt="back" width="15px" height="15px"/>
+                                                        </Button> {' '}
+                                                        <Button
+                                                            hidden={pageNumber===0}
+                                                            type="button" color="link"
+                                                            disabled={pageNumber >= numPages}
+                                                            onClick={nextPage}
+                                                            >
+                                                            <img src={next} width="15px" height="15px" alt="next"/>
+                                                        </Button>
+                                                    </div>
+                                                </div>
                                             </div>
                                         ))}
                                     </div>

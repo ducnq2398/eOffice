@@ -41,17 +41,18 @@ function InvoiceContent() {
         const file = location.state.file[0];
         const convertBase64 = await base64(file)
         const url = convertBase64.slice(28)
+        const position ="page="+location.state.numberPage+",x="+location.state.signLocation.x+",y="+location.state.signLocation.y
         const params = {
             dateCreate: date,
             creatorId : getUser().Id,
             dateExpire: location.state.data.date,
             description: location.state.data.title,
             signerId: location.state.data.signer,
+            signLocation: position,
             invoiceURL: url
         }
         invoiceAPI.addInvoice(params).then(function(res) {
             const invoiceId = res.data.id;
-            console.log(invoiceId)
             const viewer = {
                 invoiceId : invoiceId,
                 listViewersId: location.state.listViewerId

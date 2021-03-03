@@ -8,9 +8,11 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 function PDF({pdf}){
     const [numPages, setNumPages] = useState('');
     const [pageNumber, setPageNumber] = useState(1);
+    
     function onDocumentLoadSuccess({numPages}){
         setNumPages(numPages);
         setPageNumber(1);
+        
     }
 
     function changPage(offset){
@@ -23,17 +25,17 @@ function PDF({pdf}){
     function nextPage() {
         changPage(1);
     }
-    
     return(
         <div>
             <Document 
                 file={pdf}
                 onLoadSuccess={onDocumentLoadSuccess}
+                
             >
-            <Page pageNumber={pageNumber} />
+            <Page pageNumber={pageNumber}/>
             </Document>
             <div>
-                <p hidden={pageNumber===0} style={{fontWeight:'bold'}}>
+                <p hidden={pageNumber===0} style={{fontWeight:'bold', marginBottom:'0rem'}}>
                     Page {pageNumber || (numPages ? 1 : "--")} of {numPages || "--"}
                 </p>
                 <Button hidden={pageNumber===0} type="button" color="link"  disabled={pageNumber <= 1} onClick={previousPage}>

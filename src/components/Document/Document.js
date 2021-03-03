@@ -148,7 +148,6 @@ function Document(){
             })
         )
     }
-    console.log(list)
     if(getUser().Role==='1'){
         currentPosts.push(list.slice(indexOfFirstPost, indexOfLastPost));
     }

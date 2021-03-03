@@ -1,20 +1,26 @@
 
 .react-pdf__Page {
-    margin-top: 10px;
+    margin-top: 20px;
   }
   .react-pdf__Page__textContent {
-    border: 1px solid rgb(14, 12, 12);
+    border: 1px solid rgb(36, 28, 28);
     box-shadow: 5px 5px 5px 1px #ccc;
     border-radius: 5px;
     font-size: larger;
+    width: 610.25px;
+    height: 800.85px;
   }
   
-  .react-pdf__Page__annotations.annotationLayer {
-    padding: 20px;
-  }
+  /* .react-pdf__Page__annotations.annotationLayer {
+    
+  } */
   
   .react-pdf__Page__canvas {
     margin: 0 auto;
+    display: block;
+    user-select: none;
+    width: 612px;
+    height: 800px;
   }
 
   .form-upload{
