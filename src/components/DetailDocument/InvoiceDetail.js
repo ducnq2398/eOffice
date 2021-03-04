@@ -137,7 +137,7 @@ function InvoiceDetail(){
                                 </Col>
                             </FormGroup>
                             </Form>
-                            <div hidden={activeStep===3 ? false : true} style={{marginTop:'10%'}}> 
+                            <div hidden={activeStep>=3 ? false : true} style={{marginTop:'10%'}}> 
                                 <Row>
                                     <Col >
                                         <img style={{marginLeft:'80px'}} onClick={(e)=>{

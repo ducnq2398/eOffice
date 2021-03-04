@@ -10,9 +10,11 @@ import { getUser } from "../../../utils/Common";
 import GetDepartment from "../../GetData/GetDepartment";
 import Switch from '@material-ui/core/Switch';
 import departmentAPI from "../../../api/departmentAPI";
+import ScaleLoader from "react-spinners/ScaleLoader";
 
 function UserManagement(){
     const [userList, setUserList] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [department, setDepartment] = useState([]);
     const [checkAcitve, setCheckActive] = useState(true);
     const [user, setUser] = useState({
@@ -43,6 +45,9 @@ function UserManagement(){
             }catch (error) {
             console.log(error);
         }}
+        setTimeout(()=>{
+            setLoading(false);
+        },1000)
         fetchUserList();
     },[])
     useEffect(()=>{
@@ -56,6 +61,7 @@ function UserManagement(){
                 console.log(error);
             }   
         }
+        
         getDepartment();
     },[])
 
@@ -131,6 +137,9 @@ function UserManagement(){
                         </Col>
                     </FormGroup>
                 </div>
+                {
+                    loading ? <ScaleLoader  color={"#2512DF"} loading={loading} size={35} /> :
+                <div>
                 <Table hidden={search !=='' ? true : false} hover>
                     <thead>
                         <tr style={{textAlign:'left'}}>
@@ -157,6 +166,16 @@ function UserManagement(){
                         ))}
                     </tbody>
                 </Table>
+                    <div hidden={search !== '' ? true : false} style={{width:'100px', marginLeft:'auto', marginRight:'auto', marginTop:'20px'}}>
+                    <Panigation
+                        currentPage= {currentPage}
+                        postsPerPage={postPerPage}
+                        totalPosts = {userList.length}
+                        paginate={paginate}
+                     />
+                    </div>
+                </div>
+                }
                 <Table hidden={search=== '' ? true : false} hover>
                     <thead>
                         <tr>
@@ -172,7 +191,7 @@ function UserManagement(){
                                 return users
                             }
                         }).map(users =>(
-                            <tr key={users.id} >
+                            <tr key={users.id} className="row_data" >
                                 <td onClick={()=>{setData(user); setOpenEdit(true)}}>{users.name}</td>
                                 <td onClick={()=>{setData(user); setOpenEdit(true)}}>
                                     <GetDepartment id={users.departmentId}/>
@@ -180,21 +199,14 @@ function UserManagement(){
                                 <td onClick={()=>{setData(user); setOpenEdit(true)}}>{users.phone}</td>
                                 <td onClick={()=>{setData(user); setOpenEdit(true)}}>{users.email}</td>
                                 <td> 
-                                    <img style={{width:'25px',height:'25px'}} src={icon} alt="" onClick={()=> setDel(!del)}/>
+                                    <img className="hide" style={{width:'25px',height:'25px'}} src={icon} alt="" onClick={()=> setDel(!del)}/>
                                 </td>
                             </tr>
                         ))}
                     </tbody>
                 </Table>
-                <div hidden={search !== '' ? true : false} style={{width:'100px', marginLeft:'auto', marginRight:'auto', marginTop:'20px'}}>
-                    <Panigation
-                        currentPage= {currentPage}
-                        postsPerPage={postPerPage}
-                        totalPosts = {userList.length}
-                        paginate={paginate}
-                     />
-                </div>
-            <Modal isOpen={openEdit} toggle={openE}>
+                
+                <Modal isOpen={openEdit} toggle={openE}>
                 <ModalHeader>User Detail</ModalHeader>
                 <ModalBody>
                 <Form>

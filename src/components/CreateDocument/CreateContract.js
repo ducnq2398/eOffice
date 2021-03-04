@@ -12,6 +12,10 @@ import userListAPI from "../../api/userListAPI";
 import { getUser } from "../../utils/Common";
 import demo from '../../images/demo.png';
 import {Multiselect} from 'multiselect-react-dropdown';
+import next from '../../images/next.png';
+import back from '../../images/back.png';
+import {Document, Page, pdfjs} from 'react-pdf';
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const baseStyle = {
     flex: 1,
@@ -55,6 +59,14 @@ function CreateDocument(){
         signer_guest: '',
         date: '',
     });
+    const [position, setPosition] = useState({
+        x: 0,
+        y: 0
+    })
+    const [cursor, setCursor] = useState({
+        x: 0,
+        y: 0
+    })
     const [viewer, setViewer] = useState([]);
     const [viewerGuest, setViewerGuest] = useState([]);
     function onSelect(data) {       
@@ -68,6 +80,25 @@ function CreateDocument(){
     }
     function onRemove1(data) {  
         setViewerGuest(data)
+    }
+    const [numPages, setNumPages] = useState('');
+    const [pageNumber, setPageNumber] = useState(1);
+    
+    function onDocumentLoadSuccess({numPages}){
+        setNumPages(numPages);
+        setPageNumber(1);
+        
+    }
+
+    function changPage(offset){
+        setPageNumber(prev => prev +offset);
+    }
+    function previousPage() {
+        changPage(-1);
+    }
+    
+    function nextPage() {
+        changPage(1);
     }
     const {getRootProps, getInputProps,isDragActive,
         isDragAccept,
@@ -167,10 +198,33 @@ function CreateDocument(){
                 data: dataUpload,
                 viewer: viewer,
                 listSignId: list,
-                listViewerId: listViewerId
+                listViewerId: listViewerId,
+                signLocation : position,
+                numberPage: numPages
             }
         })
     }
+    function getLocation(e) {
+        setPosition({
+            x: e.nativeEvent.offsetX,
+            y: e.nativeEvent.offsetY 
+        })
+    }
+    useEffect(() => {addEventListeners();
+        return () => removeEventListeners();
+    },[]);
+        
+    const addEventListeners = () => {
+        document.addEventListener("mousemove", onMouseMove);
+    };
+    
+    const removeEventListeners = () => {
+        document.removeEventListener("mousemove", onMouseMove);
+    };   
+    const onMouseMove = (e) => {
+        setCursor({x: e.clientX, y: e.clientY})
+    };
+    
     return(
         <div>
             <VerticalLinearStepper activeStep={activeStep} />
@@ -254,11 +308,40 @@ function CreateDocument(){
                                 <div hidden={show} style={{marginTop:'4rem'}}>
                                     <img src={demo} alt="demo" width="600" height="600"/>
                                 </div>
-                                <div>
+                                <div id="pdf">
                                     {file.map(url =>(
                                         <div key={url.name}>
-                                            <PDF pdf={url.preview}/>
+                                            {/* <PDF pdf={url.preview}/> */}
                                             {/* <iframe  src={url.preview} type="application/pdf"/> */}
+                                            <div>
+                                                    <Document 
+                                                        file={url.preview}
+                                                        onLoadSuccess={onDocumentLoadSuccess}
+                                                        onClick={getLocation}
+                                                    >
+                                                    <Page pageNumber={pageNumber} />
+                                                    </Document>
+                                                    <div>
+                                                        <p hidden={pageNumber===0} style={{fontWeight:'bold', marginBottom:'0rem'}}>
+                                                            Page {pageNumber || (numPages ? 1 : "--")} of {numPages || "--"}
+                                                        </p>
+                                                        <Button hidden={pageNumber===0} type="button" color="link"  disabled={pageNumber <= 1} onClick={previousPage}>
+                                                            <img src={back} alt="back" width="15px" height="15px"/>
+                                                        </Button> {' '}
+                                                        <Button
+                                                            hidden={pageNumber===0}
+                                                            type="button" color="link"
+                                                            disabled={pageNumber >= numPages}
+                                                            onClick={nextPage}
+                                                            >
+                                                            <img src={next} width="15px" height="15px" alt="next"/>
+                                                        </Button>
+                                                    </div>
+                                                    <div className="cursor" style={{
+                                                        left: `${cursor.x}px`,
+                                                        top: `${cursor.y}px`
+                                                    }}/>
+                                            </div>
                                         </div>
                                     ))}
                                 </div>

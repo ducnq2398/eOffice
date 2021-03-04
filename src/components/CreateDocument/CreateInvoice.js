@@ -59,6 +59,10 @@ function CreateInvoice() {
         x: 0,
         y: 0
     })
+    const [cursor, setCursor] = useState({
+        x: 0,
+        y: 0
+    })
     const [viewer, setViewer] = useState([]);
     function onSelect(data) {       
         setViewer(data)
@@ -164,6 +168,20 @@ function CreateInvoice() {
             y: e.nativeEvent.offsetY 
         })
     }
+    useEffect(() => {addEventListeners();
+        return () => removeEventListeners();
+    },[]);
+        
+    const addEventListeners = () => {
+        document.addEventListener("mousemove", onMouseMove);
+    };
+    
+    const removeEventListeners = () => {
+        document.removeEventListener("mousemove", onMouseMove);
+    };   
+    const onMouseMove = (e) => {
+        setCursor({x: e.clientX, y: e.clientY})
+    };
     return(
         <div>
             <StepInvoice activeStep={activeStep}/>
@@ -235,8 +253,9 @@ function CreateInvoice() {
                                                     <Document 
                                                         file={url.preview}
                                                         onLoadSuccess={onDocumentLoadSuccess}
+                                                        onClick={getLocation}
                                                     >
-                                                    <Page pageNumber={pageNumber} onClick={getLocation}/>
+                                                    <Page pageNumber={pageNumber}/>
                                                     </Document>
                                                     <div>
                                                         <p hidden={pageNumber===0} style={{fontWeight:'bold', marginBottom:'0rem'}}>
@@ -255,6 +274,10 @@ function CreateInvoice() {
                                                         </Button>
                                                     </div>
                                                 </div>
+                                                <div className="cursor" style={{
+                                                        left: `${cursor.x}px`,
+                                                        top: `${cursor.y}px`
+                                                    }}/>
                                             </div>
                                         ))}
                                     </div>

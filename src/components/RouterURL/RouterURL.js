@@ -1,4 +1,4 @@
-import { BrowserRouter as Redirect, Route , Switch } from "react-router-dom";
+import { BrowserRouter as Router, Redirect, Route , Switch } from "react-router-dom";
 import AdminLogin from "../AdminLogin/AdminLogin";
 import AdminManager from "../AdminManager/AdminManager";
 import Login from "../Login/Login";
@@ -21,29 +21,39 @@ import Profile from "../Profile/Profile";
 import ContractContent from "../CreateDocument/ContractContent";
 import InvoiceDetail from "../DetailDocument/InvoiceDetail";
 import ContractDetail from "../DetailDocument/ContractDetail";
+import { useEffect, useState } from "react";
 
 function RouterURL(){
-    const user = getUser();
+    const [user, setUser] = useState([]);
+    useEffect(()=>{
+        function getUser() {
+            const user = localStorage.getItem('user');
+            if(user){
+                setUser(JSON.parse(user))
+            }
+        }
+        getUser();
+    },[])
+    
     const PrivateRoute = ({ component: Component, ...rest}) =>(
         <Route {...rest} render={(props) => 
-            getToken() && user.role===0
+            getToken() && user.Role==='0'
             ? <Component {... props}/> 
-            : <Redirect to={{pathname: '/', state:{from: props.location} }}/>}/>
+            : <Redirect to={{pathname: '/error', state:{from: props.location} }}/>}/>
     )
 
     const AdminRoute = ({ component: Component, ...rest}) =>(
         <Route {...rest} render={(props) => 
             getToken() && user.Role==='1' 
             ? <Component {... props}/> 
-            : <Redirect to={{pathname: '/', state:{from: props.location} }}/>}/>
+            : <Redirect to={{pathname: '/error', state:{from: props.location} }}/>}/>
     )
     const UserRoute = ({ component: Component, ...rest}) =>(
         <Route {...rest} render={(props) => 
             getToken() && user.Role!=='0'
             ? <Component {... props}/> 
-            : <Redirect to={{pathname: '/', state:{from: props.location} }}/>}/>
+            : <Redirect to={{pathname: '/error', state:{from: props.location} }}/>}/>
     )
-
     return(
         <div>
             <Switch>

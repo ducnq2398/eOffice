@@ -10,6 +10,7 @@ import done from '../../images/true.png';
 import invoiceAPI from "../../api/invoiceAPI";
 import { getUser } from "../../utils/Common";
 import contractAPI from "../../api/contractAPI";
+import ScaleLoader from "react-spinners/ScaleLoader";
 
 function Dashboard(){
     const history = useHistory();
@@ -23,6 +24,8 @@ function Dashboard(){
     const indexOfFirstPost = indexOfLastPost - postPerPage;
     const currentPostsContract = [];
     const currentPostsInvoice = [];
+    let [loadingInvoice, setLoadingInvoice] = useState(true);
+    let [loadingContract, setLoadingContract] = useState(true);
 
     useEffect(()=>{
         async function getAllContrac() {
@@ -35,6 +38,9 @@ function Dashboard(){
                 console.log(error);
             }
         }
+        setTimeout(()=>{
+            setLoadingContract(false)
+        },1000)
         getAllContrac();
     },[])
     useEffect(()=>{
@@ -42,12 +48,15 @@ function Dashboard(){
             const id = getUser().CompanyId;
             try {
                 await invoiceAPI.getInvoiceByCompanyId(id).then(function(res) {
-                   setListAllInvoice(res.data)
+                    setListAllInvoice(res.data)
                 });
             } catch (error) {
                 console.log(error)
             }
         }
+        setTimeout(()=>{
+            setLoadingInvoice(false)
+        },1000)
         getAllInvoice();
     },[])
     useEffect(()=>{
@@ -105,6 +114,7 @@ function Dashboard(){
                                         <Label className="title">Contract</Label>
                                     </FormGroup>
                                     <FormGroup>
+                                        {loadingContract ? <ScaleLoader  color={"#2512DF"} loading={loadingContract} size={35} /> :                                       
                                         <Table hover>
                                         <tbody style={{textAlign:'left'}}>
                                                 {currentPostsContract[0].map(data =>(
@@ -121,6 +131,7 @@ function Dashboard(){
                                                 ))}
                                             </tbody>
                                         </Table>
+                                        }
                                     </FormGroup>
                                 </Form>
                                 <div>
@@ -133,6 +144,8 @@ function Dashboard(){
                                         <Label className="title">Invoice</Label>
                                     </FormGroup>
                                     <FormGroup>
+                                        {
+                                            loadingInvoice ? <ScaleLoader  color={"#2512DF"} loading={loadingInvoice} size={35} /> : 
                                         <Table hover>
                                             <tbody style={{textAlign:'left'}}>
                                                 {currentPostsInvoice[0].map(data =>(
@@ -149,6 +162,7 @@ function Dashboard(){
                                                 ))}
                                             </tbody>
                                         </Table>
+                                        }
                                     </FormGroup>
                                 </Form>
                                 <div>

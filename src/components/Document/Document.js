@@ -15,9 +15,11 @@ import GetCreater from "../GetData/GetCreater";
 import {useHistory} from "react-router-dom";
 import contractAPI from "../../api/contractAPI";
 import { getUser } from "../../utils/Common";
+import ScaleLoader from "react-spinners/ScaleLoader";
 
 function Document(){
     const history = useHistory();
+    let [loading, setLoading] = useState(true);
     const [isOpen, setIsOpen] = useState(false);
     const [dele, setDel] =useState(false);
     const toogle = () => setIsOpen(!isOpen);
@@ -44,6 +46,9 @@ function Document(){
                 console.log(error);
             }
         }
+        setTimeout(()=>{
+            setLoading(false)
+        },2000)
         getAllContrac();
     },[])
     
@@ -208,6 +213,8 @@ function Document(){
                             </Col>
                         </FormGroup>
                     </div>
+                    {
+                        loading ? <ScaleLoader  color={"#2512DF"} loading={loading} size={40} /> :
                     <Table hidden={find!== '' ? true : false} hover>
                         <tbody>
                             {currentPosts[0].map((doc,key)=>(
@@ -245,7 +252,7 @@ function Document(){
                                         <Label></Label>
                                         <br/>
                                         <Label>
-                                            <img hidden={doc.status>3 ? false : true} src={done} alt=""/>
+                                            <img hidden={doc.status>=3 ? false : true} src={done} alt=""/>
                                             <img hidden={doc.status<3 ? false : true} src={notsigned} alt=""/>
                                         </Label>
                                     </td>
@@ -266,6 +273,7 @@ function Document(){
                             ))}  
                         </tbody>
                     </Table>
+                    }
                     <Table hover hidden={find==='' ? true : false}>
                         <tbody>
                             {getUser().Role === '1' ? list.filter((data)=>{
@@ -307,7 +315,7 @@ function Document(){
                                         <Label></Label>
                                         <br/>
                                         <Label>
-                                            <img hidden={data.status>3 ? false : true} src={done} alt=""/>
+                                            <img hidden={data.status>=3 ? false : true} src={done} alt=""/>
                                             <img hidden={data.status<3 ? false : true} src={notsigned} alt=""/>
                                         </Label>
                                     </td>
@@ -364,7 +372,7 @@ function Document(){
                                         <Label></Label>
                                         <br/>
                                         <Label>
-                                            <img hidden={data.status>3 ? false : true} src={done} alt=""/>
+                                            <img hidden={data.status>=3 ? false : true} src={done} alt=""/>
                                             <img hidden={data.status<3 ? false : true} src={notsigned} alt=""/>
                                         </Label>
                                     </td>
