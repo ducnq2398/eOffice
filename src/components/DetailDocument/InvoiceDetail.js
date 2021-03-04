@@ -8,7 +8,7 @@ import download from '../../images/download.png';
 import iconprint from '../../images/iconprint.png';
 import print from '../../images/print.png';
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import userListAPI from "../../api/userListAPI";
 import invoiceAPI from "../../api/invoiceAPI";
 import GetCreater from "../GetData/GetCreater";
@@ -18,45 +18,52 @@ import axios from "axios";
 function InvoiceDetail(){
     const location = useLocation();
     const [activeStep, setActiveStep] = useState(1);
+    const [document, setDocument] = useState([]);
     const [signer, setSigner] = useState([]);
     const [creator, setCreator] = useState([]);
     const [viewer, setViewer] = useState([]);
-    useEffect(()=>{
-        async function getSigner() {
-            try {
-                const res = await userListAPI.getUserById(location.state.signerId);
-                setSigner(res.data);
-            } catch (error) {
-                console.log(error);
-            }
-        }
-        getSigner();
-    },[])
-
-    useEffect(()=>{
-        async function getCreator() {
-            try {
-                const res = await userListAPI.getUserById(location.state.creatorId);
-                setCreator(res.data);
-            } catch (error) {
-                console.log(error);
-            }
-        }
-        getCreator();
-    },[])
-    
+    const [signerId, setSignerId] = useState();
+    const [creatorId, setCreatorId] = useState();
+    const param = useParams();
     useEffect(()=>{
         async function getInvoiceById() {
             try {
-                const res = await invoiceAPI.getInvoiceById(location.state.id);
+                const res = await invoiceAPI.getInvoiceById(param.id);
+                setDocument(res.data)
                 setViewer(res.data.viewers);
                 setActiveStep(res.data.status+1);
+                setSignerId(res.data.signerId);
+                setCreatorId(res.data.creatorId);
             } catch (error) {
                 console.log(error);
             }
         }
         getInvoiceById();
     },[])
+    useEffect(()=>{
+        async function getSigner() {
+            try {
+                const res = await userListAPI.getUserById(signerId);
+                setSigner(res.data);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        getSigner();
+    },[signerId])
+
+    useEffect(()=>{
+        async function getCreator() {
+            try {
+                const res = await userListAPI.getUserById(creatorId);
+                setCreator(res.data);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        getCreator();
+    },[creatorId])
+    
     return(
         <div>
             <StepDetail activeStep={activeStep}/>
@@ -99,7 +106,7 @@ function InvoiceDetail(){
                                     <p style={{float:'right', fontSize:'20px'}}>Title:</p>
                                 </Col>
                                 <Col>
-                                    <Input style={{fontSize:'20px'}} type="text" defaultValue={location.state.description} disabled />
+                                    <Input style={{fontSize:'20px'}} type="text" defaultValue={document.description} disabled />
                                 </Col>
                             </FormGroup>
                             <FormGroup row>
@@ -133,7 +140,7 @@ function InvoiceDetail(){
                                     <p style={{float:'right', fontSize:'20px'}}>The expiration date:</p>
                                 </Col>
                                 <Col>
-                                    <p style={{float:'left', fontSize:'20px'}}>{location.state.dateExpire.substring(10,0)}</p>
+                                    <p style={{float:'left', fontSize:'20px'}}>{document.dateExpire}</p>
                                 </Col>
                             </FormGroup>
                             </Form>
@@ -142,10 +149,10 @@ function InvoiceDetail(){
                                     <Col >
                                         <img style={{marginLeft:'80px'}} onClick={(e)=>{
                                             e.preventDefault();
-                                            axios.get(location.state.invoiceURL, {
+                                            axios.get(document.invoiceURL, {
                                                 responseType: 'blob'
                                             }).then(function(res) {
-                                                fileDownload(res.data, location.state.description+".pdf")
+                                                fileDownload(res.data, document.description+".pdf")
                                             }).catch(function(error) {
                                                 console.log(error)
                                             })
@@ -162,7 +169,7 @@ function InvoiceDetail(){
                             <Form className="form-doc">
                                 <FormGroup row>
                                     <div>
-                                        <PDF pdf={location.state.invoiceURL}/>                                  
+                                        <PDF pdf={document.invoiceURL}/>                                  
                                     </div>
                                 </FormGroup>
                             </Form>

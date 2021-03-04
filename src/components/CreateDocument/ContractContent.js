@@ -65,12 +65,14 @@ function ContractContent() {
         const file = location.state.file[0];
         const convertBase64 = await base64(file)
         const url = convertBase64.slice(28)
+        const position ="page="+location.state.numberPage+",x="+location.state.signLocationA.x+",y="+location.state.signLocationA.y+"|page="+location.state.numberPage+",x="+location.state.signLocationB.x+",y="+location.state.signLocationB.y
         const params = {
             dateCreate: date,
             creatorId : getUser().Id,
             dateExpire: location.state.data.date,
             description: location.state.data.title,
-            contractURL: url
+            contractURL: url,
+            signLocation: position
         }
         contractAPI.addContract(params).then(function(res) {
             const contractId = res.data.id;
@@ -85,7 +87,9 @@ function ContractContent() {
                 }
                 axios.post("https://datnxeoffice.azurewebsites.net/api/contracts/addviewertocontract",viewer).then(function(res) {
                     toast.success("You has created contract successfully", {position: toast.POSITION.TOP_CENTER});
-                    history.push('/document')
+                    history.push({
+                        pathname: '/detail/contract/' + contractId + '/' + location.state.data.title,
+                    })
                 }).catch(function(error){
                     console.log(error)
                 }) 

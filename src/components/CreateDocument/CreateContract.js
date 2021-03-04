@@ -14,6 +14,7 @@ import demo from '../../images/demo.png';
 import {Multiselect} from 'multiselect-react-dropdown';
 import next from '../../images/next.png';
 import back from '../../images/back.png';
+import location from '../../images/location.png';
 import {Document, Page, pdfjs} from 'react-pdf';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -59,7 +60,11 @@ function CreateDocument(){
         signer_guest: '',
         date: '',
     });
-    const [position, setPosition] = useState({
+    const [positionA, setPositionA] = useState({
+        x: 0,
+        y: 0
+    })
+    const [positionB, setPositionB] = useState({
         x: 0,
         y: 0
     })
@@ -199,16 +204,35 @@ function CreateDocument(){
                 viewer: viewer,
                 listSignId: list,
                 listViewerId: listViewerId,
-                signLocation : position,
+                signLocationA : positionA,
+                signLocationB : positionB,
                 numberPage: numPages
             }
         })
     }
-    function getLocation(e) {
-        setPosition({
+    const [locaA, setLocaA] = useState(true);
+    const [locaB, setLocaB] = useState(true);
+    function getLocationA(e) {
+        setPositionA({
             x: e.nativeEvent.offsetX,
             y: e.nativeEvent.offsetY 
         })
+        setLocaA(true)
+    }
+    function getLocationB(e) {
+        setPositionB({
+            x: e.nativeEvent.offsetX,
+            y: e.nativeEvent.offsetY 
+        })
+        setLocaB(true)
+    }
+    function handleA(e) {
+        e.preventDefault();
+        setLocaA(false);
+    }
+    function handleB(e) {
+        e.preventDefault();
+        setLocaB(false);
     }
     useEffect(() => {addEventListeners();
         return () => removeEventListeners();
@@ -224,16 +248,25 @@ function CreateDocument(){
     const onMouseMove = (e) => {
         setCursor({x: e.clientX, y: e.clientY})
     };
-    
     return(
         <div>
             <VerticalLinearStepper activeStep={activeStep} />
             <div className="main-panel">
             <Header/>
             <Container fluid={true}>
+                <div hidden={locaA} className="cursor" style={{
+                    left: `${cursor.x}px`,
+                    top: `${cursor.y}px`
+                }}/>
+                <div hidden={locaB} className="cursor" style={{
+                    left: `${cursor.x}px`,
+                    top: `${cursor.y}px`
+                }}/>
                 <Row>
                     <Col className="form-upload">
-                                <div hidden={activeStep===0 ? false : true} style={{marginTop:'30%'}}>
+                        <img src={location} onClick={handleA} alt="" width="80px" height="80px"/>
+                        <img src={location} onClick={handleB} alt="" width="80px" height="80px"/>
+                                <div hidden={activeStep===0 ? false : true} style={{marginTop:'10%'}}>
                                     <Label style={{fontSize:'30px', fontWeight:'bold', color:'blue'}}>Document information input</Label>
                                     <br/>
                                     <Label>Type Document</Label>
@@ -253,11 +286,11 @@ function CreateDocument(){
                                         </div>
                                     </div> 
                                 </div>
-                                <div hidden={activeStep===1 ? false : true} style={{marginTop:'30%'}}>
+                                <div hidden={activeStep===1 ? false : true} style={{marginTop:'10%'}}>
                                     <Label style={{fontSize:'25px', color:'blue'}}>Please input title of contract</Label>
                                     <Input style={{width:'80%', marginLeft:'auto', marginRight:'auto'}} type="text" name="title" placeholder="Title" required onChange={handleOnChange}/>
                                 </div>
-                                <div hidden={activeStep===2 ? false : true} style={{marginTop:'30%'}}>
+                                <div hidden={activeStep===2 ? false : true} style={{marginTop:'10%'}}>
                                     <Label style={{fontSize:'25px', color:'blue'}}>Please select signer to sign the contract</Label>
                                     <Input style={{width:'80%', marginLeft:'auto', marginRight:'auto'}} type="select" name="signer" onChange={handleOnChange} required>
                                         <option value="">Select signer</option>
@@ -266,7 +299,7 @@ function CreateDocument(){
                                         ))}
                                     </Input>
                                 </div>
-                                <div hidden={activeStep===3 ? false : true} style={{marginTop:'30%'}}>
+                                <div hidden={activeStep===3 ? false : true} style={{marginTop:'10%'}}>
                                     <Label style={{fontSize:'25px', color:'blue'}}>Please select company guest</Label>
                                     <Input style={{width:'80%', marginLeft:'auto', marginRight:'auto'}} type="select" name="company_guest" onChange={handleOnChange} required>
                                         <option value="">Select company guest</option>
@@ -275,7 +308,7 @@ function CreateDocument(){
                                         ))}
                                     </Input>
                                 </div>
-                                <div hidden={activeStep===4 ? false : true} style={{marginTop:'30%'}}>
+                                <div hidden={activeStep===4 ? false : true} style={{marginTop:'10%'}}>
                                     <Label style={{fontSize:'25px', color:'blue'}}>Please select a guest to sign the contract</Label>
                                     <Input style={{width:'80%', marginLeft:'auto', marginRight:'auto'}} type="select" name="signer_guest" onChange={handleOnChange} required>
                                         <option value="">Select signer guest</option>
@@ -284,14 +317,14 @@ function CreateDocument(){
                                         ))}
                                     </Input>
                                 </div>
-                                <div hidden={activeStep===5 ? false : true} style={{marginTop:'30%'}}>
+                                <div hidden={activeStep===5 ? false : true} style={{marginTop:'10%'}}>
                                     <Label style={{fontSize:'25px', color:'blue'}}>Please select viewer can view the contract</Label>
                                     <Multiselect options={listSinger} displayValue="name" onSelect={onSelect} onRemove={onRemove} placeholder="Select viewer company" />
                                     <div style={{marginTop:'20px'}}>
                                         <Multiselect options={listGuest} displayValue="name" onSelect={onSelect1} onRemove={onRemove1} placeholder="Select viewer guest" />
                                     </div>
                                 </div>
-                                <div hidden={activeStep===6 ? false : true} style={{marginTop:'30%'}}>
+                                <div hidden={activeStep===6 ? false : true} style={{marginTop:'10%'}}>
                                     <Label style={{fontSize:'25px', color:'blue'}}>Please select the contract expiration date</Label>
                                     <Input style={{width:'80%', marginLeft:'auto', marginRight:'auto'}} type="date" name="date" placeholder="Expiration date" onChange={handleOnChange} required/>
                                 </div>
@@ -311,13 +344,18 @@ function CreateDocument(){
                                 <div id="pdf">
                                     {file.map(url =>(
                                         <div key={url.name}>
-                                            {/* <PDF pdf={url.preview}/> */}
-                                            {/* <iframe  src={url.preview} type="application/pdf"/> */}
                                             <div>
                                                     <Document 
                                                         file={url.preview}
                                                         onLoadSuccess={onDocumentLoadSuccess}
-                                                        onClick={getLocation}
+                                                        onClick={(e)=>{
+                                                            if(locaA === false){
+                                                                getLocationA(e)
+                                                            }
+                                                            if(locaB === false){
+                                                                getLocationB(e)
+                                                            }
+                                                        }}
                                                     >
                                                     <Page pageNumber={pageNumber} />
                                                     </Document>
@@ -337,10 +375,6 @@ function CreateDocument(){
                                                             <img src={next} width="15px" height="15px" alt="next"/>
                                                         </Button>
                                                     </div>
-                                                    <div className="cursor" style={{
-                                                        left: `${cursor.x}px`,
-                                                        top: `${cursor.y}px`
-                                                    }}/>
                                             </div>
                                         </div>
                                     ))}

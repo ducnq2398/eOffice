@@ -59,7 +59,9 @@ function InvoiceContent() {
             }
             axios.post("https://datnxeoffice.azurewebsites.net/api/invoices/addviewertoinvoice",viewer).then(function(res){
                 toast.success("You has created invoice successfully", {position: toast.POSITION.TOP_CENTER});
-                history.push('/document');
+                history.push({
+                    pathname: '/detail/invoice/' + invoiceId + '/' + location.state.data.title
+                });
             }).catch(function(error){
                 console.log(error);
             })

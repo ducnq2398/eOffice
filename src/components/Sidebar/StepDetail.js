@@ -8,12 +8,13 @@ import showall from '../../images/showall.png';
 import completed from '../../images/completeInvoice.png';
 import completed1 from '../../images/complete.png';
 import logo from '../../images/eoffice.png';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import userListAPI from '../../api/userListAPI';
 import Tooltip from '@material-ui/core/Tooltip';
 import { getUser } from '../../utils/Common';
 import companyListAPI from '../../api/companyListAPI';
+import invoiceAPI from '../../api/invoiceAPI';
 
 function StepDetail({activeStep}) {
     function getStep(){
@@ -23,18 +24,32 @@ function StepDetail({activeStep}) {
     const [company, setCompany] = useState([]);
     const steps = getStep();
     const history = useHistory();
-    const location = useLocation();
+    const [signerId, setSignerId] = useState();
+    const [document, setDocument] = useState([]);
+    const param = useParams();
+    useEffect(()=>{
+        async function getInvoiceById() {
+            try {
+                const res = await invoiceAPI.getInvoiceById(param.id);
+                setDocument(res.data)
+                setSignerId(res.data.signerId);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        getInvoiceById();
+    },[])
     useEffect(()=>{
         async function getSigner() {
             try {
-                const res = await userListAPI.getUserById(location.state.signerId);
+                const res = await userListAPI.getUserById(signerId);
                 setSigner(res.data);
             } catch (error) {
                 console.log(error);
             }
         }
         getSigner();
-    },[])
+    },[signerId])
 
     useEffect(()=>{
         async function getCompany() {
@@ -48,6 +63,7 @@ function StepDetail({activeStep}) {
         }
         getCompany();
     },[])
+    
     return(
         <div className="root">
             <div className="logo">
@@ -62,10 +78,10 @@ function StepDetail({activeStep}) {
             </Stepper>
             <div hidden={activeStep<3 ? true : false}>
                 <img style={{marginTop:'10px'}} src={completed1} alt=""/>
-                <Tooltip title={'Company name: '+ company.name+ '. Sign '+ location.state.dateSign.substring(10,0)+ ' Signer Name: '+signer.name} placement="right">
+                <Tooltip title={'Company name: '+ company.name+ '. Sign '+ document.dateSign+ ' Signer Name: '+signer.name} placement="right">
                     <img style={{marginTop:'10px'}} src={signerinvoice} alt=""/>
                 </Tooltip>
-                <Tooltip title={'Invoice status: Completed  '+ location.state.dateSign.substring(10,0)} placement="right">
+                <Tooltip title={'Invoice status: Completed  '+ document.dateSign} placement="right">
                     <img style={{marginTop:'10px'}} src={completed} alt=""/>
                 </Tooltip>
                 <img style={{marginTop:'10px'}} src={showall} alt=""/>

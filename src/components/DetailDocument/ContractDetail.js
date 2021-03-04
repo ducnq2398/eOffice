@@ -8,7 +8,7 @@ import download from '../../images/download.png';
 import iconprint from '../../images/iconprint.png';
 import print from '../../images/print.png';
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import userListAPI from "../../api/userListAPI";
 import GetCreater from "../GetData/GetCreater";
 import fileDownload from "js-file-download";
@@ -28,10 +28,11 @@ function ContractDetail(){
     const [viewer, setViewer] = useState([]);
     const [id1, setId1] = useState();
     const [id2, setId2] = useState();
+    const par = useParams();
     useEffect(()=>{
         async function getDocument() {
             try {
-                const res = await contractAPI.getContractById(location.state.id);
+                const res = await contractAPI.getContractById(par.id);
                 setDocument(res.data);
                 setViewer(res.data.contractViewers);
                 setId1(res.data.contractSigners[0].signerId);
@@ -88,7 +89,7 @@ function ContractDetail(){
         }
         getCompany2();
     },[signer2.companyId])
-
+    
     return(
         <div>
             <StepDetailContract activeStep={activeStep}/>
@@ -123,7 +124,7 @@ function ContractDetail(){
                                     <p style={{float:'right', fontSize:'20px'}}>Title:</p>
                                 </Col>
                                 <Col>
-                                    <Input style={{fontSize:'20px'}} type="text" defaultValue={location.state.description} disabled />
+                                    <Input style={{fontSize:'20px'}} type="text" defaultValue={document.description} disabled />
                                 </Col>
                             </FormGroup>
                             <FormGroup row>
@@ -181,7 +182,7 @@ function ContractDetail(){
                                     <p style={{float:'right', fontSize:'20px'}}>The expiration date:</p>
                                 </Col>
                                 <Col>
-                                    <p style={{float:'left', fontSize:'20px'}}>{location.state.dateExpire.substring(10,0)}</p>
+                                    <p style={{float:'left', fontSize:'20px'}}>{document.dateExpire}</p>
                                 </Col>
                             </FormGroup>
                             </Form>
@@ -190,10 +191,10 @@ function ContractDetail(){
                                     <Col>
                                         <img style={{marginLeft:'80px'}} onClick={(e)=>{
                                             e.preventDefault();
-                                            axios.get(location.state.contractUrl, {
+                                            axios.get(document.contractUrl, {
                                                 responseType: 'blob'
                                             }).then(function(res) {
-                                                fileDownload(res.data, location.state.description+".pdf")
+                                                fileDownload(res.data, document.description+".pdf")
                                             }).catch(function(error) {
                                                 console.log(error)
                                             })
