@@ -28,13 +28,6 @@
     flex-grow: 73;
     max-width: 13%;
 }
-.col-pag{
-    flex-basis: 0;
-    flex-grow: 73;
-    max-width: 10%;
-    margin-left: 15%;
-}
-
 .form-create{
     margin-left: 10%;
     margin-top: 20px;
@@ -42,10 +35,10 @@
 
 .se{
     position:absolute;
-    bottom:32px;
+    bottom:13px;
     left: 100%;
-    width:27px; 
-    height:27px;
+    width:30px; 
+    height:30px;
 }
 .selectbox{
     width: 100%;

@@ -1,6 +1,6 @@
 import {Link, NavLink} from 'react-router-dom';
 import logo from '../../images/eoffice.png';
-import homeicon from '../../images/Home.png';
+import HomeIcon from '@material-ui/icons/Home';
 import usericon from '../../images/company.png'
 import group from '../../images/list.png';
 import logout from '../../images/logout.png';
@@ -24,7 +24,7 @@ function SidebarAdmin(){
                         <NavLink activeClassName="active" className="nav-link" to="/admin-manager">
                             <Row>
                                 <Col sm={3}>
-                                    <img src={homeicon} width="24px" height="24px" alt=""/>
+                                    <HomeIcon color="action" fontSize="large"/>
                                 </Col>
                                 <Col sm={4}>
                                     <p>Admin</p>

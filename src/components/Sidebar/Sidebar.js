@@ -1,13 +1,13 @@
 import {NavLink,useHistory } from 'react-router-dom';
 import logo from '../../images/eoffice.png';
-import homeicon from '../../images/Home.png';
-import usericon from '../../images/user.png';
-import doc from '../../images/document.png';
-import noti from '../../images/noti.png';
-import group from '../../images/group.png';
+import HomeIcon from '@material-ui/icons/Home';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import PersonIcon from '@material-ui/icons/Person';
+import NoteAddIcon from '@material-ui/icons/NoteAdd';
 import '../../css/Sidebar.css'; 
 import { Col, Row } from 'reactstrap';
 import { getUser } from '../../utils/Common';
+import GroupIcon from '@material-ui/icons/Group';
 import { useEffect, useState } from 'react';
 
 function Sidebar(){
@@ -32,7 +32,7 @@ function Sidebar(){
                             <NavLink activeClassName="active" className="nav-link" to="/dashboard">
                                 <Row>
                                     <Col sm={3}>
-                                        <img src={homeicon} width="24px" height="24px" alt=""/>
+                                        <HomeIcon color="action" fontSize="large"/>
                                     </Col>
                                     <Col sm={5}>
                                         <p>Dashboard</p>
@@ -44,7 +44,7 @@ function Sidebar(){
                             <NavLink activeClassName="active" className="nav-link" to="/document">
                                 <Row>
                                     <Col sm={3}>
-                                        <img src={doc} alt="" width="24px" height="24px"/>
+                                        <NoteAddIcon color="action" fontSize="large"/>
                                     </Col>
                                     <Col sm={5}>
                                         <p>Storage Document</p>
@@ -56,7 +56,7 @@ function Sidebar(){
                             <NavLink activeClassName="active" className="nav-link" to="/user-management">
                                 <Row>
                                     <Col sm={3}>
-                                        <img src={usericon} width="24px" height="24px" alt=""/>
+                                        <PersonIcon color="action" fontSize="large"/>
                                     </Col>
                                     <Col sm={5}>
                                         <p>User Management</p>
@@ -70,7 +70,7 @@ function Sidebar(){
                             <NavLink activeClassName="active" className="nav-link" to="/department">
                                 <Row>
                                     <Col sm={3}>
-                                        <img src={group} width="24px" height="24px" alt=""/>
+                                        <GroupIcon color="action" fontSize="large"/>
                                     </Col>
                                     <Col sm={5}>
                                         <p>Department Management</p>
@@ -82,7 +82,7 @@ function Sidebar(){
                             <NavLink activeClassName="active" className="nav-link" to="/notification">
                                 <Row>
                                     <Col sm={3}>
-                                        <img src={noti} width="30px" height="30px" alt=""/>
+                                        <NotificationsIcon color="action" fontSize="large"/>
                                     </Col>
                                     <Col sm={5}>
                                         <p>Notification</p>

@@ -7,7 +7,7 @@
   transition: 0.33s, cubic-bezier(0.685, 0.0473, 0.346, 1);
 }
 .form-login{
-  padding: 10px 50px 80px;
+  padding: 10px 50px 50px;
   width: 60%;
   margin-top: 12%;
   margin-left: 10%;

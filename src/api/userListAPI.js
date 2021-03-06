@@ -12,6 +12,10 @@ const userListAPI = {
     getUserById: (id) =>{
         const url = `accounts/${id}`;
         return axiosClient.get(url);
+    },
+    addUser: (params) =>{
+        const url = '/accounts/addaccount';
+        return axiosClient.post(url, params);
     }
 }
 export default userListAPI;

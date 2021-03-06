@@ -1,21 +1,17 @@
-import React from 'react';
-import {Pagination, PaginationItem, PaginationLink} from 'reactstrap';
+import React, { useState } from 'react';
+import next from '../../images/next.png';
+import back from '../../images/back.png';
+import Pagination from '@material-ui/lab/Pagination';
+import TablePagination from '@material-ui/core/TablePagination';
+// import {Pagination, PaginationItem, PaginationLink} from 'reactstrap';
 
 
-function Panigation({currentPage,postsPerPage, totalPosts, paginate}) {
-    const pageNumbers = Math.ceil(totalPosts/postsPerPage)
+function Panigation() { 
+  
     return (
-        <Pagination>
-            <PaginationItem disabled={currentPage<=1}>
-                <PaginationLink onClick={() => paginate(currentPage-1)}>Prev</PaginationLink>
-            </PaginationItem>
-            <PaginationItem disabled={true}>
-                <PaginationLink>{currentPage}/{pageNumbers}</PaginationLink>
-            </PaginationItem>
-            <PaginationItem disabled={currentPage>=pageNumbers}>
-                <PaginationLink onClick={()=> paginate(currentPage+1)}>Next</PaginationLink>
-            </PaginationItem>
-        </Pagination>
+        <div>
+            
+        </div>
     );
 }
 

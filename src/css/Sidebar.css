@@ -40,8 +40,8 @@
 .sidebar .nav li .dropdown-menu a:hover,
 .sidebar .nav li .dropdown-menu a:focus,
 .sidebar .nav li.active>[data-toggle="collapse"] {
-  background-color:  rgb(57, 94, 214);
-  color: #0a0a0a;
+  background-color:  #007bff;
+  color: #f3ebeb;
   box-shadow: none;
 }
 
@@ -99,6 +99,6 @@
 }
 
 .active{
-  background-color:  rgb(57, 57, 214);
+  background-color:  #007bff;
   color: #fff;
 }

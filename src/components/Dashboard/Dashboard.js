@@ -43,6 +43,7 @@ function Dashboard(){
         },1000)
         getAllContrac();
     },[])
+
     useEffect(()=>{
         async function getAllInvoice() {
             const id = getUser().CompanyId;
@@ -59,6 +60,7 @@ function Dashboard(){
         },1000)
         getAllInvoice();
     },[])
+
     useEffect(()=>{
         async function getInvoiceById() {
             const id = getUser().Id;
@@ -92,6 +94,7 @@ function Dashboard(){
         }
         getContractById();
     },[getUser().Id])
+
     if(getUser().Role==='1'){
         currentPostsContract.push(listAllContract.slice(indexOfFirstPost, indexOfLastPost));
         currentPostsInvoice.push(listAllInvoice.slice(indexOfFirstPost, indexOfLastPost));
@@ -100,6 +103,7 @@ function Dashboard(){
         currentPostsContract.push(listContractById.slice(indexOfFirstPost, indexOfLastPost));
         currentPostsInvoice.push(listInvoiceById.slice(indexOfFirstPost, indexOfLastPost));
     }
+    
     return(
         <div>
             <Sidebar/>

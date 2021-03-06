@@ -44,6 +44,7 @@ function ContractDetail(){
         }
         getDocument();
     },[])
+    
     useEffect(()=>{
         async function getSigner1(){
             try {

@@ -59,7 +59,6 @@ function DepartmentManagerment() {
             }
             departmentAPI.addDepartment(params).then(function(res) {
                 toast.success("Add department successfully", {position: toast.POSITION.TOP_CENTER});
-
             }).catch(function(error) {
                 console.log(error)
             })
