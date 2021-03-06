@@ -38,6 +38,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
 import { InputAdornment } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
 
 const TransitionAdd = forwardRef(function Transition(props, ref) {
   return <Slide direction="right" ref={ref} {...props} />;
@@ -47,8 +48,12 @@ const TransitionDetail = forwardRef(function Transition(props, ref) {
 });
 
 function UserManagement() {
+  const history = useHistory();
   const [userList, setUserList] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [listActive, setListActive] = useState([]);
+  const [listDeactive, setListDeactive] = useState([]);
+  const [postList, setPostList] = useState([]);
   const [department, setDepartment] = useState([]);
   const [checkAcitve, setCheckActive] = useState(true);
   const [user, setUser] = useState({
@@ -64,12 +69,13 @@ function UserManagement() {
   const [rowsPerPage] = useState(15);
   const indexOfLastPost = (page + 1) * rowsPerPage;
   const indexOfFirstPost = indexOfLastPost - rowsPerPage;
-  const currentPosts = userList.slice(indexOfFirstPost, indexOfLastPost);
+  const currentPosts = postList.slice(indexOfFirstPost, indexOfLastPost);
   const add = () => setIsOpen(!isOpen);
   const [openEdit, setOpenEdit] = useState(false);
   const edit = () => setOpenEdit(!openEdit);
   const [search, setSearch] = useState("");
   const [data, setData] = useState("");
+  console.log(userList);
   useEffect(() => {
     const user = getUser();
     const id = user.CompanyId;
@@ -77,6 +83,27 @@ function UserManagement() {
       try {
         const response = await userListAPI.getUserByCompanyId(id);
         setUserList(response.data);
+        setListActive(
+          response.data.filter((data) => {
+            if (data.status === 1) {
+              return data;
+            }
+          })
+        );
+        setListDeactive(
+          response.data.filter((data) => {
+            if (data.status === 0) {
+              return data;
+            }
+          })
+        );
+        setPostList(
+          response.data.filter((data) => {
+            if (data.status === 1) {
+              return data;
+            }
+          })
+        );
       } catch (error) {
         console.log(error);
       }
@@ -97,7 +124,6 @@ function UserManagement() {
         console.log(error);
       }
     }
-
     getDepartment();
   }, []);
 
@@ -138,7 +164,7 @@ function UserManagement() {
         },
       })
       .then(function (res) {
-        // history.push('/user-management')
+        history.push("/user-management");
         toast.success("You has created user successfully", {
           position: toast.POSITION.TOP_CENTER,
         });
@@ -151,10 +177,15 @@ function UserManagement() {
     setPage(newPage);
   }
   const [value, setValue] = useState(1);
-
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  function activeList() {
+    setPostList(listActive);
+  }
+  function deActiveList() {
+    setPostList(listDeactive);
+  }
   return (
     <div>
       <Sidebar />
@@ -264,11 +295,11 @@ function UserManagement() {
                     fullWidth
                     style={{ marginLeft: "10px" }}
                     InputProps={{
-                        startAdornment: (
-                            <InputAdornment position="start">
-                                <SearchIcon color="primary"/>
-                            </InputAdornment>
-                        )
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <SearchIcon color="primary" />
+                        </InputAdornment>
+                      ),
                     }}
                   />
                 </Row>
@@ -282,8 +313,8 @@ function UserManagement() {
                       textColor="primary"
                       onChange={handleChange}
                     >
-                      <Tab value={1} label="Active" />
-                      <Tab value={0} label="Deactive" />
+                      <Tab value={1} onClick={activeList} label="Active" />
+                      <Tab value={0} onClick={deActiveList} label="Deactive" />
                     </Tabs>
                   </Paper>
                 </Row>
@@ -293,7 +324,7 @@ function UserManagement() {
             <div hidden={search !== "" ? true : false}>
               <TablePagination
                 component="div"
-                count={userList.length}
+                count={postList.length}
                 page={page}
                 onChangePage={changePage}
                 rowsPerPage={rowsPerPage}
@@ -312,7 +343,6 @@ function UserManagement() {
                   <th>Department</th>
                   <th>Phone number</th>
                   <th>Email</th>
-                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -370,7 +400,7 @@ function UserManagement() {
                     >
                       {user.email}
                     </td>
-                    <td>
+                    <td hidden={user.status === 1 ? true : false}>
                       <DeleteIcon class="hide" onClick={() => setDel(!del)} />
                     </td>
                   </tr>
@@ -517,9 +547,9 @@ function UserManagement() {
             <DialogContent>
               <span>
                 {checkAcitve === true ? (
-                  <a style={{ color: "green"}}>Active</a>
+                  <a style={{ color: "green" }}>Active</a>
                 ) : (
-                  <a style={{ color: "red"}}>Deactive</a>
+                  <a style={{ color: "red" }}>Deactive</a>
                 )}
               </span>
               <Switch

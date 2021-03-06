@@ -32,17 +32,12 @@ import TitleIcon from "@material-ui/icons/Title";
 import BorderColorIcon from "@material-ui/icons/BorderColor";
 import Table from "@material-ui/core/Table";
 import "date-fns";
-import Grid from "@material-ui/core/Grid";
-import DateFnsUtils from "@date-io/date-fns";
+import EventAvailableIcon from '@material-ui/icons/EventAvailable';
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import {
-  KeyboardDatePicker,
-  MuiPickersUtilsProvider,
-} from "@material-ui/pickers";
 
 toast.configure();
 const StyledTableCell = withStyles((theme) => ({
@@ -247,27 +242,20 @@ function InvoiceContent() {
                     </TableBody>
                   </Table>
                 </TableContainer>
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  <Grid
-                    style={{ marginTop: "20px", padding: "10px 10px 10px" }}
-                    container
-                    justify="space-around"
-                  >
-                    <KeyboardDatePicker
-                      fullWidth
-                      disabled
-                      margin="dense"
-                      id="date-picker-dialog"
-                      label="Date expiration"
-                      format="MM/dd/yyyy"
-                      value={location.state.date}
-                      name="date"
-                      InputProps={{
-                        readOnly: true,
-                      }}
-                    />
-                  </Grid>
-                </MuiPickersUtilsProvider>
+                <TextField
+                  label="Date signed"
+                  value={location.state.date}
+                  fullWidth
+                  style={{ marginTop: "20px", padding: "10px 10px 10px" }}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <EventAvailableIcon color="primary" />
+                      </InputAdornment>
+                    ),
+                    readOnly: true,
+                  }}
+                />
               </Paper>
               <Button
                 style={{ marginTop: "20px", marginRight: "10px" }}

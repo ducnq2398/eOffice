@@ -1,8 +1,5 @@
 import { useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
-import { Button } from "reactstrap";
-import next from "../../images/next.png";
-import back from "../../images/back.png";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Pagination from "@material-ui/lab/Pagination";
@@ -34,7 +31,7 @@ function PDF({ pdf }) {
       >
         Page: {pageNumber}/{numPages}
       </Typography>
-      <div style={{ marginLeft: "30%" }}>
+      <div style={{ marginLeft: "40%" }}>
         <Pagination
           variant="outlined"
           count={numPages}
