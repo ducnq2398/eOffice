@@ -111,7 +111,7 @@ function InvoiceDetail() {
                     startAdornment: (
                       <InputAdornment position="start">
                         <img hidden={activeStep===3 ? false : true} src={done} alt="" />
-                        <img hidden={activeStep<3? true : false} src={done} alt="" />
+                        <img hidden={activeStep<3 ? false : true} src={notsigned} alt="" />
                       </InputAdornment>
                     ),
                     readOnly: true,

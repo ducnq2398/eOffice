@@ -1,33 +1,62 @@
-import axiosClient from './axiosClient';
+import { getUser } from "../utils/Common";
+import axiosClient from "./axiosClient";
 
 const contractAPI = {
-    addContract: (params) =>{
-        const url = "/contracts/addcontract";
-        return axiosClient.post(url, params);
-    },
-    addSignContract: (params) =>{
-        const url = "/api/contracts/addsigntocontract";
-        return axiosClient.post(url, params);
-    },
-    addViewerContract: (params) =>{
-        const url = "/api/contracts/addviewertocontract";
-        return axiosClient.post(url, params);
-    },
-    getContractBySignerId: (id) =>{
-        const url = `/contracts/getbysignerid?id=${id}`;
-        return axiosClient.get(url);
-    },
-    getContractByViewerId: (id) =>{
-        const url = `/contracts/getbyviewrid?id=${id}`;
-        return axiosClient.get(url);
-    },
-    getContractById: (id) =>{
-        const url = `/contracts/${id}`;
-        return axiosClient.get(url);
-    },
-    getContractByCompanyId: (id) =>{
-        const url = `/contracts/getbycompany?id=${id}`;
-        return axiosClient.get(url)
-    } 
-}
+  addContract: (params) => {
+    const url = "/contracts/addcontract";
+    return axiosClient.post(url, params, {
+      headers: {
+        Authorization: `Bearer ${getUser().IdToken}`,
+      },
+    });
+  },
+  addSignContract: (params) => {
+    const url = "/api/contracts/addsigntocontract";
+    return axiosClient.post(url, params, {
+      headers: {
+        Authorization: `Bearer ${getUser().IdToken}`,
+      },
+    });
+  },
+  addViewerContract: (params) => {
+    const url = "/api/contracts/addviewertocontract";
+    return axiosClient.post(url, params, {
+      headers: {
+        Authorization: `Bearer ${getUser().IdToken}`,
+      },
+    });
+  },
+  getContractBySignerId: (id) => {
+    const url = `/contracts/getbysignerid?id=${id}`;
+    return axiosClient.get(url, {
+      headers: {
+        Authorization: `Bearer ${getUser().IdToken}`,
+      },
+    });
+  },
+  getContractByViewerId: (id) => {
+    const url = `/contracts/getbyviewrid?id=${id}`;
+    return axiosClient.get(url, {
+      headers: {
+        Authorization: `Bearer ${getUser().IdToken}`,
+      },
+    });
+  },
+  getContractById: (id) => {
+    const url = `/contracts/${id}`;
+    return axiosClient.get(url, {
+      headers: {
+        Authorization: `Bearer ${getUser().IdToken}`,
+      },
+    });
+  },
+  getContractByCompanyId: (id) => {
+    const url = `/contracts/getbycompany?id=${id}`;
+    return axiosClient.get(url, {
+      headers: {
+        Authorization: `Bearer ${getUser().IdToken}`,
+      },
+    });
+  },
+};
 export default contractAPI;

@@ -3,8 +3,8 @@ import eoffice from "./../../images/logo.png";
 import { Link, useHistory } from "react-router-dom";
 import fpt from "../../images/fpt.png";
 import support from "../../images/support.png";
-import EmailIcon from '@material-ui/icons/Email';
-import LockIcon from '@material-ui/icons/Lock';
+import EmailIcon from "@material-ui/icons/Email";
+import LockIcon from "@material-ui/icons/Lock";
 import {
   Alert,
   Button,
@@ -49,11 +49,7 @@ function Login() {
       .loginUser(params)
       .then(function (res) {
         setUserSession(res.data.IdToken, res.data);
-        if (res.data.role !== "") {
-          history.push("/dashboard");
-        } else {
-          history.push("/admin-manager");
-        }
+        history.push("/dashboard");
       })
       .catch(function (error) {
         setSubmit(true);
@@ -68,16 +64,9 @@ function Login() {
       <Row>
         <Col>
           <div className="fpt">
-            <img src={fpt} alt="" width="350px" height="200px" />
+            <img src={fpt} alt="" width="60%" height="50%" />
             <h1>MANAGEMENT & CONTRACT</h1>
             <p style={{ color: "white", fontSize: "30px" }}>DOCUMENT SYSTEM</p>
-            <img
-              style={{ marginTop: "60%", marginRight: "90%" }}
-              src={support}
-              alt=""
-              width="500"
-              height="100"
-            />
           </div>
         </Col>
         <Col>
@@ -96,11 +85,11 @@ function Login() {
                 size="medium"
                 fullWidth
                 InputProps={{
-                    startAdornment: (
-                        <InputAdornment position="start">
-                            <EmailIcon color="primary"/>
-                        </InputAdornment>
-                    )
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <EmailIcon color="primary" />
+                    </InputAdornment>
+                  ),
                 }}
               />
             </FormGroup>
@@ -115,11 +104,11 @@ function Login() {
                 size="medium"
                 fullWidth
                 InputProps={{
-                    startAdornment: (
-                        <InputAdornment position="start">
-                            <LockIcon color="primary"/>
-                        </InputAdornment>
-                    )
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <LockIcon color="primary" />
+                    </InputAdornment>
+                  ),
                 }}
               />
             </FormGroup>
@@ -139,6 +128,13 @@ function Login() {
           </Form>
         </Col>
       </Row>
+      <img
+        style={{ position: "absolute", bottom: 0, left: 0 }}
+        src={support}
+        alt=""
+        width="500"
+        height="100"
+      />
     </Container>
   );
 }

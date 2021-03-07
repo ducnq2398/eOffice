@@ -1,21 +1,46 @@
-import axiosClient from './axiosClient';
+import { getUser } from "../utils/Common";
+import axiosClient from "./axiosClient";
 
 const departmentAPI = {
-    getDepartmentById: (id) =>{
-        const url = `departments/${id}`;
-        return axiosClient.get(url);
-    },
-    getDepartmentByCompanyId: (id)=>{
-        const url = `departments/getbycompany?companyId=${id}`
-        return axiosClient.get(url)
-    },
-    getSubDepartment: (id) =>{
-        const url = `subdepartments/getbydepartment?derpartmentId=${id}`;
-        return axiosClient.get(url)
-    },
-    addDepartment: (params) =>{
-        const url = '/departments/adddepartment';
-        return axiosClient.post(url, params);
-    }
-}
+  getDepartmentById: (id) => {
+    const url = `departments/${id}`;
+    return axiosClient.get(url, {
+      headers: {
+        Authorization: `Bearer ${getUser().IdToken}`,
+      },
+    });
+  },
+  getDepartmentByCompanyId: (id) => {
+    const url = `departments/getbycompany?companyId=${id}`;
+    return axiosClient.get(url, {
+      headers: {
+        Authorization: `Bearer ${getUser().IdToken}`,
+      },
+    });
+  },
+  getSubDepartment: (id) => {
+    const url = `subdepartments/getbydepartment?derpartmentId=${id}`;
+    return axiosClient.get(url, {
+      headers: {
+        Authorization: `Bearer ${getUser().IdToken}`,
+      },
+    });
+  },
+  addDepartment: (params) => {
+    const url = "/departments/adddepartment";
+    return axiosClient.post(url, params, {
+      headers: {
+        Authorization: `Bearer ${getUser().IdToken}`,
+      },
+    });
+  },
+  getSubDepartment: (id) =>{
+    const url = `/subdepartments/getbydepartment?derpartmentId=${id}`;
+    return axiosClient.get(url, {
+      headers: {
+        Authorization: `Bearer ${getUser().IdToken}`,
+      },
+    });
+  },
+};
 export default departmentAPI;

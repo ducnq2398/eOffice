@@ -24,7 +24,7 @@ import axios from "axios";
 import Moment from "moment";
 import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
-import { withStyles} from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import InsertDriveFileIcon from "@material-ui/icons/InsertDriveFile";
 import { InputAdornment } from "@material-ui/core";
@@ -32,7 +32,7 @@ import TitleIcon from "@material-ui/icons/Title";
 import BorderColorIcon from "@material-ui/icons/BorderColor";
 import Table from "@material-ui/core/Table";
 import "date-fns";
-import EventAvailableIcon from '@material-ui/icons/EventAvailable';
+import EventAvailableIcon from "@material-ui/icons/EventAvailable";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
@@ -120,7 +120,12 @@ function InvoiceContent() {
         axios
           .post(
             "https://datnxeoffice.azurewebsites.net/api/invoices/addviewertoinvoice",
-            viewer
+            viewer,
+            {
+              headers: {
+                Authorization: `Bearer ${getUser().IdToken}`,
+              },
+            }
           )
           .then(function (res) {
             toast.success("You has created invoice successfully", {

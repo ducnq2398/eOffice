@@ -60,7 +60,14 @@ function Document() {
   const [rowsPerPage] = useState(6);
   const indexOfLastPost = (page + 1) * rowsPerPage;
   const indexOfFirstPost = indexOfLastPost - rowsPerPage;
-  const currentPosts = postList.slice(indexOfFirstPost, indexOfLastPost);
+  var post = postList
+    .sort((a, b) => {
+      return (
+        new Date(a.dateCreate).getTime() - new Date(b.dateCreate).getTime()
+      );
+    })
+    .reverse();
+  const currentPosts = post.slice(indexOfFirstPost, indexOfLastPost);
   function changePage(event, newPage) {
     setPage(newPage);
   }
@@ -78,7 +85,7 @@ function Document() {
             setListAllDocument(list);
             if (getUser().Role === "1") {
               setPostList(list);
-              setData(list)
+              setData(list);
             }
           });
         });
@@ -109,7 +116,7 @@ function Document() {
                 setListDocumentById(list);
                 if (getUser().Role === "2") {
                   setPostList(list);
-                  setData(list)
+                  setData(list);
                 }
               });
             });
@@ -122,10 +129,10 @@ function Document() {
     getDocumentById();
   }, [getUser().Id]);
 
-  function Contract() {
+  function AddContract() {
     history.push("/contract");
   }
-  function Invoice() {
+  function AddInvoice() {
     history.push("/invoice");
   }
   const [data, setData] = useState([]);
@@ -264,7 +271,7 @@ function Document() {
                     variant="contained"
                     color="primary"
                     style={{ marginRight: "15%" }}
-                    onClick={Contract}
+                    onClick={AddContract}
                   >
                     Contract
                   </Button>
@@ -272,7 +279,7 @@ function Document() {
                     variant="contained"
                     color="primary"
                     style={{ marginRight: "20%", width: "104px" }}
-                    onClick={Invoice}
+                    onClick={AddInvoice}
                   >
                     Invoice
                   </Button>

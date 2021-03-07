@@ -12,9 +12,7 @@ import { Document, Page, pdfjs } from "react-pdf";
 import EditLocationIcon from "@material-ui/icons/EditLocation";
 import IconButton from "@material-ui/core/IconButton";
 import TextField from "@material-ui/core/TextField";
-import Alert from "@material-ui/lab/Alert";
 import BackupIcon from "@material-ui/icons/Backup";
-import Snackbar from "@material-ui/core/Snackbar";
 import InsertDriveFileIcon from "@material-ui/icons/InsertDriveFile";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import Grid from "@material-ui/core/Grid";
@@ -94,6 +92,12 @@ function CreateInvoice() {
         hidden: true,
         text: "Expiration date must be larger current date",
       });
+      setTimeout(()=>{
+        setAlert({
+          hidden: false,
+          text: ''
+        });
+      },3000)
     } else if (position.x === 0 && position.y === 0) {
       setAlert({
         hidden: true,
@@ -156,17 +160,6 @@ function CreateInvoice() {
       <div className="main-panel">
         <Header />
         <Container fluid={true}>
-          <Snackbar
-            open={alert.hidden}
-            anchorOrigin={{ vertical: "top", horizontal: "center" }}
-            autoHideDuration={3000}
-            onClose={() => setAlert({ ...alert, hidden: false })}
-          >
-            <Alert variant="filled" severity="error">
-              {alert.text}
-            </Alert>
-          </Snackbar>
-
           <div
             hidden={locaA}
             className="cursor"
@@ -196,7 +189,7 @@ function CreateInvoice() {
                     float: "left",
                   }}
                 >
-                  Document information input
+                  DOCUMENT INFORMATION
                 </Label>
 
                 <TextField
@@ -223,7 +216,7 @@ function CreateInvoice() {
                   accept=".pdf"
                   id="icon-button-file"
                   type="file"
-                  style={{ display: "none" }}
+                  style={{ display: "none", width: 0 }}
                   onChange={(e) => {
                     setFile(e.target.files);
                     setFileName(e.target.files[0].name);
@@ -233,7 +226,8 @@ function CreateInvoice() {
                 <TextField
                   variant="outlined"
                   label="Choose file"
-                  disabled
+                  error={alert.hidden}
+                  helperText={alert.text}
                   value={fileName}
                   fullWidth
                   InputProps={{
@@ -246,6 +240,7 @@ function CreateInvoice() {
                         </label>
                       </InputAdornment>
                     ),
+                    readOnly: true,
                   }}
                   style={{ marginTop: "30px" }}
                 />
@@ -258,6 +253,12 @@ function CreateInvoice() {
                         hidden: true,
                         text: "Please choose file upload !!!",
                       });
+                      setTimeout(() => {
+                        setAlert({
+                          hidden: false,
+                          text: "",
+                        });
+                      }, 3000);
                     } else {
                       setActiveStep(activeStep + 1);
                     }
@@ -279,7 +280,7 @@ function CreateInvoice() {
                     float: "left",
                   }}
                 >
-                  Please input title of invoice
+                  TITLE OF INVOICE
                 </Label>
                 <TextField
                   variant="outlined"
@@ -287,6 +288,8 @@ function CreateInvoice() {
                   type="text"
                   name="title"
                   required
+                  error={alert.hidden}
+                  helperText={alert.text}
                   fullWidth
                   style={{ marginTop: "20px" }}
                   InputProps={{
@@ -312,11 +315,17 @@ function CreateInvoice() {
                   style={{ marginTop: "30px", marginLeft: "10px" }}
                   color="primary"
                   onClick={() => {
-                    if (dataUpload.title === "") {
+                    if (dataUpload.title.trim() === "") {
                       setAlert({
                         hidden: true,
                         text: "Please input title of invoice !!!",
                       });
+                      setTimeout(() => {
+                        setAlert({
+                          hidden: false,
+                          text: "",
+                        });
+                      }, 3000);
                     } else {
                       setActiveStep(activeStep + 1);
                     }
@@ -338,7 +347,7 @@ function CreateInvoice() {
                     marginBottom: "30px",
                   }}
                 >
-                  Please select signer to sign invoice
+                  SELECT SIGNER TO SIGN INVOICE
                 </Label>
                 <Autocomplete
                   id="combo-box-demo"
@@ -353,6 +362,8 @@ function CreateInvoice() {
                       label="Signer name"
                       variant="outlined"
                       name="signer"
+                      error={alert.hidden}
+                      helperText={alert.text}
                     />
                   )}
                 />
@@ -376,6 +387,12 @@ function CreateInvoice() {
                         hidden: true,
                         text: "Please choose one signer invoice !!!",
                       });
+                      setTimeout(() => {
+                        setAlert({
+                          hidden: false,
+                          text: "",
+                        });
+                      }, 3000);
                     } else {
                       setActiveStep(activeStep + 1);
                     }
@@ -397,7 +414,7 @@ function CreateInvoice() {
                     marginBottom: "30px",
                   }}
                 >
-                  Please select viewer can view the invoice
+                  VIEWER CAN VIEW INVOICE
                 </Label>
                 <Autocomplete
                   multiple
@@ -449,7 +466,7 @@ function CreateInvoice() {
                     float: "left",
                   }}
                 >
-                  Please select the contract expiration date
+                  DATE EXPIRATION INVOICE
                 </Label>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <Grid container justify="space-around">
@@ -461,6 +478,8 @@ function CreateInvoice() {
                       format="MM/dd/yyyy"
                       value={selectedDate}
                       name="date"
+                      error={alert.hidden}
+                      helperText={alert.text}
                       onChange={handleDateChange}
                       KeyboardButtonProps={{
                         "aria-label": "change date",
