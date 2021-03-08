@@ -16,7 +16,7 @@ function GetEmail({ id }) {
       }
     }
     fetchCreater();
-  }, []);
+  }, [id]);
   return (
     <div>
       {loading ? (

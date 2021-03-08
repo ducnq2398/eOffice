@@ -16,7 +16,7 @@ import Paper from "@material-ui/core/Paper";
 import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import InsertDriveFileIcon from "@material-ui/icons/InsertDriveFile";
-import { InputAdornment } from "@material-ui/core";
+import { InputAdornment, TablePagination } from "@material-ui/core";
 import TitleIcon from "@material-ui/icons/Title";
 import BorderColorIcon from "@material-ui/icons/BorderColor";
 import Table from "@material-ui/core/Table";
@@ -57,6 +57,14 @@ function InvoiceDetail() {
   const [signer, setSigner] = useState([]);
   const [viewer, setViewer] = useState([]);
   const [signerId, setSignerId] = useState();
+  const [page, setPage] = useState(0);
+  const [rowsPerPage] = useState(2);
+  const indexOfLastPost = (page + 1) * rowsPerPage;
+  const indexOfFirstPost = indexOfLastPost - rowsPerPage;
+  const currentPosts = viewer.slice(indexOfFirstPost, indexOfLastPost);
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
   const param = useParams();
   useEffect(() => {
     async function getInvoiceById() {
@@ -100,7 +108,7 @@ function InvoiceDetail() {
                     color: "blue",
                   }}
                 >
-                  Document Content
+                  Invoice Content
                 </Label>
                 <TextField
                   label="Status"
@@ -110,28 +118,14 @@ function InvoiceDetail() {
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <img hidden={activeStep===3 ? false : true} src={done} alt="" />
-                        <img hidden={activeStep<3 ? false : true} src={notsigned} alt="" />
+                        <img hidden={document.status===3 ? false : true} src={done} alt="" />
+                        <img hidden={document.status!==3 ? false : true} src={notsigned} alt="" />
                       </InputAdornment>
                     ),
                     readOnly: true,
                   }}
                 />
-                <TextField
-                  label="Type"
-                  value="INVOICE"
-                  fullWidth
-                  style={{ padding: "10px 10px 10px" }}
-                  variant="standard"
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <InsertDriveFileIcon color="primary" />
-                      </InputAdornment>
-                    ),
-                    readOnly: true,
-                  }}
-                />
+
                 <TextField
                   label="Title"
                   variant="standard"
@@ -174,7 +168,7 @@ function InvoiceDetail() {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {viewer.map((row) => (
+                      {currentPosts.map((row) => (
                         <StyledTableRow key={row.viewerId}>
                           <StyledTableCell component="th" scope="row">
                             <GetCreater id={row.viewerId} />
@@ -190,8 +184,17 @@ function InvoiceDetail() {
                     </TableBody>
                   </Table>
                 </TableContainer>
+                <TablePagination
+                  component="div"
+                  count={viewer.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  labelRowsPerPage=""
+                  onChangePage={handleChangePage}
+                  rowsPerPageOptions={[]}
+                />
                 <TextField
-                  label="Date signed"
+                  label="Date expration"
                   value={Moment(document.dateSign).format("DD/MM/YYYY")}
                   fullWidth
                   style={{ marginTop: "20px", padding: "10px 10px 10px" }}

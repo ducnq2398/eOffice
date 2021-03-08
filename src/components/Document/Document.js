@@ -310,7 +310,7 @@ function Document() {
                 </Row>
               </Col>
               <Col>
-                <FormControl size="small" variant="outlined">
+                <FormControl size="small" variant="outlined" style={{width:'150px'}}>
                   <Select defaultValue={1}>
                     <MenuItem onClick={All} value="1">
                       All

@@ -37,8 +37,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
-import { InputAdornment, ListSubheader } from "@material-ui/core";
-import { useHistory } from "react-router-dom";
+import { InputAdornment} from "@material-ui/core";
 import Moment from "moment";
 import md5 from "md5";
 
@@ -144,7 +143,7 @@ function UserManagement() {
       setLoading(false);
     }, 2000);
     fetchUserList();
-  }, [isOpen]);
+  }, []);
   useEffect(() => {
     async function getDepartment() {
       const user = getUser();
@@ -293,6 +292,7 @@ function UserManagement() {
         .addUser(params)
         .then(function (res) {
           add();
+          setValue(1);
           toast.success("You has created user successfully", {
             position: toast.POSITION.TOP_CENTER,
           });

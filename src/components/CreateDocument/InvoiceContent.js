@@ -26,8 +26,7 @@ import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
 import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-import InsertDriveFileIcon from "@material-ui/icons/InsertDriveFile";
-import { InputAdornment } from "@material-ui/core";
+import { InputAdornment, TablePagination } from "@material-ui/core";
 import TitleIcon from "@material-ui/icons/Title";
 import BorderColorIcon from "@material-ui/icons/BorderColor";
 import Table from "@material-ui/core/Table";
@@ -66,6 +65,14 @@ function InvoiceContent() {
   }
   const [signer, setSigner] = useState("");
   const viewer = location.state.viewer;
+  const [page, setPage] = useState(0);
+  const [rowsPerPage] = useState(4);
+  const indexOfLastPost = (page + 1) * rowsPerPage;
+  const indexOfFirstPost = indexOfLastPost - rowsPerPage;
+  const currentPosts = viewer.slice(indexOfFirstPost, indexOfLastPost);
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
   useEffect(() => {
     async function getSigner() {
       try {
@@ -79,7 +86,7 @@ function InvoiceContent() {
     }
     getSigner();
   }, []);
-  console.log(location);
+
   var today = new Date(),
     date =
       today.getFullYear() +
@@ -172,23 +179,8 @@ function InvoiceContent() {
                     color: "blue",
                   }}
                 >
-                  Document Content
+                  Invoice Content
                 </Label>
-                <TextField
-                  label="Type"
-                  value="INVOICE"
-                  fullWidth
-                  style={{ padding: "10px 10px 10px" }}
-                  variant="standard"
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <InsertDriveFileIcon color="primary" />
-                      </InputAdornment>
-                    ),
-                    readOnly: true,
-                  }}
-                />
                 <TextField
                   label="Title"
                   variant="standard"
@@ -198,7 +190,7 @@ function InvoiceContent() {
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <TitleIcon color="primary" />
+                        <TitleIcon color="primary" fontSize="large" />
                       </InputAdornment>
                     ),
                     readOnly: true,
@@ -212,7 +204,7 @@ function InvoiceContent() {
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <BorderColorIcon color="primary" />
+                        <BorderColorIcon color="primary" fontSize="large" />
                       </InputAdornment>
                     ),
                     readOnly: true,
@@ -231,7 +223,7 @@ function InvoiceContent() {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {viewer.map((row) => (
+                      {currentPosts.map((row) => (
                         <StyledTableRow key={row.name}>
                           <StyledTableCell component="th" scope="row">
                             {row.name}
@@ -247,8 +239,17 @@ function InvoiceContent() {
                     </TableBody>
                   </Table>
                 </TableContainer>
+                <TablePagination
+                  component="div"
+                  count={viewer.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  labelRowsPerPage=""
+                  onChangePage={handleChangePage}
+                  rowsPerPageOptions={[]}
+                />
                 <TextField
-                  label="Date signed"
+                  label="Date expiration"
                   value={location.state.date}
                   fullWidth
                   style={{ marginTop: "20px", padding: "10px 10px 10px" }}

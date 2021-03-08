@@ -5,7 +5,6 @@ import {
   Row,
   Col,
   Label,
-  Button,
   Modal,
   ModalFooter,
   ModalHeader,
@@ -21,8 +20,43 @@ import companyListAPI from "../../api/companyListAPI";
 import { getUser } from "../../utils/Common";
 import contractAPI from "../../api/contractAPI";
 import "react-toastify/dist/ReactToastify.css";
+import Moment from "moment";
 import { toast } from "react-toastify";
 import axios from "axios";
+import EventAvailableIcon from "@material-ui/icons/EventAvailable";
+import Button from "@material-ui/core/Button";
+import TitleIcon from "@material-ui/icons/Title";
+import BusinessIcon from "@material-ui/icons/Business";
+import BorderColorIcon from "@material-ui/icons/BorderColor";
+import {
+  InputAdornment,
+  Paper,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TableBody,
+  Table,
+  TextField,
+  withStyles,
+  TablePagination,
+} from "@material-ui/core";
+const StyledTableCell = withStyles((theme) => ({
+  head: {
+    backgroundColor: theme.palette.common.white,
+    color: theme.palette.common.black,
+  },
+  body: {
+    fontSize: 14,
+  },
+}))(TableCell);
+const StyledTableRow = withStyles((theme) => ({
+  root: {
+    "&:nth-of-type(odd)": {
+      backgroundColor: theme.palette.action.hover,
+    },
+  },
+}))(TableRow);
 
 function ContractContent() {
   const location = useLocation();
@@ -31,15 +65,25 @@ function ContractContent() {
   const [signer, setSigner] = useState("");
   const [guest, setGuest] = useState("");
   const [company, setCompany] = useState("");
-
+  const [page, setPage] = useState(0);
+  const [rowsPerPage] = useState(2);
+  const indexOfLastPost = (page + 1) * rowsPerPage;
+  const indexOfFirstPost = indexOfLastPost - rowsPerPage;
+  const viewer = location.state.viewer;
+  const currentPosts = viewer.slice(indexOfFirstPost, indexOfLastPost);
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+ 
   function toogle() {
     setCreate(!create);
   }
-  const viewer = location.state.viewer;
   useEffect(() => {
     async function getSigner() {
       try {
-        const res = await userListAPI.getUserById(location.state.data.signer);
+        const res = await userListAPI.getUserById(
+          location.state.data.signer.id
+        );
         setSigner(res.data);
       } catch (error) {
         console.log(error);
@@ -50,9 +94,7 @@ function ContractContent() {
   useEffect(() => {
     async function getCompany() {
       try {
-        const res = await companyListAPI.getCompanyById(
-          location.state.data.company_guest
-        );
+        const res = await companyListAPI.getCompanyById(getUser().CompanyId);
         setCompany(res.data);
       } catch (error) {
         console.log(error);
@@ -64,7 +106,7 @@ function ContractContent() {
     async function getGuest() {
       try {
         const res = await userListAPI.getUserById(
-          location.state.data.signer_guest
+          location.state.data.signer_guest.id
         );
         setGuest(res.data);
       } catch (error) {
@@ -73,13 +115,7 @@ function ContractContent() {
     }
     getGuest();
   }, []);
-  var today = new Date(),
-    date =
-      today.getFullYear() +
-      "-" +
-      (today.getMonth() + 1) +
-      "-" +
-      today.getDate();
+
   async function handleCreated(e) {
     e.preventDefault();
     const file = location.state.file[0];
@@ -99,9 +135,9 @@ function ContractContent() {
       ",y=" +
       location.state.signLocationB.y;
     const params = {
-      dateCreate: date,
+      dateCreate: Moment(new Date()).format("DD/MM/YYYY"),
       creatorId: getUser().Id,
-      dateExpire: location.state.data.date,
+      dateExpire: location.state.date,
       description: location.state.data.title,
       contractURL: url,
       signLocation: position,
@@ -110,9 +146,12 @@ function ContractContent() {
       .addContract(params)
       .then(function (res) {
         const contractId = res.data.id;
+        const listSigner = [];
+        listSigner.push(location.state.data.signer.id);
+        listSigner.push(location.state.data.signer_guest.id);
         const data = {
           contractId: contractId,
-          listSignersId: location.state.listSignId,
+          listSignersId: listSigner,
         };
         axios
           .post(
@@ -125,9 +164,13 @@ function ContractContent() {
             }
           )
           .then(function (res) {
+            const listViewerId = [];
+            location.state.viewer.map((v) => {
+              listViewerId.push(v.id);
+            });
             const viewer = {
               contractId: contractId,
-              listViewersId: location.state.listViewerId,
+              listViewersId: listViewerId,
             };
             axios
               .post(
@@ -181,112 +224,160 @@ function ContractContent() {
         <Container fluid={true}>
           <Row>
             <Col>
-              <Form>
-                <FormGroup row>
-                  <Label
-                    style={{
-                      fontWeight: "bold",
-                      color: "blue",
-                      fontSize: "30px",
-                      marginTop: "2%",
-                      marginLeft: "18%",
-                    }}
-                  >
-                    Document content
-                  </Label>
-                </FormGroup>
-                <FormGroup row style={{ marginTop: "2rem" }}>
-                  <Col sm={5}>
-                    <p style={{ float: "right", fontSize: "20px" }}>
-                      Type Document:
-                    </p>
-                  </Col>
-                  <Col>
-                    <p style={{ float: "left", fontSize: "20px" }}>Contract</p>
-                  </Col>
-                </FormGroup>
-                <FormGroup row>
-                  <Col sm={5}>
-                    <p style={{ float: "right", fontSize: "20px" }}>Title:</p>
-                  </Col>
-                  <Col>
-                    <p style={{ float: "left", fontSize: "20px" }}>
-                      {location.state.data.title}
-                    </p>
-                  </Col>
-                </FormGroup>
-                <FormGroup row>
-                  <Col sm={5}>
-                    <p style={{ float: "right", fontSize: "20px" }}>Signer:</p>
-                  </Col>
-                  <Col>
-                    <p style={{ float: "left", fontSize: "20px" }}>
-                      {signer.name}
-                    </p>
-                  </Col>
-                </FormGroup>
-                <FormGroup row>
-                  <Col sm={5}>
-                    <p style={{ float: "right", fontSize: "20px" }}>
-                      Company Guest:
-                    </p>
-                  </Col>
-                  <Col>
-                    <p style={{ float: "left", fontSize: "20px" }}>
-                      {company.name}
-                    </p>
-                  </Col>
-                </FormGroup>
-                <FormGroup row>
-                  <Col sm={5}>
-                    <p style={{ float: "right", fontSize: "20px" }}>
-                      Signer Guest:
-                    </p>
-                  </Col>
-                  <Col>
-                    <p style={{ float: "left", fontSize: "20px" }}>
-                      {guest.name}
-                    </p>
-                  </Col>
-                </FormGroup>
-                <FormGroup row>
-                  <Col sm={5}>
-                    <p style={{ float: "right", fontSize: "20px" }}>Viewer:</p>
-                  </Col>
-                  <Col>
-                    {viewer.map((data) => (
-                      <tr key={data.id}>
-                        <td style={{ float: "left", fontSize: "20px" }}>
-                          {data.name}
-                        </td>
-                      </tr>
-                    ))}
-                  </Col>
-                </FormGroup>
-                <FormGroup row>
-                  <Col sm={5}>
-                    <p style={{ float: "right", fontSize: "20px" }}>
-                      The expiration date:
-                    </p>
-                  </Col>
-                  <Col>
-                    <p style={{ float: "left", fontSize: "20px" }}>
-                      {location.state.data.date}
-                    </p>
-                  </Col>
-                </FormGroup>
-                <div>
-                  <Button
-                    color="secondary"
-                    onClick={() => history.push("/document")}
-                  >
-                    Cancel
-                  </Button>{" "}
-                  <Button color="primary" onClick={toogle}>
-                    Create
-                  </Button>
-                </div>
-              </Form>
+              <Paper style={{ marginTop: "20px" }} elevation={3}>
+                <Label
+                  style={{
+                    fontSize: "30px",
+                    fontWeight: "bold",
+                    color: "blue",
+                  }}
+                >
+                  Contract Content
+                </Label>
+                <TextField
+                  label="Title"
+                  variant="standard"
+                  value={location.state.data.title}
+                  fullWidth
+                  style={{ marginTop: "20px", padding: "10px 10px 10px" }}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <TitleIcon color="primary" fontSize="large" />
+                      </InputAdornment>
+                    ),
+                    readOnly: true,
+                  }}
+                />
+                <TextField
+                  label="Company A"
+                  variant="standard"
+                  value={company.name}
+                  fullWidth
+                  style={{ marginTop: "20px", padding: "10px 10px 10px" }}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <BusinessIcon color="primary" fontSize="large" />
+                      </InputAdornment>
+                    ),
+                    readOnly: true,
+                  }}
+                />
+                <TextField
+                  label="Signer A"
+                  variant="standard"
+                  value={signer.name}
+                  fullWidth
+                  style={{ marginTop: "20px", padding: "10px 10px 10px" }}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <BorderColorIcon color="primary" fontSize="large" />
+                      </InputAdornment>
+                    ),
+                    readOnly: true,
+                  }}
+                />
+                <TextField
+                  label="Company B"
+                  variant="standard"
+                  value={location.state.data.company_guest.name}
+                  fullWidth
+                  style={{ marginTop: "20px", padding: "10px 10px 10px" }}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <BusinessIcon color="primary" fontSize="large" />
+                      </InputAdornment>
+                    ),
+                    readOnly: true,
+                  }}
+                />
+                <TextField
+                  label="Signer B"
+                  variant="standard"
+                  value={guest.name}
+                  fullWidth
+                  style={{ marginTop: "20px", padding: "10px 10px 10px" }}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <BorderColorIcon color="primary" fontSize="large" />
+                      </InputAdornment>
+                    ),
+                    readOnly: true,
+                  }}
+                />
+                <TableContainer>
+                  <Table stickyHeader aria-label="sticky table">
+                    <TableHead>
+                      <TableRow>
+                        <StyledTableCell>Viewer name</StyledTableCell>
+                        <StyledTableCell align="center">Email</StyledTableCell>
+                        <StyledTableCell align="center">
+                          Phone number
+                        </StyledTableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {currentPosts.map((row) => (
+                        <StyledTableRow key={row.name}>
+                          <StyledTableCell component="th" scope="row">
+                            {row.name}
+                          </StyledTableCell>
+                          <StyledTableCell align="center">
+                            {row.email}
+                          </StyledTableCell>
+                          <StyledTableCell align="center">
+                            {row.phone}
+                          </StyledTableCell>
+                        </StyledTableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+                <TablePagination
+                  component="div"
+                  count={viewer.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  labelRowsPerPage=""
+                  onChangePage={handleChangePage}
+                  rowsPerPageOptions={[]}
+                />
+
+                <TextField
+                  label="Date expiration"
+                  value={location.state.date}
+                  fullWidth
+                  style={{ marginTop: "20px", padding: "10px 10px 10px" }}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <EventAvailableIcon color="primary" />
+                      </InputAdornment>
+                    ),
+                    readOnly: true,
+                  }}
+                />
+              </Paper>
+              <Button
+                style={{ marginTop: "20px", marginRight: "10px" }}
+                color="secondary"
+                variant="contained"
+                onClick={() => history.push("/document")}
+              >
+                Cancel
+              </Button>
+              <Button
+                style={{ marginTop: "20px" }}
+                color="primary"
+                variant="contained"
+                onClick={toogle}
+              >
+                Create
+              </Button>
             </Col>
             <Col>
               <Form className="form-doc">

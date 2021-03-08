@@ -16,7 +16,7 @@ function GetPhone({ id }) {
       }
     }
     fetchCreater();
-  }, []);
+  }, [id]);
   return (
     <div>
       {loading ? (

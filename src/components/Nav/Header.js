@@ -8,7 +8,6 @@ import {
   DropdownMenu,
   DropdownItem,
 } from "reactstrap";
-import noti from "../../images/noti.png";
 import "../../css/Nav.css";
 import { getUser, removeUserSession } from "../../utils/Common";
 import companyListAPI from "../../api/companyListAPI";
@@ -26,7 +25,11 @@ function Header() {
         const response = await companyListAPI.getCompanyById(companyId);
         setCompany(response.data);
       } catch (error) {
-        console.log(error);
+        if(error.response.status===401){
+          removeUserSession();
+          history.push('/');
+        }
+        console.log(error.response.status);
       }
     }
     fetCompany();
@@ -40,8 +43,8 @@ function Header() {
       <Nav>
         <UncontrolledButtonDropdown nav inNavbar>
           <DropdownToggle nav caret>
-            <Badge badgeContent={4} color="error" style={{marginTop:'19px'}}>
-              <NotificationsIcon color="action" fontSize="large"/>
+            <Badge badgeContent={4} color="error" style={{ marginTop: "19px" }}>
+              <NotificationsIcon color="action" fontSize="large" />
             </Badge>
           </DropdownToggle>
           <DropdownMenu right>
@@ -69,11 +72,9 @@ function Header() {
         </UncontrolledButtonDropdown>
         <NavItem>
           <p style={{ fontSize: "20px", fontWeight: "bold", color: "black" }}>
-            {company.name}
-          </p>
-          <p style={{ color: "black", marginBottom: "5px" }}>
             {getUser().Name}
           </p>
+          <p style={{ color: "black", marginBottom: "5px" }}>{company.name}</p>
         </NavItem>
       </Nav>
     </Navbar>

@@ -16,7 +16,7 @@ function GetCreater({ id }) {
       }
     }
     fetchCreater();
-  }, []);
+  }, [id]);
   return (
     <div>
       {loading ? (

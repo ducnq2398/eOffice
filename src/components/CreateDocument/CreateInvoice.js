@@ -26,16 +26,19 @@ import "date-fns";
 import Typography from "@material-ui/core/Typography";
 import Pagination from "@material-ui/lab/Pagination";
 import Moment from "moment";
-import { InputAdornment } from "@material-ui/core";
+import { InputAdornment, Tooltip } from "@material-ui/core";
 import TitleIcon from "@material-ui/icons/Title";
+import { toast } from "react-toastify";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
+toast.configure();
 function CreateInvoice() {
   const history = useHistory();
   const [listSinger, setListSigner] = useState([]);
   const [show, setShow] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
   const [file, setFile] = useState([]);
+  const [color, setColor] = useState("#808080ad");
   const [alert, setAlert] = useState({
     hidden: false,
     text: "",
@@ -87,21 +90,23 @@ function CreateInvoice() {
         hidden: true,
         text: "Please select expiration date",
       });
-    } else if (new Date(selectedDate) < new Date()) {
+    } else if (
+      Moment(selectedDate).format("DD/MM/YYYY") <
+      Moment(new Date()).format("DD/MM/YYYY")
+    ) {
       setAlert({
         hidden: true,
-        text: "Expiration date must be larger current date",
+        text: "Expiration date can't less than current date",
       });
-      setTimeout(()=>{
+      setTimeout(() => {
         setAlert({
           hidden: false,
-          text: ''
+          text: "",
         });
-      },3000)
+      }, 3000);
     } else if (position.x === 0 && position.y === 0) {
-      setAlert({
-        hidden: true,
-        text: "Please select location to sign",
+      toast.error("You must be select location sign", {
+        position: toast.POSITION.TOP_CENTER,
       });
     } else {
       history.push({
@@ -131,6 +136,12 @@ function CreateInvoice() {
     fetListUser();
   }, []);
   const [locaA, setLocaA] = useState(true);
+  function choseLocation(e) {
+    e.preventDefault();
+    setColor("#808080ad");
+    setPosition({ x: 0, y: 0 });
+    setLocaA(!locaA);
+  }
   function getLocation(e) {
     setPosition({
       x: e.nativeEvent.offsetX,
@@ -170,13 +181,16 @@ function CreateInvoice() {
           />
           <Row>
             <Col className="form-upload">
-              <IconButton
-                style={{ float: "left", background: "#3541da" }}
-                color="secondary"
-                onClick={() => setLocaA(!locaA)}
-              >
-                <EditLocationIcon color="error" fontSize="large" />
-              </IconButton>
+              <Tooltip title="Select location sign" placement="right">
+                <IconButton
+                  style={{ float: "left", background: color }}
+                  color="secondary"
+                  onClick={choseLocation}
+                  hidden={pageNumber === 0 ? true : false}
+                >
+                  <EditLocationIcon color="error" fontSize="large" />
+                </IconButton>
+              </Tooltip>
               <div
                 hidden={activeStep === 0 ? false : true}
                 style={{ marginTop: "10%" }}
@@ -197,18 +211,14 @@ function CreateInvoice() {
                   label="Document type"
                   value="Invoice"
                   fullWidth
-                  disabled
                   style={{ marginTop: "20px" }}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <label htmlFor="icon-button-file">
-                          <IconButton color="primary" component="span">
-                            <InsertDriveFileIcon fontSize="large" />
-                          </IconButton>
-                        </label>
+                        <InsertDriveFileIcon fontSize="large" color="primary" />
                       </InputAdornment>
                     ),
+                    readOnly: true,
                   }}
                 />
 
@@ -517,7 +527,12 @@ function CreateInvoice() {
                     <Document
                       file={file[0]}
                       onLoadSuccess={onDocumentLoadSuccess}
-                      onClick={getLocation}
+                      onClick={(e) => {
+                        if (locaA === false) {
+                          getLocation(e);
+                          setColor("#3541da");
+                        }
+                      }}
                       noData={false}
                     >
                       <Page pageNumber={pageNumber} />
