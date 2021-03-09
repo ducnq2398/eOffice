@@ -37,7 +37,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
-import { InputAdornment} from "@material-ui/core";
+import { InputAdornment } from "@material-ui/core";
 import Moment from "moment";
 import md5 from "md5";
 
@@ -211,6 +211,19 @@ function UserManagement() {
         ...error,
         name: true,
         message_name: "Please input user name",
+      });
+      setTimeout(() => {
+        setError({
+          ...error,
+          name: false,
+          message_name: "",
+        });
+      }, 5000);
+    } else if (user.username.length > 255) {
+      setError({
+        ...error,
+        name: true,
+        message_name: "User name max length 255 characters",
       });
       setTimeout(() => {
         setError({
@@ -655,6 +668,7 @@ function UserManagement() {
                   <th>Department</th>
                   <th>Phone number</th>
                   <th>Email</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -665,7 +679,7 @@ function UserManagement() {
                         setDetail({
                           id: user.id,
                           username: user.name,
-                          phone: '0' + user.phone.substring(3),
+                          phone: "0" + user.phone.substring(3),
                           department: user.departmentId,
                           subdepartment: user.subDepartmentId,
                           email: user.email,
@@ -687,7 +701,7 @@ function UserManagement() {
                         setDetail({
                           id: user.id,
                           username: user.name,
-                          phone:'0' + user.phone.substring(3),
+                          phone: "0" + user.phone.substring(3),
                           department: user.departmentId,
                           subdepartment: user.subDepartmentId,
                           email: user.email,
@@ -709,7 +723,7 @@ function UserManagement() {
                         setDetail({
                           id: user.id,
                           username: user.name,
-                          phone:'0' + user.phone.substring(3),
+                          phone: "0" + user.phone.substring(3),
                           department: user.departmentId,
                           subdepartment: user.subDepartmentId,
                           email: user.email,
@@ -731,7 +745,7 @@ function UserManagement() {
                         setDetail({
                           id: user.id,
                           username: user.name,
-                          phone: '0' + user.phone.substring(3),
+                          phone: "0" + user.phone.substring(3),
                           department: user.departmentId,
                           subdepartment: user.subDepartmentId,
                           email: user.email,
@@ -763,6 +777,7 @@ function UserManagement() {
                 <th>Department</th>
                 <th>Phone number</th>
                 <th>Email</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -779,7 +794,7 @@ function UserManagement() {
                         setDetail({
                           id: user.id,
                           username: user.name,
-                          phone: '0' + user.phone.substring(3),
+                          phone: "0" + user.phone.substring(3),
                           department: user.departmentId,
                           subdepartment: user.subDepartmentId,
                           email: user.email,
@@ -801,7 +816,7 @@ function UserManagement() {
                         setDetail({
                           id: user.id,
                           username: user.name,
-                          phone:'0' + user.phone.substring(3),
+                          phone: "0" + user.phone.substring(3),
                           department: user.departmentId,
                           subdepartment: user.subDepartmentId,
                           email: user.email,
@@ -823,7 +838,7 @@ function UserManagement() {
                         setDetail({
                           id: user.id,
                           username: user.name,
-                          phone:'0' + user.phone.substring(3),
+                          phone: "0" + user.phone.substring(3),
                           department: user.departmentId,
                           subdepartment: user.subDepartmentId,
                           email: user.email,
@@ -845,7 +860,7 @@ function UserManagement() {
                         setDetail({
                           id: user.id,
                           username: user.name,
-                          phone:'0' + user.phone.substring(3),
+                          phone: "0" + user.phone.substring(3),
                           department: user.departmentId,
                           subdepartment: user.subDepartmentId,
                           email: user.email,

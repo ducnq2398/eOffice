@@ -173,7 +173,7 @@ function CreateDocument() {
           viewer: listViewer,
           signLocationA: positionA,
           signLocationB: positionB,
-          numberPage: numPages,
+          numberPage: pageNumber,
           date: Moment(selectedDate).format("DD/MM/YYYY"),
         },
       });
@@ -415,6 +415,17 @@ function CreateDocument() {
                       setAlert({
                         hidden: true,
                         text: "Please input title of contract !!!",
+                      });
+                      setTimeout(() => {
+                        setAlert({
+                          hidden: false,
+                          text: "",
+                        });
+                      }, 3000);
+                    } else if (dataUpload.title.length > 255) {
+                      setAlert({
+                        hidden: true,
+                        text: "Title max length 255 characters !!!",
                       });
                       setTimeout(() => {
                         setAlert({

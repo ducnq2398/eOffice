@@ -34,9 +34,17 @@ const departmentAPI = {
       },
     });
   },
-  getSubDepartment: (id) =>{
+  getSubDepartment: (id) => {
     const url = `/subdepartments/getbydepartment?derpartmentId=${id}`;
     return axiosClient.get(url, {
+      headers: {
+        Authorization: `Bearer ${getUser().IdToken}`,
+      },
+    });
+  },
+  addSubDepartment: (params) => {
+    const url = "/subdepartments/addsubdepartment";
+    return axiosClient.post(url, params, {
       headers: {
         Authorization: `Bearer ${getUser().IdToken}`,
       },

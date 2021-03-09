@@ -57,7 +57,7 @@ function Document() {
   const [listDocumentById, setListDocumentById] = useState([]);
   const [find, setFind] = useState("");
   const [page, setPage] = useState(0);
-  const [rowsPerPage] = useState(6);
+  const [rowsPerPage] = useState(10);
   const indexOfLastPost = (page + 1) * rowsPerPage;
   const indexOfFirstPost = indexOfLastPost - rowsPerPage;
   var post = postList
@@ -298,7 +298,7 @@ function Document() {
                     }}
                     size="small"
                     fullWidth
-                    style={{ marginLeft: "10px" }}
+                    style={{ marginLeft: "20px" }}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
@@ -309,7 +309,7 @@ function Document() {
                   />
                 </Row>
               </Col>
-              <Col>
+              <Col style={{marginRight:'20%'}}>
                 <FormControl size="small" variant="outlined" style={{width:'150px'}}>
                   <Select defaultValue={1}>
                     <MenuItem onClick={All} value="1">
