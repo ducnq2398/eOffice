@@ -228,9 +228,33 @@ function CreateInvoice() {
                   type="file"
                   style={{ display: "none", width: 0 }}
                   onChange={(e) => {
-                    setFile(e.target.files);
-                    setFileName(e.target.files[0].name);
-                    setShow(true);
+                    if (e.target.files[0].type !== "application/pdf") {
+                      setAlert({
+                        hidden: true,
+                        text: "Please choose file PDF",
+                      });
+                      setTimeout(() => {
+                        setAlert({
+                          hidden: false,
+                          text: "",
+                        });
+                      }, 3000);
+                    } else if (e.target.files[0].size > 31457280) {
+                      setAlert({
+                        hidden: true,
+                        text: "File don't larger 30MB",
+                      });
+                      setTimeout(() => {
+                        setAlert({
+                          hidden: false,
+                          text: "",
+                        });
+                      }, 3000);
+                    } else {
+                      setFile(e.target.files);
+                      setFileName(e.target.files[0].name);
+                      setShow(true);
+                    }
                   }}
                 />
                 <TextField
