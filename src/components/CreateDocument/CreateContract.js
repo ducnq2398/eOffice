@@ -326,7 +326,7 @@ function CreateDocument() {
                           text: "",
                         });
                       }, 3000);
-                    } else if (e.target.files[0].size > 31457280) {
+                    } else if (e.target.files[0].size > 10485760) {
                       setAlert({
                         hidden: true,
                         text: "File don't larger 30MB",

@@ -42,6 +42,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import DeleteIcon from "@material-ui/icons/Delete";
+import StepDoc2 from "../Sidebar/StepDoc2";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -309,8 +310,12 @@ function Document() {
                   />
                 </Row>
               </Col>
-              <Col style={{marginRight:'20%'}}>
-                <FormControl size="small" variant="outlined" style={{width:'150px'}}>
+              <Col style={{ marginRight: "20%" }}>
+                <FormControl
+                  size="small"
+                  variant="outlined"
+                  style={{ width: "150px" }}
+                >
                   <Select defaultValue={1}>
                     <MenuItem onClick={All} value="1">
                       All
@@ -441,7 +446,11 @@ function Document() {
                       <Label style={{ fontWeight: "bold" }}>Status</Label>
                       <br />
                       <Label className="step">
-                        <StepDoc activeStep={doc.status + 1} />
+                        {doc.contractUrl ? (
+                          <StepDoc activeStep={doc.status + 1} />
+                        ) : (
+                          <StepDoc2 activeStep={doc.status + 1} />
+                        )}
                       </Label>
                     </td>
                     <td
