@@ -27,11 +27,15 @@ import "date-fns";
 import Typography from "@material-ui/core/Typography";
 import Pagination from "@material-ui/lab/Pagination";
 import Moment from "moment";
-import { InputAdornment, Tooltip } from "@material-ui/core";
+import { InputAdornment, Slide, Snackbar, Tooltip } from "@material-ui/core";
 import TitleIcon from "@material-ui/icons/Title";
 import { toast } from "react-toastify";
+import Alert from "@material-ui/lab/Alert";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
+function TransitionLeft(props) {
+  return <Slide {...props} direction="right" />;
+}
 toast.configure();
 function CreateDocument() {
   const [listCompany, setListCompany] = useState([]);
@@ -55,8 +59,14 @@ function CreateDocument() {
     signer_guest: null,
   });
   const [alert, setAlert] = useState({
-    hidden: false,
-    text: "",
+    file: false,
+    title: false,
+    signerA: false,
+    signerB: false,
+    company: false,
+    date: false,
+    location: false,
+    message: "",
   });
   const [positionA, setPositionA] = useState({
     x: 0,
@@ -137,21 +147,34 @@ function CreateDocument() {
   function handleContent() {
     if (selectedDate === null) {
       setAlert({
-        hidden: true,
-        text: "Please select expiration date",
+        ...alert,
+        date: true,
+        message: "Please select expiration date !!!",
+      });
+      setTimeout(() => {
+        setAlert(
+          {
+            ...alert,
+            date: false,
+            message: "",
+          },
+          3000
+        );
       });
     } else if (
       Moment(selectedDate).format("DD/MM/YYYY") <
       Moment(new Date()).format("DD/MM/YYYY")
     ) {
       setAlert({
-        hidden: true,
-        text: "Expiration date can't less than current date",
+        ...alert,
+        date: true,
+        message: "Expiration date can't less than current date !!!",
       });
       setTimeout(() => {
         setAlert({
-          hidden: false,
-          text: "",
+          ...alert,
+          date: false,
+          message: "",
         });
       }, 3000);
     } else if (
@@ -160,9 +183,18 @@ function CreateDocument() {
       positionB.x === 0 &&
       positionB.y === 0
     ) {
-      toast.error("You must be select location sign", {
-        position: toast.POSITION.TOP_CENTER,
+      setAlert({
+        ...alert,
+        location: true,
+        message: "Please choose location sign to continue...",
       });
+      setTimeout(() => {
+        setAlert({
+          ...alert,
+          location: false,
+          message: "",
+        });
+      }, 3000);
     } else {
       const listViewer = [...viewer, ...viewerGuest];
       history.push({
@@ -229,6 +261,76 @@ function CreateDocument() {
       <VerticalLinearStepper activeStep={activeStep} />
       <div className="main-panel">
         <Header />
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          open={alert.file}
+          TransitionComponent={TransitionLeft}
+          autoHideDuration={3000}
+        >
+          <Alert variant="filled" severity="error">
+            {alert.message}
+          </Alert>
+        </Snackbar>
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          open={alert.title}
+          autoHideDuration={3000}
+          TransitionComponent={TransitionLeft}
+        >
+          <Alert variant="filled" severity="error">
+            {alert.message}
+          </Alert>
+        </Snackbar>
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          open={alert.signerA}
+          autoHideDuration={3000}
+          TransitionComponent={TransitionLeft}
+        >
+          <Alert variant="filled" severity="error">
+            {alert.message}
+          </Alert>
+        </Snackbar>
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          open={alert.company}
+          autoHideDuration={3000}
+          TransitionComponent={TransitionLeft}
+        >
+          <Alert variant="filled" severity="error">
+            Please select company guest !!!
+          </Alert>
+        </Snackbar>
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          open={alert.signerB}
+          autoHideDuration={3000}
+          TransitionComponent={TransitionLeft}
+        >
+          <Alert variant="filled" severity="error">
+            {alert.message}
+          </Alert>
+        </Snackbar>
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          open={alert.date}
+          autoHideDuration={3000}
+          TransitionComponent={TransitionLeft}
+        >
+          <Alert variant="filled" severity="error">
+            {alert.message}
+          </Alert>
+        </Snackbar>
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          open={alert.location}
+          autoHideDuration={3000}
+          TransitionComponent={TransitionLeft}
+        >
+          <Alert variant="filled" severity="error">
+            {alert.message}
+          </Alert>
+        </Snackbar>
         <Container fluid={true}>
           <div
             hidden={locaA}
@@ -314,27 +416,30 @@ function CreateDocument() {
                   type="file"
                   style={{ display: "none", width: 0 }}
                   onChange={(e) => {
-                    console.log(e.target.files[0]);
                     if (e.target.files[0].type !== "application/pdf") {
                       setAlert({
-                        hidden: true,
-                        text: "Please choose file PDF",
+                        ...alert,
+                        file: true,
+                        message: "Please choose file PDF...",
                       });
                       setTimeout(() => {
                         setAlert({
-                          hidden: false,
-                          text: "",
+                          ...alert,
+                          file: false,
+                          message: "",
                         });
                       }, 3000);
                     } else if (e.target.files[0].size > 10485760) {
                       setAlert({
-                        hidden: true,
-                        text: "File don't larger 30MB",
+                        ...alert,
+                        file: true,
+                        message: "File don't larger 30MB",
                       });
                       setTimeout(() => {
                         setAlert({
-                          hidden: false,
-                          text: "",
+                          ...alert,
+                          file: false,
+                          message: "",
                         });
                       }, 3000);
                     } else {
@@ -347,8 +452,7 @@ function CreateDocument() {
                 <TextField
                   variant="outlined"
                   label="Choose file"
-                  error={alert.hidden}
-                  helperText={alert.text}
+                  error={alert.file}
                   value={fileName}
                   fullWidth
                   InputProps={{
@@ -371,13 +475,15 @@ function CreateDocument() {
                   onClick={() => {
                     if (file.length === 0) {
                       setAlert({
-                        hidden: true,
-                        text: "Please choose file upload !!!",
+                        ...alert,
+                        file: true,
+                        message: "Please choose file upload !!!",
                       });
                       setTimeout(() => {
                         setAlert({
-                          hidden: false,
-                          text: "",
+                          ...alert,
+                          file: false,
+                          message: "",
                         });
                       }, 3000);
                     } else {
@@ -409,8 +515,7 @@ function CreateDocument() {
                   type="text"
                   name="title"
                   required
-                  error={alert.hidden}
-                  helperText={alert.text}
+                  error={alert.title}
                   fullWidth
                   style={{ marginTop: "20px" }}
                   InputProps={{
@@ -438,24 +543,28 @@ function CreateDocument() {
                   onClick={() => {
                     if (dataUpload.title.trim() === "") {
                       setAlert({
-                        hidden: true,
-                        text: "Please input title of contract !!!",
+                        ...alert,
+                        title: true,
+                        message: "Please input title of contract !!!",
                       });
                       setTimeout(() => {
                         setAlert({
-                          hidden: false,
-                          text: "",
+                          ...alert,
+                          title: false,
+                          message: "",
                         });
                       }, 3000);
                     } else if (dataUpload.title.length > 255) {
                       setAlert({
-                        hidden: true,
-                        text: "Title max length 255 characters !!!",
+                        ...alert,
+                        title: true,
+                        message: "Title max length 255 characters !!!",
                       });
                       setTimeout(() => {
                         setAlert({
-                          hidden: false,
-                          text: "",
+                          ...alert,
+                          title: false,
+                          message: "",
                         });
                       }, 3000);
                     } else {
@@ -494,8 +603,7 @@ function CreateDocument() {
                       label="Signer name"
                       variant="outlined"
                       name="signer"
-                      error={alert.hidden}
-                      helperText={alert.text}
+                      error={alert.signerA}
                     />
                   )}
                 />
@@ -514,13 +622,15 @@ function CreateDocument() {
                   onClick={() => {
                     if (dataUpload.signer === null) {
                       setAlert({
-                        hidden: true,
-                        text: "Please choose one signer contract !!!",
+                        ...alert,
+                        signerA: true,
+                        message: "Please choose one signer contract !!!",
                       });
                       setTimeout(() => {
                         setAlert({
-                          hidden: false,
-                          text: "",
+                          ...alert,
+                          signerA: false,
+                          message: "",
                         });
                       }, 3000);
                     } else {
@@ -559,8 +669,7 @@ function CreateDocument() {
                       label="Company guest"
                       variant="outlined"
                       name="company_guest"
-                      error={alert.hidden}
-                      helperText={alert.text}
+                      error={alert.company}
                     />
                   )}
                 />
@@ -579,13 +688,13 @@ function CreateDocument() {
                   onClick={() => {
                     if (dataUpload.company_guest === "") {
                       setAlert({
-                        hidden: true,
-                        text: "Please choose company guest !!!",
+                        ...alert,
+                        company: true,
                       });
                       setTimeout(() => {
                         setAlert({
-                          hidden: false,
-                          text: "",
+                          ...alert,
+                          company: false,
                         });
                       }, 3000);
                     } else {
@@ -624,8 +733,7 @@ function CreateDocument() {
                       label="Signer guest"
                       variant="outlined"
                       name="signer_guest"
-                      error={alert.hidden}
-                      helperText={alert.text}
+                      error={alert.signerB}
                     />
                   )}
                 />
@@ -644,14 +752,16 @@ function CreateDocument() {
                   onClick={(e) => {
                     if (dataUpload.signer_guest === null) {
                       setAlert({
-                        hidden: true,
-                        text:
+                        ...alert,
+                        signerB: true,
+                        message:
                           "Please choose one singer guest to sign contract !!!",
                       });
                       setTimeout(() => {
                         setAlert({
-                          hidden: false,
-                          text: "",
+                          ...alert,
+                          signerB: false,
+                          message: "",
                         });
                       }, 3000);
                     } else {
@@ -765,8 +875,7 @@ function CreateDocument() {
                       format="MM/dd/yyyy"
                       value={selectedDate}
                       name="date"
-                      error={alert.hidden}
-                      helperText={alert.text}
+                      error={alert.date}
                       onChange={handleDateChange}
                       KeyboardButtonProps={{
                         "aria-label": "change date",

@@ -26,14 +26,21 @@ import "date-fns";
 import Typography from "@material-ui/core/Typography";
 import Pagination from "@material-ui/lab/Pagination";
 import Moment from "moment";
-import { InputAdornment, Tooltip } from "@material-ui/core";
+import {
+  InputAdornment,
+  Slide,
+  Tooltip,
+} from "@material-ui/core";
 import TitleIcon from "@material-ui/icons/Title";
 import { toast } from "react-toastify";
-import Snackbar from '@material-ui/core/Snackbar';
-import Alert from '@material-ui/lab/Alert';
+import Snackbar from "@material-ui/core/Snackbar";
+import Alert from "@material-ui/lab/Alert";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 toast.configure();
+function TransitionLeft(props) {
+  return <Slide {...props} direction="right" />;
+}
 function CreateInvoice() {
   const history = useHistory();
   const [listSinger, setListSigner] = useState([]);
@@ -47,7 +54,7 @@ function CreateInvoice() {
     signer: false,
     location: false,
     date: false,
-    message: ""
+    message: "",
   });
   const handleChange = (event, value) => {
     setPageNumber(value);
@@ -95,14 +102,14 @@ function CreateInvoice() {
       setAlert({
         ...alert,
         date: true,
-        message: 'Please choose date expiration invoice'
-      })
-      setTimeout(()=>{
+        message: "Please choose date expiration invoice",
+      });
+      setTimeout(() => {
         setAlert({
           ...alert,
-          date: false
-        })
-      },3000)
+          date: false,
+        });
+      }, 3000);
     } else if (
       Moment(selectedDate).format("DD/MM/YYYY") <
       Moment(new Date()).format("DD/MM/YYYY")
@@ -122,14 +129,14 @@ function CreateInvoice() {
     } else if (position.x === 0 && position.y === 0) {
       setAlert({
         ...alert,
-        location: true
+        location: true,
       });
-      setTimeout(()=>{
+      setTimeout(() => {
         setAlert({
           ...alert,
-          location: false
-        })
-      },3000)
+          location: false,
+        });
+      }, 3000);
     } else {
       history.push({
         pathname: "/invoice-confirm",
@@ -192,21 +199,58 @@ function CreateInvoice() {
       <StepInvoice activeStep={activeStep} />
       <div className="main-panel">
         <Header />
-        <Snackbar open={alert.file} autoHideDuration={3000} style={{marginTop:'10px', width:600}}>
-          <Alert security="error">Please select file upload</Alert>
+
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          open={alert.file}
+          TransitionComponent={TransitionLeft}
+          autoHideDuration={3000}
+        >
+          <Alert variant="filled" severity="error">
+            {alert.message}
+          </Alert>
         </Snackbar>
-        <Snackbar open={alert.title} autoHideDuration={3000}style={{marginTop:'10px', width:600}}>
-          <Alert security="error">{alert.message}</Alert>
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          open={alert.title}
+          autoHideDuration={3000}
+          TransitionComponent={TransitionLeft}
+        >
+          <Alert variant="filled" severity="error">
+            {alert.message}
+          </Alert>
         </Snackbar>
-        <Snackbar open={alert.signer} autoHideDuration={3000}style={{marginTop:'10px', width:600}}>
-          <Alert security="error">Please select a signer to sign invoice</Alert>
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          open={alert.signer}
+          autoHideDuration={3000}
+          TransitionComponent={TransitionLeft}
+        >
+          <Alert variant="filled" severity="error">
+            Please select a signer to sign invoice
+          </Alert>
         </Snackbar>
-        <Snackbar open={alert.date} autoHideDuration={3000}style={{marginTop:'10px', width:600}}>
-          <Alert security="error">{alert.message}</Alert>
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          open={alert.date}
+          autoHideDuration={3000}
+          TransitionComponent={TransitionLeft}
+        >
+          <Alert variant="filled" severity="error">
+            {alert.message}
+          </Alert>
         </Snackbar>
-        <Snackbar open={alert.location} autoHideDuration={3000}style={{marginTop:'10px', width:600}}>
-          <Alert security="error">Please choose location sign to continue</Alert>
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          open={alert.location}
+          autoHideDuration={3000}
+          TransitionComponent={TransitionLeft}
+        >
+          <Alert variant="filled" severity="error">
+            Please choose location sign to continue
+          </Alert>
         </Snackbar>
+
         <Container fluid={true}>
           <div
             hidden={locaA}
@@ -269,13 +313,13 @@ function CreateInvoice() {
                       setAlert({
                         ...alert,
                         file: true,
-                        message: 'Please choose file PDF'
+                        message: "Please choose file PDF",
                       });
                       setTimeout(() => {
                         setAlert({
                           ...alert,
                           file: false,
-                          message: ''
+                          message: "",
                         });
                       }, 3000);
                     } else if (e.target.files[0].size > 10485760) {
@@ -394,13 +438,13 @@ function CreateInvoice() {
                       setAlert({
                         ...alert,
                         title: true,
-                        message: 'Please input title invoice'
+                        message: "Please input title invoice",
                       });
                       setTimeout(() => {
                         setAlert({
                           ...alert,
                           title: false,
-                          message: ''
+                          message: "",
                         });
                       }, 3000);
                     } else if (dataUpload.title.length > 255) {

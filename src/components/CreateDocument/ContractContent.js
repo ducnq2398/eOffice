@@ -1,20 +1,10 @@
-import {
-  Container,
-  Form,
-  FormGroup,
-  Row,
-  Col,
-  Label,
-  Modal,
-  ModalFooter,
-  ModalHeader,
-} from "reactstrap";
+import { Container, Form, FormGroup, Row, Col, Label } from "reactstrap";
 import Header from "../Nav/Header";
 import StepContract from "../Sidebar/Stepper";
 import PDF from "../PDF/PDF";
 import "../../css/CreateDoc.css";
 import { useHistory, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { forwardRef, useEffect, useState } from "react";
 import userListAPI from "../../api/userListAPI";
 import companyListAPI from "../../api/companyListAPI";
 import { getUser } from "../../utils/Common";
@@ -40,7 +30,14 @@ import {
   TextField,
   withStyles,
   TablePagination,
+  Dialog,
+  DialogTitle,
+  DialogActions,
+  Slide,
 } from "@material-ui/core";
+const Transition = forwardRef(function Transition(props, ref) {
+  return <Slide direction="down" ref={ref} {...props} />;
+});
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.white,
@@ -74,7 +71,7 @@ function ContractContent() {
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
- 
+
   function toogle() {
     setCreate(!create);
   }
@@ -390,21 +387,26 @@ function ContractContent() {
             </Col>
           </Row>
         </Container>
-        <Modal
-          isOpen={create}
-          toggle={toogle}
-          style={{ marginTop: "20%", marginRight: "50%" }}
+
+        <Dialog
+          open={create}
+          TransitionComponent={Transition}
+          keepMounted
+          onClose={toogle}
+          disableBackdropClick
+          disableEscapeKeyDown
+          fullWidth
         >
-          <ModalHeader>Do you want create Contract?</ModalHeader>
-          <ModalFooter>
-            <Button color="secondary" onClick={toogle}>
+          <DialogTitle>{"Do you want create Contract?"}</DialogTitle>
+          <DialogActions>
+            <Button onClick={toogle} color="secondary" variant="contained">
               No
-            </Button>{" "}
-            <Button color="primary" onClick={handleCreated}>
+            </Button>
+            <Button onClick={handleCreated} color="primary" variant="contained">
               Yes
             </Button>
-          </ModalFooter>
-        </Modal>
+          </DialogActions>
+        </Dialog>
       </div>
     </div>
   );

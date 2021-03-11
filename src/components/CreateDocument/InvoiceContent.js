@@ -5,9 +5,6 @@ import {
   Row,
   Col,
   Label,
-  Modal,
-  ModalFooter,
-  ModalHeader,
 } from "reactstrap";
 import Header from "../Nav/Header";
 import StepInvoice from "../Sidebar/StepInvoice";
@@ -15,7 +12,7 @@ import PDF from "../PDF/PDF";
 import "../../css/CreateDoc.css";
 import userListAPI from "../../api/userListAPI";
 import { useHistory, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { forwardRef, useEffect, useState } from "react";
 import { getUser } from "../../utils/Common";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
@@ -26,7 +23,14 @@ import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
 import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-import { InputAdornment, TablePagination } from "@material-ui/core";
+import {
+  Dialog,
+  DialogActions,
+  DialogTitle,
+  InputAdornment,
+  Slide,
+  TablePagination,
+} from "@material-ui/core";
 import TitleIcon from "@material-ui/icons/Title";
 import BorderColorIcon from "@material-ui/icons/BorderColor";
 import Table from "@material-ui/core/Table";
@@ -39,6 +43,9 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 
 toast.configure();
+const Transition = forwardRef(function Transition(props, ref) {
+  return <Slide direction="down" ref={ref} {...props} />;
+});
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.white,
@@ -291,21 +298,25 @@ function InvoiceContent() {
             </Col>
           </Row>
         </Container>
-        <Modal
-          isOpen={create}
-          toggle={toogle}
-          style={{ marginTop: "20%", marginRight: "50%" }}
+        <Dialog
+          open={create}
+          TransitionComponent={Transition}
+          keepMounted
+          onClose={toogle}
+          disableBackdropClick
+          disableEscapeKeyDown
+          fullWidth
         >
-          <ModalHeader>Do you want create Invoice?</ModalHeader>
-          <ModalFooter>
-            <Button color="secondary" onClick={toogle}>
+          <DialogTitle>{"Do you want create Invoice?"}</DialogTitle>
+          <DialogActions>
+            <Button onClick={toogle} color="secondary" variant="contained">
               No
-            </Button>{" "}
-            <Button color="primary" onClick={handleCreated}>
+            </Button>
+            <Button onClick={handleCreated} color="primary" variant="contained">
               Yes
             </Button>
-          </ModalFooter>
-        </Modal>
+          </DialogActions>
+        </Dialog>
       </div>
     </div>
   );
