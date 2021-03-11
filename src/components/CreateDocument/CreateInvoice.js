@@ -29,6 +29,8 @@ import Moment from "moment";
 import { InputAdornment, Tooltip } from "@material-ui/core";
 import TitleIcon from "@material-ui/icons/Title";
 import { toast } from "react-toastify";
+import Snackbar from '@material-ui/core/Snackbar';
+import Alert from '@material-ui/lab/Alert';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 toast.configure();
@@ -40,8 +42,12 @@ function CreateInvoice() {
   const [file, setFile] = useState([]);
   const [color, setColor] = useState("#808080ad");
   const [alert, setAlert] = useState({
-    hidden: false,
-    text: "",
+    file: false,
+    title: false,
+    signer: false,
+    location: false,
+    date: false,
+    message: ""
   });
   const handleChange = (event, value) => {
     setPageNumber(value);
@@ -87,27 +93,43 @@ function CreateInvoice() {
 
     if (selectedDate === null) {
       setAlert({
-        hidden: true,
-        text: "Please select expiration date",
-      });
+        ...alert,
+        date: true,
+        message: 'Please choose date expiration invoice'
+      })
+      setTimeout(()=>{
+        setAlert({
+          ...alert,
+          date: false
+        })
+      },3000)
     } else if (
       Moment(selectedDate).format("DD/MM/YYYY") <
       Moment(new Date()).format("DD/MM/YYYY")
     ) {
       setAlert({
-        hidden: true,
-        text: "Expiration date can't less than current date",
+        ...alert,
+        date: true,
+        message: "Expiration date can't less than current date",
       });
       setTimeout(() => {
         setAlert({
-          hidden: false,
-          text: "",
+          ...alert,
+          date: false,
+          message: "",
         });
       }, 3000);
     } else if (position.x === 0 && position.y === 0) {
-      toast.error("You must be select location sign", {
-        position: toast.POSITION.TOP_CENTER,
+      setAlert({
+        ...alert,
+        location: true
       });
+      setTimeout(()=>{
+        setAlert({
+          ...alert,
+          location: false
+        })
+      },3000)
     } else {
       history.push({
         pathname: "/invoice-confirm",
@@ -170,6 +192,21 @@ function CreateInvoice() {
       <StepInvoice activeStep={activeStep} />
       <div className="main-panel">
         <Header />
+        <Snackbar open={alert.file} autoHideDuration={3000} style={{marginTop:'10px', width:600}}>
+          <Alert security="error">Please select file upload</Alert>
+        </Snackbar>
+        <Snackbar open={alert.title} autoHideDuration={3000}style={{marginTop:'10px', width:600}}>
+          <Alert security="error">{alert.message}</Alert>
+        </Snackbar>
+        <Snackbar open={alert.signer} autoHideDuration={3000}style={{marginTop:'10px', width:600}}>
+          <Alert security="error">Please select a signer to sign invoice</Alert>
+        </Snackbar>
+        <Snackbar open={alert.date} autoHideDuration={3000}style={{marginTop:'10px', width:600}}>
+          <Alert security="error">{alert.message}</Alert>
+        </Snackbar>
+        <Snackbar open={alert.location} autoHideDuration={3000}style={{marginTop:'10px', width:600}}>
+          <Alert security="error">Please choose location sign to continue</Alert>
+        </Snackbar>
         <Container fluid={true}>
           <div
             hidden={locaA}
@@ -230,24 +267,28 @@ function CreateInvoice() {
                   onChange={(e) => {
                     if (e.target.files[0].type !== "application/pdf") {
                       setAlert({
-                        hidden: true,
-                        text: "Please choose file PDF",
+                        ...alert,
+                        file: true,
+                        message: 'Please choose file PDF'
                       });
                       setTimeout(() => {
                         setAlert({
-                          hidden: false,
-                          text: "",
+                          ...alert,
+                          file: false,
+                          message: ''
                         });
                       }, 3000);
                     } else if (e.target.files[0].size > 10485760) {
                       setAlert({
-                        hidden: true,
-                        text: "File don't larger 30MB",
+                        ...alert,
+                        file: true,
+                        message: "File don't larger 10MB",
                       });
                       setTimeout(() => {
                         setAlert({
-                          hidden: false,
-                          text: "",
+                          ...alert,
+                          file: false,
+                          message: "",
                         });
                       }, 3000);
                     } else {
@@ -260,8 +301,7 @@ function CreateInvoice() {
                 <TextField
                   variant="outlined"
                   label="Choose file"
-                  error={alert.hidden}
-                  helperText={alert.text}
+                  error={alert.file}
                   value={fileName}
                   fullWidth
                   InputProps={{
@@ -284,13 +324,15 @@ function CreateInvoice() {
                   onClick={() => {
                     if (file.length === 0) {
                       setAlert({
-                        hidden: true,
-                        text: "Please choose file upload !!!",
+                        ...alert,
+                        file: true,
+                        message: "Please choose file upload !!!",
                       });
                       setTimeout(() => {
                         setAlert({
-                          hidden: false,
-                          text: "",
+                          ...alert,
+                          file: false,
+                          message: "",
                         });
                       }, 3000);
                     } else {
@@ -322,8 +364,7 @@ function CreateInvoice() {
                   type="text"
                   name="title"
                   required
-                  error={alert.hidden}
-                  helperText={alert.text}
+                  error={alert.title}
                   fullWidth
                   style={{ marginTop: "20px" }}
                   InputProps={{
@@ -351,24 +392,28 @@ function CreateInvoice() {
                   onClick={() => {
                     if (dataUpload.title.trim() === "") {
                       setAlert({
-                        hidden: true,
-                        text: "Please input title of invoice !!!",
+                        ...alert,
+                        title: true,
+                        message: 'Please input title invoice'
                       });
                       setTimeout(() => {
                         setAlert({
-                          hidden: false,
-                          text: "",
+                          ...alert,
+                          title: false,
+                          message: ''
                         });
                       }, 3000);
                     } else if (dataUpload.title.length > 255) {
                       setAlert({
-                        hidden: true,
-                        text: "Title max length 255 characters !!!",
+                        ...alert,
+                        title: true,
+                        message: "Title max length 255 characters !!!",
                       });
                       setTimeout(() => {
                         setAlert({
-                          hidden: false,
-                          text: "",
+                          ...alert,
+                          title: false,
+                          message: "",
                         });
                       }, 3000);
                     } else {
@@ -407,8 +452,7 @@ function CreateInvoice() {
                       label="Signer name"
                       variant="outlined"
                       name="signer"
-                      error={alert.hidden}
-                      helperText={alert.text}
+                      error={alert.signer}
                     />
                   )}
                 />
@@ -429,13 +473,13 @@ function CreateInvoice() {
                   onClick={() => {
                     if (dataUpload.signer === null) {
                       setAlert({
-                        hidden: true,
-                        text: "Please choose one signer invoice !!!",
+                        ...alert,
+                        signer: true,
                       });
                       setTimeout(() => {
                         setAlert({
-                          hidden: false,
-                          text: "",
+                          ...alert,
+                          signer: false,
                         });
                       }, 3000);
                     } else {

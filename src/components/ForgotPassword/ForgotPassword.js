@@ -19,7 +19,6 @@ import firebase from "../../firebase";
 import { useHistory } from "react-router";
 
 function ForgotPassword() {
-  const history = useHistory();
   const [phone, setPhone] = useState("");
   const [check, setCheck] = useState({
     error: false,
@@ -49,10 +48,17 @@ function ForgotPassword() {
         .auth()
         .signInWithPhoneNumber(number, recaptcha)
         .then(function (confirmationResult) {
-          setModal(true);
-          setTimeout(() => {
-            setModal(false);
-          }, 59000);
+          // setModal(true);
+          // setTimeout(() => {
+          //   setModal(false);
+          // }, 59000);
+          const code = prompt('Enter OTP', '');
+          confirmationResult.confirm(code).then(function(result){
+            window.history.pushState(JSON.stringify(result.user),'','/reset-password')
+            console.log(result.user);
+          }).catch(function(error){
+            console.log(error);
+          })
         });
     }
   };

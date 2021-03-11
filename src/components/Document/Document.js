@@ -346,6 +346,7 @@ function Document() {
               </Col>
             </FormGroup>
             <TablePagination
+              hidden={find !== "" ? true : false}
               component="div"
               count={postList.length}
               page={page}
