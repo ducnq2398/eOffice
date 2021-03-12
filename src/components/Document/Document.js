@@ -549,7 +549,7 @@ function Document() {
               {postList
                 .filter((data) => {
                   if (
-                    data.description.toLowerCase().includes(find.toLowerCase())
+                    data.title.toLowerCase().includes(find.toLowerCase())
                   ) {
                     return data;
                   }
@@ -727,10 +727,10 @@ function Document() {
           <Modal isOpen={dele}>
             <ModalHeader>Are you sure delete document?</ModalHeader>
             <ModalFooter>
-              <Button color="secondary" onClick={() => setDel(!dele)}>
+              <Button color="secondary" variant="contained" style={{marginRight:'5px'}} onClick={() => setDel(!dele)}>
                 No
-              </Button>{" "}
-              <Button color="primary">Yes</Button>
+              </Button>
+              <Button color="primary" variant="contained">Yes</Button>
             </ModalFooter>
           </Modal>
         </Container>

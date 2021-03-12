@@ -92,6 +92,7 @@ function CreateInvoice() {
       [name]: value,
     });
   }
+
   function handleContent() {
     const listViewerId = [];
     viewer.map((view) => {
@@ -111,8 +112,8 @@ function CreateInvoice() {
         });
       }, 3000);
     } else if (
-      Moment(selectedDate).format("DD/MM/YYYY") <
-      Moment(new Date()).format("DD/MM/YYYY")
+      Moment(selectedDate).format('yyyy-MM-DD'+'T'+'HH:mm:ss.SSS'+'Z') <
+      Moment(new Date()).format('yyyy-MM-DD'+'T'+'HH:mm:ss.SSS'+'Z')
     ) {
       setAlert({
         ...alert,
@@ -143,7 +144,7 @@ function CreateInvoice() {
         state: {
           file: file,
           data: dataUpload,
-          date: Moment(selectedDate).format("DD/MM/YYYY"),
+          date: Moment(selectedDate).format('yyyy-MM-DD'+'T'+'HH:mm:ss.SSS'+'Z'),
           viewer: viewer,
           listViewerId: listViewerId,
           signLocation: position,
@@ -152,6 +153,7 @@ function CreateInvoice() {
       });
     }
   }
+  
   useEffect(() => {
     const companyId = getUser().CompanyId;
     async function fetListUser() {

@@ -35,6 +35,7 @@ import {
   DialogActions,
   Slide,
 } from "@material-ui/core";
+import moment from "moment";
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
@@ -132,7 +133,7 @@ function ContractContent() {
       ",y=" +
       location.state.signLocationB.y;
     const params = {
-      dateCreate: Moment(new Date()).format("DD/MM/YYYY"),
+      dateCreate: Moment(new Date()).format('yyyy-MM-DD'+'T'+'HH:mm:ss.SSS'+'Z'),
       creatorId: getUser().Id,
       dateExpire: location.state.date,
       title: location.state.data.title,
@@ -346,7 +347,7 @@ function ContractContent() {
 
                 <TextField
                   label="Date expiration"
-                  value={location.state.date}
+                  value={moment(location.state.date).format('DD/MM/YYYY')}
                   fullWidth
                   style={{ marginTop: "20px", padding: "10px 10px 10px" }}
                   InputProps={{

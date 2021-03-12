@@ -41,6 +41,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import moment from "moment";
 
 toast.configure();
 const Transition = forwardRef(function Transition(props, ref) {
@@ -94,14 +95,6 @@ function InvoiceContent() {
     getSigner();
   }, []);
 
-  var today = new Date(),
-    date =
-      today.getFullYear() +
-      "-" +
-      (today.getMonth() + 1) +
-      "-" +
-      today.getDate();
-
   async function handleCreated(e) {
     e.preventDefault();
     const file = location.state.file[0];
@@ -115,7 +108,7 @@ function InvoiceContent() {
       ",y=" +
       location.state.signLocation.y;
     const params = {
-      dateCreate: Moment(new Date()).format("DD/MM/YYYY"),
+      dateCreate: Moment(new Date()).format('yyyy-MM-DD'+'T'+'HH:mm:ss.SSS'+'Z'),
       creatorId: getUser().Id,
       dateExpire: location.state.date,
       title: location.state.data.title,
@@ -257,7 +250,7 @@ function InvoiceContent() {
                 />
                 <TextField
                   label="Date expiration"
-                  value={location.state.date}
+                  value={moment(location.state.date).format('DD/MM/YYYY')}
                   fullWidth
                   style={{ marginTop: "20px", padding: "10px 10px 10px" }}
                   InputProps={{

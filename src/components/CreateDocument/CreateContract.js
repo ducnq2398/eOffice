@@ -162,8 +162,8 @@ function CreateDocument() {
         );
       });
     } else if (
-      Moment(selectedDate).format("DD/MM/YYYY") <
-      Moment(new Date()).format("DD/MM/YYYY")
+      Moment(selectedDate).format('yyyy-MM-DD'+'T'+'HH:mm:ss.SSS'+'Z') <
+      Moment(new Date()).format('yyyy-MM-DD'+'T'+'HH:mm:ss.SSS'+'Z')
     ) {
       setAlert({
         ...alert,
@@ -206,7 +206,7 @@ function CreateDocument() {
           signLocationA: positionA,
           signLocationB: positionB,
           numberPage: pageNumber,
-          date: Moment(selectedDate).format("DD/MM/YYYY"),
+          date: Moment(selectedDate).format('yyyy-MM-DD'+'T'+'HH:mm:ss.SSS'+'Z'),
         },
       });
     }

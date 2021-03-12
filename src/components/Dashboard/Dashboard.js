@@ -172,13 +172,13 @@ function Dashboard() {
                                     "/detail/contract/" +
                                     data.id +
                                     "/" +
-                                    data.description,
+                                    data.title,
                                   state: data,
                                 })
                               }
                             >
                               <td>
-                                <p className="demo-2">{data.description}</p>
+                                <p className="demo-2">{data.title}</p>
                               </td>
                               <td>
                                 {data.status < 3 ? (
@@ -223,13 +223,13 @@ function Dashboard() {
                                     "/detail/invoice/" +
                                     data.id +
                                     "/" +
-                                    data.description,
+                                    data.title,
                                   state: data,
                                 })
                               }
                             >
                               <td>
-                                <p className="demo-2">{data.description}</p>
+                                <p className="demo-2">{data.title}</p>
                               </td>
                               <td>
                                 {data.status < 3 ? (

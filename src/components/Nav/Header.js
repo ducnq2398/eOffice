@@ -25,9 +25,9 @@ function Header() {
         const response = await companyListAPI.getCompanyById(companyId);
         setCompany(response.data);
       } catch (error) {
-        if(error.response.status===401){
+        if (error.response.status === 401) {
           removeUserSession();
-          history.push('/');
+          history.push("/");
         }
         console.log(error.response.status);
       }
@@ -71,10 +71,19 @@ function Header() {
           </DropdownMenu>
         </UncontrolledButtonDropdown>
         <NavItem>
-          <p style={{ fontSize: "20px", fontWeight: "bold", color: "black" }}>
+          <p
+            style={{
+              fontSize: "20px",
+              fontWeight: "bold",
+              color: "black",
+              textAlign: "left",
+            }}
+          >
             {getUser().Name}
           </p>
-          <p style={{ color: "black", marginBottom: "5px" }}>{company.name}</p>
+          <p style={{ color: "black", marginBottom: "5px", textAlign: "left" }}>
+            {company.name}
+          </p>
         </NavItem>
       </Nav>
     </Navbar>
