@@ -877,7 +877,7 @@ function UserManagement() {
                     >
                       {users.email}
                     </td>
-                    <td>
+                    <td hidden={user.status === 1 ? true : false}>
                       <DeleteIcon class="hide" onClick={() => setDel(true)} />
                     </td>
                   </tr>

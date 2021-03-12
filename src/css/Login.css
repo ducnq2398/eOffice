@@ -1,5 +1,5 @@
 .b{
-  overflow: hidden;
+  overflow: auto;
   display: block;
   position: relative;
   width: calc(100%);
