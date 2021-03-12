@@ -118,7 +118,7 @@ function InvoiceContent() {
       dateCreate: Moment(new Date()).format("DD/MM/YYYY"),
       creatorId: getUser().Id,
       dateExpire: location.state.date,
-      description: location.state.data.title,
+      title: location.state.data.title,
       signerId: location.state.data.signer.id,
       signLocation: position,
       invoiceURL: url,

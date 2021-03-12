@@ -371,7 +371,7 @@ function Document() {
                               "/detail/contract/" +
                               doc.id +
                               "/" +
-                              doc.description,
+                              doc.title,
                             state: doc,
                           });
                         } else if (doc.invoiceURL) {
@@ -380,7 +380,7 @@ function Document() {
                               "/detail/invoice/" +
                               doc.id +
                               "/" +
-                              doc.description,
+                              doc.title,
                             state: doc,
                           });
                         }
@@ -400,7 +400,7 @@ function Document() {
                               "/detail/contract/" +
                               doc.id +
                               "/" +
-                              doc.description,
+                              doc.title,
                             state: doc,
                           });
                         } else if (doc.invoiceURL) {
@@ -409,7 +409,7 @@ function Document() {
                               "/detail/invoice/" +
                               doc.id +
                               "/" +
-                              doc.description,
+                              doc.title,
                             state: doc,
                           });
                         }
@@ -419,7 +419,7 @@ function Document() {
                         Title document
                       </Label>
                       <br />
-                      <Label className="demo">{doc.description}</Label>
+                      <Label className="demo">{doc.title}</Label>
                     </td>
                     <td
                       onClick={() => {
@@ -429,7 +429,7 @@ function Document() {
                               "/detail/contract/" +
                               doc.id +
                               "/" +
-                              doc.description,
+                              doc.title,
                             state: doc,
                           });
                         } else if (doc.invoiceURL) {
@@ -438,7 +438,7 @@ function Document() {
                               "/detail/invoice/" +
                               doc.id +
                               "/" +
-                              doc.description,
+                              doc.title,
                             state: doc,
                           });
                         }
@@ -462,7 +462,7 @@ function Document() {
                               "/detail/contract/" +
                               doc.id +
                               "/" +
-                              doc.description,
+                              doc.title,
                             state: doc,
                           });
                         } else if (doc.invoiceURL) {
@@ -471,7 +471,7 @@ function Document() {
                               "/detail/invoice/" +
                               doc.id +
                               "/" +
-                              doc.description,
+                              doc.title,
                             state: doc,
                           });
                         }
@@ -508,7 +508,7 @@ function Document() {
                               "/detail/contract/" +
                               doc.id +
                               "/" +
-                              doc.description,
+                              doc.title,
                             state: doc,
                           });
                         } else if (doc.invoiceURL) {
@@ -517,7 +517,7 @@ function Document() {
                               "/detail/invoice/" +
                               doc.id +
                               "/" +
-                              doc.description,
+                              doc.title,
                             state: doc,
                           });
                         }
@@ -564,7 +564,7 @@ function Document() {
                               "/detail/contract/" +
                               data.id +
                               "/" +
-                              data.description,
+                              data.title,
                             state: data,
                           });
                         } else if (data.invoiceURL) {
@@ -573,7 +573,7 @@ function Document() {
                               "/detail/invoice/" +
                               data.id +
                               "/" +
-                              data.description,
+                              data.title,
                             state: data,
                           });
                         }
@@ -593,7 +593,7 @@ function Document() {
                               "/detail/contract/" +
                               data.id +
                               "/" +
-                              data.description,
+                              data.title,
                             state: data,
                           });
                         } else if (data.invoiceURL) {
@@ -602,7 +602,7 @@ function Document() {
                               "/detail/invoice/" +
                               data.id +
                               "/" +
-                              data.description,
+                              data.title,
                             state: data,
                           });
                         }
@@ -612,7 +612,7 @@ function Document() {
                         Title document
                       </Label>
                       <br />
-                      <Label className="demo">{data.description}</Label>
+                      <Label className="demo">{data.title}</Label>
                     </td>
                     <td
                       onClick={() => {
@@ -622,7 +622,7 @@ function Document() {
                               "/detail/contract/" +
                               data.id +
                               "/" +
-                              data.description,
+                              data.title,
                             state: data,
                           });
                         } else if (data.invoiceURL) {
@@ -631,7 +631,7 @@ function Document() {
                               "/detail/invoice/" +
                               data.id +
                               "/" +
-                              data.description,
+                              data.title,
                             state: data,
                           });
                         }
@@ -651,7 +651,7 @@ function Document() {
                               "/detail/contract/" +
                               data.id +
                               "/" +
-                              data.description,
+                              data.title,
                             state: data,
                           });
                         } else if (data.invoiceURL) {
@@ -660,7 +660,7 @@ function Document() {
                               "/detail/invoice/" +
                               data.id +
                               "/" +
-                              data.description,
+                              data.title,
                             state: data,
                           });
                         }
@@ -689,7 +689,7 @@ function Document() {
                               "/detail/contract/" +
                               data.id +
                               "/" +
-                              data.description,
+                              data.title,
                             state: data,
                           });
                         } else if (data.invoiceURL) {
@@ -698,7 +698,7 @@ function Document() {
                               "/detail/invoice/" +
                               data.id +
                               "/" +
-                              data.description,
+                              data.title,
                             state: data,
                           });
                         }

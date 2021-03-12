@@ -15,10 +15,11 @@ import "../../css/ForgotPassword.css";
 import CountDown from "react-countdown";
 import TextField from "@material-ui/core/TextField";
 import { Button } from "@material-ui/core";
-import firebase from "../../firebase";
+import firebase from "../App/firebase";
 import { useHistory } from "react-router";
 
 function ForgotPassword() {
+  const history = useHistory()
   const [phone, setPhone] = useState("");
   const [check, setCheck] = useState({
     error: false,
@@ -29,6 +30,7 @@ function ForgotPassword() {
     setPhone(e.target.value);
   }
   const [modal, setModal] = useState(false);
+  const verifyCode = document.getElementById("verify");
   const toggle = () => {
     if (!phone.trim().match("^[0-9]{10}$")) {
       setCheck({
@@ -42,26 +44,41 @@ function ForgotPassword() {
         });
       }, 3000);
     } else {
-      const recaptcha = new firebase.auth.RecaptchaVerifier("recaptcha");
+      window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
+        "recaptcha"
+      );
+      const appVerifier = window.recaptchaVerifier;
       const number = "+84" + phone.substring(1);
       firebase
         .auth()
-        .signInWithPhoneNumber(number, recaptcha)
+        .signInWithPhoneNumber(number, appVerifier)
         .then(function (confirmationResult) {
-          // setModal(true);
-          // setTimeout(() => {
-          //   setModal(false);
-          // }, 59000);
-          const code = prompt('Enter OTP', '');
-          confirmationResult.confirm(code).then(function(result){
-            window.history.pushState(JSON.stringify(result.user),'','/reset-password')
-            console.log(result.user);
-          }).catch(function(error){
-            console.log(error);
-          })
+          window.confirmationResult = confirmationResult;
+          setModal(true);
+          setTimeout(() => {
+            setModal(false);
+          }, 59000);
+        })
+        .catch(function (error) {
+          console.log(error);
         });
     }
   };
+  function handleConfirm(e) {
+    e.preventDefault();
+    window.confirmationResult
+      .confirm(opt)
+      .then((result) => {
+        const user = result.user;
+        history.push({
+          pathname: '/reset-password',
+          state: user
+        })
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
 
   const renderer = ({ seconds }) => {
     return <span>{seconds}</span>;
@@ -143,7 +160,7 @@ function ForgotPassword() {
               </Button>
             </Col>
             <Col sm={5}>
-              <Button id="verify" variant="contained" color="primary">
+              <Button onClick={handleConfirm} variant="contained" color="primary">
                 Verifying
               </Button>
             </Col>

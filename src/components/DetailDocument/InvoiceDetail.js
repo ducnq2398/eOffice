@@ -129,7 +129,7 @@ function InvoiceDetail() {
                 <TextField
                   label="Title"
                   variant="standard"
-                  value={document.description}
+                  value={document.title}
                   fullWidth
                   style={{ marginTop: "20px", padding: "10px 10px 10px" }}
                   InputProps={{

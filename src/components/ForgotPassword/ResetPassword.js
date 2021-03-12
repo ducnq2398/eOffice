@@ -4,12 +4,15 @@ import logo from "../../images/logo.png";
 import "../../css/ResetPassword.css";
 import TextField from "@material-ui/core/TextField";
 import { Button } from "@material-ui/core";
+import { useLocation } from "react-router";
 
 function ResetPassword(props) {
+  const location = useLocation();
   const [password, setPassword] = useState({
     new_password: "",
     confirm_password: "",
   });
+  console.log(location)
   const [error, setError] = useState(false);
   function handleSubmit(event) {
     event.preventDefault();

@@ -135,7 +135,7 @@ function ContractContent() {
       dateCreate: Moment(new Date()).format("DD/MM/YYYY"),
       creatorId: getUser().Id,
       dateExpire: location.state.date,
-      description: location.state.data.title,
+      title: location.state.data.title,
       contractURL: url,
       signLocation: position,
     };
