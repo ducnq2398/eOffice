@@ -39,7 +39,7 @@ function RouterURL(){
     
     const PrivateRoute = ({ component: Component, ...rest}) =>(
         <Route {...rest} render={(props) => 
-            getToken() && role==='0'
+            getToken() && role==='3'
             ? <Component {... props}/> 
             : <Redirect to={{pathname: '/error', state:{from: props.location} }}/>}/>
     )
@@ -52,7 +52,7 @@ function RouterURL(){
     )
     const UserRoute = ({ component: Component, ...rest}) =>(
         <Route {...rest} render={(props) => 
-            getToken() && role!=='0'
+            getToken() && role!=='3'
             ? <Component {... props}/> 
             : <Redirect to={{pathname: '/error', state:{from: props.location} }}/>}/>
     )

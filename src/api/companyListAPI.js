@@ -3,7 +3,7 @@ import axiosClient from "./axiosClient";
 
 const companyListAPI = {
   getAll: () => {
-    const url = "companies/getall";
+    const url = "/companies/getall";
     return axiosClient.get(url, {
       headers: {
         Authorization: `Bearer ${getUser().IdToken}`,
@@ -11,8 +11,16 @@ const companyListAPI = {
     });
   },
   getCompanyById: (id) => {
-    const url = `companies/${id}`;
+    const url = `/companies/${id}`;
     return axiosClient.get(url, {
+      headers: {
+        Authorization: `Bearer ${getUser().IdToken}`,
+      },
+    });
+  },
+  addCompany: (params) => {
+    const url = "/companies/addcompany";
+    return axiosClient.post(url, params, {
       headers: {
         Authorization: `Bearer ${getUser().IdToken}`,
       },

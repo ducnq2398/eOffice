@@ -12,6 +12,7 @@ import {
 } from "reactstrap";
 import logo from "../../images/logo.png";
 import "../../css/ForgotPassword.css";
+import support from "../../images/support.png";
 import CountDown from "react-countdown";
 import TextField from "@material-ui/core/TextField";
 import { Button } from "@material-ui/core";
@@ -19,7 +20,6 @@ import firebase from "../App/firebase";
 import { useHistory } from "react-router";
 
 function ForgotPassword() {
-  const history = useHistory()
   const [phone, setPhone] = useState("");
   const [check, setCheck] = useState({
     error: false,
@@ -53,11 +53,11 @@ function ForgotPassword() {
         .auth()
         .signInWithPhoneNumber(number, appVerifier)
         .then(function (confirmationResult) {
-          window.confirmationResult = confirmationResult;
           setModal(true);
           setTimeout(() => {
             setModal(false);
           }, 59000);
+          window.confirmationResult = confirmationResult;
         })
         .catch(function (error) {
           console.log(error);
@@ -70,10 +70,7 @@ function ForgotPassword() {
       .confirm(opt)
       .then((result) => {
         const user = result.user;
-        history.push({
-          pathname: '/reset-password',
-          state: user
-        })
+        window.location.assign('/reset-password');
       })
       .catch(function (error) {
         console.log(error);
@@ -167,6 +164,13 @@ function ForgotPassword() {
           </Row>
         </ModalFooter>
       </Modal>
+      <img
+        style={{ position: "fixed", bottom: 0, left: 0 }}
+        src={support}
+        alt=""
+        width="500"
+        height="100"
+      />
     </Container>
   );
 }

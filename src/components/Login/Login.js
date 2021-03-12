@@ -6,8 +6,6 @@ import support from "../../images/support.png";
 import EmailIcon from "@material-ui/icons/Email";
 import LockIcon from "@material-ui/icons/Lock";
 import {
-  Alert,
-  Button,
   Col,
   Row,
   Container,
@@ -19,7 +17,8 @@ import loginAPI from "../../api/loginAPI";
 import { setUserSession } from "../../utils/Common";
 import TextField from "@material-ui/core/TextField";
 import md5 from "md5";
-import { InputAdornment } from "@material-ui/core";
+import { Button, InputAdornment, Snackbar } from "@material-ui/core";
+import Alert from "@material-ui/lab/Alert";
 
 
 function Login() {
@@ -62,6 +61,15 @@ function Login() {
 
   return (
     <Container fluid={true} className="b">
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={submit}
+        autoHideDuration={3000}
+      >
+        <Alert variant="filled" severity="error">
+          Invalid username or password
+        </Alert>
+      </Snackbar>
       <Row>
         <Col>
           <div className="fpt">
@@ -117,12 +125,7 @@ function Login() {
               <Link to="/forgot-password">Forgot password?</Link>
             </FormGroup>
             <FormGroup>
-              <Alert isOpen={submit} color="danger">
-                Incorrect username or password
-              </Alert>
-            </FormGroup>
-            <FormGroup>
-              <Button color="primary" type="submit" block>
+              <Button variant="contained" fullWidth color="primary" type="submit" size="large">
                 Sign In
               </Button>
             </FormGroup>
