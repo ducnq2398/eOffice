@@ -1,6 +1,18 @@
 importScripts("https://www.gstatic.com/firebasejs/8.3.0/firebase-app.js");
 importScripts("https://www.gstatic.com/firebasejs/8.3.0/firebase-messaging.js");
 
+console.log(navigator);
+
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('firebase-messaging-sw.js')
+    .then(function(registration) {
+      console.log('Registration successful, scope is:', registration.scope);
+    }).catch(function(err) {
+      console.log('Service worker registration failed, error:', err);
+    });
+}
+
 firebase.initializeApp({
   apiKey: "AIzaSyBakKir9Hb_iinf9kYR3oW6K4i4AXm_X9I",
   authDomain: "eoffice-4803f.firebaseapp.com",
@@ -13,3 +25,15 @@ firebase.initializeApp({
 // Retrieve an instance of Firebase Messaging so that it can handle background
 // messages.
 const messaging = firebase.messaging();
+
+messaging.onBackgroundMessage(function(payload) {
+  console.log('Received background message ', payload);
+
+  const notificationTitle = payload.notification.title;
+  const notificationOptions = {
+    body: payload.notification.body,
+  };
+
+  self.registration.showNotification(notificationTitle,
+    notificationOptions);
+});

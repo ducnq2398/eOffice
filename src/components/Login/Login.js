@@ -19,10 +19,24 @@ import TextField from "@material-ui/core/TextField";
 import md5 from "md5";
 import { Button, InputAdornment, Snackbar } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
-
+import firebase from "../App/firebase";
+import {browserName, osVersion, osName} from 'react-device-detect';
+import packageJson from '../../../package.json';
 
 function Login() {
-  
+  const messaging = firebase.messaging();
+  messaging
+    .requestPermission()
+    .then(function () {
+      return messaging.getToken();
+    })
+    .then(function (token) {
+      console.log("Token : ", token);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
   const history = useHistory();
   const [getData, setGetData] = useState({
     username: "",
@@ -41,10 +55,14 @@ function Login() {
   }
   function handleSubmit(e) {
     e.preventDefault();
+    const os = osName +' '+osVersion;
     const md5pass = md5(getData.password);
     const params = {
       email: getData.username,
       password: md5pass.trim().toString(),
+      device: browserName,
+      osVersion: os,
+      appVersion: packageJson.version,
     };
     loginAPI
       .loginUser(params)
