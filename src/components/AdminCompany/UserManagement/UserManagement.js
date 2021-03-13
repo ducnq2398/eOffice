@@ -293,7 +293,7 @@ function UserManagement() {
         password: md5("123Aabc").trim().toString(),
         phone: tel,
         address: user.address,
-        dateCreate: Moment(new Date()).format("DD/MM/YYYY"),
+        dateCreate: Moment(new Date()).format('yyyy-MM-DD'+'T'+'HH:mm:ss.SSS'+'Z'),
         creatorId: getUser().Id,
         subDepartmentId: user.subdepartment,
         departmentId: user.department,
@@ -787,8 +787,8 @@ function UserManagement() {
                     return users;
                   }
                 })
-                .map((users) => (
-                  <tr key={users.id} className="row_data">
+                .map((user) => (
+                  <tr key={user.id} className="row_data">
                     <td
                       onClick={() => {
                         setDetail({
@@ -809,7 +809,7 @@ function UserManagement() {
                         setOpenEdit(true);
                       }}
                     >
-                      {users.name}
+                      {user.name}
                     </td>
                     <td
                       onClick={() => {
@@ -831,7 +831,7 @@ function UserManagement() {
                         setOpenEdit(true);
                       }}
                     >
-                      <GetDepartment id={users.departmentId} />
+                      <GetDepartment id={user.departmentId} />
                     </td>
                     <td
                       onClick={() => {
@@ -853,7 +853,7 @@ function UserManagement() {
                         setOpenEdit(true);
                       }}
                     >
-                      {users.phone}
+                      {user.phone}
                     </td>
                     <td
                       onClick={() => {
@@ -875,7 +875,7 @@ function UserManagement() {
                         setOpenEdit(true);
                       }}
                     >
-                      {users.email}
+                      {user.email}
                     </td>
                     <td hidden={user.status === 1 ? true : false}>
                       <DeleteIcon class="hide" onClick={() => setDel(true)} />

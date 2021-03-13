@@ -94,7 +94,7 @@ function CreateInvoice() {
   }
 
   function handleContent() {
-    const listViewerId = [];
+    const listViewerId = [getUser().Id];
     viewer.map((view) => {
       listViewerId.push(view.id);
     });

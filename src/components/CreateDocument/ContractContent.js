@@ -166,6 +166,7 @@ function ContractContent() {
             location.state.viewer.map((v) => {
               listViewerId.push(v.id);
             });
+            listViewerId.push(getUser().Id);
             const viewer = {
               contractId: contractId,
               listViewersId: listViewerId,

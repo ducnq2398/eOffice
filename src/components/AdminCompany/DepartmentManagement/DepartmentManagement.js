@@ -2,13 +2,8 @@ import { useEffect, useState } from "react";
 import {
   Container,
   FormGroup,
-  ButtonDropdown,
-  DropdownToggle,
-  DropdownMenu,
   Col,
-  Form,
   Row,
-  Input,
 } from "reactstrap";
 import Header from "../../Nav/Header";
 import Sidebar from "../../Sidebar/Sidebar";
@@ -90,7 +85,7 @@ function DepartmentManagerment() {
         name: value.name,
         companyId: getUser().CompanyId,
         creatorId: getUser().Id,
-        dateCreate: Moment(new Date()).format("DD/MM/YYYY"),
+        dateCreate: Moment(new Date()).format('yyyy-MM-DD'+'T'+'HH:mm:ss.SSS'+'Z'),
       };
       departmentAPI
         .addDepartment(params)
@@ -101,7 +96,7 @@ function DepartmentManagerment() {
             departmentId: res.data.id,
             companyId: getUser().CompanyId,
             creatorId: getUser().Id,
-            dateCreate: Moment(new Date()).format("DD/MM/YYYY"),
+            dateCreate: Moment(new Date()).format('yyyy-MM-DD'+'T'+'HH:mm:ss.SSS'+'Z'),
           };
           departmentAPI
             .addSubDepartment(params)
@@ -124,7 +119,7 @@ function DepartmentManagerment() {
         departmentId: value.id,
         companyId: getUser().CompanyId,
         creatorId: getUser().Id,
-        dateCreate: Moment(new Date()).format("DD/MM/YYYY"),
+        dateCreate: Moment(new Date()).format('yyyy-MM-DD'+'T'+'HH:mm:ss.SSS'+'Z'),
       };
       departmentAPI
         .addSubDepartment(params)

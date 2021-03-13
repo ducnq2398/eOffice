@@ -24,35 +24,23 @@ import ContractDetail from "../DetailDocument/ContractDetail";
 import { useEffect, useState } from "react";
 
 function RouterURL(){
-    const [user, setUser] = useState([]);
-    const [role, setRole] = useState('');
-    useEffect(()=>{
-        function getUser() {
-            const user = localStorage.getItem('user');
-            if(user){
-                setUser(JSON.parse(user))
-                setRole(JSON.parse(user).Role)
-            }
-        }
-        getUser();
-    },[])
     
     const PrivateRoute = ({ component: Component, ...rest}) =>(
         <Route {...rest} render={(props) => 
-            getToken() && role==='3'
-            ? <Component {... props}/> 
+            getToken() && getUser().Role==='3'
+            ? <Component {... props}/>
             : <Redirect to={{pathname: '/error', state:{from: props.location} }}/>}/>
     )
 
     const AdminRoute = ({ component: Component, ...rest}) =>(
         <Route {...rest} render={(props) => 
-            getToken()
+            getToken() && getUser().Role==='1'
             ? <Component {... props}/> 
             : <Redirect to={{pathname: '/error', state:{from: props.location} }}/>}/>
     )
     const UserRoute = ({ component: Component, ...rest}) =>(
         <Route {...rest} render={(props) => 
-            getToken() && role!=='3'
+            getToken() && getUser().Role !=='3'
             ? <Component {... props}/> 
             : <Redirect to={{pathname: '/error', state:{from: props.location} }}/>}/>
     )

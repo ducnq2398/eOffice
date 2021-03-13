@@ -7,8 +7,10 @@ import loginAPI from "../../api/loginAPI";
 import md5 from "md5";
 import Alert from "@material-ui/lab/Alert";
 import { Button, Snackbar, TextField } from "@material-ui/core";
+import { useHistory } from "react-router";
 
-function AdminLogin(props) {
+function AdminLogin() {
+  const history = useHistory();
   const [adminLogin, setAdminLogin] = useState({
     username: "",
     password: "",
@@ -36,7 +38,11 @@ function AdminLogin(props) {
       .loginAdmin(params)
       .then(function (res) {
         setUserSession(res.data.token, res.data);
-        props.history.push("/admin-manager");
+        if(res.data.Role==='3'){
+          history.push("/admin-manager");
+        }else{
+          history.push("/error")
+        }
       })
       .catch(function (error) {
         setSubmit(true);

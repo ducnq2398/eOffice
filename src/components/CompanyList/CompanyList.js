@@ -1,11 +1,11 @@
 import { Container, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Table, Form, FormGroup, Input, Row, Col} from "reactstrap";
 import {Link} from 'react-router-dom';
 import { useEffect, useState } from "react";
-import Panigation from "../Panigation/Panigation";
 import companyListAPI from "../../api/companyListAPI";
 import SidebarAdmin from "../Sidebar/SidebarAdmin";
 import '../../css/CompanyList.css';
 import GetAdminCompany from "../GetAdminCompany/GetAdminCompany";
+import Moment from 'moment';
 
 function CompanyList(){
     const [filter, setFilter] = useState(false);
@@ -104,7 +104,7 @@ function CompanyList(){
                                     <td>
                                         <GetAdminCompany id={data.adminId}/>
                                     </td>
-                                    <td>{data.dateCreate}</td>
+                                    <td>{Moment(data.dateCreate).format('DD/MM/YYYY hh:mm:ss')}</td>
                                     <td>{data.status===1? <p style={{color:'green'}}>Active</p> : <p style={{color:'red'}}>Deactive</p>}</td>
                                     <td>{data.phone}</td>
                                     <td>
@@ -152,15 +152,6 @@ function CompanyList(){
                             </tr>))}  
                     </tbody>    
                 </Table>
-        
-            <div className="pani" hidden={search!=='' ? true : false}>
-                <Panigation
-                    currentPage={currentPage}
-                    postsPerPage={postPerPage}
-                    totalPosts = {postList.length}
-                    paginate={paginate}
-                />
-            </div>
             </Container>
             </div>
         </div>
