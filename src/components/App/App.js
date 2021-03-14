@@ -2,7 +2,6 @@ import RouterURL from "../RouterURL/RouterURL";
 import { BrowserRouter as Router } from "react-router-dom";
 import "../../css/App.css";
 
-
 function App() {
   return (
     <Router>

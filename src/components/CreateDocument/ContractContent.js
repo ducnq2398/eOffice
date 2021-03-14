@@ -152,7 +152,7 @@ function ContractContent() {
           listSignersId: listSigner,
         };
         axios
-          .post(
+          .put(
             "https://datnxeoffice.azurewebsites.net/api/contracts/addsignertocontract",
             data,
             {
@@ -172,7 +172,7 @@ function ContractContent() {
               listViewersId: listViewerId,
             };
             axios
-              .post(
+              .put(
                 "https://datnxeoffice.azurewebsites.net/api/contracts/addviewertocontract",
                 viewer,
                 {
@@ -234,7 +234,7 @@ function ContractContent() {
                   Contract Content
                 </Label>
                 <TextField
-                  label="Title"
+                  
                   variant="standard"
                   value={location.state.data.title}
                   fullWidth
@@ -249,7 +249,7 @@ function ContractContent() {
                   }}
                 />
                 <TextField
-                  label="Company A"
+                  
                   variant="standard"
                   value={company.name}
                   fullWidth
@@ -264,7 +264,7 @@ function ContractContent() {
                   }}
                 />
                 <TextField
-                  label="Signer A"
+                  
                   variant="standard"
                   value={signer.name}
                   fullWidth
@@ -279,7 +279,7 @@ function ContractContent() {
                   }}
                 />
                 <TextField
-                  label="Company B"
+                  
                   variant="standard"
                   value={location.state.data.company_guest.name}
                   fullWidth
@@ -294,7 +294,7 @@ function ContractContent() {
                   }}
                 />
                 <TextField
-                  label="Signer B"
+                  
                   variant="standard"
                   value={guest.name}
                   fullWidth
@@ -348,7 +348,7 @@ function ContractContent() {
 
                 <TextField
                   label="Date expiration"
-                  value={moment(location.state.date).format('DD/MM/YYYY')}
+                  value={moment(location.state.date).format('DD/MM/YYYY HH:mm:ss')}
                   fullWidth
                   style={{ marginTop: "20px", padding: "10px 10px 10px" }}
                   InputProps={{

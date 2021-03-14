@@ -80,7 +80,7 @@ function ContractDetail() {
         setViewer(res.data.contractViewers);
         setId1(res.data.contractSigners[0].signerId);
         setId2(res.data.contractSigners[1].signerId);
-        setActiveStep(res.data.status + 1);
+        setActiveStep(res.data.status);
       } catch (error) {
         console.log(error);
       }
@@ -151,31 +151,20 @@ function ContractDetail() {
                 >
                   Contract Content
                 </Label>
+                <br/>
+                <Label style={{marginTop:'10px'}}>
+                  <img
+                    hidden={document.status === 3 ? false : true}
+                    src={done}
+                    alt=""
+                  />
+                  <img
+                    hidden={document.status !== 3 ? false : true}
+                    src={notsigned}
+                    alt=""/>
+                </Label>
+                
                 <TextField
-                  label="Status"
-                  fullWidth
-                  style={{ padding: "10px 10px 10px" }}
-                  variant="standard"
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <img
-                          hidden={document.status === 3 ? false : true}
-                          src={done}
-                          alt=""
-                        />
-                        <img
-                          hidden={document.status !== 3 ? false : true}
-                          src={notsigned}
-                          alt=""
-                        />
-                      </InputAdornment>
-                    ),
-                    readOnly: true,
-                  }}
-                />
-                <TextField
-                  label="Title"
                   variant="standard"
                   value={document.title}
                   fullWidth
@@ -190,7 +179,6 @@ function ContractDetail() {
                   }}
                 />
                 <TextField
-                  label="Company A"
                   variant="standard"
                   value={company1.name}
                   fullWidth
@@ -205,7 +193,6 @@ function ContractDetail() {
                   }}
                 />
                 <TextField
-                  label="Signer A"
                   variant="standard"
                   value={signer1.name}
                   fullWidth
@@ -220,7 +207,7 @@ function ContractDetail() {
                   }}
                 />
                 <TextField
-                  label="Company B"
+                  
                   variant="standard"
                   value={company2.name}
                   fullWidth
@@ -235,7 +222,7 @@ function ContractDetail() {
                   }}
                 />
                 <TextField
-                  label="Signer B"
+                  
                   variant="standard"
                   value={signer2.name}
                   fullWidth
@@ -289,7 +276,7 @@ function ContractDetail() {
 
                 <TextField
                   label="Date expiration"
-                  value={moment(document.dateExpire).format("DD/MM/YYYY")}
+                  value={moment(document.dateExpire).format("DD/MM/YYYY HH:mm:ss")}
                   fullWidth
                   style={{ marginTop: "20px", padding: "10px 10px 10px" }}
                   InputProps={{

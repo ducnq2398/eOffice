@@ -11,6 +11,7 @@ import invoiceAPI from "../../api/invoiceAPI";
 import { getUser } from "../../utils/Common";
 import contractAPI from "../../api/contractAPI";
 import ScaleLoader from "react-spinners/ScaleLoader";
+import moment from "moment";
 
 function Dashboard() {
   const history = useHistory();
@@ -187,7 +188,7 @@ function Dashboard() {
                                   <img src={done} alt="" />
                                 )}
                               </td>
-                              <td>{data.dateCreate.substring(10, 0)}</td>
+                              <td>{moment(data.dateCreate).format('DD/MM/YYYY')}</td>
                             </tr>
                           ))}
                         </tbody>
@@ -238,7 +239,7 @@ function Dashboard() {
                                   <img src={doneinvoice} alt="" />
                                 )}
                               </td>
-                              <td>{data.dateCreate.substring(10, 0)}</td>
+                              <td>{moment(data.dateCreate).format('DD/MM/YYYY')}</td>
                             </tr>
                           ))}
                         </tbody>

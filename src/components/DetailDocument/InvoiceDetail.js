@@ -110,24 +110,13 @@ function InvoiceDetail() {
                 >
                   Invoice Content
                 </Label>
-                <TextField
-                  label="Status"
-                  fullWidth
-                  style={{ padding: "10px 10px 10px" }}
-                  variant="standard"
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <img hidden={document.status===3 ? false : true} src={done} alt="" />
-                        <img hidden={document.status!==3 ? false : true} src={notsigned} alt="" />
-                      </InputAdornment>
-                    ),
-                    readOnly: true,
-                  }}
-                />
+                <br/>
+                <Label style={{marginTop:'10px'}}>
+                  <img hidden={document.status===3 ? false : true} src={done} alt="" />
+                  <img hidden={document.status!==3 ? false : true} src={notsigned} alt="" />
+                </Label>
 
-                <TextField
-                  label="Title"
+                <TextField               
                   variant="standard"
                   value={document.title}
                   fullWidth
@@ -142,7 +131,7 @@ function InvoiceDetail() {
                   }}
                 />
                 <TextField
-                  label="Signer"
+                  
                   value={signer.name}
                   fullWidth
                   style={{ marginTop: "20px", padding: "10px 10px 10px" }}
@@ -194,8 +183,8 @@ function InvoiceDetail() {
                   rowsPerPageOptions={[]}
                 />
                 <TextField
-                  label="Date expration"
-                  value={Moment(document.dateSign).format("DD/MM/YYYY")}
+                  label="Date expiration"
+                  value={Moment(document.dateSign).format("DD/MM/YYYY HH:mm:ss")}
                   fullWidth
                   style={{ marginTop: "20px", padding: "10px 10px 10px" }}
                   InputProps={{

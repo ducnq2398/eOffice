@@ -267,7 +267,7 @@ function Document() {
                 <DialogTitle>
                   Please select the type of document you want create?
                 </DialogTitle>
-                <DialogActions>
+                <DialogActions style={{paddingBottom: '30px'}}>
                   <Button
                     variant="contained"
                     color="primary"

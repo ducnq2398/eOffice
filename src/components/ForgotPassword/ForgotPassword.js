@@ -30,7 +30,6 @@ function ForgotPassword() {
     setPhone(e.target.value);
   }
   const [modal, setModal] = useState(false);
-  const verifyCode = document.getElementById("verify");
   const toggle = () => {
     if (!phone.trim().match("^[0-9]{10}$")) {
       setCheck({
@@ -54,9 +53,9 @@ function ForgotPassword() {
         .signInWithPhoneNumber(number, appVerifier)
         .then(function (confirmationResult) {
           setModal(true);
-          setTimeout(() => {
-            setModal(false);
-          }, 59000);
+          // setTimeout(() => {
+          //   setModal(false);
+          // }, 59000);
           window.confirmationResult = confirmationResult;
         })
         .catch(function (error) {
@@ -70,7 +69,8 @@ function ForgotPassword() {
       .confirm(opt)
       .then((result) => {
         const user = result.user;
-        window.location.assign('/reset-password');
+        // 
+        console.log(user)
       })
       .catch(function (error) {
         console.log(error);
@@ -139,7 +139,7 @@ function ForgotPassword() {
                     fontSize: "20px",
                   }}
                 >
-                  <CountDown date={Date.now() + 59000} renderer={renderer} />s
+                  {/* <CountDown date={Date.now() + 59000} renderer={renderer} />s */}
                 </Col>
               </Row>
             </FormGroup>

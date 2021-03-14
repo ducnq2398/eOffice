@@ -179,10 +179,21 @@ function CreateDocument() {
       }, 3000);
     } else if (
       positionA.x === 0 &&
-      positionA.y === 0 &&
-      positionB.x === 0 &&
-      positionB.y === 0
+      positionA.y === 0
     ) {
+      setAlert({
+        ...alert,
+        location: true,
+        message: "Please choose location sign to continue...",
+      });
+      setTimeout(() => {
+        setAlert({
+          ...alert,
+          location: false,
+          message: "",
+        });
+      }, 3000);
+    }else if(positionB.x===0 && positionB.y===0){
       setAlert({
         ...alert,
         location: true,
@@ -416,37 +427,39 @@ function CreateDocument() {
                   type="file"
                   style={{ display: "none", width: 0 }}
                   onChange={(e) => {
-                    if (e.target.files[0].type !== "application/pdf") {
-                      setAlert({
-                        ...alert,
-                        file: true,
-                        message: "Please choose file PDF...",
-                      });
-                      setTimeout(() => {
+                    if(e.target.files.length!==0){
+                      if (e.target.files[0].type !== "application/pdf") {
                         setAlert({
                           ...alert,
-                          file: false,
-                          message: "",
+                          file: true,
+                          message: "Please choose file PDF...",
                         });
-                      }, 3000);
-                    } else if (e.target.files[0].size > 10485760) {
-                      setAlert({
-                        ...alert,
-                        file: true,
-                        message: "File don't larger 30MB",
-                      });
-                      setTimeout(() => {
+                        setTimeout(() => {
+                          setAlert({
+                            ...alert,
+                            file: false,
+                            message: "",
+                          });
+                        }, 3000);
+                      } else if (e.target.files[0].size > 10485760) {
                         setAlert({
                           ...alert,
-                          file: false,
-                          message: "",
+                          file: true,
+                          message: "File don't larger 10MB",
                         });
-                      }, 3000);
-                    } else {
-                      setFile(e.target.files);
-                      setFileName(e.target.files[0].name);
-                      setShow(true);
-                    }
+                        setTimeout(() => {
+                          setAlert({
+                            ...alert,
+                            file: false,
+                            message: "",
+                          });
+                        }, 3000);
+                      } else{
+                        setFile(e.target.files);
+                        setFileName(e.target.files[0].name);
+                        setShow(true);
+                      }
+                    }               
                   }}
                 />
                 <TextField
