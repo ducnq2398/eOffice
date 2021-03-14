@@ -32,7 +32,6 @@ function Login() {
       return messaging.getToken();
     })
     .then(function (token) {
-      console.log("Token : ", token);
       setToken(token);
     })
     .catch(function (error) {

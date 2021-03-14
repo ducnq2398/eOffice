@@ -1,0 +1,13 @@
+.filter{
+    position: absolute;
+    left: 20px;
+    margin-top: 50px;
+    width: 160px;
+}
+
+.filter2{
+    position: absolute;
+    left: 200px;
+    margin-top: 50px;
+    width: 160px;
+}
