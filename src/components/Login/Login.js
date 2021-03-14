@@ -24,6 +24,7 @@ import {browserName, osVersion, osName} from 'react-device-detect';
 import packageJson from '../../../package.json';
 
 function Login() {
+  const [token, setToken] = useState();
   const messaging = firebase.messaging();
   messaging
     .requestPermission()
@@ -32,6 +33,7 @@ function Login() {
     })
     .then(function (token) {
       console.log("Token : ", token);
+      setToken(token);
     })
     .catch(function (error) {
       console.log(error);
@@ -63,6 +65,7 @@ function Login() {
       device: browserName,
       osVersion: os,
       appVersion: packageJson.version,
+      reqToken: token
     };
     loginAPI
       .loginUser(params)

@@ -11,6 +11,7 @@ import departmentAPI from "../../api/departmentAPI";
 const user = getUser();
 function Profile() {
     const history = useHistory();
+    const [avatar, setAvatar] = useState(getUser().Avatar);
     const [company, setCompany] = useState('');
     const [department, setDepartment] = useState('');
     function logout() {
@@ -50,7 +51,7 @@ function Profile() {
                 <Container fluid={true}>
                     <Row className="roww">
                         <Col>
-                            <img style={{borderRadius:'50%'}} src={user.Avatar} alt="" width="150px" height="150px"/>
+                            <img style={{borderRadius:'50%'}} src={avatar} alt="" width="150px" height="150px"/>
                             <br/>
                             <Button color="link">Change Password</Button>
                             <br/>
