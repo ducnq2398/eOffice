@@ -143,13 +143,12 @@ function UserManagement() {
       setLoading(false);
     }, 2000);
     fetchUserList();
-  }, []);
+  }, [isOpen, openEdit]);
+
   useEffect(() => {
     async function getDepartment() {
-      const user = getUser();
-      const id = user.CompanyId;
       try {
-        const res = await departmentAPI.getDepartmentByCompanyId(id);
+        const res = await departmentAPI.getDepartmentByCompanyId(getUser().CompanyId);
         setDepartment(res.data);
       } catch (error) {
         console.log(error);
@@ -791,8 +790,8 @@ function UserManagement() {
                     >
                       {user.email}
                     </td>
-                    <td hidden={user.status === 1 ? true : false}>
-                      <DeleteIcon class="hide" onClick={() => setDel(!del)} />
+                    <td>
+                      <DeleteIcon hidden={user.status === 1 ? true : false} class="hide" onClick={() => setDel(!del)} />
                     </td>
                   </tr>
                 ))}
@@ -1075,15 +1074,15 @@ function UserManagement() {
           <Modal isOpen={del} toggle={() => setDel(!del)}>
             <ModalHeader>Do you want delete user?</ModalHeader>
             <ModalFooter>
-              <Button
+              <Button variant="contained" style={{marginRight:5}}
                 color="secondary"
                 onClick={() => {
                   setDel(!del);
                 }}
               >
                 No
-              </Button>{" "}
-              <Button color="primary">Yes</Button>
+              </Button>
+              <Button variant="contained" color="primary">Yes</Button>
             </ModalFooter>
           </Modal>
         </Container>
