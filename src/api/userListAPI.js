@@ -3,7 +3,7 @@ import axiosClient from "./axiosClient";
 
 const userListAPI = {
   getAll: () => {
-    const url = "accounts/getall";
+    const url = "/accounts/getall";
     return axiosClient.get(url, {
       headers: {
         Authorization: `Bearer ${getUser().IdToken}`,
@@ -11,7 +11,7 @@ const userListAPI = {
     });
   },
   getUserByCompanyId: (id) => {
-    const url = `accounts/getbycompany?id=${id}`;
+    const url = `/accounts/getbycompany?id=${id}`;
     return axiosClient.get(url, {
       headers: {
         Authorization: `Bearer ${getUser().IdToken}`,
@@ -19,7 +19,7 @@ const userListAPI = {
     });
   },
   getUserById: (id) => {
-    const url = `accounts/${id}`;
+    const url = `/accounts/${id}`;
     return axiosClient.get(url, {
       headers: {
         Authorization: `Bearer ${getUser().IdToken}`,
@@ -36,11 +36,27 @@ const userListAPI = {
   },
   updateUser: (params) =>{
     const url = "/accounts/updateaccount";
-    return axiosClient.post(url, params, {
+    return axiosClient.put(url, params, {
       headers: {
         Authorization: `Bearer ${getUser().IdToken}`,
       },
     });
-  }
+  },
+  activeUser: (id) =>{
+    const url = `/accounts/activateaccount?accountId=${id}`;
+    return axiosClient.put(url, '', {
+      headers: {
+        Authorization: `Bearer ${getUser().IdToken}`,
+      },
+    });
+  },
+  deActiveUser: (id) => {
+    const url = `/accounts/deactivateaccount?accountId=${id}`;
+    return axiosClient.put(url, '', {
+      headers: {
+        Authorization: `Bearer ${getUser().IdToken}`,
+      },
+    });
+  },
 };
 export default userListAPI;

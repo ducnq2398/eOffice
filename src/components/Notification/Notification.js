@@ -11,6 +11,18 @@ import moment from "moment";
 
 function Notification() {
   const [all, setAll] = useState([]);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage] = useState(15);
+  const indexOfLastPost = (page + 1) * rowsPerPage;
+  const indexOfFirstPost = indexOfLastPost - rowsPerPage;
+  var listNoti = all
+    .sort((a, b) => {
+      return (
+        new Date(a.dateCreate).getTime() - new Date(b.dateCreate).getTime()
+      );
+    })
+    .reverse();
+  const currentPost = all.slice(indexOfFirstPost, indexOfLastPost);
   useEffect(() => {
     async function fetListNoti() {
       try {
@@ -22,7 +34,9 @@ function Notification() {
     }
     fetListNoti();
   }, []);
-
+  function changePage(event, newPage) {
+    setPage(newPage);
+  }
   return (
     <div>
       <Sidebar />
@@ -70,19 +84,25 @@ function Notification() {
               <option>Not seen</option>
             </Input>
             <TablePagination
-                component="div"
-                style={{position:'absolute', right:0}}
-                count={10}
-                page={1}
-                rowsPerPage={5}
-                labelRowsPerPage=""
-                rowsPerPageOptions={[]}
+              component="div"
+              style={{ position: "absolute", right: 0 }}
+              count={all.length}
+              page={page}
+              rowsPerPage={rowsPerPage}
+              onChangePage={changePage}
+              labelRowsPerPage=""
+              rowsPerPageOptions={[]}
             />
           </Row>
-          <Table style={{marginTop:20}}>
+          <Table style={{ marginTop: 20 }}>
             <tbody>
               {all.map((row) => (
-                <tr key={row.id} style={{ background: "#b3aeae75" }}>
+                <tr
+                  key={row.id}
+                  style={{
+                    background: row.status === 0 ? "#b3aeae75" : "white",
+                  }}
+                >
                   <td>
                     <Row style={{ fontWeight: "bold", marginLeft: 1 }}>
                       {row.content}

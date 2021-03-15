@@ -19,6 +19,7 @@
     "bootstrap": "^4.5.3",
     "date-fns": "^2.19.0",
     "firebase": "^8.2.10",
+    "fontsource-roboto": "^4.0.0",
     "js-file-download": "^0.4.12",
     "md5": "^2.3.0",
     "moment": "^2.29.1",

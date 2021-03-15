@@ -138,6 +138,7 @@ function Document() {
   }
   const [data, setData] = useState([]);
   function All() {
+    setPage(0)
     if (getUser().Role === "1") {
       setPostList(listAllDocument);
       setData(listAllDocument);
@@ -148,6 +149,7 @@ function Document() {
     setValue(0);
   }
   function Invoice() {
+    setPage(0)
     if (getUser().Role === "1") {
       setPostList(
         listAllDocument.filter((data) => {
@@ -182,6 +184,7 @@ function Document() {
     setValue(0);
   }
   function Contract() {
+    setPage(0)
     if (getUser().Role === "1") {
       setPostList(
         listAllDocument.filter((data) => {
@@ -216,6 +219,7 @@ function Document() {
     setValue(0);
   }
   function Signed() {
+    setPage(0);
     setPostList(
       data.filter((data) => {
         if (data.status === 3) {
@@ -225,6 +229,7 @@ function Document() {
     );
   }
   function NotSigned() {
+    setPage(0);
     setPostList(
       data.filter((data) => {
         if (data.status < 3) {

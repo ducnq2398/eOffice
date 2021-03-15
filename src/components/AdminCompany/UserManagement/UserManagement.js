@@ -100,11 +100,11 @@ function UserManagement() {
     message_subdepart: "",
   });
   useEffect(() => {
-    const user = getUser();
-    const id = user.CompanyId;
     async function fetchUserList() {
       try {
-        const response = await userListAPI.getUserByCompanyId(id);
+        const response = await userListAPI.getUserByCompanyId(
+          getUser().CompanyId
+        );
         var list = response.data
           .sort((a, b) => {
             return (
@@ -293,7 +293,9 @@ function UserManagement() {
         password: md5("123Aabc").trim().toString(),
         phone: tel,
         address: user.address,
-        dateCreate: Moment(new Date()).format('yyyy-MM-DD'+'T'+'HH:mm:ss.SSS'+'Z'),
+        dateCreate: Moment(new Date()).format(
+          "yyyy-MM-DD" + "T" + "HH:mm:ss.SSS" + "Z"
+        ),
         creatorId: getUser().Id,
         subDepartmentId: user.subdepartment,
         departmentId: user.department,
@@ -306,6 +308,14 @@ function UserManagement() {
         .then(function (res) {
           add();
           setValue(1);
+          setUser({
+            username: "",
+            department: "",
+            subdepartment: "",
+            phone: "",
+            email: "",
+            address: "",
+          });
           toast.success("You has created user successfully", {
             position: toast.POSITION.TOP_CENTER,
           });
@@ -433,17 +443,34 @@ function UserManagement() {
         departmentId: detail.department,
         companyId: getUser().CompanyId,
         role: "2",
-        status: detail.status,
       };
       userListAPI
         .updateUser(params)
         .then(function (res) {
-          edit();
-          setValue(1);
-          activeList();
-          toast.success("You has updated user successfully", {
-            position: toast.POSITION.TOP_CENTER,
-          });
+          if (detail.status === 1) {
+            userListAPI
+              .activeUser(res.data.id)
+              .then(() => {
+                edit();
+                setValue(1);
+                activeList();
+                toast.success("You has updated user successfully", {
+                  position: toast.POSITION.TOP_CENTER,
+                });
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+          } else {
+            userListAPI.deActiveUser(res.data.id).then(() => {
+              edit();
+              setValue(1);
+              activeList();
+              toast.success("You has updated user successfully", {
+                position: toast.POSITION.TOP_CENTER,
+              });
+            });
+          }
         })
         .catch(function (error) {
           console.log(error.response.data.Message);
@@ -458,10 +485,12 @@ function UserManagement() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  function activeList() {
+  function activeList(e) {
+    setPage(0);
     setPostList(listActive);
   }
-  function deActiveList() {
+  function deActiveList(e) {
+    setPage(0);
     setPostList(listDeactive);
   }
   return (

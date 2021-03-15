@@ -12,6 +12,7 @@ import { getUser } from "../../utils/Common";
 import contractAPI from "../../api/contractAPI";
 import ScaleLoader from "react-spinners/ScaleLoader";
 import moment from "moment";
+import notiAPI from "../../api/notiAPI";
 
 function Dashboard() {
   const history = useHistory();
@@ -19,6 +20,7 @@ function Dashboard() {
   const [listAllContract, setListAllContract] = useState([]);
   const [listContractById, setListContractById] = useState([]);
   const [listInvoiceById, setListInvoiceById] = useState([]);
+  const [noti, setNoti] = useState([]);
   const [currentPage] = useState(1);
   const [postPerPage] = useState(5);
   const indexOfLastPost = currentPage * postPerPage;
@@ -27,14 +29,34 @@ function Dashboard() {
   const currentPostsInvoice = [];
   let [loadingInvoice, setLoadingInvoice] = useState(true);
   let [loadingContract, setLoadingContract] = useState(true);
+  var listNoti = noti
+    .sort((a, b) => {
+      return (
+        new Date(a.createdDate).getTime() - new Date(b.createdDate).getTime()
+      );
+    })
+    .reverse();
+  const currentPostsNoti = listNoti.slice(indexOfFirstPost, indexOfLastPost);
+  useEffect(() => {
+    async function fetListNoti() {
+      try {
+        const res = await notiAPI.getAll();
+        setNoti(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetListNoti();
+  }, []);
 
   useEffect(() => {
     async function getAllContrac() {
-      const id = getUser().CompanyId;
       try {
-        await contractAPI.getContractByCompanyId(id).then(function (res) {
-          setListAllContract(res.data);
-        });
+        await contractAPI
+          .getContractByCompanyId(getUser().CompanyId)
+          .then(function (res) {
+            setListAllContract(res.data);
+          });
       } catch (error) {
         console.log(error);
       }
@@ -47,11 +69,12 @@ function Dashboard() {
 
   useEffect(() => {
     async function getAllInvoice() {
-      const id = getUser().CompanyId;
       try {
-        await invoiceAPI.getInvoiceByCompanyId(id).then(function (res) {
-          setListAllInvoice(res.data);
-        });
+        await invoiceAPI
+          .getInvoiceByCompanyId(getUser().CompanyId)
+          .then(function (res) {
+            setListAllInvoice(res.data);
+          });
       } catch (error) {
         console.log(error);
       }
@@ -61,17 +84,18 @@ function Dashboard() {
     }, 1000);
     getAllInvoice();
   }, []);
-
+  
   useEffect(() => {
     async function getInvoiceById() {
-      const id = getUser().Id;
       try {
-        await invoiceAPI.getInvoiceByViewerId(id).then(function (res) {
-          invoiceAPI.getInvoiceBySignerId(id).then(function (res2) {
-            const list = [...res.data, ...res2.data];
-            setListInvoiceById(list);
+        await invoiceAPI
+          .getInvoiceByViewerId(getUser().Id)
+          .then(function (res) {
+            invoiceAPI.getInvoiceBySignerId(getUser().Id).then(function (res2) {
+              const list = [...res.data, ...res2.data];
+              setListInvoiceById(list);
+            });
           });
-        });
       } catch (error) {
         console.log(error);
       }
@@ -81,14 +105,17 @@ function Dashboard() {
 
   useEffect(() => {
     async function getContractById() {
-      const id = getUser().Id;
       try {
-        await contractAPI.getContractBySignerId(id).then(function (res) {
-          contractAPI.getContractByViewerId(id).then(function (res2) {
-            const list = [...res.data, ...res2.data];
-            setListContractById(list);
+        await contractAPI
+          .getContractBySignerId(getUser().Id)
+          .then(function (res) {
+            contractAPI
+              .getContractByViewerId(getUser().Id)
+              .then(function (res2) {
+                const list = [...res.data, ...res2.data];
+                setListContractById(list);
+              });
           });
-        });
       } catch (error) {
         console.log(error);
       }
@@ -188,7 +215,9 @@ function Dashboard() {
                                   <img src={done} alt="" />
                                 )}
                               </td>
-                              <td>{moment(data.dateCreate).format('DD/MM/YYYY')}</td>
+                              <td>
+                                {moment(data.dateCreate).format("DD/MM/YYYY")}
+                              </td>
                             </tr>
                           ))}
                         </tbody>
@@ -239,7 +268,9 @@ function Dashboard() {
                                   <img src={doneinvoice} alt="" />
                                 )}
                               </td>
-                              <td>{moment(data.dateCreate).format('DD/MM/YYYY')}</td>
+                              <td>
+                                {moment(data.dateCreate).format("DD/MM/YYYY")}
+                              </td>
                             </tr>
                           ))}
                         </tbody>
@@ -258,58 +289,32 @@ function Dashboard() {
                   <Label className="title">Activity Log</Label>
                 </FormGroup>
                 <FormGroup>
-                  <Table responsive>
+                  <Table hover style={{ marginTop: 20 }}>
                     <tbody>
-                      <tr>
-                        <td style={{ float: "left", textAlign: "left" }}>
-                          <Label>
-                            The contract documents has been signed by guest.
-                          </Label>
-                          <br />
-                          <Link to="/notification">View detail</Link>
-                        </td>
-                        <td>21/01/2021</td>
-                      </tr>
-                      <tr>
-                        <td style={{ float: "left", textAlign: "left" }}>
-                          <Label>
-                            The contract documents has been signed by guest.
-                          </Label>
-                          <br />
-                          <Link to="/">View detail</Link>
-                        </td>
-                        <td>21/01/2021</td>
-                      </tr>
-                      <tr>
-                        <td style={{ float: "left", textAlign: "left" }}>
-                          <Label>
-                            The contract documents has been signed by guest.
-                          </Label>
-                          <br />
-                          <Link to="/">View detail</Link>
-                        </td>
-                        <td>21/01/2021</td>
-                      </tr>
-                      <tr>
-                        <td style={{ float: "left", textAlign: "left" }}>
-                          <Label>
-                            The contract documents has been signed by guest.
-                          </Label>
-                          <br />
-                          <Link to="/">View detail</Link>
-                        </td>
-                        <td>21/01/2021</td>
-                      </tr>
-                      <tr>
-                        <td style={{ float: "left", textAlign: "left" }}>
-                          <Label>
-                            The contract documents has been signed by guest.
-                          </Label>
-                          <br />
-                          <Link to="/">View detail</Link>
-                        </td>
-                        <td>21/01/2021</td>
-                      </tr>
+                      {currentPostsNoti.map((row) => (
+                        <tr
+                          key={row.id}
+                          style={{
+                            background:
+                              row.status === 0 ? "#b3aeae75" : "white",
+                          }}
+                        >
+                          <td>
+                            <Row style={{ fontWeight: "bold", marginLeft: 1 }}>
+                              {row.content}
+                            </Row>
+                            <Row style={{ marginLeft: 10 }}>{row.title}</Row>
+                            <Row style={{ marginLeft: 10 }}>
+                              <Link to="/">View detail</Link>
+                            </Row>
+                          </td>
+                          <td style={{ position: "absolute", right: 10 }}>
+                            {moment(row.createdDate).format(
+                              "DD/MM/YYYY HH:mm:ss"
+                            )}
+                          </td>
+                        </tr>
+                      ))}
                     </tbody>
                   </Table>
                 </FormGroup>
