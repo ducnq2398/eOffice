@@ -143,7 +143,7 @@ function UserManagement() {
       setLoading(false);
     }, 2000);
     fetchUserList();
-  }, [isOpen, openEdit]);
+  }, [isOpen]);
 
   useEffect(() => {
     async function getDepartment() {
