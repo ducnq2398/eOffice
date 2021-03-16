@@ -33,7 +33,7 @@ function Header() {
       }
     }
     fetCompany();
-  }, []);
+  }, [history]);
   function Logout() {
     removeUserSession();
     history.push("/");

@@ -16,7 +16,7 @@ function GetDepartment({ id }) {
       }
     }
     fetchDeparment();
-  }, []);
+  }, [id]);
   return (
     <div>
       {loading ? (

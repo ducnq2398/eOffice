@@ -147,7 +147,7 @@ function UserManagement() {
       setLoading(false);
     }, 2000);
     fetchUserList();
-  }, [isOpen, openEdit]);
+  }, [reload.add, reload.edit]);
 
   useEffect(() => {
     async function getDepartment() {

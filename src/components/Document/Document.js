@@ -53,9 +53,11 @@ function Document() {
   const [isOpen, setIsOpen] = useState(false);
   const [dele, setDel] = useState(false);
   const toogle = () => setIsOpen(!isOpen);
+  const [filter, setFilter] = useState("");
   const [postList, setPostList] = useState([]);
   const [listAllDocument, setListAllDocument] = useState([]);
-  const [listDocumentById, setListDocumentById] = useState([]);
+  const [listInvoice, setListInvoice] = useState([]);
+  const [listContract, setListContract] = useState([]);
   const [find, setFind] = useState("");
   const [page, setPage] = useState(0);
   const [rowsPerPage] = useState(10);
@@ -76,59 +78,81 @@ function Document() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
   useEffect(() => {
-    async function getAllDocument() {
-      const id = getUser().CompanyId;
+    async function getListDocument() {
       try {
-        await contractAPI.getContractByCompanyId(id).then(function (res) {
-          invoiceAPI.getInvoiceByCompanyId(id).then(function (res2) {
-            const list = [...res.data, ...res2.data];
-            setListAllDocument(list);
-            if (getUser().Role === "1") {
-              setPostList(list);
-              setData(list);
-            }
-          });
-        });
+        if (getUser().Role === "1") {
+          await contractAPI
+            .getContractByCompanyId(getUser().CompanyId)
+            .then(function (contract) {
+              invoiceAPI
+                .getInvoiceByCompanyId(getUser().CompanyId)
+                .then(function (invoice) {
+                  const list = [...contract.data, ...invoice.data];
+                  setListAllDocument(list);
+                  setPostList(list);
+                  setListInvoice(invoice.data);
+                  setListContract(contract.data);
+                })
+                .catch(function (error) {
+                  console.log(error);
+                });
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        } else {
+          await invoiceAPI
+            .getInvoiceByViewerId(getUser().Id)
+            .then(function (res1) {
+              invoiceAPI
+                .getInvoiceBySignerId(getUser().Id)
+                .then(function (res2) {
+                  contractAPI
+                    .getContractByViewerId(getUser().Id)
+                    .then(function (res3) {
+                      contractAPI
+                        .getContractBySignerId(getUser().Id)
+                        .then(function (res4) {
+                          const list = [
+                            ...res1.data,
+                            ...res2.data,
+                            ...res3.data,
+                            ...res4.data,
+                          ];
+                          const listInvoice1 = [...res1.data, ...res2.data];
+                          const listContract1 = [...res3.data, ...res4.data];
+                          setListAllDocument(list);
+                          setPostList(list);
+                          setListInvoice(listInvoice1);
+                          setListContract(listContract1);
+                        })
+                        .catch(function (error) {
+                          console.log(error);
+                        });
+                    })
+                    .catch(function (error) {
+                      console.log(error);
+                    });
+                })
+                .catch(function (error) {
+                  console.log(error);
+                });
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        }
       } catch (error) {
         console.log(error);
       }
     }
+    getListDocument();
     setTimeout(() => {
       setLoading(false);
     }, 2000);
-    getAllDocument();
   }, []);
-
-  useEffect(() => {
-    async function getDocumentById() {
-      const id = getUser().Id;
-      try {
-        await invoiceAPI.getInvoiceByViewerId(id).then(function (res) {
-          invoiceAPI.getInvoiceBySignerId(id).then(function (res2) {
-            contractAPI.getContractByViewerId(id).then(function (res3) {
-              contractAPI.getContractBySignerId(id).then(function (res4) {
-                const list = [
-                  ...res.data,
-                  ...res2.data,
-                  ...res3.data,
-                  ...res4.data,
-                ];
-                setListDocumentById(list);
-                if (getUser().Role === "2") {
-                  setPostList(list);
-                  setData(list);
-                }
-              });
-            });
-          });
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    getDocumentById();
-  }, [getUser().Id]);
 
   function AddContract() {
     history.push("/contract");
@@ -136,148 +160,128 @@ function Document() {
   function AddInvoice() {
     history.push("/invoice");
   }
-  const [data, setData] = useState([]);
+
   function All() {
-    setPage(0)
-    if (getUser().Role === "1") {
-      setPostList(listAllDocument);
-      setData(listAllDocument);
-    } else if (getUser().Role === "2") {
-      setPostList(listDocumentById);
-      setData(listDocumentById);
-    }
+    setPage(0);
+    setPostList(listAllDocument);
     setValue(0);
   }
   function Invoice() {
-    setPage(0)
-    if (getUser().Role === "1") {
-      setPostList(
-        listAllDocument.filter((data) => {
-          if (data.invoiceURL) {
-            return data;
-          }
-        })
-      );
-      setData(
-        listAllDocument.filter((data) => {
-          if (data.invoiceURL) {
-            return data;
-          }
-        })
-      );
-    } else if (getUser().Role === "2") {
-      setPostList(
-        listDocumentById.filter((data) => {
-          if (data.invoiceURL) {
-            return data;
-          }
-        })
-      );
-      setData(
-        listDocumentById.filter((data) => {
-          if (data.invoiceURL) {
-            return data;
-          }
-        })
-      );
-    }
+    setPage(0);
+    setPostList(
+      listAllDocument.filter((data) => {
+        if (data.invoiceURL) {
+          return data;
+        }
+      })
+    );
+
     setValue(0);
   }
   function Contract() {
-    setPage(0)
-    if (getUser().Role === "1") {
-      setPostList(
-        listAllDocument.filter((data) => {
-          if (data.contractUrl) {
-            return data;
-          }
-        })
-      );
-      setData(
-        listAllDocument.filter((data) => {
-          if (data.contractUrl) {
-            return data;
-          }
-        })
-      );
-    } else if (getUser().Role === "2") {
-      setPostList(
-        listDocumentById.filter((data) => {
-          if (data.contractUrl) {
-            return data;
-          }
-        })
-      );
-      setData(
-        listDocumentById.filter((data) => {
-          if (data.contractUrl) {
-            return data;
-          }
-        })
-      );
-    }
+    setPage(0);
+
+    setPostList(
+      listAllDocument.filter((data) => {
+        if (data.contractUrl) {
+          return data;
+        }
+      })
+    );
+
     setValue(0);
   }
   function Signed() {
     setPage(0);
-    setPostList(
-      data.filter((data) => {
-        if (data.status === 3) {
-          return data;
-        }
-      })
-    );
+    if (filter === "1") {
+      setPostList(
+        listAllDocument.filter((data) => {
+          if (data.status === 3) {
+            return data;
+          }
+        })
+      );
+    } else if (filter === "2") {
+      setPostList(
+        listContract.filter((data) => {
+          if (data.status === 3) {
+            return data;
+          }
+        })
+      );
+    } else {
+      setPostList(
+        listInvoice.filter((data) => {
+          if (data.status === 3) {
+            return data;
+          }
+        })
+      );
+    }
   }
   function NotSigned() {
     setPage(0);
-    setPostList(
-      data.filter((data) => {
-        if (data.status < 3) {
-          return data;
-        }
-      })
-    );
+    if (filter === "1") {
+      setPostList(
+        listAllDocument.filter((data) => {
+          if (data.status < 3) {
+            return data;
+          }
+        })
+      );
+    } else if (filter === "2") {
+      setPostList(
+        listContract.filter((data) => {
+          if (data.status < 3) {
+            return data;
+          }
+        })
+      );
+    } else {
+      setPostList(
+        listInvoice.filter((data) => {
+          if (data.status < 3) {
+            return data;
+          }
+        })
+      );
+    }
   }
-
   return (
     <div>
       <Sidebar />
-      <Dialog
-                open={isOpen}
-                onClose={toogle}
-                TransitionComponent={Transition}
-              >
-                <DialogContent>
-                  <img
-                    style={{ marginLeft: "20%" }}
-                    src={choo}
-                    alt=""
-                    width="280px"
-                    height="280px"
-                  />
-                </DialogContent>
-                <DialogTitle>
-                  Please select the type of document you want create?
-                </DialogTitle>
-                <DialogActions style={{paddingBottom: '30px'}}>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    style={{ marginRight: "15%" }}
-                    onClick={AddContract}
-                  >
-                    Contract
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    style={{ marginRight: "20%", width: "104px" }}
-                    onClick={AddInvoice}
-                  >
-                    Invoice
-                  </Button>
-                </DialogActions>
-              </Dialog>
+      <Dialog open={isOpen} onClose={toogle} TransitionComponent={Transition}>
+        <DialogContent>
+          <img
+            style={{ marginLeft: "20%" }}
+            src={choo}
+            alt=""
+            width="280px"
+            height="280px"
+          />
+        </DialogContent>
+        <DialogTitle>
+          Please select the type of document you want create?
+        </DialogTitle>
+        <DialogActions style={{ paddingBottom: "30px" }}>
+          <Button
+            variant="contained"
+            color="primary"
+            style={{ marginRight: "15%" }}
+            onClick={AddContract}
+          >
+            Contract
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            style={{ marginRight: "20%", width: "104px" }}
+            onClick={AddInvoice}
+          >
+            Invoice
+          </Button>
+        </DialogActions>
+      </Dialog>
       <div className="main-content">
         <Header />
         <Container fluid={true}>
@@ -304,7 +308,7 @@ function Document() {
                     }}
                     size="small"
                     fullWidth
-                    style={{marginLeft:20}}
+                    style={{ marginLeft: 20 }}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
@@ -315,27 +319,34 @@ function Document() {
                   />
                 </Row>
               </Col>
-              
-                <FormControl
-                  size="small"
-                  variant="outlined"
-                  style={{marginLeft: 20}}
+
+              <FormControl
+                size="small"
+                variant="outlined"
+                style={{ marginLeft: 20 }}
+              >
+                <Select
+                  defaultValue={1}
+                  onChange={(e) => setFilter(e.target.value)}
                 >
-                  <Select defaultValue={1}>
-                    <MenuItem onClick={All} value="1">
-                      All
-                    </MenuItem>
-                    <MenuItem onClick={Contract} value="2">
-                      Contract
-                    </MenuItem>
-                    <MenuItem onClick={Invoice} value="3">
-                      Invoice
-                    </MenuItem>
-                  </Select>
-                </FormControl>
+                  <MenuItem onClick={All} value="1">
+                    All
+                  </MenuItem>
+                  <MenuItem onClick={Contract} value="2">
+                    Contract
+                  </MenuItem>
+                  <MenuItem onClick={Invoice} value="3">
+                    Invoice
+                  </MenuItem>
+                </Select>
+              </FormControl>
               <Col>
                 <Row>
-                  <Paper square elevation={0} style={{ position: "absolute", right: 0, height:40}}>
+                  <Paper
+                    square
+                    elevation={0}
+                    style={{ position: "absolute", right: 0, height: 40 }}
+                  >
                     <Tabs
                       value={value}
                       indicatorColor="none"
@@ -372,19 +383,13 @@ function Document() {
                         if (doc.contractUrl) {
                           history.push({
                             pathname:
-                              "/detail/contract/" +
-                              doc.id +
-                              "/" +
-                              doc.title,
+                              "/detail/contract/" + doc.id + "/" + doc.title,
                             state: doc,
                           });
                         } else if (doc.invoiceURL) {
                           history.push({
                             pathname:
-                              "/detail/invoice/" +
-                              doc.id +
-                              "/" +
-                              doc.title,
+                              "/detail/invoice/" + doc.id + "/" + doc.title,
                             state: doc,
                           });
                         }
@@ -401,19 +406,13 @@ function Document() {
                         if (doc.contractUrl) {
                           history.push({
                             pathname:
-                              "/detail/contract/" +
-                              doc.id +
-                              "/" +
-                              doc.title,
+                              "/detail/contract/" + doc.id + "/" + doc.title,
                             state: doc,
                           });
                         } else if (doc.invoiceURL) {
                           history.push({
                             pathname:
-                              "/detail/invoice/" +
-                              doc.id +
-                              "/" +
-                              doc.title,
+                              "/detail/invoice/" + doc.id + "/" + doc.title,
                             state: doc,
                           });
                         }
@@ -430,19 +429,13 @@ function Document() {
                         if (doc.contractUrl) {
                           history.push({
                             pathname:
-                              "/detail/contract/" +
-                              doc.id +
-                              "/" +
-                              doc.title,
+                              "/detail/contract/" + doc.id + "/" + doc.title,
                             state: doc,
                           });
                         } else if (doc.invoiceURL) {
                           history.push({
                             pathname:
-                              "/detail/invoice/" +
-                              doc.id +
-                              "/" +
-                              doc.title,
+                              "/detail/invoice/" + doc.id + "/" + doc.title,
                             state: doc,
                           });
                         }
@@ -463,19 +456,13 @@ function Document() {
                         if (doc.contractUrl) {
                           history.push({
                             pathname:
-                              "/detail/contract/" +
-                              doc.id +
-                              "/" +
-                              doc.title,
+                              "/detail/contract/" + doc.id + "/" + doc.title,
                             state: doc,
                           });
                         } else if (doc.invoiceURL) {
                           history.push({
                             pathname:
-                              "/detail/invoice/" +
-                              doc.id +
-                              "/" +
-                              doc.title,
+                              "/detail/invoice/" + doc.id + "/" + doc.title,
                             state: doc,
                           });
                         }
@@ -509,19 +496,13 @@ function Document() {
                         if (doc.contractUrl) {
                           history.push({
                             pathname:
-                              "/detail/contract/" +
-                              doc.id +
-                              "/" +
-                              doc.title,
+                              "/detail/contract/" + doc.id + "/" + doc.title,
                             state: doc,
                           });
                         } else if (doc.invoiceURL) {
                           history.push({
                             pathname:
-                              "/detail/invoice/" +
-                              doc.id +
-                              "/" +
-                              doc.title,
+                              "/detail/invoice/" + doc.id + "/" + doc.title,
                             state: doc,
                           });
                         }
@@ -552,9 +533,7 @@ function Document() {
             <tbody>
               {postList
                 .filter((data) => {
-                  if (
-                    data.title.toLowerCase().includes(find.toLowerCase())
-                  ) {
+                  if (data.title.toLowerCase().includes(find.toLowerCase())) {
                     return data;
                   }
                 })
@@ -565,19 +544,13 @@ function Document() {
                         if (data.contractUrl) {
                           history.push({
                             pathname:
-                              "/detail/contract/" +
-                              data.id +
-                              "/" +
-                              data.title,
+                              "/detail/contract/" + data.id + "/" + data.title,
                             state: data,
                           });
                         } else if (data.invoiceURL) {
                           history.push({
                             pathname:
-                              "/detail/invoice/" +
-                              data.id +
-                              "/" +
-                              data.title,
+                              "/detail/invoice/" + data.id + "/" + data.title,
                             state: data,
                           });
                         }
@@ -594,19 +567,13 @@ function Document() {
                         if (data.contractUrl) {
                           history.push({
                             pathname:
-                              "/detail/contract/" +
-                              data.id +
-                              "/" +
-                              data.title,
+                              "/detail/contract/" + data.id + "/" + data.title,
                             state: data,
                           });
                         } else if (data.invoiceURL) {
                           history.push({
                             pathname:
-                              "/detail/invoice/" +
-                              data.id +
-                              "/" +
-                              data.title,
+                              "/detail/invoice/" + data.id + "/" + data.title,
                             state: data,
                           });
                         }
@@ -623,19 +590,13 @@ function Document() {
                         if (data.contractUrl) {
                           history.push({
                             pathname:
-                              "/detail/contract/" +
-                              data.id +
-                              "/" +
-                              data.title,
+                              "/detail/contract/" + data.id + "/" + data.title,
                             state: data,
                           });
                         } else if (data.invoiceURL) {
                           history.push({
                             pathname:
-                              "/detail/invoice/" +
-                              data.id +
-                              "/" +
-                              data.title,
+                              "/detail/invoice/" + data.id + "/" + data.title,
                             state: data,
                           });
                         }
@@ -652,19 +613,13 @@ function Document() {
                         if (data.contractUrl) {
                           history.push({
                             pathname:
-                              "/detail/contract/" +
-                              data.id +
-                              "/" +
-                              data.title,
+                              "/detail/contract/" + data.id + "/" + data.title,
                             state: data,
                           });
                         } else if (data.invoiceURL) {
                           history.push({
                             pathname:
-                              "/detail/invoice/" +
-                              data.id +
-                              "/" +
-                              data.title,
+                              "/detail/invoice/" + data.id + "/" + data.title,
                             state: data,
                           });
                         }
@@ -690,19 +645,13 @@ function Document() {
                         if (data.contractUrl) {
                           history.push({
                             pathname:
-                              "/detail/contract/" +
-                              data.id +
-                              "/" +
-                              data.title,
+                              "/detail/contract/" + data.id + "/" + data.title,
                             state: data,
                           });
                         } else if (data.invoiceURL) {
                           history.push({
                             pathname:
-                              "/detail/invoice/" +
-                              data.id +
-                              "/" +
-                              data.title,
+                              "/detail/invoice/" + data.id + "/" + data.title,
                             state: data,
                           });
                         }
@@ -731,10 +680,17 @@ function Document() {
           <Modal isOpen={dele}>
             <ModalHeader>Are you sure delete document?</ModalHeader>
             <ModalFooter>
-              <Button color="secondary" variant="contained" style={{marginRight:'5px'}} onClick={() => setDel(!dele)}>
+              <Button
+                color="secondary"
+                variant="contained"
+                style={{ marginRight: "5px" }}
+                onClick={() => setDel(!dele)}
+              >
                 No
               </Button>
-              <Button color="primary" variant="contained">Yes</Button>
+              <Button color="primary" variant="contained">
+                Yes
+              </Button>
             </ModalFooter>
           </Modal>
         </Container>

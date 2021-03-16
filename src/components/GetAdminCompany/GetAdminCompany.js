@@ -13,7 +13,7 @@ function GetAdminCompany({id}){
             }
         }
         getAdmin();
-    },[]);
+    },[id]);
     return(
         <div>
             <p>{admin}</p>
