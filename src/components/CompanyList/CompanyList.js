@@ -1,6 +1,7 @@
 import { Container, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Table, Form, FormGroup, Input, Row, Col} from "reactstrap";
 import {Link} from 'react-router-dom';
 import { useEffect, useState } from "react";
+import TablePagination from "@material-ui/core/TablePagination";
 import companyListAPI from "../../api/companyListAPI";
 import SidebarAdmin from "../Sidebar/SidebarAdmin";
 import '../../css/CompanyList.css';
@@ -10,18 +11,18 @@ import Moment from 'moment';
 function CompanyList(){
     const [filter, setFilter] = useState(false);
     const toggle = () => setFilter(prevState => ! prevState);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [postPerPage] = useState(10);
+    const [page, setPage] = useState(0);
+    const [rowsPerPage] = useState(15);
     const [search, setSearch] = useState('');
     const [data, setData] = useState([]);
     const [postList, setPostList] = useState([]);
-    const indexOfLastPost = currentPage * postPerPage;
-    const indexOfFirstPost = indexOfLastPost - postPerPage;
+    const indexOfLastPost = (page+1) * rowsPerPage;
+    const indexOfFirstPost = indexOfLastPost - rowsPerPage;
     const currentPosts = postList.slice(indexOfFirstPost, indexOfLastPost)
     
-    function paginate(pageNumber){
-        setCurrentPage(pageNumber);
-    }
+    function changePage(event, newPage) {
+        setPage(newPage);
+      }
     useEffect(()=>{
         async function fetListData(){
             try {
@@ -84,12 +85,23 @@ function CompanyList(){
                         
                     </Form>
                 </div>
-                <Table hidden={search!== '' ? true : false} className="table_css">
+                <div hidden={search !== "" ? true : false}>
+              <TablePagination
+                component="div"
+                count={postList.length}
+                page={page}
+                onChangePage={changePage}
+                rowsPerPage={rowsPerPage}
+                labelRowsPerPage=""
+                rowsPerPageOptions={[]}
+              />
+            </div>
+                <Table hidden={search!== '' ? true : false}>
                     <thead>
                         <tr>
-                            <th>STT</th>
+                            <th>No</th>
                             <th>Company Name</th>
-                            <th>Aplicant Name</th>
+                            <th>Manager Name</th>
                             <th>Date Created</th>
                             <th>Status</th>
                             <th>Phone Number</th>
@@ -104,7 +116,7 @@ function CompanyList(){
                                     <td>
                                         <GetAdminCompany id={data.adminId}/>
                                     </td>
-                                    <td>{Moment(data.dateCreate).format('DD/MM/YYYY hh:mm:ss')}</td>
+                                    <td>{Moment(data.dateCreate).format('DD/MM/YYYY HH:mm:ss')}</td>
                                     <td>{data.status===1? <p style={{color:'green'}}>Active</p> : <p style={{color:'red'}}>Deactive</p>}</td>
                                     <td>{data.phone}</td>
                                     <td>
@@ -119,9 +131,9 @@ function CompanyList(){
                 <Table hidden={search==='' ? true : false } className="table_css">
                     <thead>
                         <tr>
-                            <th>STT</th>
+                            <th>No</th>
                             <th>Company Name</th>
-                            <th>Aplicant Name</th>
+                            <th>Manager Name</th>
                             <th>Date Created</th>
                             <th>Status</th>
                             <th>Phone Number</th>

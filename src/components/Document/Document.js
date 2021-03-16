@@ -242,20 +242,7 @@ function Document() {
   return (
     <div>
       <Sidebar />
-      <div className="main-content">
-        <Header />
-        <Container fluid={true}>
-          <div className="form-create">
-            <FormGroup row>
-              <Button
-                variant="contained"
-                size="small"
-                color="primary"
-                onClick={toogle}
-              >
-                +Create
-              </Button>
-              <Dialog
+      <Dialog
                 open={isOpen}
                 onClose={toogle}
                 TransitionComponent={Transition}
@@ -291,7 +278,20 @@ function Document() {
                   </Button>
                 </DialogActions>
               </Dialog>
-              <Col sm={5}>
+      <div className="main-content">
+        <Header />
+        <Container fluid={true}>
+          <div className="form-create">
+            <FormGroup row>
+              <Button
+                variant="contained"
+                size="small"
+                color="primary"
+                onClick={toogle}
+              >
+                +Create
+              </Button>
+              <Col>
                 <Row>
                   <TextField
                     name="search"
@@ -304,7 +304,7 @@ function Document() {
                     }}
                     size="small"
                     fullWidth
-                    style={{ marginLeft: "20px" }}
+                    style={{marginLeft:20}}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
@@ -315,11 +315,11 @@ function Document() {
                   />
                 </Row>
               </Col>
-              <Col style={{ marginRight: "20%" }}>
+              
                 <FormControl
                   size="small"
                   variant="outlined"
-                  style={{ width: "150px" }}
+                  style={{marginLeft: 20}}
                 >
                   <Select defaultValue={1}>
                     <MenuItem onClick={All} value="1">
@@ -333,13 +333,12 @@ function Document() {
                     </MenuItem>
                   </Select>
                 </FormControl>
-              </Col>
               <Col>
                 <Row>
-                  <Paper square style={{ position: "absolute", right: 0 }}>
+                  <Paper square elevation={0} style={{ position: "absolute", right: 0, height:40}}>
                     <Tabs
                       value={value}
-                      indicatorColor="primary"
+                      indicatorColor="none"
                       textColor="primary"
                       onChange={handleChange}
                     >

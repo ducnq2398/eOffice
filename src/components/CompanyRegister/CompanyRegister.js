@@ -17,6 +17,11 @@ import Moment from "moment";
 import md5 from "md5";
 import Alert from "@material-ui/lab/Alert";
 import { getUser } from "../../utils/Common";
+import companyListAPI from "../../api/companyListAPI";
+import departmentAPI from "../../api/departmentAPI";
+import userListAPI from "../../api/userListAPI";
+import { toast } from "react-toastify";
+import { useHistory } from "react-router";
 
 function TransitionLeft(props) {
   return <Slide {...props} direction="right" />;
@@ -30,7 +35,7 @@ function CompanyRegister() {
     manager_name: "",
     manager_email: "",
   });
-
+  const history = useHistory();
   const [confirm, setConfirm] = useState(false);
   const [error, setError] = useState({
     company_name: false,
@@ -53,18 +58,72 @@ function CompanyRegister() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    const tel = "+84" + companyRegister.phone_number.substring(1);
-    const params = {
-      name: companyRegister.applicant,
-      avatar: "",
-      email: companyRegister.applicant_email,
-      password: md5("123Aabc").trim().toString(),
-      phone: tel,
-      dateCreate: Moment(new Date()).format("DD/MM/YYYY"),
+    const company = {
+      name: companyRegister.company_name,
+      phone: "+84" + companyRegister.phone.substring(1),
+      address: companyRegister.address,
+      dateCreate: Moment(new Date()).format('yyyy-MM-DD'+'T'+'HH:mm:ss.SSS'+'Z'),
       creatorId: getUser().Id,
-      role: "1",
       status: 1,
-    };
+    }
+    companyListAPI.addCompany(company).then(function(res){
+      const param = {
+        name: 'Manager',
+        companyId: res.data.id,
+        creatorId: getUser().Id,
+        dateCreate: Moment(new Date()).format('yyyy-MM-DD'+'T'+'HH:mm:ss.SSS'+'Z')
+      }
+      departmentAPI.addDepartment(param).then(function(department){
+        const sub = {
+          name: 'Admin',
+          departmentId: department.data.id,
+          companyId: res.data.id,
+          creatorId: getUser().Id,
+          dateCreate: Moment(new Date()).format('yyyy-MM-DD'+'T'+'HH:mm:ss.SSS'+'Z'),
+        }
+        departmentAPI.addSubDepartment(sub).then(function(subdepartment){
+          const user = {
+            name: companyRegister.manager_name,
+            avatar: "",
+            email: companyRegister.manager_email,
+            password: md5("123Aabc").trim().toString(),
+            phone: "+84" + companyRegister.phone.substring(1),
+            address: companyRegister.address,
+            dateCreate: Moment(new Date()).format(
+              "yyyy-MM-DD" + "T" + "HH:mm:ss.SSS" + "Z"
+            ),
+            creatorId: getUser().Id,
+            subDepartmentId: subdepartment.data.id,
+            departmentId: department.data.id,
+            companyId: res.data.id,
+            role: "1",
+            status: 1,
+          }
+          userListAPI.addUser(user).then(function(newUser){
+            const data = {
+              id: res.data.id,
+              phone: "+84" + companyRegister.phone.substring(1),
+              address: companyRegister.address,
+              dateCreate: Moment(new Date()).format('yyyy-MM-DD'+'T'+'HH:mm:ss.SSS'+'Z'),
+              adminId: newUser.data.id,
+              status: 1
+            }
+            companyListAPI.updateCompany(data).then(function(){
+              toast.success("Add department successfully", {
+                position: toast.POSITION.TOP_CENTER,
+              });
+              history.push('/company-list');
+            })
+          }).catch(function(error){
+            console.log(error)
+          })
+        })
+      }).catch(function(error){
+        console.log(error)
+      })
+    }).catch(function(error){
+      console.log(error)
+    })
   }
   function handleConfirm(e) {
     e.preventDefault();
@@ -408,7 +467,7 @@ function CompanyRegister() {
               >
                 Cancel
               </Button>
-              <Button color="primary" variant="contained">
+              <Button color="primary" variant="contained" onClick={handleSubmit}>
                 Create
               </Button>
             </DialogActions>

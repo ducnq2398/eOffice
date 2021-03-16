@@ -211,7 +211,7 @@ function InvoiceDetail() {
                       responseType: "blob",
                     })
                     .then(function (res) {
-                      fileDownload(res.data, document.description + ".pdf");
+                      fileDownload(res.data, document.title + ".pdf");
                     })
                     .catch(function (error) {
                       console.log(error);
