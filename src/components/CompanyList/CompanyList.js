@@ -104,7 +104,7 @@ function CompanyList(){
                                     <td>
                                         <GetAdminCompany id={data.adminId}/>
                                     </td>
-                                    <td>{Moment(data.dateCreate).format('DD/MM/YYYY hh:mm:ss')}</td>
+                                    <td>{Moment(data.dateCreate).format('DD/MM/YYYY HH:mm:ss')}</td>
                                     <td>{data.status===1? <p style={{color:'green'}}>Active</p> : <p style={{color:'red'}}>Deactive</p>}</td>
                                     <td>{data.phone}</td>
                                     <td>

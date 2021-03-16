@@ -143,7 +143,7 @@ function UserManagement() {
       setLoading(false);
     }, 2000);
     fetchUserList();
-  }, [isOpen]);
+  }, [isOpen, openEdit]);
 
   useEffect(() => {
     async function getDepartment() {
@@ -659,10 +659,10 @@ function UserManagement() {
               </Col>
               <Col>
                 <Row>
-                  <Paper square style={{ position: "absolute", right: 0 }}>
+                  <Paper square elevation={0} style={{ position: "absolute", right: 0 }}>
                     <Tabs
                       value={value}
-                      indicatorColor="primary"
+                      indicatorColor="none"
                       textColor="primary"
                       onChange={handleChange}
                     >

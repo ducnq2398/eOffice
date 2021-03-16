@@ -19,6 +19,7 @@ import { toast } from "react-toastify";
 import Moment from "moment";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Dialog from "@material-ui/core/Dialog";
+import AddIcon from '@material-ui/icons/Add';
 import GetSubDepartment from "../../GetData/GetSubDepartment";
 import {
   Button,
@@ -90,7 +91,6 @@ function DepartmentManagerment() {
       departmentAPI
         .addDepartment(params)
         .then(function (res) {
-          console.log(res.data);
           const params = {
             name: sub_department,
             departmentId: res.data.id,
@@ -159,7 +159,7 @@ function DepartmentManagerment() {
                   nodeId={department.id}
                   label={department.name}
                 >
-                  <GetSubDepartment id={department.id} />
+                  <GetSubDepartment id={department.id}/>
                 </TreeItem>
               ))}
             </TreeView>
