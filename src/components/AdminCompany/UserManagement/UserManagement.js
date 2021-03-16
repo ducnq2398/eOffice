@@ -364,7 +364,7 @@ function UserManagement() {
             setError({
               ...error,
               email: true,
-              message_email: "Phone number is already exists",
+              message_email: "Email is already exists",
             });
             setTimeout(() => {
               setError({
