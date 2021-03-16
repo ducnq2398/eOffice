@@ -24,7 +24,7 @@ function SidebarAdmin(){
                         <NavLink activeClassName="active" className="nav-link" to="/admin-manager">
                             <Row>
                                 <Col sm={3}>
-                                    <HomeIcon color="action" fontSize="large"/>
+                                    <HomeIcon color="disabled" fontSize="large"/>
                                 </Col>
                                 <Col sm={4}>
                                     <p>Admin</p>

@@ -6,7 +6,7 @@ import done from "../../images/true.png";
 import SaveIcon from "@material-ui/icons/Save";
 import PrintIcon from "@material-ui/icons/Print";
 import { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import {useParams } from "react-router-dom";
 import userListAPI from "../../api/userListAPI";
 import GetCreater from "../GetData/GetCreater";
 import fileDownload from "js-file-download";
@@ -53,7 +53,6 @@ const StyledTableRow = withStyles((theme) => ({
 }))(TableRow);
 
 function ContractDetail() {
-  const location = useLocation();
   const [activeStep, setActiveStep] = useState(1);
   const [signer1, setSigner1] = useState([]);
   const [signer2, setSigner2] = useState([]);
@@ -86,7 +85,7 @@ function ContractDetail() {
       }
     }
     getDocument();
-  }, []);
+  }, [par.id]);
 
   useEffect(() => {
     async function getSigner1() {

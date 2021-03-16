@@ -22,6 +22,7 @@ import departmentAPI from "../../api/departmentAPI";
 import userListAPI from "../../api/userListAPI";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router";
+import validateAPI from "../../api/validateAPI";
 
 function TransitionLeft(props) {
   return <Slide {...props} direction="right" />;
@@ -62,68 +63,85 @@ function CompanyRegister() {
       name: companyRegister.company_name,
       phone: "+84" + companyRegister.phone.substring(1),
       address: companyRegister.address,
-      dateCreate: Moment(new Date()).format('yyyy-MM-DD'+'T'+'HH:mm:ss.SSS'+'Z'),
+      dateCreate: Moment(new Date()).format(
+        "yyyy-MM-DD" + "T" + "HH:mm:ss.SSS" + "Z"
+      ),
       creatorId: getUser().Id,
       status: 1,
-    }
-    companyListAPI.addCompany(company).then(function(res){
-      const param = {
-        name: 'Manager',
-        companyId: res.data.id,
-        creatorId: getUser().Id,
-        dateCreate: Moment(new Date()).format('yyyy-MM-DD'+'T'+'HH:mm:ss.SSS'+'Z')
-      }
-      departmentAPI.addDepartment(param).then(function(department){
-        const sub = {
-          name: 'Admin',
-          departmentId: department.data.id,
+    };
+    companyListAPI
+      .addCompany(company)
+      .then(function (res) {
+        const param = {
+          name: "Manager",
           companyId: res.data.id,
           creatorId: getUser().Id,
-          dateCreate: Moment(new Date()).format('yyyy-MM-DD'+'T'+'HH:mm:ss.SSS'+'Z'),
-        }
-        departmentAPI.addSubDepartment(sub).then(function(subdepartment){
-          const user = {
-            name: companyRegister.manager_name,
-            avatar: "",
-            email: companyRegister.manager_email,
-            password: md5("123Aabc").trim().toString(),
-            phone: "+84" + companyRegister.phone.substring(1),
-            address: companyRegister.address,
-            dateCreate: Moment(new Date()).format(
-              "yyyy-MM-DD" + "T" + "HH:mm:ss.SSS" + "Z"
-            ),
-            creatorId: getUser().Id,
-            subDepartmentId: subdepartment.data.id,
-            departmentId: department.data.id,
-            companyId: res.data.id,
-            role: "1",
-            status: 1,
-          }
-          userListAPI.addUser(user).then(function(newUser){
-            const data = {
-              id: res.data.id,
-              phone: "+84" + companyRegister.phone.substring(1),
-              address: companyRegister.address,
-              dateCreate: Moment(new Date()).format('yyyy-MM-DD'+'T'+'HH:mm:ss.SSS'+'Z'),
-              adminId: newUser.data.id,
-              status: 1
-            }
-            companyListAPI.updateCompany(data).then(function(){
-              toast.success("Add department successfully", {
-                position: toast.POSITION.TOP_CENTER,
-              });
-              history.push('/company-list');
-            })
-          }).catch(function(error){
-            console.log(error)
+          dateCreate: Moment(new Date()).format(
+            "yyyy-MM-DD" + "T" + "HH:mm:ss.SSS" + "Z"
+          ),
+        };
+        departmentAPI
+          .addDepartment(param)
+          .then(function (department) {
+            const sub = {
+              name: "Admin",
+              departmentId: department.data.id,
+              companyId: res.data.id,
+              creatorId: getUser().Id,
+              dateCreate: Moment(new Date()).format(
+                "yyyy-MM-DD" + "T" + "HH:mm:ss.SSS" + "Z"
+              ),
+            };
+            departmentAPI.addSubDepartment(sub).then(function (subdepartment) {
+              const user = {
+                name: companyRegister.manager_name,
+                avatar: "",
+                email: companyRegister.manager_email,
+                password: md5("123Aabc").trim().toString(),
+                phone: "+84" + companyRegister.phone.substring(1),
+                address: companyRegister.address,
+                dateCreate: Moment(new Date()).format(
+                  "yyyy-MM-DD" + "T" + "HH:mm:ss.SSS" + "Z"
+                ),
+                creatorId: getUser().Id,
+                subDepartmentId: subdepartment.data.id,
+                departmentId: department.data.id,
+                companyId: res.data.id,
+                role: "1",
+                status: 1,
+              };
+              userListAPI
+                .addUser(user)
+                .then(function (newUser) {
+                  const data = {
+                    id: res.data.id,
+                    phone: "+84" + companyRegister.phone.substring(1),
+                    address: companyRegister.address,
+                    dateCreate: Moment(new Date()).format(
+                      "yyyy-MM-DD" + "T" + "HH:mm:ss.SSS" + "Z"
+                    ),
+                    adminId: newUser.data.id,
+                    status: 1,
+                  };
+                  companyListAPI.updateCompany(data).then(function () {
+                    toast.success("Add department successfully", {
+                      position: toast.POSITION.TOP_CENTER,
+                    });
+                    history.push("/company-list");
+                  });
+                })
+                .catch(function (error) {
+                  console.log(error);
+                });
+            });
           })
-        })
-      }).catch(function(error){
-        console.log(error)
+          .catch(function (error) {
+            console.log(error);
+          });
       })
-    }).catch(function(error){
-      console.log(error)
-    })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
   function handleConfirm(e) {
     e.preventDefault();
@@ -195,14 +213,24 @@ function CompanyRegister() {
           message: "",
         });
       }, 3000);
-    } else if (
-      !pattern.test(companyRegister.manager_email) ||
-      companyRegister.manager_email.trim() === ""
-    ) {
+    } else if (!pattern.test(companyRegister.manager_email)) {
       setError({
         ...error,
         email: true,
         message: "Invalid email",
+      });
+      setTimeout(() => {
+        setError({
+          ...error,
+          email: false,
+          message: "",
+        });
+      }, 3000);
+    } else if (companyRegister.manager_email === "") {
+      setError({
+        ...error,
+        email: true,
+        message: "Please enter email",
       });
       setTimeout(() => {
         setError({
@@ -238,7 +266,44 @@ function CompanyRegister() {
         });
       }, 3000);
     } else {
-      setConfirm(true);
+      const phone = "84" + companyRegister.phone.substring(1);
+      validateAPI
+        .checkEmail(companyRegister.manager_email)
+        .then(function () {
+          validateAPI
+            .checkPhone(phone)
+            .then(function () {
+              setConfirm(true);
+            })
+            .catch(function () {
+              setError({
+                ...error,
+                phone: true,
+                message: "Phone number is exist in system",
+              });
+              setTimeout(() => {
+                setError({
+                  ...error,
+                  phone: false,
+                  message: "",
+                });
+              }, 3000);
+            });
+        })
+        .catch(function () {
+          setError({
+            ...error,
+            email: true,
+            message: "Email is exist in system",
+          });
+          setTimeout(() => {
+            setError({
+              ...error,
+              email: false,
+              message: "",
+            });
+          }, 3000);
+        });
     }
   }
   return (
@@ -467,7 +532,11 @@ function CompanyRegister() {
               >
                 Cancel
               </Button>
-              <Button color="primary" variant="contained" onClick={handleSubmit}>
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={handleSubmit}
+              >
                 Create
               </Button>
             </DialogActions>

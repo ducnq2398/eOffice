@@ -274,11 +274,24 @@ function UserManagement() {
           message_subdepart: "",
         });
       }, 5000);
-    } else if (!pattern.test(user.email) || user.email.trim() === "") {
+    } else if (!pattern.test(user.email)) {
       setError({
         ...error,
         email: true,
         message_email: "Email is incorrect",
+      });
+      setTimeout(() => {
+        setError({
+          ...error,
+          email: false,
+          message_email: "",
+        });
+      }, 5000);
+    }else if(detail.email.trim() === ""){
+      setError({
+        ...error,
+        email: true,
+        message_email: "Please enter email",
       });
       setTimeout(() => {
         setError({
@@ -422,11 +435,24 @@ function UserManagement() {
           message_subdepart: "",
         });
       }, 5000);
-    } else if (!pattern.test(detail.email) || detail.email.trim() === "") {
+    } else if (!pattern.test(detail.email)) {
       setError({
         ...error,
         email: true,
         message_email: "Email is incorrect",
+      });
+      setTimeout(() => {
+        setError({
+          ...error,
+          email: false,
+          message_email: "",
+        });
+      }, 5000);
+    }else if(detail.email.trim() === ""){
+      setError({
+        ...error,
+        email: true,
+        message_email: "Please enter email",
       });
       setTimeout(() => {
         setError({

@@ -175,12 +175,10 @@ function Document() {
         }
       })
     );
-
     setValue(0);
   }
   function Contract() {
     setPage(0);
-
     setPostList(
       listAllDocument.filter((data) => {
         if (data.contractUrl) {
