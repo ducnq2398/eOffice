@@ -78,6 +78,10 @@ function UserManagement() {
   });
   const [isOpen, setIsOpen] = useState(false);
   const [del, setDel] = useState(false);
+  const [reload, setReload] = useState({
+    add: 0,
+    edit: 0,
+  })
   const [page, setPage] = useState(0);
   const [rowsPerPage] = useState(15);
   const indexOfLastPost = (page + 1) * rowsPerPage;
@@ -143,7 +147,7 @@ function UserManagement() {
       setLoading(false);
     }, 2000);
     fetchUserList();
-  }, [isOpen, openEdit]);
+  }, [reload.add, reload.edit]);
 
   useEffect(() => {
     async function getDepartment() {
@@ -315,6 +319,10 @@ function UserManagement() {
             email: "",
             address: "",
           });
+          setReload({
+            ...reload,
+            add: reload.add+1
+          })
           toast.success("You has created user successfully", {
             position: toast.POSITION.TOP_CENTER,
           });
@@ -451,6 +459,10 @@ function UserManagement() {
               .activeUser(res.data.id)
               .then(() => {
                 edit();
+                setReload({
+                  ...reload,
+                  edit: reload.edit + 1,
+                })
                 setValue(1);
                 activeList();
                 toast.success("You has updated user successfully", {
@@ -947,6 +959,9 @@ function UserManagement() {
                 required
                 onChange={handleOnDetail}
                 style={{ marginLeft: "10px", width: "270px" }}
+                InputProps={{
+                  readOnly: true,
+                }}
               />
             </DialogContent>
             <DialogContent>

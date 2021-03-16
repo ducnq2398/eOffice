@@ -99,9 +99,9 @@ function CompanyList(){
                 <Table hidden={search!== '' ? true : false}>
                     <thead>
                         <tr>
-                            <th>STT</th>
+                            <th>No</th>
                             <th>Company Name</th>
-                            <th>Aplicant Name</th>
+                            <th>Manager Name</th>
                             <th>Date Created</th>
                             <th>Status</th>
                             <th>Phone Number</th>
@@ -131,9 +131,9 @@ function CompanyList(){
                 <Table hidden={search==='' ? true : false } className="table_css">
                     <thead>
                         <tr>
-                            <th>STT</th>
+                            <th>No</th>
                             <th>Company Name</th>
-                            <th>Aplicant Name</th>
+                            <th>Manager Name</th>
                             <th>Date Created</th>
                             <th>Status</th>
                             <th>Phone Number</th>
