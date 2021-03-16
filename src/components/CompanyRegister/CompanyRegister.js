@@ -101,7 +101,12 @@ function CompanyRegister() {
           }
           userListAPI.addUser(user).then(function(newUser){
             const data = {
-              adminId: newUser.data.id
+              id: res.data.id,
+              phone: "+84" + companyRegister.phone.substring(1),
+              address: companyRegister.address,
+              dateCreate: Moment(new Date()).format('yyyy-MM-DD'+'T'+'HH:mm:ss.SSS'+'Z'),
+              adminId: newUser.data.id,
+              status: 1
             }
             companyListAPI.updateCompany(data).then(function(){
               toast.success("Add department successfully", {
