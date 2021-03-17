@@ -38,10 +38,10 @@ function AdminLogin() {
       .loginAdmin(params)
       .then(function (res) {
         setUserSession(res.data.token, res.data);
-        if(res.data.Role==='3'){
+        if (res.data.Role === "3") {
           history.push("/admin-manager");
-        }else{
-          history.push("/error")
+        } else {
+          history.push("/error");
         }
       })
       .catch(function (error) {
@@ -90,7 +90,13 @@ function AdminLogin() {
           />
         </FormGroup>
         <FormGroup>
-          <Button fullWidth variant="contained" type="submit" color="primary" size="large">
+          <Button
+            fullWidth
+            variant="contained"
+            type="submit"
+            color="primary"
+            size="large"
+          >
             Login
           </Button>
         </FormGroup>

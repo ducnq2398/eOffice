@@ -16,17 +16,35 @@ import notiAPI from "../../api/notiAPI";
 
 function Dashboard() {
   const history = useHistory();
-  const [listAllInvoice, setListAllInvoice] = useState([]);
-  const [listAllContract, setListAllContract] = useState([]);
-  const [listContractById, setListContractById] = useState([]);
-  const [listInvoiceById, setListInvoiceById] = useState([]);
   const [noti, setNoti] = useState([]);
+  const [listContract, setListContract] = useState([]);
+  const [listInvoice, setListInvoice] = useState([]);
   const [currentPage] = useState(1);
   const [postPerPage] = useState(5);
   const indexOfLastPost = currentPage * postPerPage;
   const indexOfFirstPost = indexOfLastPost - postPerPage;
-  const currentPostsContract = [];
-  const currentPostsInvoice = [];
+  const invoice = listInvoice
+    .sort((a, b) => {
+      return (
+        new Date(a.dateCreate).getTime() - new Date(b.dateCreate).getTime()
+      );
+    })
+    .reverse();
+  const contract = listContract
+    .sort((a, b) => {
+      return (
+        new Date(a.dateCreate).getTime() - new Date(b.dateCreate).getTime()
+      );
+    })
+    .reverse();
+  const currentPostsContract = contract.slice(
+    indexOfFirstPost,
+    indexOfLastPost
+  );
+  const currentPostsInvoice = invoice.slice(
+    indexOfFirstPost,
+    indexOfLastPost
+  );
   let [loadingInvoice, setLoadingInvoice] = useState(true);
   let [loadingContract, setLoadingContract] = useState(true);
   var listNoti = noti
@@ -50,124 +68,72 @@ function Dashboard() {
   }, []);
 
   useEffect(() => {
-    async function getAllContrac() {
+    async function getListDocument() {
       try {
-        await contractAPI
-          .getContractByCompanyId(getUser().CompanyId)
-          .then(function (res) {
-            setListAllContract(res.data);
-          });
+        if (getUser().Role === "1") {
+          await contractAPI
+            .getContractByCompanyId(getUser().CompanyId)
+            .then(function (contract) {
+              invoiceAPI
+                .getInvoiceByCompanyId(getUser().CompanyId)
+                .then(function (invoice) {
+                  setListInvoice(invoice.data);
+                  setListContract(contract.data);
+                })
+                .catch(function (error) {
+                  console.log(error);
+                });
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        } else {
+          await invoiceAPI
+            .getInvoiceByViewerId(getUser().Id)
+            .then(function (res1) {
+              invoiceAPI
+                .getInvoiceBySignerId(getUser().Id)
+                .then(function (res2) {
+                  contractAPI
+                    .getContractByViewerId(getUser().Id)
+                    .then(function (res3) {
+                      contractAPI
+                        .getContractBySignerId(getUser().Id)
+                        .then(function (res4) {
+                          const listInvoice1 = [...res1.data, ...res2.data];
+                          const listContract1 = [...res3.data, ...res4.data];
+                          setListInvoice(listInvoice1);
+                          setListContract(listContract1);
+                        })
+                        .catch(function (error) {
+                          console.log(error);
+                        });
+                    })
+                    .catch(function (error) {
+                      console.log(error);
+                    });
+                })
+                .catch(function (error) {
+                  console.log(error);
+                });
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        }
       } catch (error) {
         console.log(error);
       }
     }
+    getListDocument();
     setTimeout(() => {
       setLoadingContract(false);
-    }, 1000);
-    getAllContrac();
-  }, []);
-
-  useEffect(() => {
-    async function getAllInvoice() {
-      try {
-        await invoiceAPI
-          .getInvoiceByCompanyId(getUser().CompanyId)
-          .then(function (res) {
-            setListAllInvoice(res.data);
-          });
-      } catch (error) {
-        console.log(error);
-      }
-    }
+    }, 2000);
     setTimeout(() => {
       setLoadingInvoice(false);
-    }, 1000);
-    getAllInvoice();
+    }, 2000);
   }, []);
   
-  useEffect(() => {
-    async function getInvoiceById() {
-      try {
-        await invoiceAPI
-          .getInvoiceByViewerId(getUser().Id)
-          .then(function (res) {
-            invoiceAPI.getInvoiceBySignerId(getUser().Id).then(function (res2) {
-              const list = [...res.data, ...res2.data];
-              setListInvoiceById(list);
-            });
-          });
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    getInvoiceById();
-  }, [getUser().Id]);
-
-  useEffect(() => {
-    async function getContractById() {
-      try {
-        await contractAPI
-          .getContractBySignerId(getUser().Id)
-          .then(function (res) {
-            contractAPI
-              .getContractByViewerId(getUser().Id)
-              .then(function (res2) {
-                const list = [...res.data, ...res2.data];
-                setListContractById(list);
-              });
-          });
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    getContractById();
-  }, [getUser().Id]);
-
-  if (getUser().Role === "1") {
-    var postContract = listAllContract
-      .sort((a, b) => {
-        return (
-          new Date(a.dateCreate).getTime() - new Date(b.dateCreate).getTime()
-        );
-      })
-      .reverse();
-    var postInvoice = listAllInvoice
-      .sort((a, b) => {
-        return (
-          new Date(a.dateCreate).getTime() - new Date(b.dateCreate).getTime()
-        );
-      })
-      .reverse();
-    currentPostsContract.push(
-      postContract.slice(indexOfFirstPost, indexOfLastPost)
-    );
-    currentPostsInvoice.push(
-      postInvoice.slice(indexOfFirstPost, indexOfLastPost)
-    );
-  }
-  if (getUser().Role === "2") {
-    var postContract = listContractById
-      .sort((a, b) => {
-        return (
-          new Date(a.dateCreate).getTime() - new Date(b.dateCreate).getTime()
-        );
-      })
-      .reverse();
-    var postInvoice = listInvoiceById
-      .sort((a, b) => {
-        return (
-          new Date(a.dateCreate).getTime() - new Date(b.dateCreate).getTime()
-        );
-      })
-      .reverse();
-    currentPostsContract.push(
-      postContract.slice(indexOfFirstPost, indexOfLastPost)
-    );
-    currentPostsInvoice.push(
-      postInvoice.slice(indexOfFirstPost, indexOfLastPost)
-    );
-  }
-
   return (
     <div>
       <Sidebar />
@@ -191,7 +157,7 @@ function Dashboard() {
                     ) : (
                       <Table hover>
                         <tbody style={{ textAlign: "left" }}>
-                          {currentPostsContract[0].map((data) => (
+                          {currentPostsContract.map((data) => (
                             <tr
                               key={data.id}
                               onClick={() =>
@@ -244,7 +210,7 @@ function Dashboard() {
                     ) : (
                       <Table hover>
                         <tbody style={{ textAlign: "left" }}>
-                          {currentPostsInvoice[0].map((data) => (
+                          {currentPostsInvoice.map((data) => (
                             <tr
                               key={data.id}
                               onClick={() =>

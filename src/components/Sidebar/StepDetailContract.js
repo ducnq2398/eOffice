@@ -38,7 +38,7 @@ function StepDetailContract({activeStep}) {
             }
         }
         getDocument();
-    },[]);
+    },[param.id]);
     useEffect(()=>{
         async function getSigner() {
             try {
@@ -49,7 +49,7 @@ function StepDetailContract({activeStep}) {
             }
         }
         getSigner();
-    },[])
+    },[document.contractSigners])
 
     useEffect(()=>{
         async function getSigner() {
@@ -61,7 +61,7 @@ function StepDetailContract({activeStep}) {
             }
         }
         getSigner();
-    },[])
+    },[document.contractSigners])
 
     useEffect(()=>{
         async function getCompany() {
@@ -73,7 +73,7 @@ function StepDetailContract({activeStep}) {
             }
         }
         getCompany();
-    },[])
+    },[signerA.companyId])
     useEffect(()=>{
         async function getCompany() {
             try {
@@ -84,7 +84,7 @@ function StepDetailContract({activeStep}) {
             }
         }
         getCompany();
-    },[])
+    },[signerB.companyId])
     return(
         <div className="root">
             <div className="logo">

@@ -8,7 +8,7 @@ import showall from '../../images/showall.png';
 import completed from '../../images/completeInvoice.png';
 import completed1 from '../../images/complete.png';
 import logo from '../../images/eoffice.png';
-import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import userListAPI from '../../api/userListAPI';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -38,7 +38,7 @@ function StepDetail({activeStep}) {
             }
         }
         getInvoiceById();
-    },[])
+    },[param.id])
     useEffect(()=>{
         async function getSigner() {
             try {

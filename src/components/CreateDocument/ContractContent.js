@@ -88,7 +88,7 @@ function ContractContent() {
       }
     }
     getSigner();
-  }, []);
+  }, [location.state.data.signer.id]);
   useEffect(() => {
     async function getCompany() {
       try {
@@ -112,7 +112,7 @@ function ContractContent() {
       }
     }
     getGuest();
-  }, []);
+  }, [location.state.data.signer_guest.id]);
 
   async function handleCreated(e) {
     e.preventDefault();

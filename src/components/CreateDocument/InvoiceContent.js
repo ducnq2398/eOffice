@@ -104,7 +104,7 @@ function InvoiceContent() {
       }
     }
     getSigner();
-  }, []);
+  }, [location.state.data.signer.id]);
 
   async function handleCreated(e) {
     e.preventDefault();
