@@ -1,4 +1,4 @@
-.b{
+.b {
   overflow: auto;
   display: block;
   position: relative;
@@ -6,7 +6,7 @@
   height: calc(100vh);
   transition: 0.33s, cubic-bezier(0.685, 0.0473, 0.346, 1);
 }
-.form-login{
+.form-login {
   padding: 10px 50px 50px;
   width: 60%;
   margin-top: 12%;
@@ -15,39 +15,28 @@
   border-radius: 10px;
 }
 
-.form-forgot{
+.form-forgot {
   float: right;
 }
 
-.fpt{
+.fpt {
   margin-top: 10%;
   float: left;
   margin-left: 10%;
 }
-h1{
+h1 {
   color: white;
   font-weight: bold;
   font-size: 47px;
 }
-.sp{
+.sp {
   float: left;
 }
-
-
-input { 
-    width: 100%; 
-    margin-bottom: 10px; 
-    border: none;
-    outline: none;
-    padding: 10px;
-    color: rgb(10, 10, 10);
-    text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
-    border: 1px solid rgba(0,0,0,0.3);
-    border-radius: 4px;
-    -webkit-transition: box-shadow .5s ease;
-    -moz-transition: box-shadow .5s ease;
-    -o-transition: box-shadow .5s ease;
-    -ms-transition: box-shadow .5s ease;
-    transition: box-shadow .5s ease;
-  }
-  input:focus { box-shadow: inset 0 -5px 45px rgba(100,100,100,0.4), 0 1px 1px rgba(255,255,255,0.2); }
+.background{
+  width: 100%;
+  height: 100vh;
+  background-image: url('../images/background.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}

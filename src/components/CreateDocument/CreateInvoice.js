@@ -26,15 +26,12 @@ import "date-fns";
 import Typography from "@material-ui/core/Typography";
 import Pagination from "@material-ui/lab/Pagination";
 import Moment from "moment";
-import {
-  InputAdornment,
-  Slide,
-  Tooltip,
-} from "@material-ui/core";
+import { InputAdornment, Slide, Tooltip } from "@material-ui/core";
 import TitleIcon from "@material-ui/icons/Title";
 import { toast } from "react-toastify";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
+import Navbar from "../Navbar/Navbar";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 toast.configure();
@@ -112,8 +109,8 @@ function CreateInvoice() {
         });
       }, 3000);
     } else if (
-      Moment(selectedDate).format('yyyy-MM-DD'+'T'+'HH:mm:ss.SSS'+'Z') <
-      Moment(new Date()).format('yyyy-MM-DD'+'T'+'HH:mm:ss.SSS'+'Z')
+      Moment(selectedDate).format("yyyy-MM-DD" + "T" + "HH:mm:ss.SSS" + "Z") <
+      Moment(new Date()).format("yyyy-MM-DD" + "T" + "HH:mm:ss.SSS" + "Z")
     ) {
       setAlert({
         ...alert,
@@ -144,7 +141,9 @@ function CreateInvoice() {
         state: {
           file: file,
           data: dataUpload,
-          date: Moment(selectedDate).format('yyyy-MM-DD'+'T'+'HH:mm:ss.SSS'+'Z'),
+          date: Moment(selectedDate).format(
+            "yyyy-MM-DD" + "T" + "HH:mm:ss.SSS" + "Z"
+          ),
           viewer: viewer,
           listViewerId: listViewerId,
           signLocation: position,
@@ -153,7 +152,7 @@ function CreateInvoice() {
       });
     }
   }
-  
+
   useEffect(() => {
     const companyId = getUser().CompanyId;
     async function fetListUser() {
@@ -198,11 +197,13 @@ function CreateInvoice() {
 
   return (
     <div>
+      <header>
+        <Navbar />
+      </header>
       <StepInvoice activeStep={activeStep} />
-      <div className="main-panel">
-        <Header />
-
+      <main className="main-invoice">
         <Snackbar
+          style={{ marginTop: 70 }}
           anchorOrigin={{ vertical: "top", horizontal: "center" }}
           open={alert.file}
           TransitionComponent={TransitionLeft}
@@ -213,6 +214,7 @@ function CreateInvoice() {
           </Alert>
         </Snackbar>
         <Snackbar
+          style={{ marginTop: 70 }}
           anchorOrigin={{ vertical: "top", horizontal: "center" }}
           open={alert.title}
           autoHideDuration={3000}
@@ -223,6 +225,7 @@ function CreateInvoice() {
           </Alert>
         </Snackbar>
         <Snackbar
+          style={{ marginTop: 70 }}
           anchorOrigin={{ vertical: "top", horizontal: "center" }}
           open={alert.signer}
           autoHideDuration={3000}
@@ -233,6 +236,7 @@ function CreateInvoice() {
           </Alert>
         </Snackbar>
         <Snackbar
+          style={{ marginTop: 70 }}
           anchorOrigin={{ vertical: "top", horizontal: "center" }}
           open={alert.date}
           autoHideDuration={3000}
@@ -243,6 +247,7 @@ function CreateInvoice() {
           </Alert>
         </Snackbar>
         <Snackbar
+          style={{ marginTop: 70 }}
           anchorOrigin={{ vertical: "top", horizontal: "center" }}
           open={alert.location}
           autoHideDuration={3000}
@@ -311,7 +316,7 @@ function CreateInvoice() {
                   type="file"
                   style={{ display: "none", width: 0 }}
                   onChange={(e) => {
-                    if(e.target.files.length !==0){
+                    if (e.target.files.length !== 0) {
                       if (e.target.files[0].type !== "application/pdf") {
                         setAlert({
                           ...alert,
@@ -688,7 +693,7 @@ function CreateInvoice() {
             </Col>
           </Row>
         </Container>
-      </div>
+      </main>
     </div>
   );
 }

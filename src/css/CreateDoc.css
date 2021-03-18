@@ -1,49 +1,47 @@
-
 .react-pdf__Page {
-    margin-top: 20px;
-  }
-  .react-pdf__Page__textContent {
-    box-shadow: 5px 5px 5px 1px #ccc;
-    border-radius: 5px;
-    font-size: larger;
-    width: 610.25px;
-    height: 800.85px;
-  }
-  
-  
-  .react-pdf__Page__canvas {
-    margin: 0 auto;
-    display: block;
-    user-select: none;
-    width: 615px;
-    height: 800px;
-  }
+  margin-top: 20px;
+}
+.react-pdf__Page__textContent {
+  box-shadow: 5px 5px 5px 1px #ccc;
+  border-radius: 5px;
+  font-size: larger;
+  width: 610.25px;
+  height: 800.85px;
+}
 
-  .form-upload{
-    border: black;
-    padding: 20px 10px 10px;
-    margin-left: 30px;
-  }
+.react-pdf__Page__canvas {
+  margin: 0 auto;
+  display: block;
+  user-select: none;
+  width: 615px;
+  height: 800px;
+}
 
-  .form-upload Input:selection{
-    height: 40px;
-    width: 10%;
-  }
+.form-upload {
+  border: black;
+  padding: 20px 10px 10px;
+  margin-left: 30px;
+}
 
-  .form-upload .form-group{
-    margin-bottom: 2rem;
-  }
-  .form-upload .form-control{
-    height: 50px;
-  }
-  .form-upload ._2iA8p44d0WZ-WqRBGcAuEV {
-    border-radius: 4px;
-    padding: 5px;
-    min-height: 22px;
-    position: relative;
-    width: 80%;
-    margin-left: auto;
-    margin-right: auto;
+.form-upload Input:selection {
+  height: 40px;
+  width: 10%;
+}
+
+.form-upload .form-group {
+  margin-bottom: 2rem;
+}
+.form-upload .form-control {
+  height: 50px;
+}
+.form-upload ._2iA8p44d0WZ-WqRBGcAuEV {
+  border-radius: 4px;
+  padding: 5px;
+  min-height: 22px;
+  position: relative;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
 }
 .form-upload ._3vt7_Mh4hRCFbp__dFqBCI ul {
   display: block;
@@ -73,4 +71,3 @@
   transform: translate(-50%, -50%) scale(0.9);
   background-color: #4123ac;
 }
- 

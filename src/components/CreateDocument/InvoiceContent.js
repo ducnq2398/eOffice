@@ -1,11 +1,4 @@
-import {
-  Container,
-  Form,
-  FormGroup,
-  Row,
-  Col,
-  Label,
-} from "reactstrap";
+import { Container, Form, FormGroup, Row, Col, Label } from "reactstrap";
 import Header from "../Nav/Header";
 import StepInvoice from "../Sidebar/StepInvoice";
 import PDF from "../PDF/PDF";
@@ -41,10 +34,11 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import Backdrop from '@material-ui/core/Backdrop';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import Backdrop from "@material-ui/core/Backdrop";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import moment from "moment";
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from "@material-ui/core/styles";
+import Navbar from "../Navbar/Navbar";
 
 toast.configure();
 const Transition = forwardRef(function Transition(props, ref) {
@@ -71,7 +65,7 @@ const StyledTableRow = withStyles((theme) => ({
 const useStyles = makeStyles((theme) => ({
   backdrop: {
     zIndex: theme.zIndex.drawer + 1,
-    color: '#fff',
+    color: "#fff",
   },
 }));
 function InvoiceContent() {
@@ -120,7 +114,9 @@ function InvoiceContent() {
       ",y=" +
       location.state.signLocation.y;
     const params = {
-      dateCreate: Moment(new Date()).format('yyyy-MM-DD'+'T'+'HH:mm:ss.SSS'+'Z'),
+      dateCreate: Moment(new Date()).format(
+        "yyyy-MM-DD" + "T" + "HH:mm:ss.SSS" + "Z"
+      ),
       creatorId: getUser().Id,
       dateExpire: location.state.date,
       title: location.state.data.title,
@@ -177,9 +173,11 @@ function InvoiceContent() {
   }
   return (
     <div>
+      <header>
+        <Navbar />
+      </header>
       <StepInvoice activeStep={5} />
-      <div className="main-panel">
-        <Header />
+      <main className="main-invoice">
         <Container fluid={true}>
           <Row>
             <Col>
@@ -260,7 +258,9 @@ function InvoiceContent() {
                 />
                 <TextField
                   label="Date expiration"
-                  value={moment(location.state.date).format('DD/MM/YYYY HH:mm:ss')}
+                  value={moment(location.state.date).format(
+                    "DD/MM/YYYY HH:mm:ss"
+                  )}
                   fullWidth
                   style={{ marginTop: "20px", padding: "10px 10px 10px" }}
                   InputProps={{
@@ -321,9 +321,9 @@ function InvoiceContent() {
           </DialogActions>
         </Dialog>
         <Backdrop className={useStyles().backdrop} open={loading}>
-          <CircularProgress color="inherit"/>
+          <CircularProgress color="inherit" />
         </Backdrop>
-      </div>
+      </main>
     </div>
   );
 }

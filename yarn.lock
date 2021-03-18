@@ -2088,6 +2088,75 @@
     "schema-utils" "^2.6.5"
     "source-map" "^0.7.3"
 
+"@progress/kendo-licensing@^1.0.1":
+  "integrity" "sha512-kCe97pKTfQOiny/odiH93xveRUURdSnm886bPiooJd0t5DRyphrXXF8GY3gl6bS+HRLv5NGrrXeh4UwFyceb4w=="
+  "resolved" "https://registry.npmjs.org/@progress/kendo-licensing/-/kendo-licensing-1.1.4.tgz"
+  "version" "1.1.4"
+  dependencies:
+    "jsonwebtoken" "^8.5.1"
+
+"@progress/kendo-popup-common@^1.2.2":
+  "integrity" "sha512-/cu0nV+3tHKPEE/bUbJTJHv6t8BMYpwI3uVOYENASYy+ZK1dlOfuRhdpSGH85glAH6NMtr/5pYOPojuXFFz/8A=="
+  "resolved" "https://registry.npmjs.org/@progress/kendo-popup-common/-/kendo-popup-common-1.8.0.tgz"
+  "version" "1.8.0"
+
+"@progress/kendo-react-animation@^4.0.0", "@progress/kendo-react-animation@4.5.0":
+  "integrity" "sha512-nK9Gh2KYeXCkJ9P1e560CR3DWeL/hYvgX6pvUh4afoZrW/X8kK5pHRtL9pDhNXuMqxR/62df+VpSpRUl8RbPOQ=="
+  "resolved" "https://registry.npmjs.org/@progress/kendo-react-animation/-/kendo-react-animation-4.5.0.tgz"
+  "version" "4.5.0"
+  dependencies:
+    "@progress/kendo-react-common" "4.5.0"
+    "prop-types" "^15.6.0"
+    "react-transition-group" "^2.2.0"
+
+"@progress/kendo-react-common@4.5.0":
+  "integrity" "sha512-0R1e0zNmwy7088gIx1QIDBeRE4oJ68by5am8rk+FpFEFFADBgYuo2bzjitbMHSlc/NB0vVX7MQwv7l1O4GGnOw=="
+  "resolved" "https://registry.npmjs.org/@progress/kendo-react-common/-/kendo-react-common-4.5.0.tgz"
+  "version" "4.5.0"
+  dependencies:
+    "@telerik/kendo-draggable" "^2.1.0"
+    "prop-types" "^15.6.0"
+
+"@progress/kendo-react-intl@^4.0.0":
+  "integrity" "sha512-v7kclBWhqU2UXPnXT2lmM46QoURci5jk2hT4UgElbP6DC+avPn/E2sL0s+fQ59aqdvHdz1Pdl8K9s+5NRbTrlQ=="
+  "resolved" "https://registry.npmjs.org/@progress/kendo-react-intl/-/kendo-react-intl-4.5.0.tgz"
+  "version" "4.5.0"
+  dependencies:
+    "@telerik/kendo-intl" "^2.1.0"
+    "prop-types" "^15.6.0"
+
+"@progress/kendo-react-layout@^4.5.0":
+  "integrity" "sha512-jhch1bUvCxKL2k8opvjq2slxtBZS3qd3W3D6EzKj/DUtyMYKrghdY2pmQFrteP6bdKyKLdfggRtRp7Rgdjdccw=="
+  "resolved" "https://registry.npmjs.org/@progress/kendo-react-layout/-/kendo-react-layout-4.5.0.tgz"
+  "version" "4.5.0"
+  dependencies:
+    "@progress/kendo-react-animation" "4.5.0"
+    "@progress/kendo-react-common" "4.5.0"
+    "@progress/kendo-react-popup" "4.5.0"
+    "prop-types" "^15.6.0"
+
+"@progress/kendo-react-popup@4.5.0":
+  "integrity" "sha512-5l2WXD4E6LuYE23kVPHqW8HuYWq4QrZW5MbuHbdOzFPGE8UziAiyQdtkMCBRslBDJYhrV4pNNNnpulIiBVCrSA=="
+  "resolved" "https://registry.npmjs.org/@progress/kendo-react-popup/-/kendo-react-popup-4.5.0.tgz"
+  "version" "4.5.0"
+  dependencies:
+    "@progress/kendo-popup-common" "^1.2.2"
+    "@progress/kendo-react-common" "4.5.0"
+    "prop-types" "^15.6.0"
+
+"@progress/kendo-react-progressbars@^4.0.0":
+  "integrity" "sha512-leEZtZGTsLq98Ubm5itXzTgQHWxX649Q2Lm8bbooGF5hhSBtYPM5LaegZn2Ata8h6nsD8tiGeYQCWpH9eGOb3Q=="
+  "resolved" "https://registry.npmjs.org/@progress/kendo-react-progressbars/-/kendo-react-progressbars-4.5.0.tgz"
+  "version" "4.5.0"
+  dependencies:
+    "@progress/kendo-react-common" "4.5.0"
+    "prop-types" "^15.6.0"
+
+"@progress/kendo-theme-default@^4.35.0":
+  "integrity" "sha512-n+JnoxuuRMY6jV2RwbdRCSscHVOXbSeE/nwP6/lc8g49YhHCebJv7O8MzxLmarVLK+v4bHpinIteU/kodaHTyg=="
+  "resolved" "https://registry.npmjs.org/@progress/kendo-theme-default/-/kendo-theme-default-4.35.0.tgz"
+  "version" "4.35.0"
+
 "@protobufjs/aspromise@^1.1.1", "@protobufjs/aspromise@^1.1.2":
   "integrity" "sha1-m4sMxmPWaafY9vXQiToU00jzD78="
   "resolved" "https://registry.yarnpkg.com/@protobufjs/aspromise/-/aspromise-1.1.2.tgz"
@@ -2298,6 +2367,16 @@
     "@svgr/plugin-jsx" "^5.5.0"
     "@svgr/plugin-svgo" "^5.5.0"
     "loader-utils" "^2.0.0"
+
+"@telerik/kendo-draggable@^2.1.0":
+  "integrity" "sha512-78ofOzRpisqPjG51LfLQ4FEWoGJXs4PkzyJSdVklyFw6gtAnj/T6dp7mHIMj8BivVkN9FjNgf4Eo/mdYs9fusQ=="
+  "resolved" "https://registry.npmjs.org/@telerik/kendo-draggable/-/kendo-draggable-2.2.0.tgz"
+  "version" "2.2.0"
+
+"@telerik/kendo-intl@^2.1.0":
+  "integrity" "sha512-IFNL37+I8hvO1G6SsW65ixTqkCtPZDH1SlJ33xEKpjCjVwrC/oLCJjuK+EF5buXSPK0iw0YSvlY6hDHAzAYF6g=="
+  "resolved" "https://registry.npmjs.org/@telerik/kendo-intl/-/kendo-intl-2.3.0.tgz"
+  "version" "2.3.0"
 
 "@testing-library/dom@^7.28.1", "@testing-library/dom@>=7.21.4":
   "integrity" "sha512-v4GzWtltaiDE0yRikLlcLAfEiiK8+ptu6OuuIebm9GdC2XlZTNDPGEfM2UkEtnH7hr9TRq2sivT5EA9P1Oy7bw=="
@@ -7989,6 +8068,22 @@
   optionalDependencies:
     "graceful-fs" "^4.1.6"
 
+"jsonwebtoken@^8.5.1":
+  "integrity" "sha512-XjwVfRS6jTMsqYs0EsuJ4LGxXV14zQybNd4L2r0UvbVnSF9Af8x7p5MzbJ90Ioz/9TI41/hTCvznF/loiSzn8w=="
+  "resolved" "https://registry.npmjs.org/jsonwebtoken/-/jsonwebtoken-8.5.1.tgz"
+  "version" "8.5.1"
+  dependencies:
+    "jws" "^3.2.2"
+    "lodash.includes" "^4.3.0"
+    "lodash.isboolean" "^3.0.3"
+    "lodash.isinteger" "^4.0.4"
+    "lodash.isnumber" "^3.0.3"
+    "lodash.isplainobject" "^4.0.6"
+    "lodash.isstring" "^4.0.1"
+    "lodash.once" "^4.0.0"
+    "ms" "^2.1.1"
+    "semver" "^5.6.0"
+
 "jsprim@^1.2.2":
   "integrity" "sha1-MT5mvB5cwG5Di8G3SZwuXFastqI="
   "resolved" "https://registry.yarnpkg.com/jsprim/-/jsprim-1.4.1.tgz"
@@ -8078,6 +8173,15 @@
     "array-includes" "^3.1.2"
     "object.assign" "^4.1.2"
 
+"jwa@^1.4.1":
+  "integrity" "sha512-qiLX/xhEEFKUAJ6FiBMbes3w9ATzyk5W7Hvzpa/SLYdxNtng+gcurvrI7TbACjIXlsJyr05/S1oUhZrc63evQA=="
+  "resolved" "https://registry.npmjs.org/jwa/-/jwa-1.4.1.tgz"
+  "version" "1.4.1"
+  dependencies:
+    "buffer-equal-constant-time" "1.0.1"
+    "ecdsa-sig-formatter" "1.0.11"
+    "safe-buffer" "^5.0.1"
+
 "jwa@^2.0.0":
   "integrity" "sha512-jrZ2Qx916EA+fq9cEAeCROWPTfCwi1IVHqT2tapuqLEVVDKFDENFw1oL+MwrTvH6msKxsd1YTDVw6uKEcsrLEA=="
   "resolved" "https://registry.yarnpkg.com/jwa/-/jwa-2.0.0.tgz"
@@ -8085,6 +8189,14 @@
   dependencies:
     "buffer-equal-constant-time" "1.0.1"
     "ecdsa-sig-formatter" "1.0.11"
+    "safe-buffer" "^5.0.1"
+
+"jws@^3.2.2":
+  "integrity" "sha512-YHlZCB6lMTllWDtSPHz/ZXTsi8S00usEV6v1tjq8tOUZzw7DpSDWVXjXDre6ed1w/pd495ODpHZYSdkRTsa0HA=="
+  "resolved" "https://registry.npmjs.org/jws/-/jws-3.2.2.tgz"
+  "version" "3.2.2"
+  dependencies:
+    "jwa" "^1.4.1"
     "safe-buffer" "^5.0.1"
 
 "jws@^4.0.0":
@@ -8283,10 +8395,45 @@
   "resolved" "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz"
   "version" "4.0.8"
 
+"lodash.includes@^4.3.0":
+  "integrity" "sha1-YLuYqHy5I8aMoeUTJUgzFISfVT8="
+  "resolved" "https://registry.npmjs.org/lodash.includes/-/lodash.includes-4.3.0.tgz"
+  "version" "4.3.0"
+
+"lodash.isboolean@^3.0.3":
+  "integrity" "sha1-bC4XHbKiV82WgC/UOwGyDV9YcPY="
+  "resolved" "https://registry.npmjs.org/lodash.isboolean/-/lodash.isboolean-3.0.3.tgz"
+  "version" "3.0.3"
+
+"lodash.isinteger@^4.0.4":
+  "integrity" "sha1-YZwK89A/iwTDH1iChAt3sRzWg0M="
+  "resolved" "https://registry.npmjs.org/lodash.isinteger/-/lodash.isinteger-4.0.4.tgz"
+  "version" "4.0.4"
+
+"lodash.isnumber@^3.0.3":
+  "integrity" "sha1-POdoEMWSjQM1IwGsKHMX8RwLH/w="
+  "resolved" "https://registry.npmjs.org/lodash.isnumber/-/lodash.isnumber-3.0.3.tgz"
+  "version" "3.0.3"
+
+"lodash.isplainobject@^4.0.6":
+  "integrity" "sha1-fFJqUtibRcRcxpC4gWO+BJf1UMs="
+  "resolved" "https://registry.npmjs.org/lodash.isplainobject/-/lodash.isplainobject-4.0.6.tgz"
+  "version" "4.0.6"
+
+"lodash.isstring@^4.0.1":
+  "integrity" "sha1-1SfftUVuynzJu5XV2ur4i6VKVFE="
+  "resolved" "https://registry.npmjs.org/lodash.isstring/-/lodash.isstring-4.0.1.tgz"
+  "version" "4.0.1"
+
 "lodash.memoize@^4.1.2":
   "integrity" "sha1-vMbEmkKihA7Zl/Mj6tpezRguC/4="
   "resolved" "https://registry.yarnpkg.com/lodash.memoize/-/lodash.memoize-4.1.2.tgz"
   "version" "4.1.2"
+
+"lodash.once@^4.0.0":
+  "integrity" "sha1-DdOXEhPHxW34gJd9UEyI+0cal6w="
+  "resolved" "https://registry.npmjs.org/lodash.once/-/lodash.once-4.1.1.tgz"
+  "version" "4.1.1"
 
 "lodash.sortby@^4.7.0":
   "integrity" "sha1-7dFMgk4sycHgsKG0K7UhBRakJDg="
@@ -8721,10 +8868,10 @@
     "rimraf" "^2.5.4"
     "run-queue" "^1.0.3"
 
-"ms@^2.1.1":
-  "integrity" "sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA=="
-  "resolved" "https://registry.yarnpkg.com/ms/-/ms-2.1.3.tgz"
-  "version" "2.1.3"
+"ms@^2.1.1", "ms@2.1.2":
+  "integrity" "sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w=="
+  "resolved" "https://registry.yarnpkg.com/ms/-/ms-2.1.2.tgz"
+  "version" "2.1.2"
 
 "ms@2.0.0":
   "integrity" "sha1-VgiurfwAvmwpAd9fmGF4jeDVl8g="
@@ -8735,11 +8882,6 @@
   "integrity" "sha512-tgp+dl5cGk28utYktBsrFqA7HKgrhgPsg6Z/EfhWI4gl1Hwq8B/GmY/0oXZ6nF8hDVesS/FpnYaD/kOWhYQvyg=="
   "resolved" "https://registry.yarnpkg.com/ms/-/ms-2.1.1.tgz"
   "version" "2.1.1"
-
-"ms@2.1.2":
-  "integrity" "sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w=="
-  "resolved" "https://registry.yarnpkg.com/ms/-/ms-2.1.2.tgz"
-  "version" "2.1.2"
 
 "multicast-dns-service-types@^1.1.0":
   "integrity" "sha1-iZ8R2WhuXgXLkbNdXw5jt3PPyQE="
@@ -10540,7 +10682,7 @@
   dependencies:
     "ua-parser-js" "^0.7.24"
 
-"react-dom@*", "react-dom@^15.3.0 || ^16.0.0 || ^17.0.0", "react-dom@^16.0.0", "react-dom@^16.0.0 || ^17.0.0", "react-dom@^16.3.0 || ^17.0.0-0", "react-dom@^16.8.0 || ^17.0.0", "react-dom@^17.0.0", "react-dom@>= 0.14.0 < 18.0.0", "react-dom@>= 15", "react-dom@>=15.0.0", "react-dom@>=16", "react-dom@>=16.3.0", "react-dom@>=16.6.0":
+"react-dom@*", "react-dom@^15.3.0 || ^16.0.0 || ^17.0.0", "react-dom@^16.0.0", "react-dom@^16.0.0 || ^17.0.0", "react-dom@^16.3.0 || ^17.0.0-0", "react-dom@^16.8.0 || ^17.0.0", "react-dom@^16.8.2 || ^17.0.0", "react-dom@^17.0.0", "react-dom@>= 0.14.0 < 18.0.0", "react-dom@>= 15", "react-dom@>=15.0.0", "react-dom@>=16", "react-dom@>=16.3.0", "react-dom@>=16.6.0":
   "integrity" "sha512-6eV150oJZ9U2t9svnsspTMrWNyHc6chX0KzDeAOXftRa8bNeOKTTfCJ7KorIwenkHd2xqVTBTCZd79yk/lx/Ug=="
   "resolved" "https://registry.yarnpkg.com/react-dom/-/react-dom-17.0.1.tgz"
   "version" "17.0.1"
@@ -10577,6 +10719,11 @@
   "integrity" "sha512-K+Sw33DtTMengs8OdqFJI3glzNl1wBzSefD/ksQw/hJf9CnOHQAU6qy82eOrh0IRNt2G53sjr7qnnw1JDjvx1w=="
   "resolved" "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-6.15.4.tgz"
   "version" "6.15.4"
+
+"react-icons@^4.2.0":
+  "integrity" "sha512-rmzEDFt+AVXRzD7zDE21gcxyBizD/3NqjbX6cmViAgdqfJ2UiLer8927/QhhrXQV7dEj/1EGuOTPp7JnLYVJKQ=="
+  "resolved" "https://registry.npmjs.org/react-icons/-/react-icons-4.2.0.tgz"
+  "version" "4.2.0"
 
 "react-input-autosize@^3.0.0":
   "integrity" "sha512-nL9uS7jEs/zu8sqwFE5MAPx6pPkNAriACQ2rGLlqmKr2sPGtN7TXTyDdQt4lbNXVx7Uzadb40x8qotIuru6Rhg=="
@@ -10783,7 +10930,7 @@
   dependencies:
     "clsx" "^1.1.1"
 
-"react-transition-group@^2.3.0-beta.0", "react-transition-group@^2.3.1":
+"react-transition-group@^2.2.0", "react-transition-group@^2.3.0-beta.0", "react-transition-group@^2.3.1":
   "integrity" "sha512-+HzNTCHpeQyl4MJ/bdE0u6XRMe9+XG/+aL4mCxVN4DnPBQ0/5bfHWPDuOZUzYdMj94daZaZdCCc1Dzt9R/xSSg=="
   "resolved" "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-2.9.0.tgz"
   "version" "2.9.0"
@@ -10828,7 +10975,7 @@
   "resolved" "https://registry.yarnpkg.com/react-with-firebase-auth/-/react-with-firebase-auth-1.3.2.tgz"
   "version" "1.3.2"
 
-"react@*", "react@^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0", "react@^15.3.0 || ^16.0.0 || ^17.0.0", "react@^16.0.0", "react@^16.0.0 || ^17.0.0", "react@^16.3.0 || ^17.0.0", "react@^16.3.0 || ^17.0.0-0", "react@^16.8.0 || ^17", "react@^16.8.0 || ^17.0.0", "react@^17.0.0", "react@>= 0.14.0 < 18.0.0", "react@>= 15", "react@>= 16", "react@>= 16.8", "react@>=0.14.0", "react@>=15", "react@>=15.0.0", "react@>=16", "react@>=16.3.0", "react@>=16.6.0", "react@>=16.8", "react@>=16.8.0", "react@0.14.x || ^15.0.0 || ^16.0.0 || ^17.0.0", "react@17.0.1":
+"react@*", "react@^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0", "react@^15.3.0 || ^16.0.0 || ^17.0.0", "react@^16.0.0", "react@^16.0.0 || ^17.0.0", "react@^16.3.0 || ^17.0.0", "react@^16.3.0 || ^17.0.0-0", "react@^16.8.0 || ^17", "react@^16.8.0 || ^17.0.0", "react@^16.8.2 || ^17.0.0", "react@^17.0.0", "react@>= 0.14.0 < 18.0.0", "react@>= 15", "react@>= 16", "react@>= 16.8", "react@>=0.14.0", "react@>=15", "react@>=15.0.0", "react@>=16", "react@>=16.3.0", "react@>=16.6.0", "react@>=16.8", "react@>=16.8.0", "react@0.14.x || ^15.0.0 || ^16.0.0 || ^17.0.0", "react@17.0.1":
   "integrity" "sha512-lG9c9UuMHdcAexXtigOZLX8exLWkW0Ku29qPRU8uhF2R9BN96dLCt0psvzPLlHc5OWkgymP3qwTRgbnw5BKx3w=="
   "resolved" "https://registry.yarnpkg.com/react/-/react-17.0.1.tgz"
   "version" "17.0.1"
@@ -11508,7 +11655,7 @@
 
 "semver@^5.6.0":
   "integrity" "sha512-sauaDf/PZdVgrLTNYHRtpXa1iRiKcaebiKQ1BJdpQlWH2lCvexQdX55snPFyK7QzpudqbCI0qXFfOasHdyNDGQ=="
-  "resolved" "https://registry.yarnpkg.com/semver/-/semver-5.7.1.tgz"
+  "resolved" "https://registry.npmjs.org/semver/-/semver-5.7.1.tgz"
   "version" "5.7.1"
 
 "semver@^6.0.0", "semver@^6.1.1", "semver@^6.1.2", "semver@^6.2.0", "semver@^6.3.0":

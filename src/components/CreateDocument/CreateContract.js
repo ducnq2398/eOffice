@@ -31,6 +31,7 @@ import { InputAdornment, Slide, Snackbar, Tooltip } from "@material-ui/core";
 import TitleIcon from "@material-ui/icons/Title";
 import { toast } from "react-toastify";
 import Alert from "@material-ui/lab/Alert";
+import Navbar from "../Navbar/Navbar";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 function TransitionLeft(props) {
@@ -162,8 +163,8 @@ function CreateDocument() {
         );
       });
     } else if (
-      Moment(selectedDate).format('yyyy-MM-DD'+'T'+'HH:mm:ss.SSS'+'Z') <
-      Moment(new Date()).format('yyyy-MM-DD'+'T'+'HH:mm:ss.SSS'+'Z')
+      Moment(selectedDate).format("yyyy-MM-DD" + "T" + "HH:mm:ss.SSS" + "Z") <
+      Moment(new Date()).format("yyyy-MM-DD" + "T" + "HH:mm:ss.SSS" + "Z")
     ) {
       setAlert({
         ...alert,
@@ -177,10 +178,7 @@ function CreateDocument() {
           message: "",
         });
       }, 3000);
-    } else if (
-      positionA.x === 0 &&
-      positionA.y === 0
-    ) {
+    } else if (positionA.x === 0 && positionA.y === 0) {
       setAlert({
         ...alert,
         location: true,
@@ -193,7 +191,7 @@ function CreateDocument() {
           message: "",
         });
       }, 3000);
-    }else if(positionB.x===0 && positionB.y===0){
+    } else if (positionB.x === 0 && positionB.y === 0) {
       setAlert({
         ...alert,
         location: true,
@@ -217,7 +215,9 @@ function CreateDocument() {
           signLocationA: positionA,
           signLocationB: positionB,
           numberPage: pageNumber,
-          date: Moment(selectedDate).format('yyyy-MM-DD'+'T'+'HH:mm:ss.SSS'+'Z'),
+          date: Moment(selectedDate).format(
+            "yyyy-MM-DD" + "T" + "HH:mm:ss.SSS" + "Z"
+          ),
         },
       });
     }
@@ -269,20 +269,24 @@ function CreateDocument() {
 
   return (
     <div>
+      <header>
+        <Navbar />
+      </header>
       <VerticalLinearStepper activeStep={activeStep} />
-      <div className="main-panel">
-        <Header />
+      <main className="main-contract">
         <Snackbar
           anchorOrigin={{ vertical: "top", horizontal: "center" }}
           open={alert.file}
           TransitionComponent={TransitionLeft}
           autoHideDuration={3000}
+          style={{ marginTop: 70 }}
         >
           <Alert variant="filled" severity="error">
             {alert.message}
           </Alert>
         </Snackbar>
         <Snackbar
+          style={{ marginTop: 70 }}
           anchorOrigin={{ vertical: "top", horizontal: "center" }}
           open={alert.title}
           autoHideDuration={3000}
@@ -293,6 +297,7 @@ function CreateDocument() {
           </Alert>
         </Snackbar>
         <Snackbar
+          style={{ marginTop: 70 }}
           anchorOrigin={{ vertical: "top", horizontal: "center" }}
           open={alert.signerA}
           autoHideDuration={3000}
@@ -303,6 +308,7 @@ function CreateDocument() {
           </Alert>
         </Snackbar>
         <Snackbar
+          style={{ marginTop: 70 }}
           anchorOrigin={{ vertical: "top", horizontal: "center" }}
           open={alert.company}
           autoHideDuration={3000}
@@ -313,6 +319,7 @@ function CreateDocument() {
           </Alert>
         </Snackbar>
         <Snackbar
+          style={{ marginTop: 70 }}
           anchorOrigin={{ vertical: "top", horizontal: "center" }}
           open={alert.signerB}
           autoHideDuration={3000}
@@ -323,6 +330,7 @@ function CreateDocument() {
           </Alert>
         </Snackbar>
         <Snackbar
+          style={{ marginTop: 70 }}
           anchorOrigin={{ vertical: "top", horizontal: "center" }}
           open={alert.date}
           autoHideDuration={3000}
@@ -333,6 +341,7 @@ function CreateDocument() {
           </Alert>
         </Snackbar>
         <Snackbar
+          style={{ marginTop: 70 }}
           anchorOrigin={{ vertical: "top", horizontal: "center" }}
           open={alert.location}
           autoHideDuration={3000}
@@ -360,7 +369,7 @@ function CreateDocument() {
             }}
           />
           <Row>
-            <Col className="form-upload">
+            <Col>
               <Tooltip title="Choose location sign A" placement="top-start">
                 <IconButton
                   style={{
@@ -427,7 +436,7 @@ function CreateDocument() {
                   type="file"
                   style={{ display: "none", width: 0 }}
                   onChange={(e) => {
-                    if(e.target.files.length!==0){
+                    if (e.target.files.length !== 0) {
                       if (e.target.files[0].type !== "application/pdf") {
                         setAlert({
                           ...alert,
@@ -454,12 +463,12 @@ function CreateDocument() {
                             message: "",
                           });
                         }, 3000);
-                      } else{
+                      } else {
                         setFile(e.target.files);
                         setFileName(e.target.files[0].name);
                         setShow(true);
                       }
-                    }               
+                    }
                   }}
                 />
                 <TextField
@@ -962,7 +971,7 @@ function CreateDocument() {
             </Col>
           </Row>
         </Container>
-      </div>
+      </main>
     </div>
   );
 }

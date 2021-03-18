@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import notiAPI from "../../api/notiAPI";
 import moment from "moment";
+import Navbar from "../Navbar/Navbar";
 
 function Notification() {
   const [all, setAll] = useState([]);
@@ -39,10 +40,11 @@ function Notification() {
   }
   return (
     <div>
-      <Sidebar />
-      <div className="main-panel">
-        <Header />
-        <Container fluid={true}>
+      <header>
+        <Navbar />
+      </header>
+      <main className="main-panel">
+        <Container fluid>
           <Row>
             <p
               style={{
@@ -94,13 +96,13 @@ function Notification() {
               rowsPerPageOptions={[]}
             />
           </Row>
-          <Table style={{ marginTop: 20 }}>
+          <Table style={{ marginTop: 20 }} hover>
             <tbody>
               {all.map((row) => (
                 <tr
                   key={row.id}
                   style={{
-                    background: row.status === 0 ? "#b3aeae75" : "white",
+                    background: row.status === 0 ? "#b3aeae75" : "white", padding:10
                   }}
                 >
                   <td>
@@ -120,7 +122,7 @@ function Notification() {
             </tbody>
           </Table>
         </Container>
-      </div>
+      </main>
     </div>
   );
 }

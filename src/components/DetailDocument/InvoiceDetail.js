@@ -1,11 +1,11 @@
-import { Container, Form, FormGroup, Row, Col, Label} from "reactstrap";
+import { Container, Form, FormGroup, Row, Col, Label } from "reactstrap";
 import Header from "../Nav/Header";
 import StepDetail from "../Sidebar/StepDetail";
 import PDF from "../PDF/PDF";
 import notsigned from "../../images/status.png";
 import done from "../../images/invoicecompleted.png";
 import { useEffect, useState } from "react";
-import {useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import userListAPI from "../../api/userListAPI";
 import invoiceAPI from "../../api/invoiceAPI";
 import GetCreater from "../GetData/GetCreater";
@@ -32,6 +32,7 @@ import GetEmail from "../GetData/GetEmail";
 import GetPhone from "../GetData/GetPhone";
 import SaveIcon from "@material-ui/icons/Save";
 import PrintIcon from "@material-ui/icons/Print";
+import Navbar from "../Navbar/Navbar";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -94,9 +95,11 @@ function InvoiceDetail() {
 
   return (
     <div>
+      <header>
+        <Navbar />
+      </header>
       <StepDetail activeStep={activeStep} />
-      <div className="main-panel">
-        <Header />
+      <main className="main-invoice">
         <Container fluid={true}>
           <Row>
             <Col>
@@ -110,13 +113,21 @@ function InvoiceDetail() {
                 >
                   Invoice Content
                 </Label>
-                <br/>
-                <Label style={{marginTop:'10px'}}>
-                  <img hidden={document.status===3 ? false : true} src={done} alt="" />
-                  <img hidden={document.status!==3 ? false : true} src={notsigned} alt="" />
+                <br />
+                <Label style={{ marginTop: "10px" }}>
+                  <img
+                    hidden={document.status === 3 ? false : true}
+                    src={done}
+                    alt=""
+                  />
+                  <img
+                    hidden={document.status !== 3 ? false : true}
+                    src={notsigned}
+                    alt=""
+                  />
                 </Label>
 
-                <TextField               
+                <TextField
                   variant="standard"
                   value={document.title}
                   fullWidth
@@ -131,7 +142,6 @@ function InvoiceDetail() {
                   }}
                 />
                 <TextField
-                  
                   value={signer.name}
                   fullWidth
                   style={{ marginTop: "20px", padding: "10px 10px 10px" }}
@@ -184,7 +194,9 @@ function InvoiceDetail() {
                 />
                 <TextField
                   label="Date expiration"
-                  value={Moment(document.dateSign).format("DD/MM/YYYY HH:mm:ss")}
+                  value={Moment(document.dateSign).format(
+                    "DD/MM/YYYY HH:mm:ss"
+                  )}
                   fullWidth
                   style={{ marginTop: "20px", padding: "10px 10px 10px" }}
                   InputProps={{
@@ -243,7 +255,7 @@ function InvoiceDetail() {
             </Col>
           </Row>
         </Container>
-      </div>
+      </main>
     </div>
   );
 }

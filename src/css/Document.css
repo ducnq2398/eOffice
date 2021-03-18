@@ -1,74 +1,88 @@
-.main-content{
-        background: white;
-        overflow: auto;
-        display: block;
-        position: relative;
-        float: right;
-        width: calc(100% - 300px);
-        height: calc(100vh);
-        transition: 0.33s, cubic-bezier(0.685, 0.0473, 0.346, 1);  
+.main-contract {
+  z-index: 0;
+  background: white;
+  overflow: auto;
+  display: block;
+  position: relative;
+  float: right;
+  top: 0;
+  margin-top: 70px;
+  width: calc(100% - 300px);
+  transition: 0.33s, cubic-bezier(0.685, 0.0473, 0.346, 1);
+}
+.main-invoice {
+  z-index: 0;
+  background: white;
+  overflow: auto;
+  display: block;
+  position: relative;
+  float: right;
+  top: 0;
+  margin-top: 70px;
+  width: calc(100% - 300px);
+  transition: 0.33s, cubic-bezier(0.685, 0.0473, 0.346, 1);
 }
 
 .step {
-    padding: 0px;
-    width: 207px;
+  padding: 0px;
+  width: 207px;
 }
 
 .step .MuiStepper-root {
-    display: flex;
-    padding: 0px;
+  display: flex;
+  padding: 0px;
 }
-.col-doc{
-    flex-basis: 0;
-    flex-grow: 73;
-    max-width: 13%;
+.col-doc {
+  flex-basis: 0;
+  flex-grow: 73;
+  max-width: 13%;
 }
-.col-status{
-    flex-basis: 0;
-    flex-grow: 73;
-    max-width: 13%;
+.col-status {
+  flex-basis: 0;
+  flex-grow: 73;
+  max-width: 13%;
 }
-.form-create{
-    margin-left: 5%;
-    margin-top: 20px;
-}
-
-.se{
-    position:absolute;
-    bottom:13px;
-    left: 100%;
-    width:30px; 
-    height:30px;
-}
-.selectbox{
-    width: 100%;
-    margin-left: 40px;
-}
-.selectbox2{
-    width: 10%;
+.form-create {
+  margin-left: 5%;
+  margin-top: 20px;
 }
 
-.banner{
-    background-color: white;
-    color: rgba(25, 25, 209, 0.781);
-    font-weight: bold;
-    font-size: 30px;
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
+.se {
+  position: absolute;
+  bottom: 13px;
+  left: 100%;
+  width: 30px;
+  height: 30px;
+}
+.selectbox {
+  width: 100%;
+  margin-left: 40px;
+}
+.selectbox2 {
+  width: 10%;
 }
 
-.form-doc{
-    margin-left: 15%;
+.banner {
+  background-color: white;
+  color: rgba(25, 25, 209, 0.781);
+  font-weight: bold;
+  font-size: 30px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.form-in{
-    margin-left: 40px;
-    margin-top: 20px;
+.form-doc {
+  margin-left: 15%;
 }
-.demo{
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    max-width: 400px;
-  } 
+
+.form-in {
+  margin-left: 40px;
+  margin-top: 20px;
+}
+.demo {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 400px;
+}

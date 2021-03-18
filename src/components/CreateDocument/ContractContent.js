@@ -1,5 +1,4 @@
 import { Container, Form, FormGroup, Row, Col, Label } from "reactstrap";
-import Header from "../Nav/Header";
 import StepContract from "../Sidebar/Stepper";
 import PDF from "../PDF/PDF";
 import "../../css/CreateDoc.css";
@@ -36,6 +35,7 @@ import {
   Slide,
 } from "@material-ui/core";
 import moment from "moment";
+import Navbar from "../Navbar/Navbar";
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
@@ -58,6 +58,7 @@ const StyledTableRow = withStyles((theme) => ({
 
 function ContractContent() {
   const location = useLocation();
+  console.log(location)
   const history = useHistory();
   const [create, setCreate] = useState(false);
   const [signer, setSigner] = useState("");
@@ -133,7 +134,9 @@ function ContractContent() {
       ",y=" +
       location.state.signLocationB.y;
     const params = {
-      dateCreate: Moment(new Date()).format('yyyy-MM-DD'+'T'+'HH:mm:ss.SSS'+'Z'),
+      dateCreate: Moment(new Date()).format(
+        "yyyy-MM-DD" + "T" + "HH:mm:ss.SSS" + "Z"
+      ),
       creatorId: getUser().Id,
       dateExpire: location.state.date,
       title: location.state.data.title,
@@ -217,10 +220,12 @@ function ContractContent() {
   }
   return (
     <div>
+      <header>
+        <Navbar />
+      </header>
       <StepContract activeStep={7} />
-      <div className="main-panel">
-        <Header />
-        <Container fluid={true}>
+      <main className="main-contract">
+        <Container fluid>
           <Row>
             <Col>
               <Paper style={{ marginTop: "20px" }} elevation={3}>
@@ -234,7 +239,6 @@ function ContractContent() {
                   Contract Content
                 </Label>
                 <TextField
-                  
                   variant="standard"
                   value={location.state.data.title}
                   fullWidth
@@ -249,7 +253,6 @@ function ContractContent() {
                   }}
                 />
                 <TextField
-                  
                   variant="standard"
                   value={company.name}
                   fullWidth
@@ -264,7 +267,6 @@ function ContractContent() {
                   }}
                 />
                 <TextField
-                  
                   variant="standard"
                   value={signer.name}
                   fullWidth
@@ -279,7 +281,6 @@ function ContractContent() {
                   }}
                 />
                 <TextField
-                  
                   variant="standard"
                   value={location.state.data.company_guest.name}
                   fullWidth
@@ -294,7 +295,6 @@ function ContractContent() {
                   }}
                 />
                 <TextField
-                  
                   variant="standard"
                   value={guest.name}
                   fullWidth
@@ -348,7 +348,9 @@ function ContractContent() {
 
                 <TextField
                   label="Date expiration"
-                  value={moment(location.state.date).format('DD/MM/YYYY HH:mm:ss')}
+                  value={moment(location.state.date).format(
+                    "DD/MM/YYYY HH:mm:ss"
+                  )}
                   fullWidth
                   style={{ marginTop: "20px", padding: "10px 10px 10px" }}
                   InputProps={{
@@ -409,7 +411,7 @@ function ContractContent() {
             </Button>
           </DialogActions>
         </Dialog>
-      </div>
+      </main>
     </div>
   );
 }

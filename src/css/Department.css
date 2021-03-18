@@ -2,15 +2,6 @@
     margin-top: 5px;
     margin-left: 5px;
 }
-.add:after{
-    content: '';
-    position: absolute;
-    height: 1px;
-    width: 100%;
-    left: 0;
-    top: 124px;
-    background-color:gray;
-}
 
 .addd{
     width: 600px;

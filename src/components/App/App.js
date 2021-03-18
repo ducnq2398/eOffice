@@ -1,7 +1,7 @@
 import RouterURL from "../RouterURL/RouterURL";
 import { BrowserRouter as Router } from "react-router-dom";
 import "../../css/App.css";
-
+import '@progress/kendo-theme-default/dist/all.css';
 
 function App() {
   return (

@@ -43,6 +43,9 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import DeleteIcon from "@material-ui/icons/Delete";
 import StepDoc2 from "../Sidebar/StepDoc2";
+import Navbar from "../Navbar/Navbar";
+import InvoiceStepper from "../Stepper/InvoiceStepper";
+import ContractStepper from "../Stepper/ContractStepper";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -247,41 +250,42 @@ function Document() {
   }
   return (
     <div>
-      <Sidebar />
-      <Dialog open={isOpen} onClose={toogle} TransitionComponent={Transition}>
-        <DialogContent>
-          <img
-            style={{ marginLeft: "20%" }}
-            src={choo}
-            alt=""
-            width="280px"
-            height="280px"
-          />
-        </DialogContent>
-        <DialogTitle>
-          Please select the type of document you want create?
-        </DialogTitle>
-        <DialogActions style={{ paddingBottom: "30px" }}>
-          <Button
-            variant="contained"
-            color="primary"
-            style={{ marginRight: "15%" }}
-            onClick={AddContract}
-          >
-            Contract
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            style={{ marginRight: "20%", width: "104px" }}
-            onClick={AddInvoice}
-          >
-            Invoice
-          </Button>
-        </DialogActions>
-      </Dialog>
-      <div className="main-content">
-        <Header />
+      <header>
+        <Navbar />
+      </header>
+      <main className="main-panel">
+        <Dialog open={isOpen} onClose={toogle} TransitionComponent={Transition}>
+          <DialogContent>
+            <img
+              style={{ marginLeft: "20%" }}
+              src={choo}
+              alt=""
+              width="280px"
+              height="280px"
+            />
+          </DialogContent>
+          <DialogTitle>
+            Please select the type of document you want create?
+          </DialogTitle>
+          <DialogActions style={{ paddingBottom: "30px" }}>
+            <Button
+              variant="contained"
+              color="primary"
+              style={{ marginRight: "15%" }}
+              onClick={AddContract}
+            >
+              Contract
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              style={{ marginRight: "20%", width: "104px" }}
+              onClick={AddInvoice}
+            >
+              Invoice
+            </Button>
+          </DialogActions>
+        </Dialog>
         <Container fluid={true}>
           <div className="form-create">
             <FormGroup row>
@@ -351,8 +355,18 @@ function Document() {
                       textColor="primary"
                       onChange={handleChange}
                     >
-                      <Tab value={3} onClick={Signed} label="Signed" />
-                      <Tab value={2} onClick={NotSigned} label="Not signed" />
+                      <Tab
+                        style={{ fontWeight: "bold" }}
+                        value={3}
+                        onClick={Signed}
+                        label="Signed"
+                      />
+                      <Tab
+                        style={{ fontWeight: "bold" }}
+                        value={2}
+                        onClick={NotSigned}
+                        label="Not signed"
+                      />
                     </Tabs>
                   </Paper>
                 </Row>
@@ -443,9 +457,9 @@ function Document() {
                       <br />
                       <Label className="step">
                         {doc.contractUrl ? (
-                          <StepDoc activeStep={doc.status + 1} />
+                          <ContractStepper value={doc.status} />
                         ) : (
-                          <StepDoc2 activeStep={doc.status + 1} />
+                          <InvoiceStepper value={doc.status} />
                         )}
                       </Label>
                     </td>
@@ -509,7 +523,7 @@ function Document() {
                       <Label style={{ fontWeight: "bold" }}></Label>
                       <br />
                       <Label>
-                        {Moment(doc.dateCreate).format("DD/MM/YYYY")}
+                        {Moment(doc.dateCreate).format("DD/MM/YYYY HH:mm:ss")}
                       </Label>
                     </td>
                     <td>
@@ -692,7 +706,7 @@ function Document() {
             </ModalFooter>
           </Modal>
         </Container>
-      </div>
+      </main>
     </div>
   );
 }

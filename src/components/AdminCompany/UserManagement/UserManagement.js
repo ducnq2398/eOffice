@@ -40,6 +40,7 @@ import Slide from "@material-ui/core/Slide";
 import { InputAdornment } from "@material-ui/core";
 import Moment from "moment";
 import md5 from "md5";
+import Navbar from "../../Navbar/Navbar";
 
 const TransitionAdd = forwardRef(function Transition(props, ref) {
   return <Slide direction="right" ref={ref} {...props} />;
@@ -81,7 +82,7 @@ function UserManagement() {
   const [reload, setReload] = useState({
     add: 0,
     edit: 0,
-  })
+  });
   const [page, setPage] = useState(0);
   const [rowsPerPage] = useState(15);
   const indexOfLastPost = (page + 1) * rowsPerPage;
@@ -152,7 +153,9 @@ function UserManagement() {
   useEffect(() => {
     async function getDepartment() {
       try {
-        const res = await departmentAPI.getDepartmentByCompanyId(getUser().CompanyId);
+        const res = await departmentAPI.getDepartmentByCompanyId(
+          getUser().CompanyId
+        );
         setDepartment(res.data);
       } catch (error) {
         console.log(error);
@@ -287,7 +290,7 @@ function UserManagement() {
           message_email: "",
         });
       }, 5000);
-    }else if(!pattern.test(user.email)){
+    } else if (!pattern.test(user.email)) {
       setError({
         ...error,
         email: true,
@@ -334,8 +337,8 @@ function UserManagement() {
           });
           setReload({
             ...reload,
-            add: reload.add+1
-          })
+            add: reload.add + 1,
+          });
           toast.success("You has created user successfully", {
             position: toast.POSITION.TOP_CENTER,
           });
@@ -448,7 +451,7 @@ function UserManagement() {
           message_email: "",
         });
       }, 5000);
-    }else if(detail.email.trim() === ""){
+    } else if (detail.email.trim() === "") {
       setError({
         ...error,
         email: true,
@@ -488,7 +491,7 @@ function UserManagement() {
                 setReload({
                   ...reload,
                   edit: reload.edit + 1,
-                })
+                });
                 setValue(1);
                 activeList();
                 toast.success("You has updated user successfully", {
@@ -532,9 +535,10 @@ function UserManagement() {
   }
   return (
     <div>
-      <Sidebar />
-      <div className="main-panel1">
-        <Header />
+      <header>
+        <Navbar />
+      </header>
+      <main className="main-panel">
         <Container fluid={true}>
           <Dialog
             open={isOpen}
@@ -697,15 +701,19 @@ function UserManagement() {
               </Col>
               <Col>
                 <Row>
-                  <Paper square elevation={0} style={{ position: "absolute", right: 0 }}>
+                  <Paper
+                    square
+                    elevation={0}
+                    style={{ position: "absolute", right: 0}}
+                  >
                     <Tabs
                       value={value}
                       indicatorColor="none"
                       textColor="primary"
                       onChange={handleChange}
                     >
-                      <Tab value={1} onClick={activeList} label="Active" />
-                      <Tab value={0} onClick={deActiveList} label="Deactive" />
+                      <Tab style={{fontWeight: 'bold'}} value={1} onClick={activeList} label="Active" />
+                      <Tab style={{fontWeight: 'bold'}} value={0} onClick={deActiveList} label="Deactive" />
                     </Tabs>
                   </Paper>
                 </Row>
@@ -727,7 +735,7 @@ function UserManagement() {
           {loading ? (
             <ScaleLoader color={"#2512DF"} loading={loading} size={35} />
           ) : (
-            <Table hidden={search !== "" ? true : false} hover>
+            <Table hidden={search !== "" ? true : false} hover className="tb">
               <thead>
                 <tr>
                   <th>Account name</th>
@@ -829,7 +837,11 @@ function UserManagement() {
                       {user.email}
                     </td>
                     <td>
-                      <DeleteIcon hidden={user.status === 1 ? true : false} class="hide" onClick={() => setDel(!del)} />
+                      <DeleteIcon
+                        hidden={user.status === 1 ? true : false}
+                        class="hide"
+                        onClick={() => setDel(!del)}
+                      />
                     </td>
                   </tr>
                 ))}
@@ -1115,7 +1127,9 @@ function UserManagement() {
           <Modal isOpen={del} toggle={() => setDel(!del)}>
             <ModalHeader>Do you want delete user?</ModalHeader>
             <ModalFooter>
-              <Button variant="contained" style={{marginRight:5}}
+              <Button
+                variant="contained"
+                style={{ marginRight: 5 }}
                 color="secondary"
                 onClick={() => {
                   setDel(!del);
@@ -1123,11 +1137,13 @@ function UserManagement() {
               >
                 No
               </Button>
-              <Button variant="contained" color="primary">Yes</Button>
+              <Button variant="contained" color="primary">
+                Yes
+              </Button>
             </ModalFooter>
           </Modal>
         </Container>
-      </div>
+      </main>
     </div>
   );
 }

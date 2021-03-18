@@ -1,4 +1,4 @@
-.main-panel {
+/* .main-panel {
     background: white;
     overflow: auto;
     display: block;
@@ -7,7 +7,8 @@
     width: calc(100% - 300px);
     height: calc(100vh);
     transition: 0.33s, cubic-bezier(0.685, 0.0473, 0.346, 1);
-}
+} */
+
 
 .title{
     background-color: rgb(57, 57, 214);
@@ -17,10 +18,5 @@
     width: 100%;
     padding: 10px 10px 10px;
 }
- .demo-2 {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    max-width: 300px;
-  } 
+
 

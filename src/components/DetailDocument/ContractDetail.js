@@ -6,7 +6,7 @@ import done from "../../images/true.png";
 import SaveIcon from "@material-ui/icons/Save";
 import PrintIcon from "@material-ui/icons/Print";
 import { useEffect, useState } from "react";
-import {useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import userListAPI from "../../api/userListAPI";
 import GetCreater from "../GetData/GetCreater";
 import fileDownload from "js-file-download";
@@ -35,6 +35,7 @@ import {
 import GetEmail from "../GetData/GetEmail";
 import GetPhone from "../GetData/GetPhone";
 import moment from "moment";
+import Navbar from "../Navbar/Navbar";
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.white,
@@ -134,10 +135,12 @@ function ContractDetail() {
 
   return (
     <div>
+      <header>
+        <Navbar />
+      </header>
       <StepDetailContract activeStep={activeStep} />
-      <div className="main-panel">
-        <Header />
-        <Container fluid={true}>
+      <main className="main-contract">
+        <Container fluid>
           <Row>
             <Col>
               <Paper style={{ marginTop: "20px" }} elevation={3}>
@@ -150,8 +153,8 @@ function ContractDetail() {
                 >
                   Contract Content
                 </Label>
-                <br/>
-                <Label style={{marginTop:'10px'}}>
+                <br />
+                <Label style={{ marginTop: "10px" }}>
                   <img
                     hidden={document.status === 3 ? false : true}
                     src={done}
@@ -160,9 +163,10 @@ function ContractDetail() {
                   <img
                     hidden={document.status !== 3 ? false : true}
                     src={notsigned}
-                    alt=""/>
+                    alt=""
+                  />
                 </Label>
-                
+
                 <TextField
                   variant="standard"
                   value={document.title}
@@ -206,7 +210,6 @@ function ContractDetail() {
                   }}
                 />
                 <TextField
-                  
                   variant="standard"
                   value={company2.name}
                   fullWidth
@@ -221,7 +224,6 @@ function ContractDetail() {
                   }}
                 />
                 <TextField
-                  
                   variant="standard"
                   value={signer2.name}
                   fullWidth
@@ -275,7 +277,9 @@ function ContractDetail() {
 
                 <TextField
                   label="Date expiration"
-                  value={moment(document.dateExpire).format("DD/MM/YYYY HH:mm:ss")}
+                  value={moment(document.dateExpire).format(
+                    "DD/MM/YYYY HH:mm:ss"
+                  )}
                   fullWidth
                   style={{ marginTop: "20px", padding: "10px 10px 10px" }}
                   InputProps={{
@@ -333,7 +337,7 @@ function ContractDetail() {
             </Col>
           </Row>
         </Container>
-      </div>
+      </main>
     </div>
   );
 }

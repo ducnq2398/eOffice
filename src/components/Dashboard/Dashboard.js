@@ -13,6 +13,7 @@ import contractAPI from "../../api/contractAPI";
 import ScaleLoader from "react-spinners/ScaleLoader";
 import moment from "moment";
 import notiAPI from "../../api/notiAPI";
+import Navbar from "../Navbar/Navbar";
 
 function Dashboard() {
   const history = useHistory();
@@ -41,10 +42,7 @@ function Dashboard() {
     indexOfFirstPost,
     indexOfLastPost
   );
-  const currentPostsInvoice = invoice.slice(
-    indexOfFirstPost,
-    indexOfLastPost
-  );
+  const currentPostsInvoice = invoice.slice(indexOfFirstPost, indexOfLastPost);
   let [loadingInvoice, setLoadingInvoice] = useState(true);
   let [loadingContract, setLoadingContract] = useState(true);
   var listNoti = noti
@@ -133,13 +131,14 @@ function Dashboard() {
       setLoadingInvoice(false);
     }, 2000);
   }, []);
-  
+
   return (
     <div>
-      <Sidebar />
-      <div className="main-panel">
-        <Header />
-        <Container fluid={true}>
+      <header>
+        <Navbar />
+      </header>
+      <main className="main-panel">
+        <Container fluid>
           <div>
             <Row>
               <Col>
@@ -156,7 +155,7 @@ function Dashboard() {
                       />
                     ) : (
                       <Table hover>
-                        <tbody style={{ textAlign: "left" }}>
+                        <tbody>
                           {currentPostsContract.map((data) => (
                             <tr
                               key={data.id}
@@ -172,7 +171,7 @@ function Dashboard() {
                               }
                             >
                               <td>
-                                <p className="demo-2">{data.title}</p>
+                                <p style={{textAlign:'left'}}>{data.title}</p>
                               </td>
                               <td>
                                 {data.status < 3 ? (
@@ -181,7 +180,7 @@ function Dashboard() {
                                   <img src={done} alt="" />
                                 )}
                               </td>
-                              <td>
+                              <td style={{textAlign:'right'}}>
                                 {moment(data.dateCreate).format("DD/MM/YYYY")}
                               </td>
                             </tr>
@@ -209,7 +208,7 @@ function Dashboard() {
                       />
                     ) : (
                       <Table hover>
-                        <tbody style={{ textAlign: "left" }}>
+                        <tbody>
                           {currentPostsInvoice.map((data) => (
                             <tr
                               key={data.id}
@@ -225,7 +224,7 @@ function Dashboard() {
                               }
                             >
                               <td>
-                                <p className="demo-2">{data.title}</p>
+                                <p style={{textAlign:'left'}}>{data.title}</p>
                               </td>
                               <td>
                                 {data.status < 3 ? (
@@ -234,7 +233,7 @@ function Dashboard() {
                                   <img src={doneinvoice} alt="" />
                                 )}
                               </td>
-                              <td>
+                              <td style={{textAlign:'right'}}>
                                 {moment(data.dateCreate).format("DD/MM/YYYY")}
                               </td>
                             </tr>
@@ -249,49 +248,42 @@ function Dashboard() {
                 </div>
               </Col>
             </Row>
-            <Col>
-              <Form>
-                <FormGroup>
-                  <Label className="title">Activity Log</Label>
-                </FormGroup>
-                <FormGroup>
-                  <Table hover style={{ marginTop: 20 }}>
-                    <tbody>
-                      {currentPostsNoti.map((row) => (
-                        <tr
-                          key={row.id}
-                          style={{
-                            background:
-                              row.status === 0 ? "#b3aeae75" : "white",
-                          }}
-                        >
-                          <td>
-                            <Row style={{ fontWeight: "bold", marginLeft: 1 }}>
-                              {row.content}
-                            </Row>
-                            <Row style={{ marginLeft: 10 }}>{row.title}</Row>
-                            <Row style={{ marginLeft: 10 }}>
-                              <Link to="/">View detail</Link>
-                            </Row>
-                          </td>
-                          <td style={{ position: "absolute", right: 10 }}>
-                            {moment(row.createdDate).format(
-                              "DD/MM/YYYY HH:mm:ss"
-                            )}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </Table>
-                </FormGroup>
-              </Form>
-              <div>
-                <Link to="/notification">See more</Link>
-              </div>
-            </Col>
+
+            <Form>
+              <FormGroup>
+                <Label className="title">Activity Log</Label>
+              </FormGroup>
+              <FormGroup>
+                <Table hover style={{ marginTop: 20 }}>
+                  <tbody>
+                    {currentPostsNoti.map((row) => (
+                      <tr key={row.id}>
+                        <td>
+                          <Row style={{ fontWeight: "bold", marginLeft: 1 }}>
+                            {row.content}
+                          </Row>
+                          <Row style={{ marginLeft: 10 }}>{row.title}</Row>
+                          <Row style={{ marginLeft: 10 }}>
+                            <Link to="/">View detail</Link>
+                          </Row>
+                        </td>
+                        <td style={{ position: "absolute", right: 10 }}>
+                          {moment(row.createdDate).format(
+                            "DD/MM/YYYY HH:mm:ss"
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              </FormGroup>
+            </Form>
+            <div>
+              <Link to="/notification">See more</Link>
+            </div>
           </div>
         </Container>
-      </div>
+      </main>
     </div>
   );
 }

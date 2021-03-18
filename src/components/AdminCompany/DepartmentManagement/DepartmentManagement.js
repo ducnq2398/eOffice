@@ -1,10 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  Container,
-  FormGroup,
-  Col,
-  Row,
-} from "reactstrap";
+import { Container, FormGroup, Col, Row } from "reactstrap";
 import Header from "../../Nav/Header";
 import Sidebar from "../../Sidebar/Sidebar";
 import "../../../css/Department.css";
@@ -19,7 +14,7 @@ import { toast } from "react-toastify";
 import Moment from "moment";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Dialog from "@material-ui/core/Dialog";
-import AddIcon from '@material-ui/icons/Add';
+import AddIcon from "@material-ui/icons/Add";
 import GetSubDepartment from "../../GetData/GetSubDepartment";
 import {
   Button,
@@ -27,6 +22,7 @@ import {
   DialogContent,
   TextField,
 } from "@material-ui/core";
+import Navbar from "../../Navbar/Navbar";
 
 const filter = createFilterOptions();
 function DepartmentManagerment() {
@@ -86,7 +82,9 @@ function DepartmentManagerment() {
         name: value.name,
         companyId: getUser().CompanyId,
         creatorId: getUser().Id,
-        dateCreate: Moment(new Date()).format('yyyy-MM-DD'+'T'+'HH:mm:ss.SSS'+'Z'),
+        dateCreate: Moment(new Date()).format(
+          "yyyy-MM-DD" + "T" + "HH:mm:ss.SSS" + "Z"
+        ),
       };
       departmentAPI
         .addDepartment(params)
@@ -96,7 +94,9 @@ function DepartmentManagerment() {
             departmentId: res.data.id,
             companyId: getUser().CompanyId,
             creatorId: getUser().Id,
-            dateCreate: Moment(new Date()).format('yyyy-MM-DD'+'T'+'HH:mm:ss.SSS'+'Z'),
+            dateCreate: Moment(new Date()).format(
+              "yyyy-MM-DD" + "T" + "HH:mm:ss.SSS" + "Z"
+            ),
           };
           departmentAPI
             .addSubDepartment(params)
@@ -104,7 +104,7 @@ function DepartmentManagerment() {
               toast.success("Add department successfully", {
                 position: toast.POSITION.TOP_CENTER,
               });
-              setIsOpen(false)
+              setIsOpen(false);
             })
             .catch(function (error) {
               console.log(error);
@@ -119,7 +119,9 @@ function DepartmentManagerment() {
         departmentId: value.id,
         companyId: getUser().CompanyId,
         creatorId: getUser().Id,
-        dateCreate: Moment(new Date()).format('yyyy-MM-DD'+'T'+'HH:mm:ss.SSS'+'Z'),
+        dateCreate: Moment(new Date()).format(
+          "yyyy-MM-DD" + "T" + "HH:mm:ss.SSS" + "Z"
+        ),
       };
       departmentAPI
         .addSubDepartment(params)
@@ -136,10 +138,11 @@ function DepartmentManagerment() {
   }
   return (
     <div>
-      <Sidebar />
-      <div className="main-panel">
-        <Header />
-        <Container fluid={true}>
+      <header>
+        <Navbar />
+      </header>
+      <main className="main-panel">
+        <Container fluid>
           <div className="add">
             <FormGroup row>
               <Button variant="contained" onClick={toogle} color="primary">
@@ -159,7 +162,7 @@ function DepartmentManagerment() {
                   nodeId={department.id}
                   label={department.name}
                 >
-                  <GetSubDepartment id={department.id}/>
+                  <GetSubDepartment id={department.id} />
                 </TreeItem>
               ))}
             </TreeView>
@@ -262,7 +265,7 @@ function DepartmentManagerment() {
             </Button>
           </DialogActions>
         </Dialog>
-      </div>
+      </main>
     </div>
   );
 }

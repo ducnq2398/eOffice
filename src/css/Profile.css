@@ -1,12 +1,12 @@
-.infor{
-    padding: 0px 20px 20px;
-    border: black;
-    border-radius: 10px;
-    width: 500px;
-    height: 100%;
-    border-style: double;
+.infor {
+  padding: 0px 20px 20px;
+  border: black;
+  border-radius: 10px;
+  width: 500px;
+  height: 100%;
+  border-style: double;
 }
 
-.roww{
-    margin-top: 10%;
+.roww {
+  margin-top: 10%;
 }
