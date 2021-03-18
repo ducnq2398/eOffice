@@ -274,11 +274,11 @@ function UserManagement() {
           message_subdepart: "",
         });
       }, 5000);
-    } else if (!pattern.test(user.email)) {
+    } else if (user.email.trim() === "") {
       setError({
         ...error,
         email: true,
-        message_email: "Email is incorrect",
+        message_email: "Please enter email",
       });
       setTimeout(() => {
         setError({
@@ -287,11 +287,11 @@ function UserManagement() {
           message_email: "",
         });
       }, 5000);
-    }else if(detail.email.trim() === ""){
+    }else if(!pattern.test(user.email)){
       setError({
         ...error,
         email: true,
-        message_email: "Please enter email",
+        message_email: "Email is incorrect",
       });
       setTimeout(() => {
         setError({
