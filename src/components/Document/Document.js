@@ -617,7 +617,11 @@ function Document() {
                       <Label style={{ fontWeight: "bold" }}>Status</Label>
                       <br />
                       <Label className="step">
-                        <StepDoc activeStep={data.status + 1} />
+                        {data.contractUrl ? (
+                          <ContractStepper value={data.status} />
+                        ) : (
+                          <InvoiceStepper value={data.status} />
+                        )}
                       </Label>
                     </td>
                     <td
