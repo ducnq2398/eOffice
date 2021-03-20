@@ -97,6 +97,9 @@ function Document() {
                   setPostList(list);
                   setListInvoice(invoice.data);
                   setListContract(contract.data);
+                  setTimeout(() => {
+                    setLoading(false);
+                  }, 2000);
                 })
                 .catch(function (error) {
                   console.log(error);
@@ -130,6 +133,9 @@ function Document() {
                           setPostList(list);
                           setListInvoice(listInvoice1);
                           setListContract(listContract1);
+                          setTimeout(() => {
+                            setLoading(false);
+                          }, 2000);
                         })
                         .catch(function (error) {
                           console.log(error);
@@ -152,9 +158,7 @@ function Document() {
       }
     }
     getListDocument();
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+    
   }, []);
 
   function AddContract() {

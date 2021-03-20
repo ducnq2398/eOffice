@@ -23,7 +23,6 @@
     margin-left: 4rem;
     font-size: 25px;
     background: none;
-    transition: 800ms;
     cursor: pointer;
 }
 
@@ -44,9 +43,8 @@
 
 .nav-menu.active{
     left: 0;
-    transition: 350ms;
+    transition: 850ms;
     z-index: 1;
-    transition: 800ms;
 }
 
 .nav-text{

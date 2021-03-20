@@ -26,7 +26,6 @@ function Login() {
       return messaging.getToken();
     })
     .then(function (token) {
-      console.log(token);
       setToken(token);
     })
     .catch(function (error) {
