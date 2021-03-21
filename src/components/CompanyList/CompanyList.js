@@ -76,7 +76,7 @@ function CompanyList() {
   return (
     <div>
       <SidebarAdmin />
-      <div className="main-panel">
+      <div className="main-panel1">
         <Container fluid={true}>
           <div className="search_form">
             <Form>

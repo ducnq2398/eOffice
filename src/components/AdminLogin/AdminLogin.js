@@ -53,55 +53,57 @@ function AdminLogin() {
   }
 
   return (
-    <Container fluid={true} className="a">
-      <Snackbar
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        open={submit}
-        autoHideDuration={3000}
-      >
-        <Alert variant="filled" severity="error">
-          Invalid username or password
-        </Alert>
-      </Snackbar>
-      <Form className="form-admin" onSubmit={handleSubmit}>
-        <FormGroup>
-          <img src={logo} alt="" />
-        </FormGroup>
-        <FormGroup>
-          <TextField
-            fullWidth
-            type="email"
-            name="username"
-            required
-            onChange={handleChange}
-            placeholder="Email"
-            variant="outlined"
-          />
-        </FormGroup>
-        <FormGroup>
-          <TextField
-            fullWidth
-            type="password"
-            name="password"
-            required
-            onChange={handleChange}
-            placeholder="Password"
-            variant="outlined"
-          />
-        </FormGroup>
-        <FormGroup>
-          <Button
-            fullWidth
-            variant="contained"
-            type="submit"
-            color="primary"
-            size="large"
-          >
-            Login
-          </Button>
-        </FormGroup>
-      </Form>
-    </Container>
+    <div className="background">
+      <Container fluid={true} className="a">
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          open={submit}
+          autoHideDuration={3000}
+        >
+          <Alert variant="filled" severity="error">
+            Invalid username or password
+          </Alert>
+        </Snackbar>
+        <Form className="form-admin" onSubmit={handleSubmit}>
+          <FormGroup>
+            <img src={logo} alt="" />
+          </FormGroup>
+          <FormGroup>
+            <TextField
+              fullWidth
+              type="email"
+              name="username"
+              required
+              onChange={handleChange}
+              placeholder="Email"
+              variant="outlined"
+            />
+          </FormGroup>
+          <FormGroup>
+            <TextField
+              fullWidth
+              type="password"
+              name="password"
+              required
+              onChange={handleChange}
+              placeholder="Password"
+              variant="outlined"
+            />
+          </FormGroup>
+          <FormGroup>
+            <Button
+              fullWidth
+              variant="contained"
+              type="submit"
+              color="primary"
+              size="large"
+            >
+              Login
+            </Button>
+          </FormGroup>
+        </Form>
+      </Container>
+    </div>
   );
 }
 

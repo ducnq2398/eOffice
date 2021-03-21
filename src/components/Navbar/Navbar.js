@@ -86,11 +86,11 @@ function Navbar() {
       );
     }
     return (
-      <div className="dropdown">
+      <div className="dropdown-navbar">
         {listNoti.map((noti, index) => {
           return (
             <div key={index}>
-              <DropdownItem2 rightIcon={<MoreHorizIcon/>}>
+              <DropdownItem2 rightIcon={<MoreHorizIcon />}>
                 {noti.title}
               </DropdownItem2>
             </div>
@@ -109,7 +109,7 @@ function Navbar() {
       );
     }
     return (
-      <div className="dropdown">
+      <div className="dropdown-navbar">
         <DropdownItem1 leftIcon={<AccountCircleIcon />} function={Profile}>
           My Profile
         </DropdownItem1>

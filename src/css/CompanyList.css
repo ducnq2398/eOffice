@@ -19,15 +19,14 @@
     margin-right: auto;
     margin-top: 20px;
 }
-
-/* .main-panel {
+.main-panel1 {
     background: white;
     position: relative;
     float: right;
     height: calc(100vh);
     width: calc(100% - 300px);
     transition: 0.33s, cubic-bezier(0.685, 0.0473, 0.346, 1);
-} */
+}
 .pani{
     width: fit-content;
     margin-left: auto;

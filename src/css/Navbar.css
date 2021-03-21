@@ -121,7 +121,7 @@
     filter: brightness(1.2);
 }
 
-.dropdown{
+.dropdown-navbar{
     position: fixed;
     top: 70px;
     width: 300px;
