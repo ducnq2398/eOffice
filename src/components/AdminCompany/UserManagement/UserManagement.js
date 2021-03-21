@@ -37,10 +37,11 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
-import { InputAdornment } from "@material-ui/core";
+import { InputAdornment, Snackbar } from "@material-ui/core";
 import Moment from "moment";
 import md5 from "md5";
 import Navbar from "../../Navbar/Navbar";
+import Alert from "@material-ui/lab/Alert";
 
 const TransitionAdd = forwardRef(function Transition(props, ref) {
   return <Slide direction="right" ref={ref} {...props} />;
@@ -48,6 +49,9 @@ const TransitionAdd = forwardRef(function Transition(props, ref) {
 const TransitionDetail = forwardRef(function Transition(props, ref) {
   return <Slide direction="left" ref={ref} {...props} />;
 });
+function TransitionLeft(props) {
+  return <Slide {...props} direction="right" />;
+}
 
 function UserManagement() {
   const [userList, setUserList] = useState([]);
@@ -98,11 +102,9 @@ function UserManagement() {
     email: false,
     depart: false,
     subdepart: false,
-    message_name: "",
-    message_phone: "",
-    message_email: "",
-    message_depart: "",
-    message_subdepart: "",
+    address: false,
+    loi: false,
+    message: "",
   });
   useEffect(() => {
     async function fetchUserList() {
@@ -215,92 +217,136 @@ function UserManagement() {
     if (user.username.trim() === "") {
       setError({
         ...error,
+        loi: true,
         name: true,
-        message_name: "Please input user name",
+        message: "User name must not empty",
       });
       setTimeout(() => {
         setError({
           ...error,
+          loi: false,
           name: false,
-          message_name: "",
+          message: "",
         });
       }, 5000);
     } else if (user.username.length > 255) {
       setError({
         ...error,
+        loi: true,
         name: true,
-        message_name: "User name max length 255 characters",
+        message: "User name max length 255 characters",
       });
       setTimeout(() => {
         setError({
           ...error,
+          loi: false,
           name: false,
-          message_name: "",
+          message: "",
+        });
+      }, 5000);
+    } else if (user.phone.trim()==='') {
+      setError({
+        ...error,
+        loi: true,
+        phone: true,
+        message: "Phone number must not empty",
+      });
+      setTimeout(() => {
+        setError({
+          ...error,
+          loi: false,
+          phone: false,
+          message: "",
         });
       }, 5000);
     } else if (!user.phone.trim().match("^[0-9]{10}$")) {
       setError({
         ...error,
+        loi: true,
         phone: true,
-        message_phone: "Phone number is incorrect",
+        message: "Phone number is incorrect",
       });
       setTimeout(() => {
         setError({
           ...error,
+          loi: false,
           phone: false,
-          message_phone: "",
+          message: "",
         });
       }, 5000);
     } else if (user.department === "") {
       setError({
         ...error,
+        loi: true,
         depart: true,
-        message_depart: "Select department",
+        message: "Please choose one department",
       });
       setTimeout(() => {
         setError({
           ...error,
+          loi: false,
           depart: false,
-          message_depart: "",
+          message: "",
         });
       }, 5000);
     } else if (user.subdepartment === "") {
       setError({
         ...error,
+        loi: true,
         subdepart: true,
-        message_subdepart: "Select sub department",
+        message: "Please choose one child department",
       });
       setTimeout(() => {
         setError({
           ...error,
+          loi: false,
           subdepart: false,
-          message_subdepart: "",
+          message: "",
         });
       }, 5000);
     } else if (user.email.trim() === "") {
       setError({
         ...error,
+        loi: true,
         email: true,
-        message_email: "Please enter email",
+        message: "Email must not empty",
       });
       setTimeout(() => {
         setError({
           ...error,
+          loi: false,
           email: false,
-          message_email: "",
+          message: "",
         });
       }, 5000);
     } else if (!pattern.test(user.email)) {
       setError({
         ...error,
+        loi: true,
         email: true,
-        message_email: "Email is incorrect",
+        message: "Email is incorrect",
       });
       setTimeout(() => {
         setError({
           ...error,
+          loi: false,
           email: false,
-          message_email: "",
+          message: "",
+        });
+      }, 5000);
+    } else if (user.address.length > 255) {
+      setError({
+        ...error,
+        loi: true,
+        address: true,
+        message: "Address length must not larger 255 characters",
+      });
+      setTimeout(() => {
+        setError({
+          ...error,
+          loi: false,
+          address: false,
+          message: "",
         });
       }, 5000);
     } else {
@@ -350,14 +396,16 @@ function UserManagement() {
           ) {
             setError({
               ...error,
+              loi: true,
               phone: true,
-              message_phone: "Phone number is already exists",
+              message: "Phone number is already exists",
             });
             setTimeout(() => {
               setError({
                 ...error,
+                loi: false,
                 phone: false,
-                message_phone: "",
+                message: "",
               });
             }, 5000);
           } else if (
@@ -366,14 +414,16 @@ function UserManagement() {
           ) {
             setError({
               ...error,
+              loi: true,
               email: true,
-              message_email: "Email is already exists",
+              message: "Email is already exists",
             });
             setTimeout(() => {
               setError({
                 ...error,
+                loi: false,
                 email: false,
-                message_email: "",
+                message: "",
               });
             }, 5000);
           }
@@ -386,82 +436,34 @@ function UserManagement() {
     var pattern = new RegExp(
       /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i
     );
-    if (detail.username.trim() === "") {
+    if (detail.department === "") {
       setError({
         ...error,
-        name: true,
-        message_name: "Please input user name",
-      });
-      setTimeout(() => {
-        setError({
-          ...error,
-          name: false,
-          message_name: "",
-        });
-      }, 5000);
-    } else if (!detail.phone.trim().match("^[0-9]{10}$")) {
-      setError({
-        ...error,
-        phone: true,
-        message_phone: "Phone number is incorrect",
-      });
-      setTimeout(() => {
-        setError({
-          ...error,
-          phone: false,
-          message_phone: "",
-        });
-      }, 5000);
-    } else if (detail.department === "") {
-      setError({
-        ...error,
+        loi: true,
         depart: true,
-        message_depart: "Select department",
+        message: "Please choose one department",
       });
       setTimeout(() => {
         setError({
           ...error,
+          loi: false,
           depart: false,
-          message_depart: "",
+          message: "",
         });
       }, 5000);
     } else if (detail.subdepartment === "") {
       setError({
         ...error,
+        loi: true,
         subdepart: true,
-        message_subdepart: "Select sub department",
+        message: "Please choose one child department",
       });
       setTimeout(() => {
         setError({
           ...error,
+          loi: false,
           subdepart: false,
-          message_subdepart: "",
-        });
-      }, 5000);
-    } else if (!pattern.test(detail.email)) {
-      setError({
-        ...error,
-        email: true,
-        message_email: "Email is incorrect",
-      });
-      setTimeout(() => {
-        setError({
-          ...error,
-          email: false,
-          message_email: "",
-        });
-      }, 5000);
-    } else if (detail.email.trim() === "") {
-      setError({
-        ...error,
-        email: true,
-        message_email: "Please enter email",
-      });
-      setTimeout(() => {
-        setError({
-          ...error,
-          email: false,
-          message_email: "",
+          message: "",
         });
       }, 5000);
     } else {
@@ -539,6 +541,17 @@ function UserManagement() {
         <Navbar />
       </header>
       <main className="main-panel">
+        <Snackbar
+          style={{ marginTop: 70 }}
+          open={error.loi}
+          autoHideDuration={3000}
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          TransitionComponent={TransitionLeft}
+        >
+          <Alert variant="filled" severity="error">
+            {error.message}
+          </Alert>
+        </Snackbar>
         <Container fluid={true}>
           <Dialog
             open={isOpen}
@@ -554,7 +567,6 @@ function UserManagement() {
             <DialogContent>
               <TextField
                 error={error.name}
-                helperText={error.message_name}
                 label="User name"
                 value={user.username}
                 name="username"
@@ -565,7 +577,6 @@ function UserManagement() {
               />
               <TextField
                 error={error.phone}
-                helperText={error.message_phone}
                 value={user.phone}
                 label="User phone number"
                 name="phone"
@@ -601,12 +612,12 @@ function UserManagement() {
                 variant="outlined"
                 style={{ marginLeft: "10px", width: "270px" }}
               >
-                <InputLabel id="demo">Sub Department</InputLabel>
+                <InputLabel id="demo">Child Department</InputLabel>
                 <Select
                   name="subdepartment"
                   value={user.subdepartment}
                   onChange={handleOnInput}
-                  label="Sub Department"
+                  label="Child Department"
                   error={error.subdepart}
                   required
                 >
@@ -624,7 +635,6 @@ function UserManagement() {
             <DialogContent>
               <TextField
                 error={error.email}
-                helperText={error.message_email}
                 label="Email"
                 value={user.email}
                 name="email"
@@ -635,8 +645,8 @@ function UserManagement() {
                 style={{ width: "270px" }}
               />
               <TextField
-                error={false}
                 label="Address"
+                error={error.address}
                 value={user.address}
                 name="address"
                 variant="outlined"
@@ -704,7 +714,7 @@ function UserManagement() {
                   <Paper
                     square
                     elevation={0}
-                    style={{ position: "absolute", right: 0}}
+                    style={{ position: "absolute", right: 0 }}
                   >
                     <Tabs
                       value={value}
@@ -712,8 +722,18 @@ function UserManagement() {
                       textColor="primary"
                       onChange={handleChange}
                     >
-                      <Tab style={{fontWeight: 'bold'}} value={1} onClick={activeList} label="Active" />
-                      <Tab style={{fontWeight: 'bold'}} value={0} onClick={deActiveList} label="Deactive" />
+                      <Tab
+                        style={{ fontWeight: "bold" }}
+                        value={1}
+                        onClick={activeList}
+                        label="Active"
+                      />
+                      <Tab
+                        style={{ fontWeight: "bold" }}
+                        value={0}
+                        onClick={deActiveList}
+                        label="Deactive"
+                      />
                     </Tabs>
                   </Paper>
                 </Row>
@@ -955,8 +975,12 @@ function UserManagement() {
                     >
                       {user.email}
                     </td>
-                    <td hidden={user.status === 1 ? true : false}>
-                      <DeleteIcon class="hide" onClick={() => setDel(true)} />
+                    <td>
+                      <DeleteIcon
+                        hidden={user.status === 1 ? true : false}
+                        class="hide"
+                        onClick={() => setDel(true)}
+                      />
                     </td>
                   </tr>
                 ))}
@@ -973,8 +997,6 @@ function UserManagement() {
             <DialogTitle id="form-dialog-title">User Detail</DialogTitle>
             <DialogContent>
               <TextField
-                error={error.name}
-                helperText={error.message_name}
                 label="User name"
                 value={detail.username}
                 name="username"
@@ -987,8 +1009,6 @@ function UserManagement() {
                 }}
               />
               <TextField
-                error={error.phone}
-                helperText={error.message_phone}
                 value={detail.phone}
                 label="User phone number"
                 name="phone"
@@ -1032,7 +1052,6 @@ function UserManagement() {
                   value={detail.subdepartment}
                   onChange={handleOnDetail}
                   label="Sub Department"
-                  error={error.subdepart}
                 >
                   <MenuItem value="">
                     <em>None</em>
@@ -1047,8 +1066,6 @@ function UserManagement() {
             </DialogContent>
             <DialogContent>
               <TextField
-                error={error.email}
-                helperText={error.message_email}
                 label="Email"
                 value={detail.email}
                 name="email"
@@ -1062,7 +1079,6 @@ function UserManagement() {
                 }}
               />
               <TextField
-                error={false}
                 label="Address"
                 value={detail.address}
                 name="address"

@@ -33,6 +33,14 @@ const companyListAPI = {
         Authorization: `Bearer ${getUser().IdToken}`,
       },
     })
+  },
+  activeCompany: (id) =>{
+    const url = `/companies/activatecompany`;
+    return axiosClient.put(url, '', {
+      headers: {
+        Authorization: `Bearer ${getUser().IdToken}`,
+      },
+    })
   }
 };
 

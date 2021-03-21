@@ -174,16 +174,29 @@ function CompanyRegister() {
           message: "",
         });
       }, 3000);
-    } else if (companyRegister.address.length > 255) {
+    } else if (companyRegister.manager_name.length > 255) {
       setError({
         ...error,
-        address: true,
-        message: "Address max length 255 characters",
+        manager_name: true,
+        message: "Manager name max length 255 characters",
       });
       setTimeout(() => {
         setError({
           ...error,
-          address: false,
+          manager_name: false,
+          message: "",
+        });
+      }, 3000);
+    } else if (companyRegister.manager_name === "") {
+      setError({
+        ...error,
+        manager_name: true,
+        message: "Manager name must not empty",
+      });
+      setTimeout(() => {
+        setError({
+          ...error,
+          manager_name: false,
           message: "",
         });
       }, 3000);
@@ -213,19 +226,6 @@ function CompanyRegister() {
           message: "",
         });
       }, 3000);
-    } else if (!pattern.test(companyRegister.manager_email)) {
-      setError({
-        ...error,
-        email: true,
-        message: "Invalid email",
-      });
-      setTimeout(() => {
-        setError({
-          ...error,
-          email: false,
-          message: "",
-        });
-      }, 3000);
     } else if (companyRegister.manager_email === "") {
       setError({
         ...error,
@@ -239,29 +239,29 @@ function CompanyRegister() {
           message: "",
         });
       }, 3000);
-    } else if (companyRegister.manager_name.length > 255) {
+    } else if (!pattern.test(companyRegister.manager_email)) {
       setError({
         ...error,
-        manager_name: true,
-        message: "Manager name max length 255 characters",
+        email: true,
+        message: "Invalid email",
       });
       setTimeout(() => {
         setError({
           ...error,
-          manager_name: false,
+          email: false,
           message: "",
         });
       }, 3000);
-    } else if (companyRegister.manager_name === "") {
+    } else if (companyRegister.address.length > 255) {
       setError({
         ...error,
-        manager_name: true,
-        message: "Manager name must not empty",
+        address: true,
+        message: "Address max length 255 characters",
       });
       setTimeout(() => {
         setError({
           ...error,
-          manager_name: false,
+          address: false,
           message: "",
         });
       }, 3000);

@@ -35,12 +35,14 @@ function CompanyRegister() {
     }
     getAdminCompany();
   }, [location.state.adminId]);
-
   const handleChange = (event) => {
     setActive(event.target.value);
   };
   function handleUpdate(event) {
     event.preventDefault();
+    if(active==='active'){
+      
+    }
   }
   return (
     <div>
@@ -203,7 +205,6 @@ function CompanyRegister() {
           >
             Update
           </Button>
-
           <Dialog open={open} fullWidth>
             <DialogTitle>Are you want update company?</DialogTitle>
             <DialogActions>
