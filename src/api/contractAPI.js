@@ -11,8 +11,8 @@ const contractAPI = {
     });
   },
   addSignContract: (params) => {
-    const url = "/api/contracts/addsigntocontract";
-    return axiosClient.post(url, params, {
+    const url = "/api/contracts/addsignertocontract";
+    return axiosClient.put(url, params, {
       headers: {
         Authorization: `Bearer ${getUser().IdToken}`,
       },
@@ -20,7 +20,7 @@ const contractAPI = {
   },
   addViewerContract: (params) => {
     const url = "/api/contracts/addviewertocontract";
-    return axiosClient.post(url, params, {
+    return axiosClient.put(url, params, {
       headers: {
         Authorization: `Bearer ${getUser().IdToken}`,
       },

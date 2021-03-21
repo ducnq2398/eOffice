@@ -1,21 +1,166 @@
 import * as Icon from "react-icons/fa";
 import * as AiIcon from "react-icons/ai";
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { Link, useHistory } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { IconContext } from "react-icons";
 import * as IoIcon from "react-icons/io";
 import * as IoOIcon from "react-icons/io5";
 import logo from "../../images/eoffice.png";
 import "../../css/Navbar.css";
-import { getUser } from "../../utils/Common";
+import { getUser, removeUserSession } from "../../utils/Common";
+import NotificationsIcon from "@material-ui/icons/Notifications";
+import Badge from "@material-ui/core/Badge";
+import notiAPI from "../../api/notiAPI";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 function Navbar() {
+  const history = useHistory();
   const [sidebar, setSidebar] = useState(false);
   const showSidebar = () => setSidebar(!sidebar);
+  const [listNoti, setListNoti] = useState([]);
+  const [openNoti, setOpenNoti] = useState(false);
+  const [openProfile, setOpenProfile] = useState(false);
+  const [count, setCount] = useState();
+  useEffect(() => {
+    async function fetListNoti() {
+      try {
+        const res = await notiAPI.getAll();
+        setListNoti(res.data);
+        setCount(res.data.length);
+      } catch (error) {
+        if (error.response.status === 401) {
+          removeUserSession();
+          history.push("/");
+        }
+      }
+    }
+    fetListNoti();
+  }, []);
+  function NavItemProfile(props) {
+    return (
+      <li
+        className="navbar-item"
+        onClick={(e) => {
+          e.preventDefault();
+          setOpenProfile(!openProfile);
+          setOpenNoti(false);
+        }}
+      >
+        {props.icon}
+        {openProfile && props.children}
+      </li>
+    );
+  }
+  function NavItemNoti(props) {
+    return (
+      <li
+        className="navbar-item"
+        onClick={(e) => {
+          e.preventDefault();
+          setOpenNoti(!openNoti);
+          setOpenProfile(false);
+        }}
+      >
+        {props.icon}
+        {openNoti && props.children}
+      </li>
+    );
+  }
+  function Logout(e) {
+    e.preventDefault();
+    removeUserSession();
+    history.push("/");
+  }
+  function Profile(e) {
+    e.preventDefault();
+    history.push("/profile");
+  }
+  function DropdownMenu2() {
+    function DropdownItem2(props) {
+      return (
+        <div className="menu-item" onClick={props.function}>
+          {props.children}
+          <span className="icon-right">{props.rightIcon}</span>
+        </div>
+      );
+    }
+    return (
+      <div className="dropdown">
+        {listNoti.map((noti, index) => {
+          return (
+            <div key={index}>
+              <DropdownItem2 rightIcon={<MoreHorizIcon/>}>
+                {noti.title}
+              </DropdownItem2>
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
+  function DropdownMenu1() {
+    function DropdownItem1(props) {
+      return (
+        <div className="menu-item" onClick={props.function}>
+          <span className="icon-button">{props.leftIcon}</span>
+          {props.children}
+        </div>
+      );
+    }
+    return (
+      <div className="dropdown">
+        <DropdownItem1 leftIcon={<AccountCircleIcon />} function={Profile}>
+          My Profile
+        </DropdownItem1>
+        <DropdownItem1 leftIcon={<ExitToAppIcon />} function={Logout}>
+          Logout
+        </DropdownItem1>
+      </div>
+    );
+  }
   return (
     <IconContext.Provider value={{ color: "#404f9f" }}>
       <div className="navbar1 navbar-fixed-top">
-        <Icon.FaBars onClick={showSidebar} className="menu-bars" />
+        <Icon.FaBars
+          onClick={() => {
+            showSidebar();
+            setTimeout(() => {
+              setSidebar(false);
+            }, 10000);
+          }}
+          className="menu-bars"
+        />
         <img src={logo} alt="" style={{ marginLeft: 20, marginTop: 10 }} />
+        <nav style={{ display: "flex", right: 20, position: "absolute" }}>
+          <ul className="navbar-nav">
+            <NavItemNoti
+              icon={
+                <Badge badgeContent={count} color="error">
+                  <NotificationsIcon color="action" fontSize="large" />
+                </Badge>
+              }
+            >
+              <DropdownMenu2 />
+            </NavItemNoti>
+
+            <NavItemProfile
+              icon={
+                <img
+                  className="icon-button"
+                  style={{ cursor: "pointer" }}
+                  src={getUser().Avatar}
+                  alt="avatar"
+                />
+              }
+            >
+              <DropdownMenu1 />
+            </NavItemProfile>
+            <li className="nav-text">
+              <span style={{ fontWeight: "bolder" }}>{getUser().Name}</span>
+            </li>
+          </ul>
+        </nav>
       </div>
       <nav className={sidebar ? "nav-menu active" : "nav-menu"}>
         <ul className="nav-menu-items sn-bg-4" onClick={showSidebar}>

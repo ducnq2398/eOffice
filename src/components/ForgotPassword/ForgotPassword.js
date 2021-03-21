@@ -81,97 +81,99 @@ function ForgotPassword() {
     return <span>{seconds}</span>;
   };
   return (
-    <Container className="a">
-      <Form className="forgot">
-        <FormGroup>
-          <img src={logo} alt="" />
-        </FormGroup>
-        <FormGroup>
-          <h3>Forgot Password?</h3>
-        </FormGroup>
-        <FormGroup>
-          <TextField
-            error={check.error}
-            helperText={check.message}
-            fullWidth
-            type="phone"
-            required
-            variant="outlined"
-            placeholder="Please enter phone number"
-            onChange={handleOnChange}
-          />
-          <div
-            id="recaptcha"
-            style={{ marginLeft: "90px", marginTop: "10px" }}
-          ></div>
-        </FormGroup>
-        <FormGroup className="next">
-          <Button color="primary" variant="contained" onClick={toggle}>
-            Next
-          </Button>
-        </FormGroup>
-      </Form>
-      <Modal style={{ marginTop: "18%" }} isOpen={modal} toggle={toggle}>
-        <ModalHeader className="otp_banner">Verifying OTP</ModalHeader>
-        <ModalBody>
-          <Form>
-            <FormGroup>
-              <span>
-                Please enter the OTP sent to Phone number to retrieve your
-                password
-              </span>
-            </FormGroup>
-            <FormGroup>
-              <Row>
-                <Col>
-                  <TextField
-                    fullWidth
-                    variant="outlined"
-                    name="otp"
-                    onChange={(e) => setOtp(e.target.value)}
-                  />
-                </Col>
-                <Col
-                  sm={2}
-                  style={{
-                    marginTop: "11px",
-                    fontWeight: "bold",
-                    fontSize: "20px",
-                  }}
+    <div className="background">
+      <Container className="a">
+        <Form className="forgot">
+          <FormGroup>
+            <img src={logo} alt="" />
+          </FormGroup>
+          <FormGroup>
+            <h3>Forgot Password?</h3>
+          </FormGroup>
+          <FormGroup>
+            <TextField
+              error={check.error}
+              helperText={check.message}
+              fullWidth
+              type="phone"
+              required
+              variant="outlined"
+              placeholder="Please enter phone number"
+              onChange={handleOnChange}
+            />
+            <div
+              id="recaptcha"
+              style={{ marginLeft: "90px", marginTop: "10px" }}
+            ></div>
+          </FormGroup>
+          <FormGroup className="next">
+            <Button color="primary" variant="contained" onClick={toggle}>
+              Next
+            </Button>
+          </FormGroup>
+        </Form>
+        <Modal style={{ marginTop: "18%" }} isOpen={modal} toggle={toggle}>
+          <ModalHeader className="otp_banner">Verifying OTP</ModalHeader>
+          <ModalBody>
+            <Form>
+              <FormGroup>
+                <span>
+                  Please enter the OTP sent to Phone number to retrieve your
+                  password
+                </span>
+              </FormGroup>
+              <FormGroup>
+                <Row>
+                  <Col>
+                    <TextField
+                      fullWidth
+                      variant="outlined"
+                      name="otp"
+                      onChange={(e) => setOtp(e.target.value)}
+                    />
+                  </Col>
+                  <Col
+                    sm={2}
+                    style={{
+                      marginTop: "11px",
+                      fontWeight: "bold",
+                      fontSize: "20px",
+                    }}
+                  >
+                    {/* <CountDown date={Date.now() + 59000} renderer={renderer} />s */}
+                  </Col>
+                </Row>
+              </FormGroup>
+            </Form>
+          </ModalBody>
+          <ModalFooter>
+            <Row>
+              <Col sm={5}>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => setModal(false)}
                 >
-                  {/* <CountDown date={Date.now() + 59000} renderer={renderer} />s */}
-                </Col>
-              </Row>
-            </FormGroup>
-          </Form>
-        </ModalBody>
-        <ModalFooter>
-          <Row>
-            <Col sm={5}>
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={() => setModal(false)}
-              >
-                Cancel
-              </Button>
-            </Col>
-            <Col sm={5}>
-              <Button onClick={handleConfirm} variant="contained" color="primary">
-                Verifying
-              </Button>
-            </Col>
-          </Row>
-        </ModalFooter>
-      </Modal>
-      <img
-        style={{ position: "fixed", bottom: 0, left: 0 }}
-        src={support}
-        alt=""
-        width="500"
-        height="100"
-      />
-    </Container>
+                  Cancel
+                </Button>
+              </Col>
+              <Col sm={5}>
+                <Button onClick={handleConfirm} variant="contained" color="primary">
+                  Verifying
+                </Button>
+              </Col>
+            </Row>
+          </ModalFooter>
+        </Modal>
+        <img
+          style={{ position: "fixed", bottom: 0, left: 0 }}
+          src={support}
+          alt=""
+          width="500"
+          height="100"
+        />
+      </Container>
+    </div>
   );
 }
 

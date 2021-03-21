@@ -77,6 +77,12 @@ function Dashboard() {
                 .then(function (invoice) {
                   setListInvoice(invoice.data);
                   setListContract(contract.data);
+                  setTimeout(() => {
+                    setLoadingContract(false);
+                  }, 2000);
+                  setTimeout(() => {
+                    setLoadingInvoice(false);
+                  }, 2000);
                 })
                 .catch(function (error) {
                   console.log(error);
@@ -102,6 +108,12 @@ function Dashboard() {
                           const listContract1 = [...res3.data, ...res4.data];
                           setListInvoice(listInvoice1);
                           setListContract(listContract1);
+                          setTimeout(() => {
+                            setLoadingContract(false);
+                          }, 2000);
+                          setTimeout(() => {
+                            setLoadingInvoice(false);
+                          }, 2000);
                         })
                         .catch(function (error) {
                           console.log(error);
@@ -124,12 +136,8 @@ function Dashboard() {
       }
     }
     getListDocument();
-    setTimeout(() => {
-      setLoadingContract(false);
-    }, 2000);
-    setTimeout(() => {
-      setLoadingInvoice(false);
-    }, 2000);
+    
+   
   }, []);
 
   return (
