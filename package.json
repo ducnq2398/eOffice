@@ -40,6 +40,7 @@
     "react-scripts": "^4.0.3",
     "react-select": "^4.1.0",
     "react-spinners": "^0.10.6",
+    "react-stepper-horizontal": "^1.0.11",
     "react-switch": "^6.0.0",
     "react-toastify": "^7.0.3",
     "react-transition-group": "^2.3.0-beta.0",
