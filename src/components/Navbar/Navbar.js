@@ -14,6 +14,7 @@ import notiAPI from "../../api/notiAPI";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
+import userListAPI from "../../api/userListAPI";
 function Navbar() {
   const history = useHistory();
   const [sidebar, setSidebar] = useState(false);
@@ -22,6 +23,7 @@ function Navbar() {
   const [openNoti, setOpenNoti] = useState(false);
   const [openProfile, setOpenProfile] = useState(false);
   const [count, setCount] = useState();
+  const [users, setUsers] = useState([]);
   useEffect(() => {
     async function fetListNoti() {
       try {
@@ -37,6 +39,17 @@ function Navbar() {
     }
     fetListNoti();
   }, []);
+  useEffect(()=>{
+    async function getUsers(){
+      try {
+        const response = await userListAPI.getUserById(getUser().Id);
+        setUsers(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getUsers();
+  },[])
   function NavItemProfile(props) {
     return (
       <li
@@ -149,7 +162,7 @@ function Navbar() {
                 <img
                   className="icon-button"
                   style={{ cursor: "pointer" }}
-                  src={getUser().Avatar}
+                  src={users.avatar}
                   alt="avatar"
                 />
               }

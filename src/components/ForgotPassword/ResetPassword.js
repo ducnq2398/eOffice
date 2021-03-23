@@ -47,55 +47,57 @@ function ResetPassword() {
   }
 
   return (
-    <Container className="a">
-      <Form className="reset">
-        <FormGroup>
-          <img src={logo} alt="" />
-        </FormGroup>
-        <FormGroup>
-          <h3>Forgot Password?</h3>
-        </FormGroup>
-        <FormGroup>
-          <div>
+    <div className="background">
+      <Container className="a">
+        <Form className="reset">
+          <FormGroup>
+            <img src={logo} alt="" />
+          </FormGroup>
+          <FormGroup>
+            <h3>Forgot Password?</h3>
+          </FormGroup>
+          <FormGroup>
+            <div>
+              <TextField
+                fullWidth
+                type="password"
+                name="new_password"
+                required
+                onChange={handleOnChange}
+                placeholder="New password"
+                variant="outlined"
+                error={error.correct}
+                helperText={error.message}
+              />
+            </div>
+          </FormGroup>
+          <FormGroup>
             <TextField
               fullWidth
               type="password"
-              name="new_password"
+              name="confirm_password"
               required
               onChange={handleOnChange}
-              placeholder="New password"
+              placeholder="Confirm new password"
               variant="outlined"
-              error={error.correct}
-              helperText={error.message}
+            
             />
-          </div>
-        </FormGroup>
-        <FormGroup>
-          <TextField
-            fullWidth
-            type="password"
-            name="confirm_password"
-            required
-            onChange={handleOnChange}
-            placeholder="Confirm new password"
-            variant="outlined"
-           
-          />
-        </FormGroup>
-        <FormGroup className="update">
-          <Button onClick={handleSubmit} variant="contained" color="primary">
-            Update
-          </Button>
-        </FormGroup>
-      </Form>
-      <img
-        style={{ position: "fixed", bottom: 0, left: 0 }}
-        src={support}
-        alt=""
-        width="500"
-        height="100"
-      />
-    </Container>
+          </FormGroup>
+          <FormGroup className="update">
+            <Button onClick={handleSubmit} variant="contained" color="primary">
+              Update
+            </Button>
+          </FormGroup>
+        </Form>
+        <img
+          style={{ position: "fixed", bottom: 0, left: 0 }}
+          src={support}
+          alt=""
+          width="500"
+          height="100"
+        />
+      </Container>
+    </div>
   );
 }
 

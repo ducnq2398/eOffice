@@ -58,5 +58,21 @@ const userListAPI = {
       },
     });
   },
+  changePassword : (params) =>{
+    const url = '/accounts/changepassword';
+    return axiosClient.put(url, params, {
+      headers: {
+        Authorization: `Bearer ${getUser().IdToken}`,
+      },
+    });
+  },
+  changeAvatar: (params) =>{
+    const url = '/accounts/updateaccount';
+    return axiosClient.put(url, params, {
+      headers: {
+        Authorization: `Bearer ${getUser().IdToken}`,
+      },
+    });
+  }
 };
 export default userListAPI;

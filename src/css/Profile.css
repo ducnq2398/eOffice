@@ -7,6 +7,10 @@
   border-style: double;
 }
 
-.roww {
-  margin-top: 10%;
+.avatar-col{
+  min-height: 350px;
+  background-image: url('https://www.dalcoinc.com/wp-content/uploads/2019/09/erp-banner.jpg');
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
 }
