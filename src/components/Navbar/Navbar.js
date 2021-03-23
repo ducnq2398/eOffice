@@ -31,25 +31,25 @@ function Navbar() {
         setListNoti(res.data);
         setCount(res.data.length);
       } catch (error) {
+        console.log(error);
+      }
+    }
+    fetListNoti();
+  }, []);
+  useEffect(() => {
+    async function getUsers() {
+      try {
+        const response = await userListAPI.getUserById(getUser().Id);
+        setUsers(response.data);
+      } catch (error) {
         if (error.response.status === 401) {
           removeUserSession();
           history.push("/");
         }
       }
     }
-    fetListNoti();
-  }, []);
-  useEffect(()=>{
-    async function getUsers(){
-      try {
-        const response = await userListAPI.getUserById(getUser().Id);
-        setUsers(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
     getUsers();
-  },[])
+  }, []);
   function NavItemProfile(props) {
     return (
       <li

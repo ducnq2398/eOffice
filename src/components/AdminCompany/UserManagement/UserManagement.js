@@ -37,7 +37,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
-import { InputAdornment, Snackbar } from "@material-ui/core";
+import { FormHelperText, InputAdornment, Snackbar } from "@material-ui/core";
 import Moment from "moment";
 import md5 from "md5";
 import Navbar from "../../Navbar/Navbar";
@@ -104,7 +104,12 @@ function UserManagement() {
     subdepart: false,
     address: false,
     loi: false,
-    message: "",
+    message_name: "",
+    message_phone: "",
+    message_email: "",
+    message_depart: "",
+    message_subdepart: "",
+    message_address: "",
   });
   useEffect(() => {
     async function fetchUserList() {
@@ -219,14 +224,14 @@ function UserManagement() {
         ...error,
         loi: true,
         name: true,
-        message: "User name must not empty",
+        message_name: "User name must not empty",
       });
       setTimeout(() => {
         setError({
           ...error,
           loi: false,
           name: false,
-          message: "",
+          message_name: "",
         });
       }, 5000);
     } else if (user.username.length > 255) {
@@ -234,29 +239,29 @@ function UserManagement() {
         ...error,
         loi: true,
         name: true,
-        message: "User name max length 255 characters",
+        message_name: "User name max length 255 characters",
       });
       setTimeout(() => {
         setError({
           ...error,
           loi: false,
           name: false,
-          message: "",
+          message_name: "",
         });
       }, 5000);
-    } else if (user.phone.trim()==='') {
+    } else if (user.phone.trim() === "") {
       setError({
         ...error,
         loi: true,
         phone: true,
-        message: "Phone number must not empty",
+        message_phone: "Phone number must not empty",
       });
       setTimeout(() => {
         setError({
           ...error,
           loi: false,
           phone: false,
-          message: "",
+          message_phone: "",
         });
       }, 5000);
     } else if (!user.phone.trim().match("^[0-9]{10}$")) {
@@ -264,14 +269,14 @@ function UserManagement() {
         ...error,
         loi: true,
         phone: true,
-        message: "Phone number is incorrect",
+        message_phone: "Phone number is incorrect",
       });
       setTimeout(() => {
         setError({
           ...error,
           loi: false,
           phone: false,
-          message: "",
+          message_phone: "",
         });
       }, 5000);
     } else if (user.department === "") {
@@ -279,14 +284,14 @@ function UserManagement() {
         ...error,
         loi: true,
         depart: true,
-        message: "Please choose one department",
+        message_depart: "Please choose one department",
       });
       setTimeout(() => {
         setError({
           ...error,
           loi: false,
           depart: false,
-          message: "",
+          message_depart: "",
         });
       }, 5000);
     } else if (user.subdepartment === "") {
@@ -294,14 +299,14 @@ function UserManagement() {
         ...error,
         loi: true,
         subdepart: true,
-        message: "Please choose one child department",
+        message_subdepart: "Please choose one child department",
       });
       setTimeout(() => {
         setError({
           ...error,
           loi: false,
           subdepart: false,
-          message: "",
+          message_subdepart: "",
         });
       }, 5000);
     } else if (user.email.trim() === "") {
@@ -309,14 +314,14 @@ function UserManagement() {
         ...error,
         loi: true,
         email: true,
-        message: "Email must not empty",
+        message_email: "Email must not empty",
       });
       setTimeout(() => {
         setError({
           ...error,
           loi: false,
           email: false,
-          message: "",
+          message_email: "",
         });
       }, 5000);
     } else if (!pattern.test(user.email)) {
@@ -324,14 +329,14 @@ function UserManagement() {
         ...error,
         loi: true,
         email: true,
-        message: "Email is incorrect",
+        message_email: "Email is incorrect",
       });
       setTimeout(() => {
         setError({
           ...error,
           loi: false,
           email: false,
-          message: "",
+          message_email: "",
         });
       }, 5000);
     } else if (user.address.length > 255) {
@@ -339,14 +344,14 @@ function UserManagement() {
         ...error,
         loi: true,
         address: true,
-        message: "Address length must not larger 255 characters",
+        message_address: "Address length must not larger 255 characters",
       });
       setTimeout(() => {
         setError({
           ...error,
           loi: false,
           address: false,
-          message: "",
+          message_address: "",
         });
       }, 5000);
     } else {
@@ -398,14 +403,14 @@ function UserManagement() {
               ...error,
               loi: true,
               phone: true,
-              message: "Phone number is already exists",
+              message_phone: "Phone number is already exists",
             });
             setTimeout(() => {
               setError({
                 ...error,
                 loi: false,
                 phone: false,
-                message: "",
+                message_phone: "",
               });
             }, 5000);
           } else if (
@@ -416,14 +421,14 @@ function UserManagement() {
               ...error,
               loi: true,
               email: true,
-              message: "Email is already exists",
+              message_email: "Email is already exists",
             });
             setTimeout(() => {
               setError({
                 ...error,
                 loi: false,
                 email: false,
-                message: "",
+                message_email: "",
               });
             }, 5000);
           }
@@ -433,9 +438,6 @@ function UserManagement() {
   }
   function updateUser(event) {
     event.preventDefault();
-    var pattern = new RegExp(
-      /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i
-    );
     if (detail.department === "") {
       setError({
         ...error,
@@ -541,17 +543,6 @@ function UserManagement() {
         <Navbar />
       </header>
       <main className="main-panel">
-        <Snackbar
-          style={{ marginTop: 70 }}
-          open={error.loi}
-          autoHideDuration={3000}
-          anchorOrigin={{ vertical: "top", horizontal: "center" }}
-          TransitionComponent={TransitionLeft}
-        >
-          <Alert variant="filled" severity="error">
-            {error.message}
-          </Alert>
-        </Snackbar>
         <Container fluid={true}>
           <Dialog
             open={isOpen}
@@ -567,6 +558,7 @@ function UserManagement() {
             <DialogContent>
               <TextField
                 error={error.name}
+                helperText={error.message_name}
                 label="User name"
                 value={user.username}
                 name="username"
@@ -577,6 +569,7 @@ function UserManagement() {
               />
               <TextField
                 error={error.phone}
+                helperText={error.message_phone}
                 value={user.phone}
                 label="User phone number"
                 name="phone"
@@ -607,6 +600,9 @@ function UserManagement() {
                     </MenuItem>
                   ))}
                 </Select>
+                <FormHelperText style={{ color: "red" }}>
+                  {error.message_depart}
+                </FormHelperText>
               </FormControl>
               <FormControl
                 variant="outlined"
@@ -630,6 +626,7 @@ function UserManagement() {
                     </MenuItem>
                   ))}
                 </Select>
+                <FormHelperText style={{color:'red'}}>{error.message_subdepart}</FormHelperText>
               </FormControl>
             </DialogContent>
             <DialogContent>
@@ -640,6 +637,7 @@ function UserManagement() {
                 name="email"
                 type="email"
                 required
+                helperText={error.message_email}
                 variant="outlined"
                 onChange={handleOnInput}
                 style={{ width: "270px" }}
@@ -648,6 +646,7 @@ function UserManagement() {
                 label="Address"
                 error={error.address}
                 value={user.address}
+                helperText={error.message_address}
                 name="address"
                 variant="outlined"
                 onChange={handleOnInput}
