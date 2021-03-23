@@ -42,5 +42,13 @@ const departmentAPI = {
       },
     });
   },
+  getSubDepartmentById: (id) => {
+    const url = `/subdepartments/${id}`;
+    return axiosClient.get(url, {
+      headers: {
+        Authorization: `Bearer ${getUser().IdToken}`,
+      },
+    });
+  },
 };
 export default departmentAPI;

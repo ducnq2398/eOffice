@@ -7,10 +7,92 @@
   border-style: double;
 }
 
-.avatar-col{
+.avatar-col {
   min-height: 350px;
-  background-image: url('https://www.dalcoinc.com/wp-content/uploads/2019/09/erp-banner.jpg');
+  background-image: url("https://www.dalcoinc.com/wp-content/uploads/2019/09/erp-banner.jpg");
   background-size: cover;
   background-position: center top;
   background-repeat: no-repeat;
+}
+
+.mb-0 {
+  text-align: left;
+  font-weight: bold;
+}
+
+.text-right {
+  text-align: right !important;
+}
+
+.heading-small {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  text-align: left;
+}
+
+.text-muted {
+  color: #8898aa !important;
+}
+
+.mb-4,
+.my-4 {
+  margin-bottom: 1.5rem !important;
+}
+
+.pl-lg-4 {
+  padding-left: 1.5rem !important;
+}
+
+.form-control-label {
+  color: #525f7f;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.form-control1 {
+  display: block;
+  width: 100%;
+  height: calc(1.5em + 1.25rem + 2px);
+  padding: 0.625rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #8898aa;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #cad1d7;
+  border-radius: 0.375rem;
+  box-shadow: none;
+  transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.form-control1-alternative {
+  box-shadow: 0 1px 3px rgb(50 50 93 / 15%), 0 1px 0 rgb(0 0 0 / 2%);
+  border: 0;
+  transition: box-shadow 0.15s ease;
+}
+.card-profile-stats {
+  padding: 1rem 0;
+}
+.mt-md-5,
+.my-md-5 {
+  margin-top: 3rem !important;
+}
+.justify-content-center {
+  justify-content: center !important;
+}
+.d-flex {
+  display: flex !important;
+}
+.card-profile-stats > div .description {
+  font-size: 0.875rem;
+  color: #adb5bd;
+}
+.card-profile-stats > div .heading {
+  font-size: 1.1rem;
+  font-weight: bold;
+  display: block;
 }

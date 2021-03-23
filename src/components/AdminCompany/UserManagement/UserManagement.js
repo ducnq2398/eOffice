@@ -626,7 +626,9 @@ function UserManagement() {
                     </MenuItem>
                   ))}
                 </Select>
-                <FormHelperText style={{color:'red'}}>{error.message_subdepart}</FormHelperText>
+                <FormHelperText style={{ color: "red" }}>
+                  {error.message_subdepart}
+                </FormHelperText>
               </FormControl>
             </DialogContent>
             <DialogContent>
@@ -754,7 +756,12 @@ function UserManagement() {
           {loading ? (
             <ScaleLoader color={"#2512DF"} loading={loading} size={35} />
           ) : (
-            <Table hidden={search !== "" ? true : false} hover className="tb">
+            <Table
+              hidden={search !== "" ? true : false}
+              hover
+              className="tb"
+              style={{ textAlign: "left" }}
+            >
               <thead>
                 <tr>
                   <th>Account name</th>
@@ -857,6 +864,7 @@ function UserManagement() {
                     </td>
                     <td>
                       <DeleteIcon
+                        style={{ cursor: "pointer" }}
                         hidden={user.status === 1 ? true : false}
                         class="hide"
                         onClick={() => setDel(!del)}
@@ -976,6 +984,7 @@ function UserManagement() {
                     </td>
                     <td>
                       <DeleteIcon
+                        style={{ cursor: "pointer" }}
                         hidden={user.status === 1 ? true : false}
                         class="hide"
                         onClick={() => setDel(true)}

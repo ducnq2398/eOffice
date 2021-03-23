@@ -1,4 +1,13 @@
-import { Col, Container, Row } from "reactstrap";
+import {
+  CardBody,
+  CardHeader,
+  Col,
+  Container,
+  Form,
+  FormGroup,
+  Label,
+  Row,
+} from "reactstrap";
 import companyListAPI from "../../api/companyListAPI";
 import "../../css/Profile.css";
 import { getUser, removeUserSession } from "../../utils/Common";
@@ -9,7 +18,10 @@ import Navbar from "../Navbar/Navbar";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import PhotoCamera from "@material-ui/icons/PhotoCamera";
+import EditIcon from "@material-ui/icons/Edit";
+import BusinessIcon from "@material-ui/icons/Business";
 import {
+  Card,
   Dialog,
   DialogActions,
   DialogContent,
@@ -20,7 +32,6 @@ import TextField from "@material-ui/core/TextField";
 import md5 from "md5";
 import userListAPI from "../../api/userListAPI";
 import * as Icon from "react-icons/ai";
-import { toast } from "react-toastify";
 
 const user = getUser();
 function Profile() {
@@ -29,6 +40,7 @@ function Profile() {
   const [avatar, setAvatar] = useState("");
   const [company, setCompany] = useState("");
   const [department, setDepartment] = useState("");
+  const [childDepartment, setChildDepartment] = useState("");
   const [oldPass, setOldPass] = useState("");
   const [password, setPassword] = useState({
     current_pass: "",
@@ -44,7 +56,18 @@ function Profile() {
     confirm_new: false,
     message_confirm: "",
   });
+  const [userProfile, setUserProfile] = useState({
+    username: "",
+    address: "",
+  });
   const [newAvater, setNewAvatar] = useState(false);
+  const [error1, setError1] = useState(true);
+  const [error2, setError2] = useState(true);
+  const [error3, setError3] = useState({
+    1: true,
+    2: true,
+    3: true,
+  });
   function handleOnChange(e) {
     const target = e.target;
     const name = target.name;
@@ -193,10 +216,24 @@ function Profile() {
     }
     fetDepartment();
   }, []);
+
+  useEffect(() => {
+    async function fetSubDepartment() {
+      try {
+        const response = await departmentAPI.getSubDepartmentById(
+          getUser().SubDepartmentId
+        );
+        setChildDepartment(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetSubDepartment();
+  }, []);
+
   function handleNewAvatar(e) {
     e.preventDefault();
     const url = avatar.substring(23);
-    console.log(url);
     const params = {
       id: getUser().Id,
       avatar: url,
@@ -215,14 +252,72 @@ function Profile() {
         console.log(error);
       });
   }
-
+  function handleEdit(e) {
+    e.preventDefault();
+    if (userProfile.username.trim() === "") {
+      setError3({
+        ...error3,
+        1: false,
+      });
+      setTimeout(() => {
+        setError3({
+          ...error3,
+          1: true,
+        });
+      });
+    } else if (userProfile.username.trim().length > 255) {
+      setError3({
+        ...error3,
+        2: false,
+      });
+      setTimeout(() => {
+        setError3({
+          ...error3,
+          2: true,
+        });
+      });
+    } else if (userProfile.address.trim().length > 255) {
+      setError3({
+        ...error3,
+        3: false,
+      });
+      setTimeout(() => {
+        setError3({
+          ...error3,
+          3: true,
+        });
+      });
+    } else {
+      const params = {
+        id: getUser().Id,
+        address: userProfile.address,
+        subDepartmentId: getUser().SubDepartmentId,
+        departmentId: getUser().DepartmentId,
+      };
+    }
+  }
   return (
     <div>
       <header>
         <Navbar />
       </header>
-      <main className="main-panel">
-        <div className="avatar-col" />
+      <main className="main-panel" style={{ backgroundColor: "#e8e7e7" }}>
+        <div className="avatar-col">
+          <Label
+            style={{
+              float: "left",
+              fontWeight: "bolder",
+              color: "white",
+              marginTop: 20,
+              marginLeft: 20,
+              border: "1px solid #ffff",
+              borderRadius: "25px",
+              padding: 10,
+            }}
+          >
+            USER PROFILE
+          </Label>
+        </div>
         <Container fluid={true}>
           <Col style={{ top: "-200px" }}>
             <div>
@@ -242,13 +337,28 @@ function Profile() {
                 hidden={true}
                 onChange={(e) => {
                   if (e.target.files.length !== 0) {
-                    var file = e.target.files[0];
-                    var reader = new FileReader();
-                    var url = reader.readAsDataURL(file);
-                    reader.onloadend = function () {
-                      setAvatar(reader.result);
-                    }.bind(this);
-                    setNewAvatar(true);
+                    if (
+                      e.target.files[0].type !== "image/jpeg" &&
+                      e.target.files[0].type !== "image/png" &&
+                      e.target.files[0].type !== "image/jpg"
+                    ) {
+                      setError1(false);
+                      setTimeout(() => {
+                        setError1(true);
+                      }, 3000);
+                    } else if (e.target.files[0].size > 31457280) {
+                      setError2(false);
+                      setTimeout(() => {
+                        setError2(true);
+                      }, 3000);
+                    } else {
+                      var file = e.target.files[0];
+                      var reader = new FileReader();
+                      reader.onloadend = function () {
+                        setAvatar(reader.result);
+                      }.bind(this);
+                      setNewAvatar(true);
+                    }
                   }
                 }}
               />
@@ -261,6 +371,12 @@ function Profile() {
                   <PhotoCamera />
                 </IconButton>
               </label>
+              <div hidden={error1} style={{ color: "red" }}>
+                We only support PNG or JPG pictures.
+              </div>
+              <div hidden={error2} style={{ color: "red" }}>
+                We don't support image larger 30MB .
+              </div>
             </div>
             <div>
               <Button
@@ -271,6 +387,224 @@ function Profile() {
               </Button>
             </div>
           </Col>
+          <Row>
+            <Col xl={8} style={{ top: "-200px" }}>
+              <Card>
+                <CardHeader
+                  style={{ padding: "1.25rem 1.5rem", marginBottom: 0 }}
+                >
+                  <Row>
+                    <Col xs={8}>
+                      <h5 className="mb-0">My account</h5>
+                    </Col>
+                    <Col xs={4} className="text-right">
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        startIcon={<EditIcon />}
+                        style={{ float: "right" }}
+                        size="small"
+                        onClick={handleEdit}
+                      >
+                        Edit
+                      </Button>
+                    </Col>
+                  </Row>
+                </CardHeader>
+                <CardBody>
+                  <Form>
+                    <h6 className="heading-small text-muted mb-4">
+                      User information
+                    </h6>
+                    <div className="pl-lg-4">
+                      <Row>
+                        <Col lg={6}>
+                          <FormGroup style={{ textAlign: "left" }}>
+                            <Label
+                              className="form-control-label"
+                              for="input-username"
+                            >
+                              Account name
+                            </Label>
+                            <input
+                              id="input-username"
+                              name="username"
+                              onChange={(e) =>
+                                setUserProfile({
+                                  ...userProfile,
+                                  username: e.target.value,
+                                })
+                              }
+                              placeholder="Username"
+                              type="text"
+                              className="form-control1-alternative form-control1"
+                              defaultValue={getUser().Name}
+                            />
+                            <div hidden={error3[1]} style={{ color: "red" }}>
+                              Account name must be not empty
+                            </div>
+                            <div hidden={error3[2]} style={{ color: "red" }}>
+                              Account name must not larger 255 characters.
+                            </div>
+                          </FormGroup>
+                        </Col>
+                        <Col lg={6}>
+                          <FormGroup style={{ textAlign: "left" }}>
+                            <Label
+                              className="form-control-label"
+                              for="input-email"
+                            >
+                              Email
+                            </Label>
+                            <input
+                              id="input-email"
+                              placeholder="Email"
+                              type="email"
+                              className="form-control1-alternative form-control1"
+                              value={getUser().Email}
+                              disabled
+                            />
+                          </FormGroup>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col lg={6}>
+                          <FormGroup style={{ textAlign: "left" }}>
+                            <Label
+                              className="form-control-label"
+                              for="input-department"
+                            >
+                              Department
+                            </Label>
+                            <input
+                              id="input-department"
+                              placeholder="Department"
+                              type="text"
+                              className="form-control1-alternative form-control1"
+                              value={department.name}
+                              disabled
+                            />
+                          </FormGroup>
+                        </Col>
+                        <Col lg={6}>
+                          <FormGroup style={{ textAlign: "left" }}>
+                            <Label
+                              className="form-control-label"
+                              for="input-username"
+                            >
+                              Child Department
+                            </Label>
+                            <input
+                              id="input-username"
+                              placeholder="Child Department"
+                              type="text"
+                              className="form-control1-alternative form-control1"
+                              value={childDepartment.name}
+                              disabled
+                            />
+                          </FormGroup>
+                        </Col>
+                      </Row>
+                    </div>
+                    <hr className="my-4" />
+                    <h6 className="heading-small text-muted mb-4">
+                      Contact information
+                    </h6>
+                    <div className="pl-lg-4">
+                      <Row>
+                        <Col lg={6}>
+                          <FormGroup style={{ textAlign: "left" }}>
+                            <Label
+                              className="form-control-label"
+                              for="input-phone"
+                            >
+                              Phone number
+                            </Label>
+                            <input
+                              id="input-phone"
+                              placeholder="Phone number"
+                              type="tel"
+                              className="form-control1-alternative form-control1"
+                              value={getUser().Phone}
+                              disabled
+                            />
+                          </FormGroup>
+                        </Col>
+                        <Col lg={6}>
+                          <FormGroup style={{ textAlign: "left" }}>
+                            <Label
+                              className="form-control-label"
+                              for="input-address"
+                            >
+                              Address
+                            </Label>
+                            <input
+                              name="address"
+                              onChange={(e) =>
+                                setUserProfile({
+                                  ...userProfile,
+                                  address: e.target.value,
+                                })
+                              }
+                              id="input-address"
+                              placeholder="Address"
+                              type="text"
+                              className="form-control1-alternative form-control1"
+                              defaultValue={getUser().Address}
+                            />
+                            <div hidden={error3[3]} style={{ color: "red" }}>
+                              Address must not larger 255 characters
+                            </div>
+                          </FormGroup>
+                        </Col>
+                      </Row>
+                    </div>
+                  </Form>
+                </CardBody>
+              </Card>
+            </Col>
+            <Col xl={4} style={{ top: "-200px" }}>
+              <Card>
+                <CardHeader
+                  style={{ padding: "1.25rem 1.5rem", marginBottom: 0 }}
+                >
+                  <Row>
+                    <Col>
+                      <BusinessIcon color="primary" fontSize="large" />
+                      <h5>{company.name}</h5>
+                    </Col>
+                  </Row>
+                </CardHeader>
+                <CardBody>
+                  <Form>
+                    <h6 className="heading-small text-muted mb-4">
+                      Company information
+                    </h6>
+                    <Row>
+                      <Col>
+                        <FormGroup style={{ textAlign: "left" }}>
+                          <Label
+                            className="form-control-label"
+                            for="input-address"
+                          >
+                            Address
+                          </Label>
+                          <input
+                            id="input-address"
+                            placeholder="Address"
+                            type="text"
+                            className="form-control1-alternative form-control1"
+                            value={company.address}
+                            disabled
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                  </Form>
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
           <Dialog open={changePassword}>
             <DialogTitle>Create new password</DialogTitle>
             <DialogContent>
