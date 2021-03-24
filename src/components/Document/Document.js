@@ -9,16 +9,14 @@ import {
   ModalHeader,
   ModalFooter,
 } from "reactstrap";
-import Header from "../Nav/Header";
+
 import "../../css/Document.css";
 import TablePagination from "@material-ui/core/TablePagination";
-import Sidebar from "../Sidebar/Sidebar";
 import { forwardRef, useEffect, useState } from "react";
 import notsigned from "../../images/status.png";
 import done from "../../images/true.png";
 import invoicecompleted from "../../images/invoicecompleted.png";
 import choo from "../../images/choo.png";
-import StepDoc from "../Sidebar/StepDoc";
 import invoiceAPI from "../../api/invoiceAPI";
 import GetCreater from "../GetData/GetCreater";
 import { useHistory } from "react-router-dom";
@@ -42,7 +40,6 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import DeleteIcon from "@material-ui/icons/Delete";
-import StepDoc2 from "../Sidebar/StepDoc2";
 import Navbar from "../Navbar/Navbar";
 import InvoiceStepper from "../Stepper/InvoiceStepper";
 import ContractStepper from "../Stepper/ContractStepper";
@@ -158,7 +155,6 @@ function Document() {
       }
     }
     getListDocument();
-    
   }, []);
 
   function AddContract() {
@@ -355,7 +351,7 @@ function Document() {
                   >
                     <Tabs
                       value={value}
-                      indicatorColor="none"
+                      indicatorColor="primary"
                       textColor="primary"
                       onChange={handleChange}
                     >

@@ -14,6 +14,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import { getUser } from "../../utils/Common";
 import companyListAPI from "../../api/companyListAPI";
 import invoiceAPI from "../../api/invoiceAPI";
+import moment from "moment";
 
 function StepDetail({ activeStep }) {
   function getStep() {
@@ -79,11 +80,9 @@ function StepDetail({ activeStep }) {
         <img style={{ marginTop: "10px" }} src={completed1} alt="" />
         <Tooltip
           title={
-            "Company name: " +
-            company.name +
-            ". Sign " +
-            document.dateSign +
-            " Signer Name: " +
+            "Sign " +
+            moment(document.dateSign).format("DD/MM/YYYY HH:mm:ss") +
+            "  || Signer Name: " +
             signer.name
           }
           placement="right"
@@ -91,12 +90,25 @@ function StepDetail({ activeStep }) {
           <img style={{ marginTop: "10px" }} src={signerinvoice} alt="" />
         </Tooltip>
         <Tooltip
-          title={"Invoice status: Completed  " + document.dateSign}
+          title={
+            "Invoice status: Completed  " +
+            moment(document.dateSign).format("DD/MM/YYYY HH:mm:ss")
+          }
           placement="right"
         >
           <img style={{ marginTop: "10px" }} src={completed} alt="" />
         </Tooltip>
-        <img style={{ marginTop: "10px" }} src={showall} alt="" />
+        <Tooltip
+          title={
+            "Completed  " +
+            moment(document.dateSign).format("DD/MM/YYYY HH:mm:ss") +
+            " Signer Name: " +
+            signer.name
+          }
+          placement="right"
+        >
+          <img style={{ marginTop: "10px" }} src={showall} alt="" />
+        </Tooltip>
       </div>
       <div className="bot">
         <p>Requirements | Terms of Service</p>

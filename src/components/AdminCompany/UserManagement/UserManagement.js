@@ -22,7 +22,6 @@ import departmentAPI from "../../../api/departmentAPI";
 import ScaleLoader from "react-spinners/ScaleLoader";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
-import DeleteIcon from "@material-ui/icons/Delete";
 import SearchIcon from "@material-ui/icons/Search";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -38,6 +37,7 @@ import Slide from "@material-ui/core/Slide";
 import { FormHelperText, InputAdornment, Snackbar } from "@material-ui/core";
 import Moment from "moment";
 import md5 from "md5";
+import * as Icon from "react-icons/md";
 import Navbar from "../../Navbar/Navbar";
 
 const TransitionAdd = forwardRef(function Transition(props, ref) {
@@ -699,8 +699,8 @@ function UserManagement() {
                   >
                     <Tabs
                       value={value}
-                      indicatorColor="none"
-                      textColor="secondary"
+                      indicatorColor="primary"
+                      textColor="primary"
                       onChange={handleChange}
                     >
                       <Tab
@@ -755,6 +755,7 @@ function UserManagement() {
                 {currentPosts.map((user) => (
                   <tr key={user.id} className="row_data">
                     <td
+                      className="demo-2"
                       onClick={() => {
                         setDetail({
                           id: user.id,
@@ -777,6 +778,7 @@ function UserManagement() {
                       {user.name}
                     </td>
                     <td
+                      className="demo-2"
                       onClick={() => {
                         setDetail({
                           id: user.id,
@@ -799,6 +801,7 @@ function UserManagement() {
                       <GetDepartment id={user.departmentId} />
                     </td>
                     <td
+                      className="demo-2"
                       onClick={() => {
                         setDetail({
                           id: user.id,
@@ -821,6 +824,7 @@ function UserManagement() {
                       {user.phone}
                     </td>
                     <td
+                      className="demo-2"
                       onClick={() => {
                         setDetail({
                           id: user.id,
@@ -843,10 +847,15 @@ function UserManagement() {
                       {user.email}
                     </td>
                     <td>
-                      <DeleteIcon
-                        style={{ cursor: "pointer" }}
+                      <Icon.MdDeleteForever
+                        size="30px"
+                        className="hide"
+                        style={{
+                          cursor: "pointer",
+                          position: "absolute",
+                          right: 20,
+                        }}
                         hidden={user.status === 1 ? true : false}
-                        class="hide"
                         onClick={() => setDel(!del)}
                       />
                     </td>
@@ -855,7 +864,11 @@ function UserManagement() {
               </tbody>
             </Table>
           )}
-          <Table hidden={search === "" ? true : false} hover style={{textAlign:'left'}}>
+          <Table
+            hidden={search === "" ? true : false}
+            hover
+            style={{ textAlign: "left" }}
+          >
             <thead>
               <tr>
                 <th>Account name</th>
@@ -875,6 +888,7 @@ function UserManagement() {
                 .map((user) => (
                   <tr key={user.id} className="row_data">
                     <td
+                      className="demo-2"
                       onClick={() => {
                         setDetail({
                           id: user.id,
@@ -897,6 +911,7 @@ function UserManagement() {
                       {user.name}
                     </td>
                     <td
+                      className="demo-2"
                       onClick={() => {
                         setDetail({
                           id: user.id,
@@ -919,6 +934,7 @@ function UserManagement() {
                       <GetDepartment id={user.departmentId} />
                     </td>
                     <td
+                      className="demo-2"
                       onClick={() => {
                         setDetail({
                           id: user.id,
@@ -941,6 +957,7 @@ function UserManagement() {
                       {user.phone}
                     </td>
                     <td
+                      className="demo-2"
                       onClick={() => {
                         setDetail({
                           id: user.id,
@@ -963,11 +980,16 @@ function UserManagement() {
                       {user.email}
                     </td>
                     <td>
-                      <DeleteIcon
-                        style={{ cursor: "pointer" }}
+                      <Icon.MdDeleteForever
+                        size="30px"
+                        className="hide"
+                        style={{
+                          cursor: "pointer",
+                          position: "absolute",
+                          right: 20,
+                        }}
                         hidden={user.status === 1 ? true : false}
-                        class="hide"
-                        onClick={() => setDel(true)}
+                        onClick={() => setDel(!del)}
                       />
                     </td>
                   </tr>

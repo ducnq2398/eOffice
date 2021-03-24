@@ -1,28 +1,6 @@
-/* .add{
-    margin-top: 5px;
-    margin-left: 5px;
-}
-
-.addd{
-    width: 600px;
-    height: 130px;
-}
-
-.btn-form{
-    margin-left: 436px;
-}
-
-.colll{
-    padding: 0px 10px 0px;
-}
-.tree{
-    max-width: 400px;
-    text-align: left;
-} */
-
 .header-bg {
   min-height: 100vh;
-  background-image: url("https://www.ecosourcellc.net/wp-content/uploads/2017/11/office.jpg");
+  background-image: url('../images/office.jpg');
   background-size: cover;
   background-position: center top;
 }
