@@ -199,7 +199,7 @@ function Dashboard() {
                   </FormGroup>
                 </Form>
                 <div>
-                  <Link to="/document">See more</Link>
+                  <Link to="/document" hidden={listContract.length>5 ? false : true}>See more</Link>
                 </div>
               </Col>
               <Col>
@@ -252,7 +252,7 @@ function Dashboard() {
                   </FormGroup>
                 </Form>
                 <div>
-                  <Link to="/document">See more</Link>
+                  <Link to="/document" hidden={listInvoice.length>5 ? false : true}>See more</Link>
                 </div>
               </Col>
             </Row>
@@ -287,7 +287,7 @@ function Dashboard() {
               </FormGroup>
             </Form>
             <div>
-              <Link to="/notification">See more</Link>
+              <Link to="/notification" hidden={listNoti.length>5 ? false : true}>See more</Link>
             </div>
           </div>
         </Container>

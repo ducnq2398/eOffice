@@ -1,6 +1,4 @@
 import { Container, Input, Row, Table } from "reactstrap";
-import Header from "../Nav/Header";
-import Sidebar from "../Sidebar/Sidebar";
 import Button from "@material-ui/core/Button";
 import "../../css/Notification.css";
 import TablePagination from "@material-ui/core/TablePagination";
@@ -102,7 +100,8 @@ function Notification() {
                 <tr
                   key={row.id}
                   style={{
-                    background: row.status === 0 ? "#b3aeae75" : "white", padding:10
+                    background: row.status === 0 ? "#b3aeae75" : "white",
+                    padding: 10,
                   }}
                 >
                   <td>

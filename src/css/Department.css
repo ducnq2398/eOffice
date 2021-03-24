@@ -1,4 +1,4 @@
-.add{
+/* .add{
     margin-top: 5px;
     margin-left: 5px;
 }
@@ -18,4 +18,58 @@
 .tree{
     max-width: 400px;
     text-align: left;
+} */
+
+.header-bg {
+  min-height: 100vh;
+  background-image: url("https://www.ecosourcellc.net/wp-content/uploads/2017/11/office.jpg");
+  background-size: cover;
+  background-position: center top;
+}
+.mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition: all 0.15s ease;
+}
+.opacity-8 {
+  opacity: 0.9 !important;
+}
+
+.bg-gradient-default {
+  background: linear-gradient(87deg, #172b4d 0, #1a174d 100%) !important;
+}
+
+.display-2 {
+  font-size: 2.75rem;
+  font-weight: 600;
+  line-height: 1.5;
+  text-align: left;
+}
+
+.d-flex1 {
+  display: flex !important;
+  padding: 5rem;
+}
+.align-items-center {
+  align-items: center !important;
+}
+
+.mb-5,
+.my-5 {
+  margin-bottom: 3rem !important;
+}
+.mt-0,
+.my-0 {
+  margin-top: 0 !important;
+}
+.text-white {
+  color: #fff !important;
+  text-align: left;
+}
+
+.active_row {
+    background-color: rgb(0, 162, 255);
 }

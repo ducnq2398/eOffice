@@ -1,11 +1,6 @@
 import { useEffect, useState } from "react";
-import { Container, FormGroup, Col, Row } from "reactstrap";
-import Header from "../../Nav/Header";
-import Sidebar from "../../Sidebar/Sidebar";
+import { Container, Col, Row, Label, Table } from "reactstrap";
 import "../../../css/Department.css";
-import TreeView from "@material-ui/lab/TreeView";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import { Autocomplete, createFilterOptions, TreeItem } from "@material-ui/lab";
 import departmentAPI from "../../../api/departmentAPI";
 import { getUser } from "../../../utils/Common";
@@ -15,32 +10,55 @@ import Moment from "moment";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Dialog from "@material-ui/core/Dialog";
 import AddIcon from "@material-ui/icons/Add";
-import GetSubDepartment from "../../GetData/GetSubDepartment";
+import PeopleAltIcon from "@material-ui/icons/PeopleAlt";
+import EditIcon from "@material-ui/icons/Edit";
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+import TablePagination from "@material-ui/core/TablePagination";
 import {
   Button,
   DialogActions,
   DialogContent,
+  DialogContentText,
+  Paper,
   TextField,
 } from "@material-ui/core";
 import Navbar from "../../Navbar/Navbar";
 
-const filter = createFilterOptions();
 function DepartmentManagerment() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isOpen2, setIsOpen2] = useState(false);
+  const [listChild, setListChild] = useState([]);
   const [listDepartment, setListDepartment] = useState([]);
-  const [value, setValue] = useState(null);
-  const [sub_department, setSubDepartment] = useState(null);
-  const [checkDepart, setCheckDepart] = useState({
-    error: false,
-    message: "",
+  const [department, setDepartment] = useState("");
+  const [child_department, setChild_Department] = useState("");
+  const [departmentID, setDepartmentID] = useState();
+  const [page, setPage] = useState(0);
+  const [page2, setPage2] = useState(0);
+  const [rowsPerPage] = useState(10);
+  const indexOfLastPost = (page + 1) * rowsPerPage;
+  const indexOfLastPost2 = (page2 + 1) * rowsPerPage;
+  const indexOfFirstPost = indexOfLastPost - rowsPerPage;
+  const indexOfFirstPost2 = indexOfLastPost2 - rowsPerPage;
+  const currentPosts = listDepartment.slice(indexOfFirstPost, indexOfLastPost);
+  const currentPosts2 = listChild.slice(indexOfFirstPost2, indexOfLastPost2);
+  const [error, setError] = useState({
+    depart: false,
+    subdepart: false,
+    message_depart: "",
+    message_subdepart: "",
   });
-  const [checkSubDepart, setSubCheckDepart] = useState({
-    error: false,
-    message: "",
-  });
-
+  function changePage(event, newPage) {
+    setPage(newPage);
+    setListChild([]);
+  }
+  function changePage2(event, newPage) {
+    setPage2(newPage);
+  }
   function toogle() {
     setIsOpen(!isOpen);
+  }
+  function toogle2() {
+    setIsOpen2(!isOpen2);
   }
   useEffect(() => {
     async function getDepartment() {
@@ -53,33 +71,35 @@ function DepartmentManagerment() {
       }
     }
     getDepartment();
-  }, [isOpen]);
-
+  }, []);
+  function getChildDepartment(id) {
+    departmentAPI
+      .getSubDepartment(id)
+      .then(function (res) {
+        setListChild(res.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
   function addDepartment(e) {
     e.preventDefault();
-    if (value === null) {
-      setCheckDepart({
-        error: true,
-        message: "choose one department or input new",
+    if (department.trim() === "") {
+      setError({
+        ...error,
+        depart: true,
+        message_depart: "Department name must not empty",
       });
-    } else if (value !== Object && value.name.length > 255) {
-      setCheckDepart({
-        error: true,
-        message: "Department name max length 255 characters",
-      });
-    } else if (sub_department === null) {
-      setSubCheckDepart({
-        error: true,
-        message: "Please input subdepartment",
-      });
-    } else if (sub_department.length > 255) {
-      setSubCheckDepart({
-        error: true,
-        message: "Subdepartment name max length 255 characters",
-      });
-    } else if (value !== Object) {
+      setTimeout(() => {
+        setError({
+          ...error,
+          depart: false,
+          message_depart: "",
+        });
+      }, 3000);
+    } else {
       const params = {
-        name: value.name,
+        name: department,
         companyId: getUser().CompanyId,
         creatorId: getUser().Id,
         dateCreate: Moment(new Date()).format(
@@ -88,35 +108,36 @@ function DepartmentManagerment() {
       };
       departmentAPI
         .addDepartment(params)
-        .then(function (res) {
-          const params = {
-            name: sub_department,
-            departmentId: res.data.id,
-            companyId: getUser().CompanyId,
-            creatorId: getUser().Id,
-            dateCreate: Moment(new Date()).format(
-              "yyyy-MM-DD" + "T" + "HH:mm:ss.SSS" + "Z"
-            ),
-          };
-          departmentAPI
-            .addSubDepartment(params)
-            .then(function (res) {
-              toast.success("Add department successfully", {
-                position: toast.POSITION.TOP_CENTER,
-              });
-              setIsOpen(false);
-            })
-            .catch(function (error) {
-              console.log(error);
-            });
+        .then(function () {
+          toast.success("Add department successfully", {
+            position: toast.POSITION.TOP_CENTER,
+          });
+          window.location.reload();
         })
         .catch(function (error) {
           console.log(error);
         });
+    }
+  }
+  function addSubDepartment(e) {
+    e.preventDefault();
+    if (child_department.trim() === "") {
+      setError({
+        ...error,
+        subdepart: true,
+        message_subdepart: "Child department name must not empty",
+      });
+      setTimeout(() => {
+        setError({
+          ...error,
+          subdepart: false,
+          message_subdepart: "",
+        });
+      }, 3000);
     } else {
       const params = {
-        name: sub_department,
-        departmentId: value.id,
+        name: child_department,
+        departmentId: departmentID,
         companyId: getUser().CompanyId,
         creatorId: getUser().Id,
         dateCreate: Moment(new Date()).format(
@@ -125,11 +146,11 @@ function DepartmentManagerment() {
       };
       departmentAPI
         .addSubDepartment(params)
-        .then(function (res) {
-          toast.success("Add department successfully", {
+        .then(function () {
+          toast.success("Add child department successfully", {
             position: toast.POSITION.TOP_CENTER,
           });
-          setIsOpen(false);
+          window.location.reload();
         })
         .catch(function (error) {
           console.log(error);
@@ -142,32 +163,182 @@ function DepartmentManagerment() {
         <Navbar />
       </header>
       <main className="main-panel">
-        <Container fluid>
-          <div className="add">
-            <FormGroup row>
-              <Button variant="contained" onClick={toogle} color="primary">
-                Add department
-              </Button>
-            </FormGroup>
-          </div>
+        <div className="header-bg">
+          <span className="mask bg-gradient-default opacity-8"></span>
           <div>
-            <TreeView
-              className="tree"
-              defaultCollapseIcon={<ExpandMoreIcon />}
-              defaultExpandIcon={<ChevronRightIcon />}
+            <Label
+              style={{
+                float: "left",
+                fontWeight: "bolder",
+                color: "white",
+                marginTop: 20,
+                marginLeft: 20,
+                border: "1px solid #ffff",
+                borderRadius: "25px",
+                padding: 10,
+                position: "relative",
+              }}
             >
-              {listDepartment.map((department) => (
-                <TreeItem
-                  key={department.id}
-                  nodeId={department.id}
-                  label={department.name}
-                >
-                  <GetSubDepartment id={department.id} />
-                </TreeItem>
-              ))}
-            </TreeView>
+              DEPARTMENT MANAGER
+            </Label>
           </div>
-        </Container>
+          <Container fluid className="d-flex1 align-items-center">
+            <Row>
+              <Col md={10} lg={7}>
+                <h1 className="display-2 text-white">Hello {getUser().Name}</h1>
+                <p className="text-white mt-0 mb-5">
+                  This is your management department page. You can add new
+                  department or child department, delete department. But you
+                  cannot delete the department containing the staff
+                </p>
+                <Button
+                  style={{ float: "left" }}
+                  startIcon={<AddIcon />}
+                  variant="contained"
+                  color="primary"
+                  onClick={toogle}
+                >
+                  Add new
+                </Button>
+              </Col>
+            </Row>
+          </Container>
+          <Container fluid>
+            <Row>
+              <Col xl={7}>
+                <Paper>
+                  <div>
+                    <PeopleAltIcon color="primary" fontSize="large" />
+                  </div>
+                  <h5> Department</h5>
+                  <TablePagination
+                    component="div"
+                    count={listDepartment.length}
+                    page={page}
+                    onChangePage={changePage}
+                    rowsPerPage={rowsPerPage}
+                    labelRowsPerPage=""
+                    rowsPerPageOptions={[]}
+                  />
+                  <Table style={{ paddingLeft: 15, paddingRight: 15 }}>
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th style={{ textAlign: "left" }}>Name</th>
+                        <th style={{ textAlign: "right" }}>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="tb">
+                      {currentPosts.map((row, index) => {
+                        return (
+                          <tr
+                            key={index}
+                            onClick={(event) => {
+                              event.preventDefault();
+                              getChildDepartment(row.id);
+                            }}
+                          >
+                            <td>{row.id}</td>
+                            <td style={{ textAlign: "left" }}>{row.name}</td>
+                            <td>
+                              <Button
+                                color="primary"
+                                startIcon={<AddIcon />}
+                                style={{
+                                  minWidth: 20,
+                                  position: "absolute",
+                                  right: 90,
+                                }}
+                                onClick={() => {
+                                  toogle2();
+                                  setDepartmentID(row.id);
+                                }}
+                              />
+                              <Button
+                                color="primary"
+                                startIcon={<EditIcon />}
+                                style={{
+                                  minWidth: 20,
+                                  position: "absolute",
+                                  right: 50,
+                                }}
+                              />
+                              <Button
+                                color="primary"
+                                startIcon={<DeleteForeverIcon />}
+                                style={{
+                                  minWidth: 20,
+                                  position: "absolute",
+                                  right: 10,
+                                }}
+                              />
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </Table>
+                </Paper>
+              </Col>
+              <Col xl={5}>
+                <Paper>
+                  <div>
+                    <PeopleAltIcon color="primary" fontSize="large" />
+                  </div>
+                  <h5>Child Department</h5>
+                  <TablePagination
+                    component="div"
+                    count={listChild.length}
+                    page={page2}
+                    onChangePage={changePage2}
+                    rowsPerPage={rowsPerPage}
+                    labelRowsPerPage=""
+                    rowsPerPageOptions={[]}
+                  />
+                  <Table hover>
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th style={{ textAlign: "left" }}>Name</th>
+                        <th style={{ textAlign: "right" }}>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {currentPosts2.map((row, index) => {
+                        return (
+                          <tr key={index}>
+                            <td>{row.id}</td>
+                            <td style={{ textAlign: "left" }}>{row.name}</td>
+                            <td>
+                              <Button
+                                color="primary"
+                                startIcon={<EditIcon />}
+                                style={{
+                                  minWidth: 20,
+                                  position: "absolute",
+                                  right: 50,
+                                }}
+                              />
+                              <Button
+                                color="primary"
+                                startIcon={<DeleteForeverIcon />}
+                                style={{
+                                  minWidth: 20,
+                                  position: "absolute",
+                                  right: 10,
+                                }}
+                              />
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </Table>
+                </Paper>
+              </Col>
+            </Row>
+          </Container>
+        </div>
         <Dialog
           onClose={toogle}
           open={isOpen}
@@ -175,91 +346,63 @@ function DepartmentManagerment() {
           disableBackdropClick
           disableEscapeKeyDown
         >
-          <DialogTitle>Add Department</DialogTitle>
+          <DialogTitle id="form-dialog-title">Department</DialogTitle>
           <DialogContent>
-            <Row>
-              <Col sm={6}>
-                <Autocomplete
-                  value={value}
-                  onChange={(event, newValue) => {
-                    if (typeof newValue === "string") {
-                      setValue({
-                        name: newValue,
-                      });
-                    } else if (newValue && newValue.inputValue) {
-                      setValue({
-                        name: newValue.inputValue,
-                      });
-                    } else {
-                      setValue(newValue);
-                    }
-                  }}
-                  filterOptions={(options, params) => {
-                    const filtered = filter(options, params);
-                    if (params.inputValue !== "") {
-                      filtered.push({
-                        inputValue: params.inputValue,
-                        name: `Add "${params.inputValue}"`,
-                      });
-                    }
-
-                    return filtered;
-                  }}
-                  selectOnFocus
-                  clearOnBlur
-                  handleHomeEndKeys
-                  id="free-solo-with-text-demo"
-                  options={listDepartment}
-                  getOptionLabel={(option) => {
-                    if (typeof option === "string") {
-                      return option;
-                    }
-                    if (option.inputValue) {
-                      return option.inputValue;
-                    }
-                    return option.name;
-                  }}
-                  renderOption={(option) => option.name}
-                  style={{ width: 260 }}
-                  freeSolo
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="Department"
-                      variant="outlined"
-                      error={checkDepart.error}
-                      helperText={checkDepart.message}
-                    />
-                  )}
-                />
-              </Col>
-              <Col sm={5}>
-                <TextField
-                  style={{ width: "250px" }}
-                  error={checkSubDepart.error}
-                  helperText={checkSubDepart.message}
-                  label="Sub Department"
-                  name="sub_department"
-                  variant="outlined"
-                  required
-                  onChange={(e) => setSubDepartment(e.target.value)}
-                />
-              </Col>
-            </Row>
+            <DialogContentText>
+              Please enter new department name ...
+            </DialogContentText>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="name"
+              label="Department name"
+              type="text"
+              fullWidth
+              error={error.depart}
+              helperText={error.message_depart}
+              onChange={(e) => setDepartment(e.target.value)}
+            />
           </DialogContent>
           <DialogActions>
-            <Button
-              color="secondary"
-              variant="contained"
-              onClick={() => setIsOpen(!isOpen)}
-            >
+            <Button variant="contained" color="secondary" onClick={toogle}>
+              Cancel
+            </Button>
+            <Button variant="contained" color="primary" onClick={addDepartment}>
+              Create
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        <Dialog
+          fullWidth
+          disableBackdropClick
+          disableEscapeKeyDown
+          onClose={toogle2}
+          open={isOpen2}
+        >
+          <DialogTitle id="form-dialog-title">Child Department</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Please enter new child department name ...
+            </DialogContentText>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="name"
+              label="Child department name"
+              type="text"
+              fullWidth
+              onChange={(e) => setChild_Department(e.target.value)}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button variant="contained" color="secondary" onClick={toogle2}>
               Cancel
             </Button>
             <Button
-              color="primary"
               variant="contained"
-              style={{ marginRight: "29px" }}
-              onClick={addDepartment}
+              color="primary"
+              onClick={addSubDepartment}
             >
               Create
             </Button>

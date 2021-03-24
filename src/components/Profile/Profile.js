@@ -246,7 +246,7 @@ function Profile() {
     userListAPI
       .changeAvatar(params)
       .then(function () {
-        history.push("/dashboard");
+        window.location.reload();
       })
       .catch(function (error) {
         console.log(error);
@@ -254,29 +254,7 @@ function Profile() {
   }
   function handleEdit(e) {
     e.preventDefault();
-    if (userProfile.username.trim() === "") {
-      setError3({
-        ...error3,
-        1: false,
-      });
-      setTimeout(() => {
-        setError3({
-          ...error3,
-          1: true,
-        });
-      });
-    } else if (userProfile.username.trim().length > 255) {
-      setError3({
-        ...error3,
-        2: false,
-      });
-      setTimeout(() => {
-        setError3({
-          ...error3,
-          2: true,
-        });
-      });
-    } else if (userProfile.address.trim().length > 255) {
+    if (userProfile.address.trim().length > 255) {
       setError3({
         ...error3,
         3: false,
@@ -290,10 +268,21 @@ function Profile() {
     } else {
       const params = {
         id: getUser().Id,
+        password: oldPass,
+        avatar: user1.avatar,
+        phone: getUser().Phone,
         address: userProfile.address,
         subDepartmentId: getUser().SubDepartmentId,
         departmentId: getUser().DepartmentId,
       };
+      userListAPI
+        .updateUser(params)
+        .then(function () {
+          window.location.reload();
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     }
   }
   return (
@@ -354,6 +343,7 @@ function Profile() {
                     } else {
                       var file = e.target.files[0];
                       var reader = new FileReader();
+                      reader.readAsDataURL(file);
                       reader.onloadend = function () {
                         setAvatar(reader.result);
                       }.bind(this);
@@ -429,23 +419,12 @@ function Profile() {
                             <input
                               id="input-username"
                               name="username"
-                              onChange={(e) =>
-                                setUserProfile({
-                                  ...userProfile,
-                                  username: e.target.value,
-                                })
-                              }
                               placeholder="Username"
                               type="text"
                               className="form-control1-alternative form-control1"
-                              defaultValue={getUser().Name}
+                              value={getUser().Name}
+                              disabled
                             />
-                            <div hidden={error3[1]} style={{ color: "red" }}>
-                              Account name must be not empty
-                            </div>
-                            <div hidden={error3[2]} style={{ color: "red" }}>
-                              Account name must not larger 255 characters.
-                            </div>
                           </FormGroup>
                         </Col>
                         <Col lg={6}>

@@ -10,9 +10,7 @@ import {
   Row,
 } from "reactstrap";
 import userListAPI from "../../../api/userListAPI";
-import Header from "../../Nav/Header";
 import TablePagination from "@material-ui/core/TablePagination";
-import Sidebar from "../../Sidebar/Sidebar";
 import "./../../../css/UserManagement.css";
 import Tab from "@material-ui/core/Tab";
 import Paper from "@material-ui/core/Paper";
@@ -41,7 +39,6 @@ import { FormHelperText, InputAdornment, Snackbar } from "@material-ui/core";
 import Moment from "moment";
 import md5 from "md5";
 import Navbar from "../../Navbar/Navbar";
-import Alert from "@material-ui/lab/Alert";
 
 const TransitionAdd = forwardRef(function Transition(props, ref) {
   return <Slide direction="right" ref={ref} {...props} />;
@@ -83,10 +80,6 @@ function UserManagement() {
   });
   const [isOpen, setIsOpen] = useState(false);
   const [del, setDel] = useState(false);
-  const [reload, setReload] = useState({
-    add: 0,
-    edit: 0,
-  });
   const [page, setPage] = useState(0);
   const [rowsPerPage] = useState(15);
   const indexOfLastPost = (page + 1) * rowsPerPage;
@@ -155,7 +148,7 @@ function UserManagement() {
       setLoading(false);
     }, 2000);
     fetchUserList();
-  }, [reload.add, reload.edit]);
+  }, []);
 
   useEffect(() => {
     async function getDepartment() {
@@ -375,9 +368,8 @@ function UserManagement() {
       };
       userListAPI
         .addUser(params)
-        .then(function (res) {
-          add();
-          setValue(1);
+        .then(function () {
+          window.location.reload();
           setUser({
             username: "",
             department: "",
@@ -385,10 +377,6 @@ function UserManagement() {
             phone: "",
             email: "",
             address: "",
-          });
-          setReload({
-            ...reload,
-            add: reload.add + 1,
           });
           toast.success("You has created user successfully", {
             position: toast.POSITION.TOP_CENTER,
@@ -491,13 +479,7 @@ function UserManagement() {
             userListAPI
               .activeUser(res.data.id)
               .then(() => {
-                edit();
-                setReload({
-                  ...reload,
-                  edit: reload.edit + 1,
-                });
-                setValue(1);
-                activeList();
+                window.location.reload();
                 toast.success("You has updated user successfully", {
                   position: toast.POSITION.TOP_CENTER,
                 });
@@ -507,9 +489,7 @@ function UserManagement() {
               });
           } else {
             userListAPI.deActiveUser(res.data.id).then(() => {
-              edit();
-              setValue(1);
-              activeList();
+              window.location.reload();
               toast.success("You has updated user successfully", {
                 position: toast.POSITION.TOP_CENTER,
               });
@@ -517,7 +497,7 @@ function UserManagement() {
           }
         })
         .catch(function (error) {
-          console.log(error.response.data.Message);
+          console.log(error);
         });
     }
   }
@@ -720,7 +700,7 @@ function UserManagement() {
                     <Tabs
                       value={value}
                       indicatorColor="none"
-                      textColor="primary"
+                      textColor="secondary"
                       onChange={handleChange}
                     >
                       <Tab
@@ -875,7 +855,7 @@ function UserManagement() {
               </tbody>
             </Table>
           )}
-          <Table hidden={search === "" ? true : false} hover>
+          <Table hidden={search === "" ? true : false} hover style={{textAlign:'left'}}>
             <thead>
               <tr>
                 <th>Account name</th>
