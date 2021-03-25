@@ -32,8 +32,8 @@ import TextField from "@material-ui/core/TextField";
 import md5 from "md5";
 import userListAPI from "../../api/userListAPI";
 import * as Icon from "react-icons/ai";
+import { toast } from "react-toastify";
 
-const user = getUser();
 function Profile() {
   const history = useHistory();
   const [changePassword, setChangePassword] = useState(false);
@@ -77,6 +77,7 @@ function Profile() {
       [name]: value,
     });
   }
+  const [open, setOpen] = useState(false);
   useEffect(() => {
     async function fetPassword() {
       try {
@@ -183,8 +184,14 @@ function Profile() {
       userListAPI
         .changePassword(params)
         .then(function () {
-          removeUserSession();
-          history.push("/");
+          toast.success("Change password successfully", {
+            position: toast.POSITION.TOP_CENTER,
+          });
+          setChangePassword(false);
+          setTimeout(() => {
+            removeUserSession();
+            history.push("/");
+          }, 6000);
         })
         .catch(function (error) {
           console.log(error);
@@ -194,7 +201,9 @@ function Profile() {
   useEffect(() => {
     async function fetCompany() {
       try {
-        const response = await companyListAPI.getCompanyById(getUser().CompanyId);
+        const response = await companyListAPI.getCompanyById(
+          getUser().CompanyId
+        );
         setCompany(response.data);
       } catch (error) {
         console.log(error);
@@ -206,7 +215,9 @@ function Profile() {
   useEffect(() => {
     async function fetDepartment() {
       try {
-        const response = await departmentAPI.getDepartmentById(getUser().DepartmentId);
+        const response = await departmentAPI.getDepartmentById(
+          getUser().DepartmentId
+        );
         setDepartment(response.data);
       } catch (error) {
         console.log(error);
@@ -249,21 +260,21 @@ function Profile() {
       .catch(function (error) {
         console.log(error);
       });
-    }
-  const [a, setA] = useState('');
+  }
+  const [a, setA] = useState("");
   const getBase64FromUrl = async (url) => {
     const data = await fetch(url);
     const blob = await data.blob();
     return new Promise((resolve) => {
       const reader = new FileReader();
-      reader.readAsDataURL(blob); 
-      reader.onloadend = function() {
-        const base64data = reader.result;   
+      reader.readAsDataURL(blob);
+      reader.onloadend = function () {
+        const base64data = reader.result;
         resolve(base64data);
         setA(base64data);
-      }
+      };
     });
-  }
+  };
   getBase64FromUrl(user1.avatar);
   function handleEdit(e) {
     e.preventDefault();
@@ -408,7 +419,7 @@ function Profile() {
                         startIcon={<EditIcon />}
                         style={{ float: "right" }}
                         size="small"
-                        onClick={handleEdit}
+                        onClick={()=>setOpen(true)}
                       >
                         Edit
                       </Button>
@@ -642,11 +653,16 @@ function Profile() {
             <DialogActions>
               <Button
                 color="secondary"
+                variant="contained"
                 onClick={() => setChangePassword(!changePassword)}
               >
                 Cancel
               </Button>
-              <Button color="primary" onClick={handleChangePassword}>
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={handleChangePassword}
+              >
                 Update
               </Button>
             </DialogActions>
@@ -679,6 +695,26 @@ function Profile() {
                 onClick={handleNewAvatar}
               >
                 Set new profile picture
+              </Button>
+            </DialogActions>
+          </Dialog>
+          <Dialog open={open}  fullWidth>
+            <DialogTitle>Are you want update profile?</DialogTitle>
+            <DialogActions>
+              <Button
+                variant="contained"
+                onClick={() => setOpen(false)}
+                color="secondary"
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="contained"
+                onClick={handleEdit}
+                color="primary"
+                autoFocus
+              >
+                Update
               </Button>
             </DialogActions>
           </Dialog>

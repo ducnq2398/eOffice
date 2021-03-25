@@ -63,6 +63,7 @@ function Document() {
   const [rowsPerPage] = useState(10);
   const indexOfLastPost = (page + 1) * rowsPerPage;
   const indexOfFirstPost = indexOfLastPost - rowsPerPage;
+
   var post = postList
     .sort((a, b) => {
       return (
@@ -535,6 +536,7 @@ function Document() {
                         <DeleteIcon
                           onClick={() => setDel(true)}
                           fontSize="default"
+                          style={{cursor:'pointer'}}
                         />
                       </Label>
                     </td>
@@ -690,6 +692,7 @@ function Document() {
                         <DeleteIcon
                           onClick={() => setDel(true)}
                           fontSize="default"
+                          style={{cursor:'pointer'}}
                         />
                       </Label>
                     </td>

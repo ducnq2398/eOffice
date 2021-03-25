@@ -13,22 +13,21 @@ import {
 import logo from "../../images/logo.png";
 import "../../css/ForgotPassword.css";
 import support from "../../images/support.png";
-import CountDown from "react-countdown";
 import TextField from "@material-ui/core/TextField";
 import { Button } from "@material-ui/core";
 import firebase from "../App/firebase";
-import { useHistory } from "react-router";
 
-function ForgotPassword() {
+function ForgotPassword(props) {
   const [phone, setPhone] = useState("");
   const [check, setCheck] = useState({
     error: false,
     message: "",
   });
-  const [opt, setOtp] = useState(null);
+  const [otp, setOtp] = useState(null);
   function handleOnChange(e) {
     setPhone(e.target.value);
   }
+  const [errorOTP, setErrorOTP] = useState(false);
   const [modal, setModal] = useState(false);
   const toggle = () => {
     if (!phone.trim().match("^[0-9]{10}$")) {
@@ -53,9 +52,6 @@ function ForgotPassword() {
         .signInWithPhoneNumber(number, appVerifier)
         .then(function (confirmationResult) {
           setModal(true);
-          // setTimeout(() => {
-          //   setModal(false);
-          // }, 59000);
           window.confirmationResult = confirmationResult;
         })
         .catch(function (error) {
@@ -66,20 +62,23 @@ function ForgotPassword() {
   function handleConfirm(e) {
     e.preventDefault();
     window.confirmationResult
-      .confirm(opt)
+      .confirm(otp)
       .then((result) => {
         const user = result.user;
-        // 
-        console.log(user)
+        const state = { email: user.email };
+        const title = "reset password";
+        const url = "/reset-password";
+        window.history.pushState(state, title, url);
       })
       .catch(function (error) {
         console.log(error);
+        setErrorOTP(true);
+        setTimeout(() => {
+          setErrorOTP(false);
+        }, 5000);
       });
   }
 
-  const renderer = ({ seconds }) => {
-    return <span>{seconds}</span>;
-  };
   return (
     <div className="background">
       <Container className="a">
@@ -129,40 +128,27 @@ function ForgotPassword() {
                       fullWidth
                       variant="outlined"
                       name="otp"
+                      error={errorOTP}
+                      helperText="Incorrect code"
                       onChange={(e) => setOtp(e.target.value)}
                     />
-                  </Col>
-                  <Col
-                    sm={2}
-                    style={{
-                      marginTop: "11px",
-                      fontWeight: "bold",
-                      fontSize: "20px",
-                    }}
-                  >
-                    {/* <CountDown date={Date.now() + 59000} renderer={renderer} />s */}
                   </Col>
                 </Row>
               </FormGroup>
             </Form>
           </ModalBody>
           <ModalFooter>
-            <Row>
-              <Col sm={5}>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  onClick={() => setModal(false)}
-                >
-                  Cancel
-                </Button>
-              </Col>
-              <Col sm={5}>
-                <Button onClick={handleConfirm} variant="contained" color="primary">
-                  Verifying
-                </Button>
-              </Col>
-            </Row>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={() => setModal(false)}
+              style={{ marginRight: 5 }}
+            >
+              Cancel
+            </Button>
+            <Button onClick={handleConfirm} variant="contained" color="primary">
+              Confirm
+            </Button>
           </ModalFooter>
         </Modal>
         <img

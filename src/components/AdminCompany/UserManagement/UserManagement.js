@@ -748,7 +748,6 @@ function UserManagement() {
                   <th>Department</th>
                   <th>Phone number</th>
                   <th>Email</th>
-                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -846,19 +845,6 @@ function UserManagement() {
                     >
                       {user.email}
                     </td>
-                    <td>
-                      <Icon.MdDeleteForever
-                        size="30px"
-                        className="hide"
-                        style={{
-                          cursor: "pointer",
-                          position: "absolute",
-                          right: 20,
-                        }}
-                        hidden={user.status === 1 ? true : false}
-                        onClick={() => setDel(!del)}
-                      />
-                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -875,7 +861,6 @@ function UserManagement() {
                 <th>Department</th>
                 <th>Phone number</th>
                 <th>Email</th>
-                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -978,19 +963,6 @@ function UserManagement() {
                       }}
                     >
                       {user.email}
-                    </td>
-                    <td>
-                      <Icon.MdDeleteForever
-                        size="30px"
-                        className="hide"
-                        style={{
-                          cursor: "pointer",
-                          position: "absolute",
-                          right: 20,
-                        }}
-                        hidden={user.status === 1 ? true : false}
-                        onClick={() => setDel(!del)}
-                      />
                     </td>
                   </tr>
                 ))}
