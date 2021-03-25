@@ -193,9 +193,8 @@ function Profile() {
   }
   useEffect(() => {
     async function fetCompany() {
-      const companyId = user.CompanyId;
       try {
-        const response = await companyListAPI.getCompanyById(companyId);
+        const response = await companyListAPI.getCompanyById(getUser().CompanyId);
         setCompany(response.data);
       } catch (error) {
         console.log(error);
@@ -206,9 +205,8 @@ function Profile() {
 
   useEffect(() => {
     async function fetDepartment() {
-      const id = user.DepartmentId;
       try {
-        const response = await departmentAPI.getDepartmentById(id);
+        const response = await departmentAPI.getDepartmentById(getUser().DepartmentId);
         setDepartment(response.data);
       } catch (error) {
         console.log(error);
@@ -251,7 +249,22 @@ function Profile() {
       .catch(function (error) {
         console.log(error);
       });
+    }
+  const [a, setA] = useState('');
+  const getBase64FromUrl = async (url) => {
+    const data = await fetch(url);
+    const blob = await data.blob();
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(blob); 
+      reader.onloadend = function() {
+        const base64data = reader.result;   
+        resolve(base64data);
+        setA(base64data);
+      }
+    });
   }
+  getBase64FromUrl(user1.avatar);
   function handleEdit(e) {
     e.preventDefault();
     if (userProfile.address.trim().length > 255) {
@@ -269,7 +282,7 @@ function Profile() {
       const params = {
         id: getUser().Id,
         password: oldPass,
-        avatar: user1.avatar,
+        avatar: a.substring(37),
         phone: getUser().Phone,
         address: userProfile.address,
         subDepartmentId: getUser().SubDepartmentId,
@@ -285,6 +298,7 @@ function Profile() {
         });
     }
   }
+
   return (
     <div>
       <header>
@@ -529,7 +543,7 @@ function Profile() {
                               placeholder="Address"
                               type="text"
                               className="form-control1-alternative form-control1"
-                              defaultValue={getUser().Address}
+                              defaultValue={user1.address}
                             />
                             <div hidden={error3[3]} style={{ color: "red" }}>
                               Address must not larger 255 characters

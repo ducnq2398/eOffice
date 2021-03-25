@@ -5,7 +5,7 @@ import "../../css/Stepper.css";
 import "../../css/StepDetail.css";
 import signercontract from "../../images/sign1contract.png";
 import showall from "../../images/showall.png";
-import completed from "../../images/completeInvoice.png";
+import completed from "../../images/completeContract.png";
 import completed1 from "../../images/complete.png";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";

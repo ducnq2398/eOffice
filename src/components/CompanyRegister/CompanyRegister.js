@@ -124,7 +124,7 @@ function CompanyRegister() {
                     status: 1,
                   };
                   companyListAPI.updateCompany(data).then(function () {
-                    toast.success("Add department successfully", {
+                    toast.success("Add company successfully", {
                       position: toast.POSITION.TOP_CENTER,
                     });
                     history.push("/company-list");
