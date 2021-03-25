@@ -5,7 +5,7 @@ import { Col, Container, Form, Label, Row } from "reactstrap";
 import Radio from "@material-ui/core/Radio";
 import TextField from "@material-ui/core/TextField";
 import SidebarAdmin from "../Sidebar/SidebarAdmin";
-import { useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import {
   Button,
   Dialog,
@@ -16,9 +16,12 @@ import {
   RadioGroup,
 } from "@material-ui/core";
 import userListAPI from "../../api/userListAPI";
+import companyListAPI from "../../api/companyListAPI";
+import { toast } from "react-toastify";
 
 function CompanyRegister() {
   const location = useLocation();
+  const history = useHistory();
   const [active, setActive] = useState(
     location.state.status === 1 ? "active" : "deactive"
   );
@@ -40,8 +43,30 @@ function CompanyRegister() {
   };
   function handleUpdate(event) {
     event.preventDefault();
-    if(active==='active'){
-      
+    if (active === "active") {
+      companyListAPI
+        .activeCompany(location.state.id)
+        .then(function () {
+          toast.success("Active company successfully", {
+            position: toast.POSITION.TOP_CENTER,
+          });
+          history.push("company-list");
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    } else if (active === "deactive") {
+      companyListAPI
+        .deactiveCompany(location.state.id)
+        .then(function () {
+          toast.success("Deactive company successfully", {
+            position: toast.POSITION.TOP_CENTER,
+          });
+          history.push("company-list");
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     }
   }
   return (
@@ -208,11 +233,20 @@ function CompanyRegister() {
           <Dialog open={open} fullWidth>
             <DialogTitle>Are you want update company?</DialogTitle>
             <DialogActions>
-              <Button onClick={() => setOpen(false)} color="secondary">
-                Disagree
+              <Button
+                variant="contained"
+                onClick={() => setOpen(false)}
+                color="secondary"
+              >
+                Cancel
               </Button>
-              <Button onClick={handleUpdate} color="primary" autoFocus>
-                Agree
+              <Button
+                variant="contained"
+                onClick={handleUpdate}
+                color="primary"
+                autoFocus
+              >
+                Update
               </Button>
             </DialogActions>
           </Dialog>

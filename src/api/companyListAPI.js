@@ -35,7 +35,15 @@ const companyListAPI = {
     })
   },
   activeCompany: (id) =>{
-    const url = `/companies/activatecompany`;
+    const url = `/companies/activatecompany?companyId=${id}`;
+    return axiosClient.put(url, '', {
+      headers: {
+        Authorization: `Bearer ${getUser().IdToken}`,
+      },
+    })
+  },
+  deactiveCompany: (id) =>{
+    const url = `/companies/deactivatecompany?companyId=${id}`;
     return axiosClient.put(url, '', {
       headers: {
         Authorization: `Bearer ${getUser().IdToken}`,
