@@ -434,7 +434,7 @@ function Document() {
                         Title document
                       </Label>
                       <br />
-                      <Label className="demo">{doc.title}</Label>
+                      <Label className="demo demo-2">{doc.title}</Label>
                     </td>
                     <td
                       onClick={() => {
@@ -459,7 +459,9 @@ function Document() {
                         {doc.contractUrl ? (
                           <ContractStepper value={doc.status} />
                         ) : (
-                          <InvoiceStepper value={doc.status} />
+                          <div style={{ marginRight: 80 }}>
+                            <InvoiceStepper value={doc.status} />
+                          </div>
                         )}
                       </Label>
                     </td>
@@ -620,7 +622,9 @@ function Document() {
                         {data.contractUrl ? (
                           <ContractStepper value={data.status} />
                         ) : (
-                          <InvoiceStepper value={data.status} />
+                          <div style={{ marginRight: 80 }}>
+                            <InvoiceStepper value={data.status} />
+                          </div>
                         )}
                       </Label>
                     </td>

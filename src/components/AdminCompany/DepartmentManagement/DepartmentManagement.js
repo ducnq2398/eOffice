@@ -27,11 +27,12 @@ import Navbar from "../../Navbar/Navbar";
 function DepartmentManagerment() {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpen2, setIsOpen2] = useState(false);
+  const [openEditDepart, setOpenEditDepart] = useState(false);
   const [listChild, setListChild] = useState([]);
   const [listDepartment, setListDepartment] = useState([]);
   const [department, setDepartment] = useState("");
   const [child_department, setChild_Department] = useState("");
-  const [departmentID, setDepartmentID] = useState();
+  const [departmentID, setDepartmentID] = useState([]);
   const [page, setPage] = useState(0);
   const [page2, setPage2] = useState(0);
   const [rowsPerPage] = useState(10);
@@ -97,6 +98,19 @@ function DepartmentManagerment() {
           message_depart: "",
         });
       }, 3000);
+    } else if (department.trim().length > 255) {
+      setError({
+        ...error,
+        depart: true,
+        message_depart: "Department name can not larger 255 characters",
+      });
+      setTimeout(() => {
+        setError({
+          ...error,
+          depart: false,
+          message_depart: "",
+        });
+      }, 3000);
     } else {
       const params = {
         name: department,
@@ -134,10 +148,23 @@ function DepartmentManagerment() {
           message_subdepart: "",
         });
       }, 3000);
+    }else if (child_department.trim().length > 255) {
+      setError({
+        ...error,
+        subdepart: true,
+        message_subdepart: "Child department name can not larger 255 characters",
+      });
+      setTimeout(() => {
+        setError({
+          ...error,
+          subdepart: false,
+          message_subdepart: "",
+        });
+      }, 3000);
     } else {
       const params = {
         name: child_department,
-        departmentId: departmentID,
+        departmentId: departmentID.id,
         companyId: getUser().CompanyId,
         creatorId: getUser().Id,
         dateCreate: Moment(new Date()).format(
@@ -148,6 +175,57 @@ function DepartmentManagerment() {
         .addSubDepartment(params)
         .then(function () {
           toast.success("Add child department successfully", {
+            position: toast.POSITION.TOP_CENTER,
+          });
+          window.location.reload();
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+  }
+  function editDepartment(e) {
+    e.preventDefault();
+    if (department.trim() === "") {
+      setError({
+        ...error,
+        depart: true,
+        message_depart: "Department name must not empty",
+      });
+      setTimeout(() => {
+        setError({
+          ...error,
+          depart: false,
+          message_depart: "",
+        });
+      }, 3000);
+    } else if (department.trim().length > 255) {
+      setError({
+        ...error,
+        depart: true,
+        message_depart: "Department name can not larger 255 characters",
+      });
+      setTimeout(() => {
+        setError({
+          ...error,
+          depart: false,
+          message_depart: "",
+        });
+      }, 3000);
+    } else {
+      const params = {
+        id: departmentID.id,
+        name: department,
+        companyId: getUser().CompanyId,
+        creatorId: getUser().Id,
+        dateCreate: Moment(new Date()).format(
+          "yyyy-MM-DD" + "T" + "HH:mm:ss.SSS" + "Z"
+        ),
+      };
+      departmentAPI
+        .editDepartmentById(params)
+        .then(function () {
+          toast.success("Update department successfully", {
             position: toast.POSITION.TOP_CENTER,
           });
           window.location.reload();
@@ -239,7 +317,7 @@ function DepartmentManagerment() {
                             }}
                           >
                             <td>{row.id}</td>
-                            <td style={{ textAlign: "left" }}>{row.name}</td>
+                            <td style={{ textAlign: "left" }} className="demo-2">{row.name}</td>
                             <td>
                               <Button
                                 color="primary"
@@ -251,7 +329,7 @@ function DepartmentManagerment() {
                                 }}
                                 onClick={() => {
                                   toogle2();
-                                  setDepartmentID(row.id);
+                                  setDepartmentID(row);
                                 }}
                               />
                               <Button
@@ -261,6 +339,10 @@ function DepartmentManagerment() {
                                   minWidth: 20,
                                   position: "absolute",
                                   right: 50,
+                                }}
+                                onClick={() => {
+                                  setOpenEditDepart(true);
+                                  setDepartmentID(row);
                                 }}
                               />
                               <Button
@@ -308,7 +390,7 @@ function DepartmentManagerment() {
                         return (
                           <tr key={index}>
                             <td>{row.id}</td>
-                            <td style={{ textAlign: "left" }}>{row.name}</td>
+                            <td style={{ textAlign: "left" }} className="demo-2">{row.name}</td>
                             <td>
                               <Button
                                 color="primary"
@@ -372,6 +454,44 @@ function DepartmentManagerment() {
             </Button>
           </DialogActions>
         </Dialog>
+        <Dialog
+          open={openEditDepart}
+          fullWidth
+          disableBackdropClick
+          disableEscapeKeyDown
+        >
+          <DialogTitle id="form-dialog-title">Department</DialogTitle>
+          <DialogContent>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="name"
+              label="Department name"
+              type="text"
+              fullWidth
+              defaultValue={departmentID.name}
+              error={error.depart}
+              helperText={error.message_depart}
+              onChange={(e) => setDepartment(e.target.value)}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={() => setOpenEditDepart(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={editDepartment}
+            >
+              Update
+            </Button>
+          </DialogActions>
+        </Dialog>
 
         <Dialog
           fullWidth
@@ -392,6 +512,8 @@ function DepartmentManagerment() {
               label="Child department name"
               type="text"
               fullWidth
+              error={error.subdepart}
+              helperText={error.message_subdepart}
               onChange={(e) => setChild_Department(e.target.value)}
             />
           </DialogContent>
