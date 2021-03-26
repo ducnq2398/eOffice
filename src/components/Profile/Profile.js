@@ -419,7 +419,7 @@ function Profile() {
                         startIcon={<EditIcon />}
                         style={{ float: "right" }}
                         size="small"
-                        onClick={()=>setOpen(true)}
+                        onClick={() => setOpen(true)}
                       >
                         Edit
                       </Button>
@@ -698,7 +698,7 @@ function Profile() {
               </Button>
             </DialogActions>
           </Dialog>
-          <Dialog open={open}  fullWidth>
+          <Dialog open={open} fullWidth>
             <DialogTitle>Are you want update profile?</DialogTitle>
             <DialogActions>
               <Button

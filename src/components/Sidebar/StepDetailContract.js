@@ -8,12 +8,13 @@ import showall from "../../images/showall.png";
 import completed from "../../images/completeContract.png";
 import completed1 from "../../images/complete.png";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import userListAPI from "../../api/userListAPI";
 import Tooltip from "@material-ui/core/Tooltip";
 import companyListAPI from "../../api/companyListAPI";
 import contractAPI from "../../api/contractAPI";
 import moment from "moment";
+import { Typography } from "@material-ui/core";
 
 function StepDetailContract({ activeStep }) {
   function getStep() {
@@ -109,26 +110,61 @@ function StepDetailContract({ activeStep }) {
         <img style={{ marginTop: "10px" }} src={completed1} alt="" />
         <Tooltip
           placement="right"
-          title={"Company name:" + companyA.name + "Signer " + signerA.name}
-        >
-          <img style={{ marginTop: "10px" }} src={signercontract} alt="" />
-        </Tooltip>
-        <Tooltip
-          placement="right"
-          title={"Company name:" + companyB.name + "Signer " + signerB.name}
+          title={
+            <Fragment>
+              <a>{"Company name:" + companyA.name}</a>
+              <br />
+              <a>{"Signer: " + signerA.name}</a>
+            </Fragment>
+          }
         >
           <img style={{ marginTop: "10px" }} src={signercontract} alt="" />
         </Tooltip>
         <Tooltip
           placement="right"
           title={
-            "Contract completed:" +
+            <Fragment>
+              <a>{"Company name:" + companyB.name}</a>
+              <br />
+              <a>{"Signer: " + signerB.name}</a>
+            </Fragment>
+          }
+        >
+          <img style={{ marginTop: "10px" }} src={signercontract} alt="" />
+        </Tooltip>
+        <Tooltip
+          placement="right"
+          title={
+            "Contract completed: " +
             moment(document.dateSign).format("DD/MM/YYYY hh:mm:ss")
           }
         >
           <img style={{ marginTop: "10px" }} src={completed} alt="" />
         </Tooltip>
-        <img style={{ marginTop: "10px" }} src={showall} alt="" />
+        <Tooltip
+          placement="right"
+          title={
+            <Fragment>
+              <Typography>Contract Completed</Typography>
+              <p>
+                <a>{"Company name: " + companyA.name}</a>
+                <br />
+                <a>{"Signer: " + signerA.name}</a>
+              </p>
+              <p>
+                <a>{"Company name: " + companyB.name}</a>
+                <br />
+                <a>{" Signer: " + signerB.name}</a>
+              </p>
+              <p>
+                {"Contract completed:" +
+                  moment(document.dateSign).format("DD/MM/YYYY hh:mm:ss")}
+              </p>
+            </Fragment>
+          }
+        >
+          <img style={{ marginTop: "10px" }} src={showall} alt="" />
+        </Tooltip>
       </div>
       <div className="bot">
         <p>Requirements | Terms of Service</p>

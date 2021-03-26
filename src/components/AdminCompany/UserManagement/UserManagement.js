@@ -34,10 +34,9 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
-import { FormHelperText, InputAdornment, Snackbar } from "@material-ui/core";
+import { DialogContentText, FormHelperText, InputAdornment } from "@material-ui/core";
 import Moment from "moment";
 import md5 from "md5";
-import * as Icon from "react-icons/md";
 import Navbar from "../../Navbar/Navbar";
 
 const TransitionAdd = forwardRef(function Transition(props, ref) {
@@ -535,7 +534,9 @@ function UserManagement() {
             fullWidth
           >
             <DialogTitle id="form-dialog-title">Add User</DialogTitle>
+            
             <DialogContent>
+              <DialogContentText style={{color:'red'}}>* If a department does not have a child department. Please create a child department before adding user</DialogContentText>
               <TextField
                 error={error.name}
                 helperText={error.message_name}

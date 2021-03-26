@@ -1,6 +1,5 @@
 import { Container, Form, FormGroup, Row, Col, Label } from "reactstrap";
-import Header from "../Nav/Header";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import "../../css/CreateDoc.css";
 import VerticalLinearStepper from "../Sidebar/Stepper";
 import { useHistory } from "react-router-dom";
@@ -27,7 +26,13 @@ import "date-fns";
 import Typography from "@material-ui/core/Typography";
 import Pagination from "@material-ui/lab/Pagination";
 import Moment from "moment";
-import { InputAdornment, Slide, Snackbar, Tooltip } from "@material-ui/core";
+import {
+  FormHelperText,
+  InputAdornment,
+  Slide,
+  Snackbar,
+  Tooltip,
+} from "@material-ui/core";
 import TitleIcon from "@material-ui/icons/Title";
 import { toast } from "react-toastify";
 import Alert from "@material-ui/lab/Alert";
@@ -163,8 +168,8 @@ function CreateDocument() {
         );
       });
     } else if (
-      Moment(selectedDate).format("yyyy-MM-DD" + "T" + "HH:mm:ss.SSS" + "Z") <
-      Moment(new Date()).format("yyyy-MM-DD" + "T" + "HH:mm:ss.SSS" + "Z")
+      Moment(selectedDate).format("DD-MM-YYYY" + "T" + "HH:mm:ss.SSS" + "Z") <
+      Moment(new Date()).format("DD-MM-YYYY" + "T" + "HH:mm:ss.SSS" + "Z")
     ) {
       setAlert({
         ...alert,
@@ -182,26 +187,22 @@ function CreateDocument() {
       setAlert({
         ...alert,
         location: true,
-        message: "Please choose location sign to continue...",
       });
       setTimeout(() => {
         setAlert({
           ...alert,
           location: false,
-          message: "",
         });
       }, 3000);
     } else if (positionB.x === 0 && positionB.y === 0) {
       setAlert({
         ...alert,
         location: true,
-        message: "Please choose location sign to continue...",
       });
       setTimeout(() => {
         setAlert({
           ...alert,
           location: false,
-          message: "",
         });
       }, 3000);
     } else {
@@ -275,72 +276,6 @@ function CreateDocument() {
       <VerticalLinearStepper activeStep={activeStep} />
       <main className="main-contract">
         <Snackbar
-          anchorOrigin={{ vertical: "top", horizontal: "center" }}
-          open={alert.file}
-          TransitionComponent={TransitionLeft}
-          autoHideDuration={3000}
-          style={{ marginTop: 70 }}
-        >
-          <Alert variant="filled" severity="error">
-            {alert.message}
-          </Alert>
-        </Snackbar>
-        <Snackbar
-          style={{ marginTop: 70 }}
-          anchorOrigin={{ vertical: "top", horizontal: "center" }}
-          open={alert.title}
-          autoHideDuration={3000}
-          TransitionComponent={TransitionLeft}
-        >
-          <Alert variant="filled" severity="error">
-            {alert.message}
-          </Alert>
-        </Snackbar>
-        <Snackbar
-          style={{ marginTop: 70 }}
-          anchorOrigin={{ vertical: "top", horizontal: "center" }}
-          open={alert.signerA}
-          autoHideDuration={3000}
-          TransitionComponent={TransitionLeft}
-        >
-          <Alert variant="filled" severity="error">
-            {alert.message}
-          </Alert>
-        </Snackbar>
-        <Snackbar
-          style={{ marginTop: 70 }}
-          anchorOrigin={{ vertical: "top", horizontal: "center" }}
-          open={alert.company}
-          autoHideDuration={3000}
-          TransitionComponent={TransitionLeft}
-        >
-          <Alert variant="filled" severity="error">
-            Please select company guest !!!
-          </Alert>
-        </Snackbar>
-        <Snackbar
-          style={{ marginTop: 70 }}
-          anchorOrigin={{ vertical: "top", horizontal: "center" }}
-          open={alert.signerB}
-          autoHideDuration={3000}
-          TransitionComponent={TransitionLeft}
-        >
-          <Alert variant="filled" severity="error">
-            {alert.message}
-          </Alert>
-        </Snackbar>
-        <Snackbar
-          style={{ marginTop: 70 }}
-          anchorOrigin={{ vertical: "top", horizontal: "center" }}
-          open={alert.date}
-          autoHideDuration={3000}
-          TransitionComponent={TransitionLeft}
-        >
-          <Alert variant="filled" severity="error">
-            {alert.message}
-          </Alert>
-        </Snackbar>
-        <Snackbar
           style={{ marginTop: 70 }}
           anchorOrigin={{ vertical: "top", horizontal: "center" }}
           open={alert.location}
@@ -348,7 +283,7 @@ function CreateDocument() {
           TransitionComponent={TransitionLeft}
         >
           <Alert variant="filled" severity="error">
-            {alert.message}
+            Please choose location sign to continue...
           </Alert>
         </Snackbar>
         <Container fluid={true}>
@@ -475,6 +410,7 @@ function CreateDocument() {
                   variant="outlined"
                   label="Choose file"
                   error={alert.file}
+                  helperText={alert.message}
                   value={fileName}
                   fullWidth
                   InputProps={{
@@ -538,6 +474,7 @@ function CreateDocument() {
                   name="title"
                   required
                   error={alert.title}
+                  helperText={alert.message}
                   fullWidth
                   style={{ marginTop: "20px" }}
                   InputProps={{
@@ -626,6 +563,7 @@ function CreateDocument() {
                       variant="outlined"
                       name="signer"
                       error={alert.signerA}
+                      helperText={alert.message}
                     />
                   )}
                 />
@@ -684,7 +622,6 @@ function CreateDocument() {
                   onChange={(event, newValue) => {
                     setDataUpload({ ...dataUpload, company_guest: newValue });
                   }}
-                  disableClearable={true}
                   renderInput={(params) => (
                     <TextField
                       {...params}
@@ -692,6 +629,7 @@ function CreateDocument() {
                       variant="outlined"
                       name="company_guest"
                       error={alert.company}
+                      helperText={alert.message}
                     />
                   )}
                 />
@@ -712,11 +650,13 @@ function CreateDocument() {
                       setAlert({
                         ...alert,
                         company: true,
+                        message: "Please select company guest !!!",
                       });
                       setTimeout(() => {
                         setAlert({
                           ...alert,
                           company: false,
+                          message: "",
                         });
                       }, 3000);
                     } else {
@@ -756,6 +696,7 @@ function CreateDocument() {
                       variant="outlined"
                       name="signer_guest"
                       error={alert.signerB}
+                      helperText={alert.message}
                     />
                   )}
                 />
@@ -898,6 +839,7 @@ function CreateDocument() {
                       value={selectedDate}
                       name="date"
                       error={alert.date}
+                      helperText={alert.message}
                       onChange={handleDateChange}
                       KeyboardButtonProps={{
                         "aria-label": "change date",

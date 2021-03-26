@@ -1,7 +1,5 @@
 import { Container, Form, FormGroup, Label, Row, Col, Table } from "reactstrap";
-import Header from "../Nav/Header";
 import "../../css/Dashboard.css";
-import Sidebar from "../Sidebar/Sidebar";
 import { Link, useHistory } from "react-router-dom";
 import { useEffect, useState } from "react";
 import notsigned from "../../images/status.png";
@@ -136,8 +134,6 @@ function Dashboard() {
       }
     }
     getListDocument();
-    
-   
   }, []);
 
   return (
@@ -179,7 +175,9 @@ function Dashboard() {
                               }
                             >
                               <td>
-                                <p style={{textAlign:'left'}}>{data.title}</p>
+                                <p style={{ textAlign: "left" }}>
+                                  {data.title}
+                                </p>
                               </td>
                               <td>
                                 {data.status < 3 ? (
@@ -188,7 +186,7 @@ function Dashboard() {
                                   <img src={done} alt="" />
                                 )}
                               </td>
-                              <td style={{textAlign:'right'}}>
+                              <td style={{ textAlign: "right" }}>
                                 {moment(data.dateCreate).format("DD/MM/YYYY")}
                               </td>
                             </tr>
@@ -199,7 +197,12 @@ function Dashboard() {
                   </FormGroup>
                 </Form>
                 <div>
-                  <Link to="/document" hidden={listContract.length>5 ? false : true}>See more</Link>
+                  <Link
+                    to="/document"
+                    hidden={listContract.length > 5 ? false : true}
+                  >
+                    See more
+                  </Link>
                 </div>
               </Col>
               <Col>
@@ -232,7 +235,9 @@ function Dashboard() {
                               }
                             >
                               <td>
-                                <p style={{textAlign:'left'}}>{data.title}</p>
+                                <p style={{ textAlign: "left" }}>
+                                  {data.title}
+                                </p>
                               </td>
                               <td>
                                 {data.status < 3 ? (
@@ -241,7 +246,7 @@ function Dashboard() {
                                   <img src={doneinvoice} alt="" />
                                 )}
                               </td>
-                              <td style={{textAlign:'right'}}>
+                              <td style={{ textAlign: "right" }}>
                                 {moment(data.dateCreate).format("DD/MM/YYYY")}
                               </td>
                             </tr>
@@ -252,7 +257,12 @@ function Dashboard() {
                   </FormGroup>
                 </Form>
                 <div>
-                  <Link to="/document" hidden={listInvoice.length>5 ? false : true}>See more</Link>
+                  <Link
+                    to="/document"
+                    hidden={listInvoice.length > 5 ? false : true}
+                  >
+                    See more
+                  </Link>
                 </div>
               </Col>
             </Row>
@@ -287,7 +297,12 @@ function Dashboard() {
               </FormGroup>
             </Form>
             <div>
-              <Link to="/notification" hidden={listNoti.length>5 ? false : true}>See more</Link>
+              <Link
+                to="/notification"
+                hidden={listNoti.length > 5 ? false : true}
+              >
+                See more
+              </Link>
             </div>
           </div>
         </Container>

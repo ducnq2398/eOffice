@@ -22,14 +22,26 @@ function Navbar() {
   const [listNoti, setListNoti] = useState([]);
   const [openNoti, setOpenNoti] = useState(false);
   const [openProfile, setOpenProfile] = useState(false);
-  const [count, setCount] = useState();
+  const count = listNoti.length;
+  var postNotification = listNoti
+    .sort((a, b) => {
+      return (
+        new Date(a.dateCreate).getTime() - new Date(b.dateCreate).getTime()
+      );
+    })
+    .reverse();
   const [users, setUsers] = useState([]);
   useEffect(() => {
     async function fetListNoti() {
       try {
         const res = await notiAPI.getAll();
-        setListNoti(res.data);
-        setCount(res.data.length);
+        setListNoti(
+          res.data.filter((noti) => {
+            if (noti.status === 0) {
+              return noti;
+            }
+          })
+        );
       } catch (error) {
         console.log(error);
       }
@@ -100,7 +112,7 @@ function Navbar() {
     }
     return (
       <div className="dropdown-navbar">
-        {listNoti.map((noti, index) => {
+        {postNotification.map((noti, index) => {
           return (
             <div key={index}>
               <DropdownItem2 rightIcon={<MoreHorizIcon />}>
@@ -150,13 +162,16 @@ function Navbar() {
             <NavItemNoti
               icon={
                 <Badge badgeContent={count} color="error">
-                  <NotificationsIcon color="action" fontSize="large" />
+                  <NotificationsIcon
+                    style={{ cursor: "pointer" }}
+                    color="action"
+                    fontSize="large"
+                  />
                 </Badge>
               }
             >
               <DropdownMenu2 />
             </NavItemNoti>
-
             <NavItemProfile
               icon={
                 <img

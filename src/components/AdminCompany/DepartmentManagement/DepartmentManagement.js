@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Container, Col, Row, Label, Table } from "reactstrap";
 import "../../../css/Department.css";
-import { Autocomplete, createFilterOptions, TreeItem } from "@material-ui/lab";
 import departmentAPI from "../../../api/departmentAPI";
 import { getUser } from "../../../utils/Common";
 import "react-toastify/dist/ReactToastify.css";
@@ -23,6 +22,7 @@ import {
   TextField,
 } from "@material-ui/core";
 import Navbar from "../../Navbar/Navbar";
+import moment from "moment";
 
 function DepartmentManagerment() {
   const [isOpen, setIsOpen] = useState(false);
@@ -148,11 +148,12 @@ function DepartmentManagerment() {
           message_subdepart: "",
         });
       }, 3000);
-    }else if (child_department.trim().length > 255) {
+    } else if (child_department.trim().length > 255) {
       setError({
         ...error,
         subdepart: true,
-        message_subdepart: "Child department name can not larger 255 characters",
+        message_subdepart:
+          "Child department name can not larger 255 characters",
       });
       setTimeout(() => {
         setError({
@@ -301,8 +302,8 @@ function DepartmentManagerment() {
                   <Table style={{ paddingLeft: 15, paddingRight: 15 }}>
                     <thead>
                       <tr>
-                        <th>ID</th>
                         <th style={{ textAlign: "left" }}>Name</th>
+                        <th>Date Modify</th>
                         <th style={{ textAlign: "right" }}>Actions</th>
                       </tr>
                     </thead>
@@ -316,8 +317,13 @@ function DepartmentManagerment() {
                               getChildDepartment(row.id);
                             }}
                           >
-                            <td>{row.id}</td>
-                            <td style={{ textAlign: "left" }} className="demo-2">{row.name}</td>
+                            <td
+                              style={{ textAlign: "left" }}
+                              className="demo-2"
+                            >
+                              {row.name}
+                            </td>
+                            <td>{moment(row.dateModify).format("DD/MM/YYYY HH:mm:ss")}</td>
                             <td>
                               <Button
                                 color="primary"
@@ -380,8 +386,8 @@ function DepartmentManagerment() {
                   <Table hover>
                     <thead>
                       <tr>
-                        <th>ID</th>
                         <th style={{ textAlign: "left" }}>Name</th>
+                        <th>Date Modify</th>
                         <th style={{ textAlign: "right" }}>Actions</th>
                       </tr>
                     </thead>
@@ -389,8 +395,13 @@ function DepartmentManagerment() {
                       {currentPosts2.map((row, index) => {
                         return (
                           <tr key={index}>
-                            <td>{row.id}</td>
-                            <td style={{ textAlign: "left" }} className="demo-2">{row.name}</td>
+                            <td
+                              style={{ textAlign: "left" }}
+                              className="demo-2"
+                            >
+                              {row.name}
+                            </td>
+                            <td>{moment(row.dateModify).format("DD/MM/YYYY HH:mm:ss")}</td>
                             <td>
                               <Button
                                 color="primary"

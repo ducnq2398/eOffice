@@ -8,20 +8,18 @@ import showall from "../../images/showall.png";
 import completed from "../../images/completeInvoice.png";
 import completed1 from "../../images/complete.png";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import userListAPI from "../../api/userListAPI";
 import Tooltip from "@material-ui/core/Tooltip";
-import { getUser } from "../../utils/Common";
-import companyListAPI from "../../api/companyListAPI";
 import invoiceAPI from "../../api/invoiceAPI";
 import moment from "moment";
+import { Typography } from "@material-ui/core";
 
 function StepDetail({ activeStep }) {
   function getStep() {
     return ["Create Invoice", "Person sign", "Invoice Completed"];
   }
   const [signer, setSigner] = useState([]);
-  const [company, setCompany] = useState([]);
   const steps = getStep();
   const [signerId, setSignerId] = useState();
   const [document, setDocument] = useState([]);
@@ -50,19 +48,6 @@ function StepDetail({ activeStep }) {
     getSigner();
   }, [signerId]);
 
-  useEffect(() => {
-    async function getCompany() {
-      const id = getUser().CompanyId;
-      try {
-        const res = await companyListAPI.getCompanyById(id);
-        setCompany(res.data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    getCompany();
-  }, []);
-
   return (
     <div className="root">
       <Stepper
@@ -80,10 +65,14 @@ function StepDetail({ activeStep }) {
         <img style={{ marginTop: "10px" }} src={completed1} alt="" />
         <Tooltip
           title={
-            "Sign " +
-            moment(document.dateSign).format("DD/MM/YYYY HH:mm:ss") +
-            "  || Signer Name: " +
-            signer.name
+            <Fragment>
+              <a>{"Signer name: " + signer.name}</a>
+              <br />
+              <a>
+                {"Sign " +
+                  moment(document.dateSign).format("DD/MM/YYYY HH:mm:ss")}
+              </a>
+            </Fragment>
           }
           placement="right"
         >
@@ -100,10 +89,16 @@ function StepDetail({ activeStep }) {
         </Tooltip>
         <Tooltip
           title={
-            "Completed  " +
-            moment(document.dateSign).format("DD/MM/YYYY HH:mm:ss") +
-            " Signer Name: " +
-            signer.name
+            <Fragment>
+              <Typography>Invoice Completed</Typography>
+              <p>
+                <a>{"Signer: " + signer.name}</a>
+              </p>
+              <p>
+                {"Invoice completed: " +
+                  moment(document.dateSign).format("DD/MM/YYYY hh:mm:ss")}
+              </p>
+            </Fragment>
           }
           placement="right"
         >

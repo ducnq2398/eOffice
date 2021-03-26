@@ -1,5 +1,4 @@
 import { Container, Form, FormGroup, Row, Col, Label } from "reactstrap";
-import Header from "../Nav/Header";
 import StepInvoice from "../Sidebar/StepInvoice";
 import { useState, useEffect } from "react";
 import "../../css/CreateDoc.css";
@@ -205,50 +204,6 @@ function CreateInvoice() {
         <Snackbar
           style={{ marginTop: 70 }}
           anchorOrigin={{ vertical: "top", horizontal: "center" }}
-          open={alert.file}
-          TransitionComponent={TransitionLeft}
-          autoHideDuration={3000}
-        >
-          <Alert variant="filled" severity="error">
-            {alert.message}
-          </Alert>
-        </Snackbar>
-        <Snackbar
-          style={{ marginTop: 70 }}
-          anchorOrigin={{ vertical: "top", horizontal: "center" }}
-          open={alert.title}
-          autoHideDuration={3000}
-          TransitionComponent={TransitionLeft}
-        >
-          <Alert variant="filled" severity="error">
-            {alert.message}
-          </Alert>
-        </Snackbar>
-        <Snackbar
-          style={{ marginTop: 70 }}
-          anchorOrigin={{ vertical: "top", horizontal: "center" }}
-          open={alert.signer}
-          autoHideDuration={3000}
-          TransitionComponent={TransitionLeft}
-        >
-          <Alert variant="filled" severity="error">
-            Please select a signer to sign invoice
-          </Alert>
-        </Snackbar>
-        <Snackbar
-          style={{ marginTop: 70 }}
-          anchorOrigin={{ vertical: "top", horizontal: "center" }}
-          open={alert.date}
-          autoHideDuration={3000}
-          TransitionComponent={TransitionLeft}
-        >
-          <Alert variant="filled" severity="error">
-            {alert.message}
-          </Alert>
-        </Snackbar>
-        <Snackbar
-          style={{ marginTop: 70 }}
-          anchorOrigin={{ vertical: "top", horizontal: "center" }}
           open={alert.location}
           autoHideDuration={3000}
           TransitionComponent={TransitionLeft}
@@ -355,6 +310,7 @@ function CreateInvoice() {
                   variant="outlined"
                   label="Choose file"
                   error={alert.file}
+                  helperText={alert.message}
                   value={fileName}
                   fullWidth
                   InputProps={{
@@ -418,6 +374,7 @@ function CreateInvoice() {
                   name="title"
                   required
                   error={alert.title}
+                  helperText={alert.message}
                   fullWidth
                   style={{ marginTop: "20px" }}
                   InputProps={{
@@ -506,6 +463,7 @@ function CreateInvoice() {
                       variant="outlined"
                       name="signer"
                       error={alert.signer}
+                      helperText={alert.message}
                     />
                   )}
                 />
@@ -528,11 +486,13 @@ function CreateInvoice() {
                       setAlert({
                         ...alert,
                         signer: true,
+                        message: "Please select a signer to sign invoice",
                       });
                       setTimeout(() => {
                         setAlert({
                           ...alert,
                           signer: false,
+                          message: "",
                         });
                       }, 3000);
                     } else {
@@ -620,8 +580,8 @@ function CreateInvoice() {
                       format="MM/dd/yyyy"
                       value={selectedDate}
                       name="date"
-                      error={alert.hidden}
-                      helperText={alert.text}
+                      error={alert.date}
+                      helperText={alert.message}
                       onChange={handleDateChange}
                       KeyboardButtonProps={{
                         "aria-label": "change date",
