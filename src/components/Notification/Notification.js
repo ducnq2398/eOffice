@@ -43,8 +43,26 @@ function Notification() {
     async function fetListNoti() {
       try {
         const res = await notiAPI.getAll();
-        setFilter(res.data);
-        setAll(res.data);
+        setFilter(
+          res.data
+            .sort((a, b) => {
+              return (
+                new Date(a.dateCreate).getTime() -
+                new Date(b.dateCreate).getTime()
+              );
+            })
+            .reverse()
+        );
+        setAll(
+          res.data
+            .sort((a, b) => {
+              return (
+                new Date(a.dateCreate).getTime() -
+                new Date(b.dateCreate).getTime()
+              );
+            })
+            .reverse()
+        );
       } catch (error) {
         console.log(error);
       }

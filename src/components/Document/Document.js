@@ -92,50 +92,10 @@ function Document() {
                 .getInvoiceByCompanyId(getUser().CompanyId)
                 .then(function (invoice) {
                   const list = [...contract.data, ...invoice.data];
-                  setListAllDocument(
-                    list.filter((row) => {
-                      if (
-                        row.status !== 0 &&
-                        moment(row.dateExpire).format("DD/MM/YYYY HH:mm:ss") <
-                          moment(new Date()).format("DD/MM/YYYY HH:mm:ss")
-                      ) {
-                        return row;
-                      }
-                    })
-                  );
-                  setPostList(
-                    list.filter((row) => {
-                      if (
-                        row.status !== 0 &&
-                        moment(row.dateExpire).format("DD/MM/YYYY HH:mm:ss") <
-                          moment(new Date()).format("DD/MM/YYYY HH:mm:ss")
-                      ) {
-                        return row;
-                      }
-                    })
-                  );
-                  setListInvoice(
-                    invoice.data.filter((row) => {
-                      if (
-                        row.status !== 0 &&
-                        moment(row.dateExpire).format("DD/MM/YYYY HH:mm:ss") <
-                          moment(new Date()).format("DD/MM/YYYY HH:mm:ss")
-                      ) {
-                        return row;
-                      }
-                    })
-                  );
-                  setListContract(
-                    contract.data.filter((row) => {
-                      if (
-                        row.status !== 0 &&
-                        moment(row.dateExpire).format("DD/MM/YYYY HH:mm:ss") <
-                          moment(new Date()).format("DD/MM/YYYY HH:mm:ss")
-                      ) {
-                        return row;
-                      }
-                    })
-                  );
+                  setListAllDocument(list);
+                  setPostList(list);
+                  setListInvoice(invoice.data);
+                  setListContract(contract.data);
                   setTimeout(() => {
                     setLoading(false);
                   }, 2000);
@@ -168,66 +128,10 @@ function Document() {
                           ];
                           const listInvoice1 = [...res1.data, ...res2.data];
                           const listContract1 = [...res3.data, ...res4.data];
-                          setListAllDocument(
-                            list.filter((row) => {
-                              if (
-                                row.status !== 0 &&
-                                moment(row.dateExpire).format(
-                                  "DD/MM/YYYY HH:mm:ss"
-                                ) <
-                                  moment(new Date()).format(
-                                    "DD/MM/YYYY HH:mm:ss"
-                                  )
-                              ) {
-                                return row;
-                              }
-                            })
-                          );
-                          setPostList(
-                            list.filter((row) => {
-                              if (
-                                row.status !== 0 &&
-                                moment(row.dateExpire).format(
-                                  "DD/MM/YYYY HH:mm:ss"
-                                ) <
-                                  moment(new Date()).format(
-                                    "DD/MM/YYYY HH:mm:ss"
-                                  )
-                              ) {
-                                return row;
-                              }
-                            })
-                          );
-                          setListInvoice(
-                            listInvoice1.filter((row) => {
-                              if (
-                                row.status !== 0 &&
-                                moment(row.dateExpire).format(
-                                  "DD/MM/YYYY HH:mm:ss"
-                                ) <
-                                  moment(new Date()).format(
-                                    "DD/MM/YYYY HH:mm:ss"
-                                  )
-                              ) {
-                                return row;
-                              }
-                            })
-                          );
-                          setListContract(
-                            listContract1.filter((row) => {
-                              if (
-                                row.status !== 0 &&
-                                moment(row.dateExpire).format(
-                                  "DD/MM/YYYY HH:mm:ss"
-                                ) <
-                                  moment(new Date()).format(
-                                    "DD/MM/YYYY HH:mm:ss"
-                                  )
-                              ) {
-                                return row;
-                              }
-                            })
-                          );
+                          setListAllDocument(list);
+                          setPostList(list);
+                          setListInvoice(listInvoice1);
+                          setListContract(listContract1);
                           setTimeout(() => {
                             setLoading(false);
                           }, 2000);
@@ -717,7 +621,8 @@ function Document() {
                     >
                       <Label style={{ fontWeight: "bold" }}>Status</Label>
                       <br />
-                      <Label className="step">F
+                      <Label className="step">
+                        F
                         {data.contractUrl ? (
                           <ContractStepper value={data.status} />
                         ) : (

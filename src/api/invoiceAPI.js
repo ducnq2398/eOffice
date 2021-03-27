@@ -10,6 +10,14 @@ const invoiceAPI = {
       },
     });
   },
+  addViewerInvoice: (params) => {
+    const url = "/invoices/addviewertoinvoice";
+    return axiosClient.put(url, params, {
+      headers: {
+        Authorization: `Bearer ${getUser().IdToken}`,
+      },
+    });
+  },
   getAllInvoice: () => {
     const url = "invoices/getall";
     return axiosClient.get(url, {

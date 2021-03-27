@@ -23,6 +23,10 @@ function Navbar() {
   const [openNoti, setOpenNoti] = useState(false);
   const [openProfile, setOpenProfile] = useState(false);
   const count = listNoti.length;
+  const [currentPage] = useState(1);
+  const [postPerPage] = useState(9);
+  const indexOfLastPost = currentPage * postPerPage;
+  const indexOfFirstPost = indexOfLastPost - postPerPage;
   var postNotification = listNoti
     .sort((a, b) => {
       return (
@@ -30,6 +34,10 @@ function Navbar() {
       );
     })
     .reverse();
+  const currentPostsNoti = postNotification.slice(
+    indexOfFirstPost,
+    indexOfLastPost
+  );
   const [users, setUsers] = useState([]);
   useEffect(() => {
     async function fetListNoti() {
@@ -112,7 +120,7 @@ function Navbar() {
     }
     return (
       <div className="dropdown-navbar">
-        {postNotification.map((noti, index) => {
+        {currentPostsNoti.map((noti, index) => {
           return (
             <div key={index}>
               <DropdownItem2 rightIcon={<MoreHorizIcon />}>
@@ -121,6 +129,7 @@ function Navbar() {
             </div>
           );
         })}
+        <Link to="/notification">See more</Link>
       </div>
     );
   }
@@ -161,7 +170,7 @@ function Navbar() {
           <ul className="navbar-nav">
             <NavItemNoti
               icon={
-                <Badge badgeContent={count} color="error">
+                <Badge badgeContent={count < 10 ? count : "9+"} color="error">
                   <NotificationsIcon
                     style={{ cursor: "pointer" }}
                     color="action"

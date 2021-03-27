@@ -132,17 +132,9 @@ function InvoiceContent() {
           invoiceId: invoiceId,
           listViewersId: location.state.listViewerId,
         };
-        axios
-          .put(
-            "https://datnxeoffice.azurewebsites.net/api/invoices/addviewertoinvoice",
-            viewer,
-            {
-              headers: {
-                Authorization: `Bearer ${getUser().IdToken}`,
-              },
-            }
-          )
-          .then(function (res) {
+        invoiceAPI
+          .addViewerInvoice(viewer)
+          .then(function () {
             toast.success("You has created invoice successfully", {
               position: toast.POSITION.TOP_CENTER,
             });
@@ -320,9 +312,6 @@ function InvoiceContent() {
             </Button>
           </DialogActions>
         </Dialog>
-        <Backdrop className={useStyles().backdrop} open={loading}>
-          <CircularProgress color="inherit" />
-        </Backdrop>
       </main>
     </div>
   );

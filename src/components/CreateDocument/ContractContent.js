@@ -58,7 +58,6 @@ const StyledTableRow = withStyles((theme) => ({
 
 function ContractContent() {
   const location = useLocation();
-  console.log(location)
   const history = useHistory();
   const [create, setCreate] = useState(false);
   const [signer, setSigner] = useState("");
