@@ -1,5 +1,4 @@
 import { Container, Form, FormGroup, Row, Col, Label } from "reactstrap";
-import Header from "../Nav/Header";
 import PDF from "../PDF/PDF";
 import notsigned from "../../images/status.png";
 import done from "../../images/true.png";
@@ -36,6 +35,7 @@ import GetEmail from "../GetData/GetEmail";
 import GetPhone from "../GetData/GetPhone";
 import moment from "moment";
 import Navbar from "../Navbar/Navbar";
+import printJS from "print-js";
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.white,
@@ -133,6 +133,12 @@ function ContractDetail() {
     getCompany2();
   }, [signer2.companyId]);
 
+  function printFile() {
+    printJS({
+      printable: document.contractUrl,
+      type: "pdf",
+    });
+  }
   return (
     <div>
       <header>
@@ -322,6 +328,7 @@ function ContractDetail() {
                 size="large"
                 style={{ marginTop: "20px" }}
                 startIcon={<PrintIcon />}
+                onClick={printFile}
               >
                 Print
               </Button>

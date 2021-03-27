@@ -14,6 +14,7 @@ import {
   MenuItem,
   Select,
 } from "@material-ui/core";
+import { getUser } from "../../utils/Common";
 
 function Notification() {
   const [all, setAll] = useState([]);
@@ -42,7 +43,7 @@ function Notification() {
   useEffect(() => {
     async function fetListNoti() {
       try {
-        const res = await notiAPI.getAll();
+        const res = await notiAPI.getById(getUser().Id);
         setFilter(
           res.data
             .sort((a, b) => {

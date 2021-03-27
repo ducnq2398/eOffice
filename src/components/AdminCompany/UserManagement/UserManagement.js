@@ -45,9 +45,6 @@ const TransitionAdd = forwardRef(function Transition(props, ref) {
 const TransitionDetail = forwardRef(function Transition(props, ref) {
   return <Slide direction="left" ref={ref} {...props} />;
 });
-function TransitionLeft(props) {
-  return <Slide {...props} direction="right" />;
-}
 
 function UserManagement() {
   const [userList, setUserList] = useState([]);

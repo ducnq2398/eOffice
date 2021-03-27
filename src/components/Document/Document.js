@@ -43,7 +43,6 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import Navbar from "../Navbar/Navbar";
 import InvoiceStepper from "../Stepper/InvoiceStepper";
 import ContractStepper from "../Stepper/ContractStepper";
-import moment from "moment";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;

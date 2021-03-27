@@ -42,7 +42,7 @@ function Navbar() {
   useEffect(() => {
     async function fetListNoti() {
       try {
-        const res = await notiAPI.getAll();
+        const res = await notiAPI.getById(getUser().Id);
         setListNoti(
           res.data.filter((noti) => {
             if (noti.status === 0) {
@@ -114,7 +114,6 @@ function Navbar() {
       return (
         <div className="menu-item" onClick={props.function}>
           {props.children}
-          <span className="icon-right">{props.rightIcon}</span>
         </div>
       );
     }
@@ -123,13 +122,13 @@ function Navbar() {
         {currentPostsNoti.map((noti, index) => {
           return (
             <div key={index}>
-              <DropdownItem2 rightIcon={<MoreHorizIcon />}>
-                {noti.title}
-              </DropdownItem2>
+              <DropdownItem2>{noti.title}</DropdownItem2>
             </div>
           );
         })}
-        <Link to="/notification">See more</Link>
+        <Link to="/notification" hidden={count < 10 ? true : false}>
+          See more
+        </Link>
       </div>
     );
   }

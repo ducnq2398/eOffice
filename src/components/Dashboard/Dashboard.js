@@ -54,7 +54,7 @@ function Dashboard() {
   useEffect(() => {
     async function fetListNoti() {
       try {
-        const res = await notiAPI.getAll();
+        const res = await notiAPI.getById(getUser().Id);
         setNoti(res.data);
       } catch (error) {
         console.log(error);

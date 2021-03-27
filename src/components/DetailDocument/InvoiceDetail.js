@@ -1,5 +1,4 @@
 import { Container, Form, FormGroup, Row, Col, Label } from "reactstrap";
-import Header from "../Nav/Header";
 import StepDetail from "../Sidebar/StepDetail";
 import PDF from "../PDF/PDF";
 import notsigned from "../../images/status.png";
@@ -15,7 +14,6 @@ import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
 import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-import InsertDriveFileIcon from "@material-ui/icons/InsertDriveFile";
 import { InputAdornment, TablePagination } from "@material-ui/core";
 import TitleIcon from "@material-ui/icons/Title";
 import BorderColorIcon from "@material-ui/icons/BorderColor";
@@ -33,6 +31,7 @@ import GetPhone from "../GetData/GetPhone";
 import SaveIcon from "@material-ui/icons/Save";
 import PrintIcon from "@material-ui/icons/Print";
 import Navbar from "../Navbar/Navbar";
+import printJS from "print-js";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -93,6 +92,12 @@ function InvoiceDetail() {
     getSigner();
   }, [signerId]);
 
+  function printFile() {
+    printJS({
+      printable: document.invoiceURL,
+      type: "pdf",
+    });
+  }
   return (
     <div>
       <header>
@@ -239,6 +244,7 @@ function InvoiceDetail() {
                 size="large"
                 style={{ marginTop: "20px" }}
                 startIcon={<PrintIcon />}
+                onClick={printFile}
               >
                 Print
               </Button>
