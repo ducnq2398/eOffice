@@ -112,9 +112,9 @@ function StepDetailContract({ activeStep }) {
           placement="right"
           title={
             <Fragment>
-              <a>{"Company name:" + companyA.name}</a>
-              <br />
-              <a>{"Signer: " + signerA.name}</a>
+              <div>{"Company name:" + companyA.name}</div>
+
+              <div>{"Signer: " + signerA.name}</div>
             </Fragment>
           }
         >
@@ -124,9 +124,9 @@ function StepDetailContract({ activeStep }) {
           placement="right"
           title={
             <Fragment>
-              <a>{"Company name:" + companyB.name}</a>
-              <br />
-              <a>{"Signer: " + signerB.name}</a>
+              <div>{"Company name:" + companyB.name}</div>
+
+              <div>{"Signer: " + signerB.name}</div>
             </Fragment>
           }
         >
@@ -146,16 +146,10 @@ function StepDetailContract({ activeStep }) {
           title={
             <Fragment>
               <Typography>Contract Completed</Typography>
-              <p>
-                <a>{"Company name: " + companyA.name}</a>
-                <br />
-                <a>{"Signer: " + signerA.name}</a>
-              </p>
-              <p>
-                <a>{"Company name: " + companyB.name}</a>
-                <br />
-                <a>{" Signer: " + signerB.name}</a>
-              </p>
+              <div>{"Company name: " + companyA.name}</div>
+              <div>{"Signer: " + signerA.name}</div>
+              <div>{"Company name: " + companyB.name}</div>
+              <div>{" Signer: " + signerB.name}</div>
               <p>
                 {"Contract completed:" +
                   moment(document.dateSign).format("DD/MM/YYYY hh:mm:ss")}

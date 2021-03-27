@@ -73,8 +73,28 @@ function Dashboard() {
               invoiceAPI
                 .getInvoiceByCompanyId(getUser().CompanyId)
                 .then(function (invoice) {
-                  setListInvoice(invoice.data);
-                  setListContract(contract.data);
+                  setListInvoice(
+                    invoice.data.filter((row) => {
+                      if (
+                        row.status !== 0 &&
+                        moment(row.dateExpire).format("DD/MM/YYYY HH:mm:ss") <
+                          moment(new Date()).format("DD/MM/YYYY HH:mm:ss")
+                      ) {
+                        return row;
+                      }
+                    })
+                  );
+                  setListContract(
+                    contract.data.filter((row) => {
+                      if (
+                        row.status !== 0 &&
+                        moment(row.dateExpire).format("DD/MM/YYYY HH:mm:ss") <
+                          moment(new Date()).format("DD/MM/YYYY HH:mm:ss")
+                      ) {
+                        return row;
+                      }
+                    })
+                  );
                   setTimeout(() => {
                     setLoadingContract(false);
                   }, 2000);
@@ -104,8 +124,36 @@ function Dashboard() {
                         .then(function (res4) {
                           const listInvoice1 = [...res1.data, ...res2.data];
                           const listContract1 = [...res3.data, ...res4.data];
-                          setListInvoice(listInvoice1);
-                          setListContract(listContract1);
+                          setListInvoice(
+                            listInvoice1.filter((row) => {
+                              if (
+                                row.status !== 0 &&
+                                moment(row.dateExpire).format(
+                                  "DD/MM/YYYY HH:mm:ss"
+                                ) <
+                                  moment(new Date()).format(
+                                    "DD/MM/YYYY HH:mm:ss"
+                                  )
+                              ) {
+                                return row;
+                              }
+                            })
+                          );
+                          setListContract(
+                            listContract1.filter((row) => {
+                              if (
+                                row.status !== 0 &&
+                                moment(row.dateExpire).format(
+                                  "DD/MM/YYYY HH:mm:ss"
+                                ) <
+                                  moment(new Date()).format(
+                                    "DD/MM/YYYY HH:mm:ss"
+                                  )
+                              ) {
+                                return row;
+                              }
+                            })
+                          );
                           setTimeout(() => {
                             setLoadingContract(false);
                           }, 2000);
@@ -175,7 +223,7 @@ function Dashboard() {
                               }
                             >
                               <td>
-                                <p style={{ textAlign: "left" }}>
+                                <p style={{ textAlign: "left" }} className="demo-2">
                                   {data.title}
                                 </p>
                               </td>
@@ -235,7 +283,7 @@ function Dashboard() {
                               }
                             >
                               <td>
-                                <p style={{ textAlign: "left" }}>
+                                <p style={{ textAlign: "left" }} className="demo-2">
                                   {data.title}
                                 </p>
                               </td>

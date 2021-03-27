@@ -43,6 +43,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import Navbar from "../Navbar/Navbar";
 import InvoiceStepper from "../Stepper/InvoiceStepper";
 import ContractStepper from "../Stepper/ContractStepper";
+import moment from "moment";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -91,10 +92,50 @@ function Document() {
                 .getInvoiceByCompanyId(getUser().CompanyId)
                 .then(function (invoice) {
                   const list = [...contract.data, ...invoice.data];
-                  setListAllDocument(list);
-                  setPostList(list);
-                  setListInvoice(invoice.data);
-                  setListContract(contract.data);
+                  setListAllDocument(
+                    list.filter((row) => {
+                      if (
+                        row.status !== 0 &&
+                        moment(row.dateExpire).format("DD/MM/YYYY HH:mm:ss") <
+                          moment(new Date()).format("DD/MM/YYYY HH:mm:ss")
+                      ) {
+                        return row;
+                      }
+                    })
+                  );
+                  setPostList(
+                    list.filter((row) => {
+                      if (
+                        row.status !== 0 &&
+                        moment(row.dateExpire).format("DD/MM/YYYY HH:mm:ss") <
+                          moment(new Date()).format("DD/MM/YYYY HH:mm:ss")
+                      ) {
+                        return row;
+                      }
+                    })
+                  );
+                  setListInvoice(
+                    invoice.data.filter((row) => {
+                      if (
+                        row.status !== 0 &&
+                        moment(row.dateExpire).format("DD/MM/YYYY HH:mm:ss") <
+                          moment(new Date()).format("DD/MM/YYYY HH:mm:ss")
+                      ) {
+                        return row;
+                      }
+                    })
+                  );
+                  setListContract(
+                    contract.data.filter((row) => {
+                      if (
+                        row.status !== 0 &&
+                        moment(row.dateExpire).format("DD/MM/YYYY HH:mm:ss") <
+                          moment(new Date()).format("DD/MM/YYYY HH:mm:ss")
+                      ) {
+                        return row;
+                      }
+                    })
+                  );
                   setTimeout(() => {
                     setLoading(false);
                   }, 2000);
@@ -127,10 +168,66 @@ function Document() {
                           ];
                           const listInvoice1 = [...res1.data, ...res2.data];
                           const listContract1 = [...res3.data, ...res4.data];
-                          setListAllDocument(list);
-                          setPostList(list);
-                          setListInvoice(listInvoice1);
-                          setListContract(listContract1);
+                          setListAllDocument(
+                            list.filter((row) => {
+                              if (
+                                row.status !== 0 &&
+                                moment(row.dateExpire).format(
+                                  "DD/MM/YYYY HH:mm:ss"
+                                ) <
+                                  moment(new Date()).format(
+                                    "DD/MM/YYYY HH:mm:ss"
+                                  )
+                              ) {
+                                return row;
+                              }
+                            })
+                          );
+                          setPostList(
+                            list.filter((row) => {
+                              if (
+                                row.status !== 0 &&
+                                moment(row.dateExpire).format(
+                                  "DD/MM/YYYY HH:mm:ss"
+                                ) <
+                                  moment(new Date()).format(
+                                    "DD/MM/YYYY HH:mm:ss"
+                                  )
+                              ) {
+                                return row;
+                              }
+                            })
+                          );
+                          setListInvoice(
+                            listInvoice1.filter((row) => {
+                              if (
+                                row.status !== 0 &&
+                                moment(row.dateExpire).format(
+                                  "DD/MM/YYYY HH:mm:ss"
+                                ) <
+                                  moment(new Date()).format(
+                                    "DD/MM/YYYY HH:mm:ss"
+                                  )
+                              ) {
+                                return row;
+                              }
+                            })
+                          );
+                          setListContract(
+                            listContract1.filter((row) => {
+                              if (
+                                row.status !== 0 &&
+                                moment(row.dateExpire).format(
+                                  "DD/MM/YYYY HH:mm:ss"
+                                ) <
+                                  moment(new Date()).format(
+                                    "DD/MM/YYYY HH:mm:ss"
+                                  )
+                              ) {
+                                return row;
+                              }
+                            })
+                          );
                           setTimeout(() => {
                             setLoading(false);
                           }, 2000);
@@ -410,7 +507,7 @@ function Document() {
                     >
                       <Label style={{ fontWeight: "bold" }}>Creator name</Label>
                       <br />
-                      <Label>
+                      <Label className="demo-2">
                         <GetCreater id={doc.creatorId} />
                       </Label>
                     </td>
@@ -460,7 +557,7 @@ function Document() {
                         {doc.contractUrl ? (
                           <ContractStepper value={doc.status} />
                         ) : (
-                          <div style={{ marginRight: 80 }}>
+                          <div>
                             <InvoiceStepper value={doc.status} />
                           </div>
                         )}
@@ -536,7 +633,7 @@ function Document() {
                         <DeleteIcon
                           onClick={() => setDel(true)}
                           fontSize="default"
-                          style={{cursor:'pointer'}}
+                          style={{ cursor: "pointer" }}
                         />
                       </Label>
                     </td>
@@ -574,7 +671,7 @@ function Document() {
                     >
                       <Label style={{ fontWeight: "bold" }}>Creator name</Label>
                       <br />
-                      <Label>
+                      <Label className="demo-2">
                         <GetCreater id={data.creatorId} />
                       </Label>
                     </td>
@@ -599,7 +696,7 @@ function Document() {
                         Title document
                       </Label>
                       <br />
-                      <Label className="demo">{data.title}</Label>
+                      <Label className="demo demo-2">{data.title}</Label>
                     </td>
                     <td
                       onClick={() => {
@@ -620,11 +717,11 @@ function Document() {
                     >
                       <Label style={{ fontWeight: "bold" }}>Status</Label>
                       <br />
-                      <Label className="step">
+                      <Label className="step">F
                         {data.contractUrl ? (
                           <ContractStepper value={data.status} />
                         ) : (
-                          <div style={{ marginRight: 80 }}>
+                          <div>
                             <InvoiceStepper value={data.status} />
                           </div>
                         )}
@@ -692,7 +789,7 @@ function Document() {
                         <DeleteIcon
                           onClick={() => setDel(true)}
                           fontSize="default"
-                          style={{cursor:'pointer'}}
+                          style={{ cursor: "pointer" }}
                         />
                       </Label>
                     </td>

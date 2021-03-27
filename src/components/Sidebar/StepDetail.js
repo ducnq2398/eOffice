@@ -66,12 +66,11 @@ function StepDetail({ activeStep }) {
         <Tooltip
           title={
             <Fragment>
-              <a>{"Signer name: " + signer.name}</a>
-              <br />
-              <a>
+              <div>{"Signer name: " + signer.name}</div>
+              <div>
                 {"Sign " +
                   moment(document.dateSign).format("DD/MM/YYYY HH:mm:ss")}
-              </a>
+              </div>
             </Fragment>
           }
           placement="right"
@@ -91,9 +90,9 @@ function StepDetail({ activeStep }) {
           title={
             <Fragment>
               <Typography>Invoice Completed</Typography>
-              <p>
-                <a>{"Signer: " + signer.name}</a>
-              </p>
+
+              <div>{"Signer: " + signer.name}</div>
+
               <p>
                 {"Invoice completed: " +
                   moment(document.dateSign).format("DD/MM/YYYY hh:mm:ss")}
