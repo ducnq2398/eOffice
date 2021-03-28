@@ -53,7 +53,7 @@ function Document() {
   const [isOpen, setIsOpen] = useState(false);
   const [dele, setDel] = useState(false);
   const toogle = () => setIsOpen(!isOpen);
-  const [filter, setFilter] = useState("");
+  const [filter, setFilter] = useState('1');
   const [postList, setPostList] = useState([]);
   const [listAllDocument, setListAllDocument] = useState([]);
   const [listInvoice, setListInvoice] = useState([]);
@@ -198,7 +198,7 @@ function Document() {
     if (filter === "1") {
       setPostList(
         listAllDocument.filter((data) => {
-          if (data.status === 3) {
+          if (data.status === 2) {
             return data;
           }
         })
@@ -206,7 +206,7 @@ function Document() {
     } else if (filter === "2") {
       setPostList(
         listContract.filter((data) => {
-          if (data.status === 3) {
+          if (data.status === 2) {
             return data;
           }
         })
@@ -214,7 +214,7 @@ function Document() {
     } else {
       setPostList(
         listInvoice.filter((data) => {
-          if (data.status === 3) {
+          if (data.status === 2) {
             return data;
           }
         })
@@ -226,7 +226,7 @@ function Document() {
     if (filter === "1") {
       setPostList(
         listAllDocument.filter((data) => {
-          if (data.status < 3) {
+          if (data.status < 2) {
             return data;
           }
         })
@@ -234,7 +234,7 @@ function Document() {
     } else if (filter === "2") {
       setPostList(
         listContract.filter((data) => {
-          if (data.status < 3) {
+          if (data.status < 2) {
             return data;
           }
         })
@@ -242,7 +242,7 @@ function Document() {
     } else {
       setPostList(
         listInvoice.filter((data) => {
-          if (data.status < 3) {
+          if (data.status < 2) {
             return data;
           }
         })
@@ -461,7 +461,7 @@ function Document() {
                           <ContractStepper value={doc.status} />
                         ) : (
                           <div>
-                            <InvoiceStepper value={doc.status} />
+                            <InvoiceStepper value={doc.status === 2 ? 1 : doc.status} />
                           </div>
                         )}
                       </Label>
@@ -488,19 +488,19 @@ function Document() {
                       <Label>
                         {doc.invoiceURL ? (
                           <img
-                            hidden={doc.status >= 3 ? false : true}
+                            hidden={doc.status === 2 ? false : true}
                             src={invoicecompleted}
                             alt=""
                           />
                         ) : (
                           <img
-                            hidden={doc.status >= 3 ? false : true}
+                            hidden={doc.status === 2 ? false : true}
                             src={done}
                             alt=""
                           />
                         )}
                         <img
-                          hidden={doc.status < 3 ? false : true}
+                          hidden={doc.status < 2 ? false : true}
                           src={notsigned}
                           alt=""
                         />
@@ -532,7 +532,7 @@ function Document() {
                     <td>
                       <Label></Label>
                       <br />
-                      <Label hidden={doc.status < 3 ? false : true}>
+                      <Label hidden={doc.status < 2 ? false : true}>
                         <DeleteIcon
                           onClick={() => setDel(true)}
                           fontSize="default"
@@ -621,12 +621,11 @@ function Document() {
                       <Label style={{ fontWeight: "bold" }}>Status</Label>
                       <br />
                       <Label className="step">
-                        F
                         {data.contractUrl ? (
                           <ContractStepper value={data.status} />
                         ) : (
                           <div>
-                            <InvoiceStepper value={data.status} />
+                            <InvoiceStepper value={data.status === 2 ? 1 : data.status} />
                           </div>
                         )}
                       </Label>
@@ -651,13 +650,21 @@ function Document() {
                       <Label></Label>
                       <br />
                       <Label>
+                        {data.invoiceURL ? (
+                          <img
+                            hidden={data.status === 2 ? false : true}
+                            src={invoicecompleted}
+                            alt=""
+                          />
+                        ) : (
+                          <img
+                            hidden={data.status === 2 ? false : true}
+                            src={done}
+                            alt=""
+                          />
+                        )}
                         <img
-                          hidden={data.status >= 3 ? false : true}
-                          src={done}
-                          alt=""
-                        />
-                        <img
-                          hidden={data.status < 3 ? false : true}
+                          hidden={data.status < 2 ? false : true}
                           src={notsigned}
                           alt=""
                         />
@@ -689,7 +696,7 @@ function Document() {
                     <td>
                       <Label></Label>
                       <br />
-                      <Label hidden={data.status < 3 ? false : true}>
+                      <Label hidden={data.status < 2 ? false : true}>
                         <DeleteIcon
                           onClick={() => setDel(true)}
                           fontSize="default"

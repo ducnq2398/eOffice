@@ -44,16 +44,7 @@ function Notification() {
     async function fetListNoti() {
       try {
         const res = await notiAPI.getById(getUser().Id);
-        setFilter(
-          res.data
-            .sort((a, b) => {
-              return (
-                new Date(a.dateCreate).getTime() -
-                new Date(b.dateCreate).getTime()
-              );
-            })
-            .reverse()
-        );
+        setFilter(res.data);
         setAll(
           res.data
             .sort((a, b) => {

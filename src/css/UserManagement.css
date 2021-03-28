@@ -67,3 +67,9 @@
   text-overflow: ellipsis;
   max-width: 150px;
 }
+
+.ex{
+  position: absolute;
+  left: 15px;
+  top: 95px;
+}

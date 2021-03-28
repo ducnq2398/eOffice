@@ -183,7 +183,7 @@ function Dashboard() {
                                 </p>
                               </td>
                               <td>
-                                {data.status < 3 ? (
+                                {data.status < 2 ? (
                                   <img src={notsigned} alt="" />
                                 ) : (
                                   <img src={done} alt="" />
@@ -246,7 +246,7 @@ function Dashboard() {
                                 </p>
                               </td>
                               <td>
-                                {data.status < 3 ? (
+                                {data.status < 2 ? (
                                   <img src={notsigned} alt="" />
                                 ) : (
                                   <img src={doneinvoice} alt="" />

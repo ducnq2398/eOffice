@@ -80,7 +80,7 @@ function ContractDetail() {
         setViewer(res.data.contractViewers);
         setId1(res.data.contractSigners[0].signerId);
         setId2(res.data.contractSigners[1].signerId);
-        setActiveStep(res.data.status);
+        setActiveStep(res.data.status+1);
       } catch (error) {
         console.log(error);
       }

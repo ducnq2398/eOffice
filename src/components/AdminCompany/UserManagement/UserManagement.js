@@ -34,10 +34,16 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
-import { DialogContentText, FormHelperText, InputAdornment } from "@material-ui/core";
+import {
+  DialogContentText,
+  FormHelperText,
+  InputAdornment,
+} from "@material-ui/core";
 import Moment from "moment";
 import md5 from "md5";
 import Navbar from "../../Navbar/Navbar";
+import { CSVLink } from "react-csv";
+import * as Icon from "react-icons/bi";
 
 const TransitionAdd = forwardRef(function Transition(props, ref) {
   return <Slide direction="right" ref={ref} {...props} />;
@@ -513,6 +519,15 @@ function UserManagement() {
     setPage(0);
     setPostList(listDeactive);
   }
+
+  const data = userList.map((user) => {
+    return {
+      Account: user.name,
+      Email: user.email,
+      Phone: user.phone,
+      Address: user.address,
+    };
+  });
   return (
     <div>
       <header>
@@ -531,9 +546,12 @@ function UserManagement() {
             fullWidth
           >
             <DialogTitle id="form-dialog-title">Add User</DialogTitle>
-            
+
             <DialogContent>
-              <DialogContentText style={{color:'red'}}>* If a department does not have a child department. Please create a child department before adding user</DialogContentText>
+              <DialogContentText style={{ color: "red" }}>
+                * If a department does not have a child department. Please
+                create a child department before adding user
+              </DialogContentText>
               <TextField
                 error={error.name}
                 helperText={error.message_name}
@@ -729,6 +747,20 @@ function UserManagement() {
                 labelRowsPerPage=""
                 rowsPerPageOptions={[]}
               />
+            </div>
+            <div className="ex">
+              <CSVLink filename={"data user.csv"} data={data}>
+                Import
+                <Icon.BiImport fontSize="25" tableValues="a" />
+              </CSVLink>
+              <CSVLink
+                style={{ marginLeft: 10 }}
+                filename={"data user.csv"}
+                data={data}
+              >
+                Export
+                <Icon.BiExport fontSize="25" />
+              </CSVLink>
             </div>
           </div>
           {loading ? (
