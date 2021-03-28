@@ -748,7 +748,7 @@ function UserManagement() {
                 rowsPerPageOptions={[]}
               />
             </div>
-            <div className="ex">
+            <div hidden={search !== "" ? true : false} className="ex">
               <CSVLink filename={"data user.csv"} data={data}>
                 Import
                 <Icon.BiImport fontSize="25" tableValues="a" />

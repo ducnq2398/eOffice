@@ -28,11 +28,13 @@ function DepartmentManagerment() {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpen2, setIsOpen2] = useState(false);
   const [openEditDepart, setOpenEditDepart] = useState(false);
+  const [openEditSubDepart, setOpenEditSubDepart] = useState(false);
   const [listChild, setListChild] = useState([]);
   const [listDepartment, setListDepartment] = useState([]);
   const [department, setDepartment] = useState("");
   const [child_department, setChild_Department] = useState("");
   const [departmentID, setDepartmentID] = useState([]);
+  const [sub_departmentID, setSub_DepartmentID] = useState([]);
   const [page, setPage] = useState(0);
   const [page2, setPage2] = useState(0);
   const [rowsPerPage] = useState(10);
@@ -236,6 +238,62 @@ function DepartmentManagerment() {
         });
     }
   }
+  function editSubDepartment(e) {
+    e.preventDefault();
+    if (child_department.trim() === "") {
+      setError({
+        ...error,
+        subdepart: true,
+        message_subdepart: "Department name must not empty",
+      });
+      setTimeout(() => {
+        setError({
+          ...error,
+          subdepart: false,
+          message_subdepart: "",
+        });
+      }, 3000);
+    } else if (child_department.trim().length > 255) {
+      setError({
+        ...error,
+        subdepart: true,
+        message_subdepart: "Department name can not larger 255 characters",
+      });
+      setTimeout(() => {
+        setError({
+          ...error,
+          subdepart: false,
+          message_subdepart: "",
+        });
+      }, 3000);
+    } else {
+      const params = {
+        id: sub_departmentID.id,
+        name: child_department,
+        departmentId: sub_departmentID.departmentId,
+        companyId: getUser().CompanyId,
+        creatorId: getUser().Id,
+        dateCreate: Moment(new Date()).format(
+          "yyyy-MM-DD" + "T" + "HH:mm:ss.SSS" + "Z"
+        ),
+      };
+      departmentAPI
+        .editSubDepartmentById(params)
+        .then(function () {
+          toast.success("Update child department successfully", {
+            position: toast.POSITION.TOP_CENTER,
+          });
+          window.location.reload();
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+  }
+  function deleteSubDepartment(e){
+    e.preventDefault();
+    
+  }
   return (
     <div>
       <header>
@@ -323,7 +381,11 @@ function DepartmentManagerment() {
                             >
                               {row.name}
                             </td>
-                            <td>{moment(row.dateModify).format("DD/MM/YYYY HH:mm:ss")}</td>
+                            <td>
+                              {moment(row.dateModify).format(
+                                "DD/MM/YYYY HH:mm:ss"
+                              )}
+                            </td>
                             <td>
                               <Button
                                 color="primary"
@@ -401,7 +463,11 @@ function DepartmentManagerment() {
                             >
                               {row.name}
                             </td>
-                            <td>{moment(row.dateModify).format("DD/MM/YYYY HH:mm:ss")}</td>
+                            <td>
+                              {moment(row.dateModify).format(
+                                "DD/MM/YYYY HH:mm:ss"
+                              )}
+                            </td>
                             <td>
                               <Button
                                 color="primary"
@@ -410,6 +476,10 @@ function DepartmentManagerment() {
                                   minWidth: 20,
                                   position: "absolute",
                                   right: 50,
+                                }}
+                                onClick={() => {
+                                  setSub_DepartmentID(row);
+                                  setOpenEditSubDepart(true);
                                 }}
                               />
                               <Button
@@ -538,6 +608,44 @@ function DepartmentManagerment() {
               onClick={addSubDepartment}
             >
               Create
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog
+          open={openEditSubDepart}
+          fullWidth
+          disableBackdropClick
+          disableEscapeKeyDown
+        >
+          <DialogTitle id="form-dialog-title">Child Department</DialogTitle>
+          <DialogContent>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="name"
+              label="Department name"
+              type="text"
+              fullWidth
+              defaultValue={sub_departmentID.name}
+              error={error.subdepart}
+              helperText={error.message_subdepart}
+              onChange={(e) => setChild_Department(e.target.value)}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={() => setOpenEditSubDepart(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={editSubDepartment}
+            >
+              Update
             </Button>
           </DialogActions>
         </Dialog>

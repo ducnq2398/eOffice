@@ -12,10 +12,12 @@ import ScaleLoader from "react-spinners/ScaleLoader";
 import moment from "moment";
 import notiAPI from "../../api/notiAPI";
 import Navbar from "../Navbar/Navbar";
+import notDoc from "../../images/1.png";
 
 function Dashboard() {
   const history = useHistory();
   const [noti, setNoti] = useState([]);
+  const [hidden, setHidden] = useState(true);
   const [listContract, setListContract] = useState([]);
   const [listInvoice, setListInvoice] = useState([]);
   const [currentPage] = useState(1);
@@ -106,6 +108,11 @@ function Dashboard() {
                           const listContract1 = [...res3.data, ...res4.data];
                           setListInvoice(listInvoice1);
                           setListContract(listContract1);
+                          if (listInvoice1 === "") {
+                            setHidden(false);
+                          } else {
+                            setHidden(true);
+                          }
                           setTimeout(() => {
                             setLoadingContract(false);
                           }, 2000);
@@ -258,6 +265,7 @@ function Dashboard() {
                             </tr>
                           ))}
                         </tbody>
+                        {/* <img src={notDoc} alt="" width="300px" height="300px" /> */}
                       </Table>
                     )}
                   </FormGroup>

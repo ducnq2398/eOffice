@@ -58,5 +58,14 @@ const departmentAPI = {
       },
     });
   },
+  editSubDepartmentById: (params) => {
+    const url = "/subdepartments/updatesubdepartment";
+    return axiosClient.put(url, params, {
+      headers: {
+        Authorization: `Bearer ${getUser().IdToken}`,
+      },
+    });
+  },
+
 };
 export default departmentAPI;
