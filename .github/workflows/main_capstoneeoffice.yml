@@ -19,7 +19,7 @@ jobs:
     - name: Set up Node.js version
       uses: actions/setup-node@v1
       with:
-        node-version: '14.x'
+        node-version: '10.x'
 
     - name: npm install, build, and test
       run: |
@@ -52,5 +52,5 @@ jobs:
       with:
         app-name: 'capstoneeoffice'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_5e7cb5baa8994e6da6ae846a022d2c95 }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_277d96dc3e374bd194c9a3b7c1707798 }}
         package: .
