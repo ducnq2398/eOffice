@@ -136,6 +136,8 @@ function ResetPassword() {
           <FormGroup>
             <TextField
               fullWidth
+              error={error2.correct}
+              helperText={error2.message}
               type="password"
               name="confirm_password"
               required
