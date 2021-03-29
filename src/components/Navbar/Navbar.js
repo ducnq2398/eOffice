@@ -45,7 +45,7 @@ function Navbar() {
         const res = await notiAPI.getById(getUser().Id);
         setListNoti(
           res.data.filter((noti) => {
-            if (noti.status === 0) {
+            if (noti.status===0) {
               return noti;
             }
           })
@@ -109,6 +109,7 @@ function Navbar() {
     e.preventDefault();
     history.push("/profile");
   }
+
   function DropdownMenu2() {
     function DropdownItem2(props) {
       return (
@@ -121,7 +122,36 @@ function Navbar() {
       <div className="dropdown-navbar">
         {currentPostsNoti.map((noti, index) => {
           return (
-            <div key={index}>
+            <div
+              key={index}
+              onClick={() => {
+                if (noti.title.includes("Contract")) {
+                  const params = {
+                    id: noti.id,
+                    status: 1,
+                  };
+                  notiAPI.changeStatus(params).catch(function (error) {
+                    console.log(error);
+                  });
+                  history.push({
+                    pathname:
+                      "/detail/contract/" + noti.objectId + "/" + noti.content,
+                  });
+                } else {
+                  const params = {
+                    id: noti.id,
+                    status: 1,
+                  };
+                  notiAPI.changeStatus(params).catch(function (error) {
+                    console.log(error);
+                  });
+                  history.push({
+                    pathname:
+                      "/detail/invoice/" + noti.objectId + "/" + noti.content,
+                  });
+                }
+              }}
+            >
               <DropdownItem2>{noti.title}</DropdownItem2>
             </div>
           );

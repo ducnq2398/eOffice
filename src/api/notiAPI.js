@@ -10,6 +10,14 @@ const notiAPI = {
       },
     });
   },
+  changeStatus: (params) => {
+    const url = "/notifications/changestatus";
+    return axiosClient.put(url, params, {
+      headers: {
+        Authorization: `Bearer ${getUser().IdToken}`,
+      },
+    });
+  },
 };
 
 export default notiAPI;
