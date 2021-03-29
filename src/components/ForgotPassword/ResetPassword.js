@@ -4,12 +4,11 @@ import logo from "../../images/logo.png";
 import "../../css/ResetPassword.css";
 import TextField from "@material-ui/core/TextField";
 import { Button } from "@material-ui/core";
-import { useHistory, useLocation } from "react-router";
+import { useHistory} from "react-router";
 import support from "../../images/support.png";
 import md5 from "md5";
 import userListAPI from "../../api/userListAPI";
 import { toast } from "react-toastify";
-import { removeUserSession } from "../../utils/Common";
 
 function ResetPassword() {
   const user = localStorage.getItem("user");

@@ -451,7 +451,6 @@ function DepartmentManagerment() {
                     <thead>
                       <tr>
                         <th style={{ textAlign: "left" }}>Name</th>
-                        <th>Date Modify</th>
                         <th style={{ textAlign: "right" }}>Actions</th>
                       </tr>
                     </thead>
@@ -470,11 +469,6 @@ function DepartmentManagerment() {
                               className="demo-2"
                             >
                               {row.name}
-                            </td>
-                            <td>
-                              {moment(row.dateModify).format(
-                                "DD/MM/YYYY HH:mm:ss"
-                              )}
                             </td>
                             <td>
                               <Button
