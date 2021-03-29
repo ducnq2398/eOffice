@@ -33,7 +33,7 @@ function ResetPassword() {
     if (regex.exec(password.new_password) === null) {
       setError({
         correct: true,
-        message: "Password must be more than 6 characters",
+        message: "Password must be more than 6 characters, 1 upper case",
       });
       setTimeout(() => {
         setError({
@@ -44,7 +44,7 @@ function ResetPassword() {
     } else if (!regex.test(password.new_password.trim())) {
       setError({
         correct: true,
-        message: "Password must be at least 6 characters, 1 upper case",
+        message: "Password must be at least 6 characters,",
       });
       setTimeout(() => {
         setError({
