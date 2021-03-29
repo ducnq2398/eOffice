@@ -6,7 +6,7 @@
 trigger:
   branches:
     include:
-    - refs/heads/main
+    - refs/heads/datnx38
 jobs:
 - job: Job_1
   displayName: Agent job 1
