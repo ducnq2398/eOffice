@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { forwardRef, useEffect, useState } from "react";
 import { Container, Col, Row, Label, Table } from "reactstrap";
 import "../../../css/Department.css";
 import departmentAPI from "../../../api/departmentAPI";
@@ -19,14 +19,19 @@ import {
   DialogContent,
   DialogContentText,
   Paper,
+  Slide,
   TextField,
 } from "@material-ui/core";
 import Navbar from "../../Navbar/Navbar";
 import moment from "moment";
-
+const Transition = forwardRef(function Transition(props, ref) {
+  return <Slide direction="down" ref={ref} {...props} />;
+});
 function DepartmentManagerment() {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpen2, setIsOpen2] = useState(false);
+  const [isOpen3, setIsOpen3] = useState(false);
+  const [isOpen4, setIsOpen4] = useState(false);
   const [openEditDepart, setOpenEditDepart] = useState(false);
   const [openEditSubDepart, setOpenEditSubDepart] = useState(false);
   const [listChild, setListChild] = useState([]);
@@ -254,7 +259,9 @@ function DepartmentManagerment() {
           toast.success("Update department successfully", {
             position: toast.POSITION.TOP_CENTER,
           });
-          window.location.reload();
+          setTimeout(() => {
+            window.location.reload();
+          }, 3000);
         })
         .catch(function (error) {
           console.log(error);
@@ -318,7 +325,9 @@ function DepartmentManagerment() {
           toast.success("Update child department successfully", {
             position: toast.POSITION.TOP_CENTER,
           });
-          window.location.reload();
+          setTimeout(() => {
+            window.location.reload();
+          }, 3000);
         })
         .catch(function (error) {
           console.log(error);
@@ -339,6 +348,41 @@ function DepartmentManagerment() {
   }
   function deleteSubDepartment(e) {
     e.preventDefault();
+    departmentAPI
+      .deleteSubDepartmentById(departmentID.id)
+      .then(function () {
+        toast.success("Delete child department successfully", {
+          position: toast.POSITION.TOP_CENTER,
+        });
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
+      })
+      .catch(function (error) {
+        toast.error("You can not delete child department", {
+          position: toast.POSITION.TOP_CENTER,
+        });
+        console.log(error);
+      });
+  }
+  function deleteDepartment(e) {
+    e.preventDefault();
+    departmentAPI
+      .deleteDepartmentById(departmentID.id)
+      .then(function () {
+        toast.success("Delete department successfully", {
+          position: toast.POSITION.TOP_CENTER,
+        });
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
+      })
+      .catch(function (error) {
+        toast.error("You can not delete department", {
+          position: toast.POSITION.TOP_CENTER,
+        });
+        console.log(error);
+      });
   }
   return (
     <div>
@@ -467,6 +511,10 @@ function DepartmentManagerment() {
                                   position: "absolute",
                                   right: 10,
                                 }}
+                                onClick={() => {
+                                  setIsOpen4(true);
+                                  setDepartmentID(row);
+                                }}
                               />
                             </td>
                           </tr>
@@ -535,6 +583,10 @@ function DepartmentManagerment() {
                                   minWidth: 20,
                                   position: "absolute",
                                   right: 10,
+                                }}
+                                onClick={() => {
+                                  setDepartmentID(row);
+                                  setIsOpen3(true);
                                 }}
                               />
                             </td>
@@ -619,7 +671,6 @@ function DepartmentManagerment() {
             </Button>
           </DialogActions>
         </Dialog>
-
         <Dialog
           fullWidth
           disableBackdropClick
@@ -692,6 +743,58 @@ function DepartmentManagerment() {
               onClick={editSubDepartment}
             >
               Update
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog
+          open={isOpen3}
+          TransitionComponent={Transition}
+          keepMounted
+          disableBackdropClick
+          disableEscapeKeyDown
+          fullWidth
+        >
+          <DialogTitle>{"Are you sure delete?"}</DialogTitle>
+          <DialogActions>
+            <Button
+              onClick={() => setIsOpen3(false)}
+              color="secondary"
+              variant="contained"
+            >
+              No
+            </Button>
+            <Button
+              onClick={deleteSubDepartment}
+              color="primary"
+              variant="contained"
+            >
+              Yes
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog
+          open={isOpen4}
+          TransitionComponent={Transition}
+          keepMounted
+          disableBackdropClick
+          disableEscapeKeyDown
+          fullWidth
+        >
+          <DialogTitle>{"Are you sure delete?"}</DialogTitle>
+          <DialogActions>
+            <Button
+              onClick={() => setIsOpen4(false)}
+              color="secondary"
+              variant="contained"
+            >
+              No
+            </Button>
+            <Button
+              onClick={deleteDepartment}
+              color="primary"
+              variant="contained"
+            >
+              Yes
             </Button>
           </DialogActions>
         </Dialog>

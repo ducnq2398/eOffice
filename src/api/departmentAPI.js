@@ -66,6 +66,21 @@ const departmentAPI = {
       },
     });
   },
-
+  deleteSubDepartmentById: (id) => {
+    const url = `/subdepartments/deletesubdepartment?id=${id}`;
+    return axiosClient.delete(url, {
+      headers: {
+        Authorization: `Bearer ${getUser().IdToken}`,
+      },
+    });
+  },
+  deleteDepartmentById: (id) => {
+    const url = `/departments/deletedepartment?id=${id}`;
+    return axiosClient.delete(url, {
+      headers: {
+        Authorization: `Bearer ${getUser().IdToken}`,
+      },
+    });
+  },
 };
 export default departmentAPI;

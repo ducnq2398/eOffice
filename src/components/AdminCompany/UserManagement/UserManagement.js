@@ -528,6 +528,7 @@ function UserManagement() {
       Address: user.address,
     };
   });
+  console.log(userList)
   return (
     <div>
       <header>
