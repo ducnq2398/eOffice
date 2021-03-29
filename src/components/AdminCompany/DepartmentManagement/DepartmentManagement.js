@@ -132,6 +132,18 @@ function DepartmentManagerment() {
         })
         .catch(function (error) {
           console.log(error);
+          setError({
+            ...error,
+            depart: true,
+            message_depart: "Department name already exists",
+          });
+          setTimeout(() => {
+            setError({
+              ...error,
+              depart: false,
+              message_depart: "",
+            });
+          }, 3000);
         });
     }
   }
@@ -183,7 +195,18 @@ function DepartmentManagerment() {
           window.location.reload();
         })
         .catch(function (error) {
-          console.log(error);
+          setError({
+            ...error,
+            subdepart: true,
+            message_subdepart: "Child department name already exists",
+          });
+          setTimeout(() => {
+            setError({
+              ...error,
+              subdepart: false,
+              message_subdepart: "",
+            });
+          }, 3000);
         });
     }
   }
@@ -235,6 +258,18 @@ function DepartmentManagerment() {
         })
         .catch(function (error) {
           console.log(error);
+          setError({
+            ...error,
+            depart: true,
+            message_depart: "Department name already exists",
+          });
+          setTimeout(() => {
+            setError({
+              ...error,
+              depart: false,
+              message_depart: "",
+            });
+          }, 3000);
         });
     }
   }
@@ -287,12 +322,23 @@ function DepartmentManagerment() {
         })
         .catch(function (error) {
           console.log(error);
+          setError({
+            ...error,
+            subdepart: true,
+            message_subdepart: "Child department name already exists",
+          });
+          setTimeout(() => {
+            setError({
+              ...error,
+              subdepart: false,
+              message_subdepart: "",
+            });
+          }, 3000);
         });
     }
   }
-  function deleteSubDepartment(e){
+  function deleteSubDepartment(e) {
     e.preventDefault();
-    
   }
   return (
     <div>
