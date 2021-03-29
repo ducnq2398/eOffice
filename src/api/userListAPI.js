@@ -73,6 +73,10 @@ const userListAPI = {
         Authorization: `Bearer ${getUser().IdToken}`,
       },
     });
+  },
+  forgotPassword: (params) =>{
+    const url = "/accounts/forgotpassword";
+    return axiosClient.put(url, params);
   }
 };
 export default userListAPI;

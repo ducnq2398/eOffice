@@ -27,7 +27,10 @@ function ForgotPassword(props) {
   function handleOnChange(e) {
     setPhone(e.target.value);
   }
-  const [errorOTP, setErrorOTP] = useState(false);
+  const [errorOTP, setErrorOTP] = useState({
+    error: false,
+    message: ''
+  });
   const [modal, setModal] = useState(false);
   const toggle = () => {
     if (!phone.trim().match("^[0-9]{10}$")) {
@@ -65,20 +68,23 @@ function ForgotPassword(props) {
       .confirm(otp)
       .then((result) => {
         const user = result.user;
-        const state = { email: user.email };
-        const title = "reset password";
-        const url = "/reset-password";
-        window.history.pushState(state, title, url);
+        localStorage.setItem("user", user.email);
+        window.location = "/reset-password";
       })
       .catch(function (error) {
         console.log(error);
-        setErrorOTP(true);
+        setErrorOTP({
+          error: true,
+          message: 'Invalid verification code'
+        });
         setTimeout(() => {
-          setErrorOTP(false);
+          setErrorOTP({
+            error: false,
+            message:''
+          });
         }, 5000);
       });
   }
-
   return (
     <div className="background">
       <Container className="a">
@@ -128,8 +134,8 @@ function ForgotPassword(props) {
                       fullWidth
                       variant="outlined"
                       name="otp"
-                      error={errorOTP}
-                      helperText="Incorrect code"
+                      error={errorOTP.error}
+                      helperText={errorOTP.message}
                       onChange={(e) => setOtp(e.target.value)}
                     />
                   </Col>
@@ -141,7 +147,7 @@ function ForgotPassword(props) {
             <Button
               variant="contained"
               color="secondary"
-              onClick={() => setModal(false)}
+              onClick={() => window.location.reload()}
               style={{ marginRight: 5 }}
             >
               Cancel

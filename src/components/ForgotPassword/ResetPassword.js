@@ -1,20 +1,28 @@
 import { useState } from "react";
-import {Container, Form, FormGroup } from "reactstrap";
+import { Container, Form, FormGroup } from "reactstrap";
 import logo from "../../images/logo.png";
 import "../../css/ResetPassword.css";
 import TextField from "@material-ui/core/TextField";
 import { Button } from "@material-ui/core";
-import { useLocation } from "react-router";
+import { useHistory, useLocation } from "react-router";
 import support from "../../images/support.png";
+import md5 from "md5";
+import userListAPI from "../../api/userListAPI";
+import { toast } from "react-toastify";
+import { removeUserSession } from "../../utils/Common";
 
 function ResetPassword() {
-  const location = useLocation();
+  const user = localStorage.getItem("user");
+  const history = useHistory();
   const [password, setPassword] = useState({
     new_password: "",
     confirm_password: "",
   });
-  console.log(location);
   const [error, setError] = useState({
+    correct: false,
+    message: "",
+  });
+  const [error2, setError2] = useState({
     correct: false,
     message: "",
   });
@@ -33,6 +41,60 @@ function ResetPassword() {
           message: "",
         });
       }, 3000);
+    } else if (!regex.test(password.new_password.trim())) {
+      setError({
+        correct: true,
+        message: "Password must be at least 6 characters, 1 upper case",
+      });
+      setTimeout(() => {
+        setError({
+          correct: false,
+          message: "",
+        });
+      }, 3000);
+    } else if (password.confirm_password.trim() === null) {
+      setError2({
+        correct: true,
+        message: "Please input new password again",
+      });
+      setTimeout(() => {
+        setError2({
+          correct: false,
+          message: "",
+        });
+      }, 3000);
+    } else if (
+      password.confirm_password.trim() !== password.new_password.trim()
+    ) {
+      setError2({
+        correct: true,
+        message: "Password confirm is not match",
+      });
+      setTimeout(() => {
+        setError2({
+          correct: false,
+          message: "",
+        });
+      }, 3000);
+    } else {
+      const params = {
+        email: user,
+        newPassword: md5(password.new_password),
+      };
+      userListAPI
+        .forgotPassword(params)
+        .then(function () {
+          toast.success("Change password successfully", {
+            position: toast.POSITION.TOP_CENTER,
+          });
+          setTimeout(() => {
+            localStorage.removeItem("user");
+            history.push("/");
+          }, 5000);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     }
   }
 
@@ -80,7 +142,6 @@ function ResetPassword() {
               onChange={handleOnChange}
               placeholder="Confirm new password"
               variant="outlined"
-            
             />
           </FormGroup>
           <FormGroup className="update">
