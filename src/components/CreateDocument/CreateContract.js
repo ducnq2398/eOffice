@@ -31,6 +31,7 @@ import TitleIcon from "@material-ui/icons/Title";
 import { toast } from "react-toastify";
 import Alert from "@material-ui/lab/Alert";
 import Navbar from "../Navbar/Navbar";
+import { getTime } from "date-fns";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 function TransitionLeft(props) {
@@ -161,10 +162,7 @@ function CreateDocument() {
           3000
         );
       });
-    } else if (
-      Moment(selectedDate).format("DD-MM-YYYY" + "T" + "HH:mm:ss.SSS" + "Z") <
-      Moment(new Date()).format("DD-MM-YYYY" + "T" + "HH:mm:ss.SSS" + "Z")
-    ) {
+    } else if (selectedDate.getTime() < new Date().getTime()) {
       setAlert({
         ...alert,
         date: true,

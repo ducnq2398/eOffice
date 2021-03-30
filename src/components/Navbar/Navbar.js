@@ -13,7 +13,7 @@ import Badge from "@material-ui/core/Badge";
 import notiAPI from "../../api/notiAPI";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
+import avt from "../../images/avatar.png";
 import userListAPI from "../../api/userListAPI";
 function Navbar() {
   const history = useHistory();
@@ -27,6 +27,7 @@ function Navbar() {
   const [postPerPage] = useState(9);
   const indexOfLastPost = currentPage * postPerPage;
   const indexOfFirstPost = indexOfLastPost - postPerPage;
+
   var postNotification = listNoti
     .sort((a, b) => {
       return (
@@ -45,7 +46,7 @@ function Navbar() {
         const res = await notiAPI.getById(getUser().Id);
         setListNoti(
           res.data.filter((noti) => {
-            if (noti.status===0) {
+            if (noti.status === 0) {
               return noti;
             }
           })
@@ -182,6 +183,7 @@ function Navbar() {
       </div>
     );
   }
+  
   return (
     <IconContext.Provider value={{ color: "#404f9f" }}>
       <div className="navbar1 navbar-fixed-top">

@@ -20,6 +20,7 @@ import IconButton from "@material-ui/core/IconButton";
 import PhotoCamera from "@material-ui/icons/PhotoCamera";
 import EditIcon from "@material-ui/icons/Edit";
 import BusinessIcon from "@material-ui/icons/Business";
+import avt from "../../images/avatar.png";
 import {
   Card,
   Dialog,
@@ -336,7 +337,12 @@ function Profile() {
           <Col style={{ top: "-200px" }}>
             <div>
               <img
-                src={user1.avatar}
+                src={
+                  user1.avatar ===
+                  "https://datnxeofficemedia.blob.core.windows.net/avatar/637527299717055503.jpg"
+                    ? avt
+                    : user1.avatar
+                }
                 alt="avatar"
                 style={{ borderRadius: "50%" }}
                 width="300px"
