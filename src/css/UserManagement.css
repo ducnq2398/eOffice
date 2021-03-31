@@ -61,12 +61,12 @@
   max-height: 3.6em;
   line-height: 1.8em;
 }
-.demo-2 {
+/* .demo-2 {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  max-width: 150px;
-}
+  max-width: 100px;
+} */
 
 .ex{
   position: absolute;

@@ -19,3 +19,8 @@
   position: fixed;
   font-weight: bold;
 }
+
+.MuiStepper-root {
+  display: flex;
+  padding: 6px;
+}

@@ -334,19 +334,13 @@ function Profile() {
           </Label>
         </div>
         <Container fluid={true}>
-          <Col style={{ top: "-200px" }}>
+          <Col style={{ top: "-100px" }}>
             <div>
               <img
-                src={
-                  user1.avatar ===
-                  "https://datnxeofficemedia.blob.core.windows.net/avatar/637527299717055503.jpg"
-                    ? avt
-                    : user1.avatar
-                }
+                src={user1.avatar}
                 alt="avatar"
                 style={{ borderRadius: "50%" }}
-                width="300px"
-                height="300px"
+                className="avt"
               />
             </div>
             <div>
@@ -409,7 +403,7 @@ function Profile() {
             </div>
           </Col>
           <Row>
-            <Col xl={8} style={{ top: "-200px" }}>
+            <Col xl={8} style={{ top: "-100px" }}>
               <Card>
                 <CardHeader
                   style={{ padding: "1.25rem 1.5rem", marginBottom: 0 }}
@@ -573,7 +567,7 @@ function Profile() {
                 </CardBody>
               </Card>
             </Col>
-            <Col xl={4} style={{ top: "-200px" }}>
+            <Col xl={4} style={{ top: "-100px" }}>
               <Card>
                 <CardHeader
                   style={{ padding: "1.25rem 1.5rem", marginBottom: 0 }}

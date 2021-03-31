@@ -24,6 +24,7 @@ import {
   ListItemIcon,
   ListItemText,
   ListSubheader,
+  makeStyles,
   Paper,
   Slide,
   TextField,
@@ -33,7 +34,20 @@ import moment from "moment";
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+    maxWidth: 752,
+  },
+  demo: {
+    backgroundColor: theme.palette.background.paper,
+  },
+  title: {
+    margin: theme.spacing(4, 0, 2),
+  },
+}));
 function DepartmentManagerment() {
+  const classes = useStyles();
   const [isOpen, setIsOpen] = useState(false);
   const [isOpen2, setIsOpen2] = useState(false);
   const [isOpen3, setIsOpen3] = useState(false);
@@ -441,12 +455,13 @@ function DepartmentManagerment() {
             <Row style={{ position: "relative" }}>
               <Paper
                 style={{
-                  width: "50%",
+                  width: "600px",
                   marginLeft: "auto",
                   marginRight: "auto",
                 }}
               >
                 <List
+                  className={classes.root}
                   subheader={
                     <ListSubheader component="div">Department</ListSubheader>
                   }

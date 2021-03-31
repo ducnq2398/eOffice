@@ -12,7 +12,6 @@ import ScaleLoader from "react-spinners/ScaleLoader";
 import moment from "moment";
 import notiAPI from "../../api/notiAPI";
 import Navbar from "../Navbar/Navbar";
-import notDoc from "../../images/1.png";
 
 function Dashboard() {
   const history = useHistory();
@@ -192,7 +191,7 @@ function Dashboard() {
                               </td>
                               <td>
                                 {data.status < 2 ? (
-                                  <img src={notsigned} alt="" />
+                                  <img className="not-sign" src={notsigned} alt="" />
                                 ) : (
                                   <img src={done} alt="" />
                                 )}
@@ -266,7 +265,6 @@ function Dashboard() {
                             </tr>
                           ))}
                         </tbody>
-                        {/* <img src={notDoc} alt="" width="300px" height="300px" /> */}
                       </Table>
                     )}
                   </FormGroup>

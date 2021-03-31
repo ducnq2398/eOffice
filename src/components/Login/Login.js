@@ -16,6 +16,7 @@ import Alert from "@material-ui/lab/Alert";
 import firebase from "../App/firebase";
 import { browserName, osVersion, osName } from "react-device-detect";
 import packageJson from "../../../package.json";
+import textbg from "../../images/bg-preview.png";
 
 function Login() {
   const [token, setToken] = useState();
@@ -76,7 +77,7 @@ function Login() {
 
   return (
     <div className="background">
-      <Container fluid={true} className="b">
+      <Container fluid>
         <Snackbar
           anchorOrigin={{ vertical: "top", horizontal: "center" }}
           open={submit}
@@ -87,82 +88,82 @@ function Login() {
           </Alert>
         </Snackbar>
         <Row>
-          <Col>
-            <div className="fpt">
-              <img src={fpt} alt="" width="60%" height="50%" />
-              <h1>MANAGEMENT & CONTRACT</h1>
-              <p style={{ color: "white", fontSize: "30px" }}>
-                DOCUMENT SYSTEM
-              </p>
+          <Col md={6} style={{ marginTop: "5%" }}>
+            <div>
+              <img className="logo-fpt" src={fpt} alt="" />
+            </div>
+            <div>
+              <img src={textbg} alt="" />
             </div>
           </Col>
-          <Col>
-            <Form className="form-login" onSubmit={handleSubmit}>
-              <FormGroup>
-                <img src={eoffice} alt="" />
-              </FormGroup>
-              <FormGroup>
-                <TextField
-                  type="email"
-                  name="username"
-                  variant="outlined"
-                  onChange={handleGetData}
-                  required
-                  placeholder="Email"
-                  size="medium"
-                  fullWidth
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <EmailIcon color="primary" />
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </FormGroup>
-              <FormGroup>
-                <TextField
-                  type="password"
-                  name="password"
-                  variant="outlined"
-                  onChange={handleGetData}
-                  required
-                  placeholder="Password"
-                  size="medium"
-                  fullWidth
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <LockIcon color="primary" />
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </FormGroup>
-              <FormGroup className="form-forgot">
-                <Link to="/forgot-password">Forgot password?</Link>
-              </FormGroup>
-              <FormGroup>
-                <Button
-                  variant="contained"
-                  fullWidth
-                  color="primary"
-                  type="submit"
-                  size="large"
-                >
-                  Sign In
-                </Button>
-              </FormGroup>
-            </Form>
+          <Col md={4} style={{marginTop:'20px'}}>
+            <div className="content-panel form-login">
+              <div className="nameHT">
+                <img className="logo-system" src={eoffice} alt="" />
+              </div>
+              <Form onSubmit={handleSubmit}>
+                <FormGroup>
+                  <TextField
+                    type="email"
+                    name="username"
+                    variant="outlined"
+                    onChange={handleGetData}
+                    required
+                    placeholder="Email"
+                    size="medium"
+                    fullWidth
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <EmailIcon color="primary" />
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <TextField
+                    type="password"
+                    name="password"
+                    variant="outlined"
+                    onChange={handleGetData}
+                    required
+                    placeholder="Password"
+                    size="medium"
+                    fullWidth
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <LockIcon color="primary" />
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                </FormGroup>
+                <FormGroup className="form-forgot">
+                  <Link to="/forgot-password">Forgot password?</Link>
+                </FormGroup>
+                <FormGroup>
+                  <Button
+                    variant="contained"
+                    fullWidth
+                    color="primary"
+                    type="submit"
+                    size="large"
+                  >
+                    Sign In
+                  </Button>
+                </FormGroup>
+              </Form>
+            </div>
           </Col>
+          <img
+            className="logo-sp"
+            style={{ position: "absolute", bottom: 0, left: -40 }}
+            src={support}
+            alt=""
+          />
         </Row>
-        <img
-          style={{ position: "absolute", bottom: 0, left: 0 }}
-          src={support}
-          alt=""
-          width="500"
-          height="100"
-        />
       </Container>
     </div>
   );

@@ -282,8 +282,8 @@ function CreateDocument() {
       <header>
         <Navbar />
       </header>
-      <VerticalLinearStepper activeStep={activeStep} />
-      <main className="main-contract">
+
+      <main className="main-panel">
         <Snackbar
           style={{ marginTop: 70 }}
           anchorOrigin={{ vertical: "top", horizontal: "center" }}
@@ -313,6 +313,9 @@ function CreateDocument() {
             }}
           />
           <Row>
+            <Col md={2}>
+              <VerticalLinearStepper activeStep={activeStep} />
+            </Col>
             <Col>
               <Tooltip title="Choose location sign A" placement="top-start">
                 <IconButton
@@ -882,13 +885,13 @@ function CreateDocument() {
                 </Button>
               </div>
             </Col>
-            <Col>
+            <Col md={6}>
               <Form className="form-doc">
                 <FormGroup row>
                   <div hidden={show} style={{ marginTop: "4rem" }}>
                     <img src={demo} alt="demo" width="600" height="600" />
                   </div>
-                  <Paper elevation={3}>
+                  <Paper>
                     <Document
                       file={file[0]}
                       onLoadSuccess={onDocumentLoadSuccess}
