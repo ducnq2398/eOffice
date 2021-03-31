@@ -23,7 +23,6 @@ function Dashboard() {
   const [postPerPage] = useState(5);
   const indexOfLastPost = currentPage * postPerPage;
   const indexOfFirstPost = indexOfLastPost - postPerPage;
-  console.log(noti);
   const invoice = listInvoice
     .sort((a, b) => {
       return (
@@ -191,7 +190,11 @@ function Dashboard() {
                               </td>
                               <td>
                                 {data.status < 2 ? (
-                                  <img className="not-sign" src={notsigned} alt="" />
+                                  <img
+                                    className="not-sign"
+                                    src={notsigned}
+                                    alt=""
+                                  />
                                 ) : (
                                   <img src={done} alt="" />
                                 )}

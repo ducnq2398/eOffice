@@ -44,6 +44,8 @@ import md5 from "md5";
 import Navbar from "../../Navbar/Navbar";
 import { CSVLink } from "react-csv";
 import * as Icon from "react-icons/bi";
+import getData from "../../GetData/Department";
+import getDataSub from "../../GetData/SubDepartment";
 
 const TransitionAdd = forwardRef(function Transition(props, ref) {
   return <Slide direction="right" ref={ref} {...props} />;
@@ -519,16 +521,34 @@ function UserManagement() {
     setPage(0);
     setPostList(listDeactive);
   }
+  const [data, setData] = useState([]);
 
-  const data = userList.map((user) => {
-    return {
+  userList.map(async function (user) {
+    let name = await getData(user.departmentId);
+    let sub = await getDataSub(user.subDepartmentId);
+    data.push({
       Account: user.name,
+      Department: name,
+      SubDepartment: sub,
       Email: user.email,
       Phone: user.phone,
       Address: user.address,
+      Status: user.status === 1 ? "active" : "deactive",
+    });
+  });
+
+  const li = data.map((row) => {
+    return {
+      Account: row.Account,
+      Department: row.Department,
+      SubDepartment: row.SubDepartment,
+      Email: row.Email,
+      Phone: row.Phone,
+      Address: row.Address,
+      Status: row.Status,
     };
   });
-  console.log(userList);
+  console.log(li);
   return (
     <div>
       <header>
@@ -751,7 +771,7 @@ function UserManagement() {
               />
             </div>
             <div hidden={search !== "" ? true : false} className="ex">
-              <CSVLink filename={"data user.csv"} data={data}>
+              <CSVLink filename={"data user.csv"} data={li}>
                 Import
                 <Icon.BiImport fontSize="25" tableValues="a" />
               </CSVLink>
