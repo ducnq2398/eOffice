@@ -10,6 +10,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Dialog from "@material-ui/core/Dialog";
 import AddIcon from "@material-ui/icons/Add";
 import PeopleAltIcon from "@material-ui/icons/PeopleAlt";
+import * as Icon from "react-icons/ai";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import TablePagination from "@material-ui/core/TablePagination";
@@ -18,6 +19,11 @@ import {
   DialogActions,
   DialogContent,
   DialogContentText,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  ListSubheader,
   Paper,
   Slide,
   TextField,
@@ -32,6 +38,7 @@ function DepartmentManagerment() {
   const [isOpen2, setIsOpen2] = useState(false);
   const [isOpen3, setIsOpen3] = useState(false);
   const [isOpen4, setIsOpen4] = useState(false);
+  const [isOpen5, setIsOpen5] = useState(false);
   const [openEditDepart, setOpenEditDepart] = useState(false);
   const [openEditSubDepart, setOpenEditSubDepart] = useState(false);
   const [listChild, setListChild] = useState([]);
@@ -431,167 +438,146 @@ function DepartmentManagerment() {
             </Row>
           </Container>
           <Container fluid>
-            <Row>
-              <Col xl={7}>
-                <Paper>
-                  <div>
-                    <PeopleAltIcon color="primary" fontSize="large" />
-                  </div>
-                  <h5> Department</h5>
-                  <TablePagination
-                    component="div"
-                    count={listDepartment.length}
-                    page={page}
-                    onChangePage={changePage}
-                    rowsPerPage={rowsPerPage}
-                    labelRowsPerPage=""
-                    rowsPerPageOptions={[]}
-                  />
-                  <Table style={{ paddingLeft: 15, paddingRight: 15 }}>
-                    <thead>
-                      <tr>
-                        <th style={{ textAlign: "left" }}>Name</th>
-                        <th style={{ textAlign: "right" }}>Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody className="tb">
-                      {currentPosts.map((row, index) => {
-                        return (
-                          <tr
-                            key={index}
-                            onClick={(event) => {
-                              event.preventDefault();
-                              getChildDepartment(row.id);
+            <Row style={{ position: "relative" }}>
+              <Paper
+                style={{
+                  width: "50%",
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                }}
+              >
+                <List
+                  subheader={
+                    <ListSubheader component="div">Department</ListSubheader>
+                  }
+                >
+                  {listDepartment.map((row) => {
+                    return (
+                      <ListItem button>
+                        <ListItemText
+                          onClick={(event) => {
+                            event.preventDefault();
+                            getChildDepartment(row.id);
+                            setIsOpen5(!isOpen5);
+                          }}
+                        >
+                          {row.name}
+                        </ListItemText>
+                        <ListItemIcon>
+                          <AddIcon
+                            color="primary"
+                            onClick={() => {
+                              toogle2();
+                              setDepartmentID(row);
                             }}
-                          >
-                            <td
-                              style={{ textAlign: "left" }}
-                              className="demo-2"
-                            >
-                              {row.name}
-                            </td>
-                            <td>
-                              <Button
-                                color="primary"
-                                startIcon={<AddIcon />}
-                                style={{
-                                  minWidth: 20,
-                                  position: "absolute",
-                                  right: 90,
-                                }}
-                                onClick={() => {
-                                  toogle2();
-                                  setDepartmentID(row);
-                                }}
-                              />
-                              <Button
-                                color="primary"
-                                startIcon={<EditIcon />}
-                                style={{
-                                  minWidth: 20,
-                                  position: "absolute",
-                                  right: 50,
-                                }}
-                                onClick={() => {
-                                  setOpenEditDepart(true);
-                                  setDepartmentID(row);
-                                }}
-                              />
-                              <Button
-                                color="primary"
-                                startIcon={<DeleteForeverIcon />}
-                                style={{
-                                  minWidth: 20,
-                                  position: "absolute",
-                                  right: 10,
-                                }}
-                                onClick={() => {
-                                  setIsOpen4(true);
-                                  setDepartmentID(row);
-                                }}
-                              />
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </Table>
-                </Paper>
-              </Col>
-              <Col xl={5}>
-                <Paper>
-                  <div>
-                    <PeopleAltIcon color="primary" fontSize="large" />
-                  </div>
-                  <h5>Child Department</h5>
-                  <TablePagination
-                    component="div"
-                    count={listChild.length}
-                    page={page2}
-                    onChangePage={changePage2}
-                    rowsPerPage={rowsPerPage}
-                    labelRowsPerPage=""
-                    rowsPerPageOptions={[]}
-                  />
-                  <Table hover>
-                    <thead>
-                      <tr>
-                        <th style={{ textAlign: "left" }}>Name</th>
-                        <th>Date Modify</th>
-                        <th style={{ textAlign: "right" }}>Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {currentPosts2.map((row, index) => {
-                        return (
-                          <tr key={index}>
-                            <td
-                              style={{ textAlign: "left" }}
-                              className="demo-2"
-                            >
-                              {row.name}
-                            </td>
-                            <td>
-                              {moment(row.dateModify).format(
-                                "DD/MM/YYYY HH:mm:ss"
-                              )}
-                            </td>
-                            <td>
-                              <Button
-                                color="primary"
-                                startIcon={<EditIcon />}
-                                style={{
-                                  minWidth: 20,
-                                  position: "absolute",
-                                  right: 50,
-                                }}
-                                onClick={() => {
-                                  setSub_DepartmentID(row);
-                                  setOpenEditSubDepart(true);
-                                }}
-                              />
-                              <Button
-                                color="primary"
-                                startIcon={<DeleteForeverIcon />}
-                                style={{
-                                  minWidth: 20,
-                                  position: "absolute",
-                                  right: 10,
-                                }}
-                                onClick={() => {
-                                  setDepartmentID(row);
-                                  setIsOpen3(true);
-                                }}
-                              />
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </Table>
-                </Paper>
-              </Col>
+                          />
+                        </ListItemIcon>
+                        <ListItemIcon>
+                          <EditIcon
+                            color="primary"
+                            onClick={() => {
+                              setOpenEditDepart(true);
+                              setDepartmentID(row);
+                              setDepartment(row.name);
+                            }}
+                          />
+                        </ListItemIcon>
+                        <ListItemIcon>
+                          <DeleteForeverIcon
+                            color="primary"
+                            onClick={() => {
+                              setIsOpen4(true);
+                              setDepartmentID(row);
+                            }}
+                          />
+                        </ListItemIcon>
+                      </ListItem>
+                    );
+                  })}
+                </List>
+              </Paper>
             </Row>
+            <Dialog
+              open={isOpen5}
+              fullWidth
+              disableBackdropClick
+              disableEscapeKeyDown
+            >
+              <DialogTitle>
+                Child Department
+                <Icon.AiOutlineClose
+                  style={{ cursor: "pointer", float: "right" }}
+                  onClick={() => {
+                    setIsOpen5(false);
+                  }}
+                />
+              </DialogTitle>
+              <DialogContent>
+                <TablePagination
+                  component="div"
+                  count={listChild.length}
+                  page={page2}
+                  onChangePage={changePage2}
+                  rowsPerPage={rowsPerPage}
+                  labelRowsPerPage=""
+                  rowsPerPageOptions={[]}
+                />
+                <Table hover>
+                  <thead>
+                    <tr>
+                      <th style={{ textAlign: "left" }}>Name</th>
+                      <th>Date Modify</th>
+                      <th style={{ textAlign: "right" }}>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {currentPosts2.map((row, index) => {
+                      return (
+                        <tr key={index}>
+                          <td style={{ textAlign: "left" }} className="demo-2">
+                            {row.name}
+                          </td>
+                          <td>
+                            {moment(row.dateModify).format(
+                              "DD/MM/YYYY HH:mm:ss"
+                            )}
+                          </td>
+                          <td>
+                            <Button
+                              color="primary"
+                              startIcon={<EditIcon />}
+                              style={{
+                                minWidth: 20,
+                                position: "absolute",
+                                right: 50,
+                              }}
+                              onClick={() => {
+                                setSub_DepartmentID(row);
+                                setOpenEditSubDepart(true);
+                                setChild_Department(row.name);
+                              }}
+                            />
+                            <Button
+                              color="primary"
+                              startIcon={<DeleteForeverIcon />}
+                              style={{
+                                minWidth: 20,
+                                position: "absolute",
+                                right: 10,
+                              }}
+                              onClick={() => {
+                                setDepartmentID(row);
+                                setIsOpen4(true);
+                              }}
+                            />
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </Table>
+              </DialogContent>
+            </Dialog>
           </Container>
         </div>
         <Dialog
@@ -642,7 +628,7 @@ function DepartmentManagerment() {
               label="Department name"
               type="text"
               fullWidth
-              defaultValue={departmentID.name}
+              value={department}
               error={error.depart}
               helperText={error.message_depart}
               onChange={(e) => setDepartment(e.target.value)}
@@ -717,7 +703,7 @@ function DepartmentManagerment() {
               label="Department name"
               type="text"
               fullWidth
-              defaultValue={sub_departmentID.name}
+              value={child_department}
               error={error.subdepart}
               helperText={error.message_subdepart}
               onChange={(e) => setChild_Department(e.target.value)}
@@ -741,6 +727,30 @@ function DepartmentManagerment() {
           </DialogActions>
         </Dialog>
         <Dialog
+          open={isOpen4}
+          disableBackdropClick
+          disableEscapeKeyDown
+          fullWidth
+        >
+          <DialogTitle>{"Are you sure delete?"}</DialogTitle>
+          <DialogActions>
+            <Button
+              onClick={() => setIsOpen4(false)}
+              color="secondary"
+              variant="contained"
+            >
+              No
+            </Button>
+            <Button
+              onClick={deleteDepartment}
+              color="primary"
+              variant="contained"
+            >
+              Yes
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog
           open={isOpen3}
           TransitionComponent={Transition}
           keepMounted
@@ -759,32 +769,6 @@ function DepartmentManagerment() {
             </Button>
             <Button
               onClick={deleteSubDepartment}
-              color="primary"
-              variant="contained"
-            >
-              Yes
-            </Button>
-          </DialogActions>
-        </Dialog>
-        <Dialog
-          open={isOpen4}
-          TransitionComponent={Transition}
-          keepMounted
-          disableBackdropClick
-          disableEscapeKeyDown
-          fullWidth
-        >
-          <DialogTitle>{"Are you sure delete?"}</DialogTitle>
-          <DialogActions>
-            <Button
-              onClick={() => setIsOpen4(false)}
-              color="secondary"
-              variant="contained"
-            >
-              No
-            </Button>
-            <Button
-              onClick={deleteDepartment}
               color="primary"
               variant="contained"
             >
