@@ -528,7 +528,7 @@ function UserManagement() {
       Address: user.address,
     };
   });
-  console.log(userList)
+  console.log(userList);
   return (
     <div>
       <header>
@@ -579,7 +579,7 @@ function UserManagement() {
             </DialogContent>
             <DialogContent>
               <FormControl variant="outlined" style={{ width: "270px" }}>
-                <InputLabel id="demo">Department</InputLabel>
+                <InputLabel id="demo">Department*</InputLabel>
                 <Select
                   name="department"
                   value={user.department}
@@ -605,7 +605,7 @@ function UserManagement() {
                 variant="outlined"
                 style={{ marginLeft: "10px", width: "270px" }}
               >
-                <InputLabel id="demo">Child Department</InputLabel>
+                <InputLabel id="demo">Child Department*</InputLabel>
                 <Select
                   name="subdepartment"
                   value={user.subdepartment}
@@ -630,6 +630,7 @@ function UserManagement() {
             </DialogContent>
             <DialogContent>
               <TextField
+                required
                 error={error.email}
                 label="Email"
                 value={user.email}

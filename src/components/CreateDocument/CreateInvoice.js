@@ -154,7 +154,13 @@ function CreateInvoice() {
     async function fetListUser() {
       try {
         const response = await userListAPI.getUserByCompanyId(companyId);
-        setListSigner(response.data);
+        setListSigner(
+          response.data.filter((data) => {
+            if (data.status === 1) {
+              return data;
+            }
+          })
+        );
       } catch (error) {
         console.log(error);
       }

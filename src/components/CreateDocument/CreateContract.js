@@ -31,7 +31,6 @@ import TitleIcon from "@material-ui/icons/Title";
 import { toast } from "react-toastify";
 import Alert from "@material-ui/lab/Alert";
 import Navbar from "../Navbar/Navbar";
-import { getTime } from "date-fns";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 function TransitionLeft(props) {
@@ -112,7 +111,13 @@ function CreateDocument() {
     async function fetListCompany() {
       try {
         const response = await companyListAPI.getAll();
-        setListCompany(response.data);
+        setListCompany(
+          response.data.filter((data) => {
+            if (data.status === 1) {
+              return data;
+            }
+          })
+        );
       } catch (error) {
         console.log(error);
       }
@@ -125,7 +130,13 @@ function CreateDocument() {
       const companyId = getUser().CompanyId;
       try {
         const response = await userListAPI.getUserByCompanyId(companyId);
-        setListSigner(response.data);
+        setListSigner(
+          response.data.filter((data) => {
+            if (data.status === 1) {
+              return data;
+            }
+          })
+        );
       } catch (error) {
         console.log(error);
       }
@@ -137,7 +148,13 @@ function CreateDocument() {
       const id = dataUpload.company_guest.id;
       try {
         const response = await userListAPI.getUserByCompanyId(id);
-        setListGuest(response.data);
+        setListGuest(
+          response.data.filter((data) => {
+            if (data.status === 1) {
+              return data;
+            }
+          })
+        );
       } catch (error) {
         console.log(error);
       }
@@ -610,9 +627,16 @@ function CreateDocument() {
                 </Label>
                 <Autocomplete
                   options={listCompany}
+                  disableClearable={true}
                   getOptionLabel={(option) => option.name}
                   onChange={(event, newValue) => {
-                    setDataUpload({ ...dataUpload, company_guest: newValue });
+                    setDataUpload({
+                      ...dataUpload,
+                      company_guest: newValue,
+                      signer_guest: null,
+                    });
+                    setViewer([]);
+                    setViewerGuest([]);
                   }}
                   renderInput={(params) => (
                     <TextField
