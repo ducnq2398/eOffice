@@ -282,8 +282,8 @@ function CreateDocument() {
       <header>
         <Navbar />
       </header>
-
-      <main className="main-panel">
+      <VerticalLinearStepper activeStep={activeStep} />
+      <main className="main-contract">
         <Snackbar
           style={{ marginTop: 70 }}
           anchorOrigin={{ vertical: "top", horizontal: "center" }}
@@ -313,9 +313,6 @@ function CreateDocument() {
             }}
           />
           <Row>
-            <Col md={2}>
-              <VerticalLinearStepper activeStep={activeStep} />
-            </Col>
             <Col>
               <Tooltip title="Choose location sign A" placement="top-start">
                 <IconButton

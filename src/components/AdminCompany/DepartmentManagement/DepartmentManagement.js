@@ -391,7 +391,7 @@ function DepartmentManagerment() {
         console.log(error);
       });
   }
-  console.log(departmentID);
+
   function deleteDepartment() {
     departmentAPI
       .deactiveDepartment(departmentID.id)
