@@ -58,5 +58,13 @@ const invoiceAPI = {
       },
     });
   },
+  deleteInvoice: (id) => {
+    const url = `/invoices/deleteinvoice?id=${id}`;
+    return axiosClient.delete(url, {
+      headers: {
+        Authorization: `Bearer ${getUser().IdToken}`,
+      },
+    });
+  },
 };
 export default invoiceAPI;

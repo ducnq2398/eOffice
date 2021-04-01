@@ -24,6 +24,7 @@ function Dashboard() {
   const [postPerPage] = useState(5);
   const indexOfLastPost = currentPage * postPerPage;
   const indexOfFirstPost = indexOfLastPost - postPerPage;
+  console.log(noti);
   const invoice = listInvoice
     .sort((a, b) => {
       return (
@@ -296,7 +297,47 @@ function Dashboard() {
                           </Row>
                           <Row style={{ marginLeft: 10 }}>{row.title}</Row>
                           <Row style={{ marginLeft: 10 }}>
-                            <Link to="/">View detail</Link>
+                            <Link
+                              onClick={() => {
+                                if (row.title.includes("Contract")) {
+                                  const params = {
+                                    id: row.id,
+                                    status: 1,
+                                  };
+                                  notiAPI
+                                    .changeStatus(params)
+                                    .catch(function (error) {
+                                      console.log(error);
+                                    });
+                                  history.push({
+                                    pathname:
+                                      "/detail/contract/" +
+                                      row.objectId +
+                                      "/" +
+                                      row.content,
+                                  });
+                                } else {
+                                  const params = {
+                                    id: row.id,
+                                    status: 1,
+                                  };
+                                  notiAPI
+                                    .changeStatus(params)
+                                    .catch(function (error) {
+                                      console.log(error);
+                                    });
+                                  history.push({
+                                    pathname:
+                                      "/detail/invoice/" +
+                                      row.objectId +
+                                      "/" +
+                                      row.content,
+                                  });
+                                }
+                              }}
+                            >
+                              View detail
+                            </Link>
                           </Row>
                         </td>
                         <td style={{ position: "absolute", right: 10 }}>

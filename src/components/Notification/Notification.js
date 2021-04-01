@@ -2,7 +2,7 @@ import { Container, Row, Table } from "reactstrap";
 import Button from "@material-ui/core/Button";
 import "../../css/Notification.css";
 import TablePagination from "@material-ui/core/TablePagination";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useEffect, useState } from "react";
 import notiAPI from "../../api/notiAPI";
 import moment from "moment";
@@ -17,6 +17,7 @@ import {
 import { getUser } from "../../utils/Common";
 
 function Notification() {
+  const history = useHistory();
   const [all, setAll] = useState([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
@@ -198,7 +199,47 @@ function Notification() {
                       </Row>
                       <Row style={{ marginLeft: 10 }}>{row.title}</Row>
                       <Row style={{ marginLeft: 10 }}>
-                        <Link to="/">View detail</Link>
+                        <Link
+                          onClick={() => {
+                            if (row.title.includes("Contract")) {
+                              const params = {
+                                id: row.id,
+                                status: 1,
+                              };
+                              notiAPI
+                                .changeStatus(params)
+                                .catch(function (error) {
+                                  console.log(error);
+                                });
+                              history.push({
+                                pathname:
+                                  "/detail/contract/" +
+                                  row.objectId +
+                                  "/" +
+                                  row.content,
+                              });
+                            } else {
+                              const params = {
+                                id: row.id,
+                                status: 1,
+                              };
+                              notiAPI
+                                .changeStatus(params)
+                                .catch(function (error) {
+                                  console.log(error);
+                                });
+                              history.push({
+                                pathname:
+                                  "/detail/invoice/" +
+                                  row.objectId +
+                                  "/" +
+                                  row.content,
+                              });
+                            }
+                          }}
+                        >
+                          View detail
+                        </Link>
                       </Row>
                     </td>
                     <td style={{ position: "absolute", right: 10 }}>

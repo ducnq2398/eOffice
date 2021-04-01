@@ -4,12 +4,11 @@ import logo from "../../images/logo.png";
 import "../../css/ResetPassword.css";
 import TextField from "@material-ui/core/TextField";
 import { Button } from "@material-ui/core";
-import { useHistory, useLocation } from "react-router";
+import { useHistory} from "react-router";
 import support from "../../images/support.png";
 import md5 from "md5";
 import userListAPI from "../../api/userListAPI";
 import { toast } from "react-toastify";
-import { removeUserSession } from "../../utils/Common";
 
 function ResetPassword() {
   const user = localStorage.getItem("user");
@@ -33,7 +32,7 @@ function ResetPassword() {
     if (regex.exec(password.new_password) === null) {
       setError({
         correct: true,
-        message: "Password must be more than 6 characters",
+        message: "Password must be more than 6 characters, 1 upper case",
       });
       setTimeout(() => {
         setError({
@@ -44,7 +43,7 @@ function ResetPassword() {
     } else if (!regex.test(password.new_password.trim())) {
       setError({
         correct: true,
-        message: "Password must be at least 6 characters, 1 upper case",
+        message: "Password must be at least 6 characters,",
       });
       setTimeout(() => {
         setError({
@@ -136,6 +135,8 @@ function ResetPassword() {
           <FormGroup>
             <TextField
               fullWidth
+              error={error2.correct}
+              helperText={error2.message}
               type="password"
               name="confirm_password"
               required

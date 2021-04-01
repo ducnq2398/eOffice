@@ -58,5 +58,13 @@ const contractAPI = {
       },
     });
   },
+  deleteContract: (id) => {
+    const url = `/contracts/deletecontract?id=${id}`;
+    return axiosClient.delete(url, {
+      headers: {
+        Authorization: `Bearer ${getUser().IdToken}`,
+      },
+    });
+  },
 };
 export default contractAPI;

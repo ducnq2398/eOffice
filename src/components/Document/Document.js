@@ -43,6 +43,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import Navbar from "../Navbar/Navbar";
 import InvoiceStepper from "../Stepper/InvoiceStepper";
 import ContractStepper from "../Stepper/ContractStepper";
+import { toast } from "react-toastify";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -53,7 +54,7 @@ function Document() {
   const [isOpen, setIsOpen] = useState(false);
   const [dele, setDel] = useState(false);
   const toogle = () => setIsOpen(!isOpen);
-  const [filter, setFilter] = useState('1');
+  const [filter, setFilter] = useState("1");
   const [postList, setPostList] = useState([]);
   const [listAllDocument, setListAllDocument] = useState([]);
   const [listInvoice, setListInvoice] = useState([]);
@@ -247,6 +248,41 @@ function Document() {
           }
         })
       );
+    }
+  }
+  const [documentDelete, setDocumentDelete] = useState("");
+  function deleteDocument(e) {
+    e.preventDefault();
+    if (documentDelete.invoiceURL) {
+      invoiceAPI
+        .deleteInvoice(documentDelete.id)
+        .then(function () {
+          toast.success("Delete document successfully", {
+            position: toast.POSITION.TOP_CENTER,
+          });
+          setDel(false);
+          setTimeout(() => {
+            window.location.reload();
+          }, 3000);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    } else {
+      contractAPI
+        .deleteContract(documentDelete.id)
+        .then(function () {
+          toast.success("Delete document successfully", {
+            position: toast.POSITION.TOP_CENTER,
+          });
+          setDel(false);
+          setTimeout(() => {
+            window.location.reload();
+          }, 3000);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     }
   }
   return (
@@ -460,8 +496,10 @@ function Document() {
                         {doc.contractUrl ? (
                           <ContractStepper value={doc.status} />
                         ) : (
-                          <div>
-                            <InvoiceStepper value={doc.status === 2 ? 1 : doc.status} />
+                          <div style={{marginRight:80}}>
+                            <InvoiceStepper
+                              value={doc.status === 2 ? 1 : doc.status}
+                            />
                           </div>
                         )}
                       </Label>
@@ -534,7 +572,10 @@ function Document() {
                       <br />
                       <Label hidden={doc.status < 2 ? false : true}>
                         <DeleteIcon
-                          onClick={() => setDel(true)}
+                          onClick={() => {
+                            setDel(true);
+                            setDocumentDelete(doc);
+                          }}
                           fontSize="default"
                           style={{ cursor: "pointer" }}
                         />
@@ -624,8 +665,10 @@ function Document() {
                         {data.contractUrl ? (
                           <ContractStepper value={data.status} />
                         ) : (
-                          <div>
-                            <InvoiceStepper value={data.status === 2 ? 1 : data.status} />
+                          <div style={{marginRight:80}}>
+                            <InvoiceStepper
+                              value={data.status === 2 ? 1 : data.status}
+                            />
                           </div>
                         )}
                       </Label>
@@ -698,7 +741,10 @@ function Document() {
                       <br />
                       <Label hidden={data.status < 2 ? false : true}>
                         <DeleteIcon
-                          onClick={() => setDel(true)}
+                          onClick={() => {
+                            setDel(true);
+                            setDocumentDelete(data);
+                          }}
                           fontSize="default"
                           style={{ cursor: "pointer" }}
                         />
@@ -719,7 +765,11 @@ function Document() {
               >
                 No
               </Button>
-              <Button color="primary" variant="contained">
+              <Button
+                onClick={deleteDocument}
+                color="primary"
+                variant="contained"
+              >
                 Yes
               </Button>
             </ModalFooter>
