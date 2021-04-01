@@ -82,8 +82,9 @@ function UserManagement() {
     email: "",
     address: "",
     status: "",
-    role: '',
+    role: "",
   });
+  const [detailUser, setDetailUser] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [del, setDel] = useState(false);
   const [page, setPage] = useState(0);
@@ -110,6 +111,7 @@ function UserManagement() {
     message_subdepart: "",
     message_address: "",
   });
+
   useEffect(() => {
     async function fetchUserList() {
       try {
@@ -462,12 +464,12 @@ function UserManagement() {
           message: "",
         });
       }, 4000);
-    }else if(detail.role === '1' && detail.status===0){
+    } else if (detail.role === "1" && detail.status === 0) {
       setCheckDisable(true);
-      setTimeout(()=>{
+      setTimeout(() => {
         setCheckDisable(false);
-      },4000)
-    }else {
+      }, 4000);
+    } else if (detail.status === detailUser.status) {
       const tel = "+84" + detail.phone.substring(1);
       const params = {
         id: detail.id,
@@ -476,43 +478,55 @@ function UserManagement() {
         email: detail.email,
         phone: tel,
         address: detail.address,
-        dateCreate: Moment(new Date()).format("DD/MM/YYYY HH:mm:ss"),
+        dateCreate: Moment(new Date()).format(
+          "yyyy-MM-DD" + "T" + "HH:mm:ss.SSS" + "Z"
+        ),
         creatorId: getUser().Id,
         subDepartmentId: detail.subdepartment,
         departmentId: detail.department,
         companyId: getUser().CompanyId,
+        status: detail.status,
         role: "2",
       };
       userListAPI
         .updateUser(params)
         .then(function () {
-          if (detail.status === 1) {
-            userListAPI
-              .activeUser(detail.id)
-              .then(() => {
-                window.location.reload();
-                toast.success("You has updated user successfully", {
-                  position: toast.POSITION.TOP_CENTER,
-                });
-              })
-              .catch(function (error) {
-                console.log(error);
-              });
-          } else {
-            userListAPI.deActiveUser(detail.id).then(() => {
-              window.location.reload();
-              toast.success("You has updated user successfully", {
-                position: toast.POSITION.TOP_CENTER,
-              });
-            });
-          }
+          window.location.reload();
+          toast.success("You has updated user successfully", {
+            position: toast.POSITION.TOP_CENTER,
+          });
         })
         .catch(function (error) {
           console.log(error);
         });
+    } else {
+      if (detail.status === 0) {
+        userListAPI
+          .deActiveUser(detail.id)
+          .then(function () {
+            window.location.reload();
+            toast.success("You has updated user successfully", {
+              position: toast.POSITION.TOP_CENTER,
+            });
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      } else {
+        userListAPI
+          .activeUser(detail.id)
+          .then(() => {
+            window.location.reload();
+            toast.success("You has updated user successfully", {
+              position: toast.POSITION.TOP_CENTER,
+            });
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
     }
   }
-
   function changePage(event, newPage) {
     setPage(newPage);
   }
@@ -528,34 +542,34 @@ function UserManagement() {
     setPage(0);
     setPostList(listDeactive);
   }
-  const [data, setData] = useState([]);
+  // const [data, setData] = useState([]);
 
-  userList.map(async function (user) {
-    let name = await getData(user.departmentId);
-    let sub = await getDataSub(user.subDepartmentId);
-    data.push({
-      Account: user.name,
-      Department: name,
-      SubDepartment: sub,
-      Email: user.email,
-      Phone: user.phone,
-      Address: user.address,
-      Status: user.status === 1 ? "active" : "deactive",
-    });
-  });
+  // userList.map(async function (user) {
+  //   let name = await getData(user.departmentId);
+  //   let sub = await getDataSub(user.subDepartmentId);
+  //   data.push({
+  //     Account: user.name,
+  //     Department: name,
+  //     SubDepartment: sub,
+  //     Email: user.email,
+  //     Phone: user.phone,
+  //     Address: user.address,
+  //     Status: user.status === 1 ? "active" : "deactive",
+  //   });
+  // });
 
-  const li = data.map((row) => {
-    return {
-      Account: row.Account,
-      Department: row.Department,
-      SubDepartment: row.SubDepartment,
-      Email: row.Email,
-      Phone: row.Phone,
-      Address: row.Address,
-      Status: row.Status,
-    };
-  });
-  
+  // const li = data.map((row) => {
+  //   return {
+  //     Account: row.Account,
+  //     Department: row.Department,
+  //     SubDepartment: row.SubDepartment,
+  //     Email: row.Email,
+  //     Phone: row.Phone,
+  //     Address: row.Address,
+  //     Status: row.Status,
+  //   };
+  // });
+
   return (
     <div>
       <header>
@@ -610,12 +624,12 @@ function UserManagement() {
                 <Select
                   name="department"
                   value={user.department}
-                  onChange={(e)=>{
+                  onChange={(e) => {
                     setUser({
                       ...user,
                       department: e.target.value,
-                      subdepartment: '',
-                    })
+                      subdepartment: "",
+                    });
                   }}
                   label="Department"
                   error={error.depart}
@@ -782,7 +796,7 @@ function UserManagement() {
                 rowsPerPageOptions={[]}
               />
             </div>
-            <div hidden={search !== "" ? true : false} className="ex">
+            {/* <div hidden={search !== "" ? true : false} className="ex">
               <CSVLink filename={"data user.csv"} data={li}>
                 Import
                 <Icon.BiImport fontSize="25" tableValues="a" />
@@ -795,7 +809,7 @@ function UserManagement() {
                 Export
                 <Icon.BiExport fontSize="25" />
               </CSVLink>
-            </div>
+            </div> */}
           </div>
           {loading ? (
             <ScaleLoader color={"#2512DF"} loading={loading} size={35} />
@@ -816,41 +830,37 @@ function UserManagement() {
               </thead>
               <tbody>
                 {currentPosts.map((user) => (
-                  <tr key={user.id} className="row_data" onClick={()=>{
-                    setDetail({
-                      id: user.id,
-                      username: user.name,
-                      phone: "0" + user.phone.substring(3),
-                      department: user.departmentId,
-                      subdepartment: user.subDepartmentId,
-                      email: user.email,
-                      address: user.address,
-                      status: user.status,
-                      role: user.role,
-                    });
-                    if (user.status === 0) {
-                      setCheckActive(false);
-                    } else {
-                      setCheckActive(true);
-                    }
-                    setOpenEdit(true);
-                  }}> 
-                    <td
-                      className="demo-2"
-                      
-                    >
-                      {user.name}
-                    </td>
-                    <td
-                      className="demo-2"
-                      
-                    >
+                  <tr
+                    key={user.id}
+                    className="row_data"
+                    onClick={() => {
+                      setDetail({
+                        id: user.id,
+                        username: user.name,
+                        phone: "0" + user.phone.substring(3),
+                        department: user.departmentId,
+                        subdepartment: user.subDepartmentId,
+                        email: user.email,
+                        address: user.address,
+                        status: user.status,
+                        role: user.role,
+                      });
+                      if (user.status === 0) {
+                        setCheckActive(false);
+                      } else {
+                        setCheckActive(true);
+                      }
+                      setOpenEdit(true);
+                      setDetailUser(user);
+                    }}
+                  >
+                    <td className="demo-2">{user.name}</td>
+                    <td className="demo-2">
                       <GetDepartment id={user.departmentId} />
                     </td>
                     <td
                       className="demo-2"
                       onClick={() => {
-                        
                         if (user.status === 0) {
                           setCheckActive(false);
                         } else {
@@ -861,11 +871,7 @@ function UserManagement() {
                     >
                       {user.phone}
                     </td>
-                    <td
-                      className="demo-2"
-                    >
-                      {user.email}
-                    </td>
+                    <td className="demo-2">{user.email}</td>
                   </tr>
                 ))}
               </tbody>
@@ -892,48 +898,36 @@ function UserManagement() {
                   }
                 })
                 .map((user) => (
-                  <tr key={user.id} className="row_data" onClick={()=>{
-                    setDetail({
-                      id: user.id,
-                      username: user.name,
-                      phone: "0" + user.phone.substring(3),
-                      department: user.departmentId,
-                      subdepartment: user.subDepartmentId,
-                      email: user.email,
-                      address: user.address,
-                      status: user.status,
-                      role: user.role,
-                    });
-                    if (user.status === 0) {
-                      setCheckActive(false);
-                    } else {
-                      setCheckActive(true);
-                    }
-                    setOpenEdit(true);
-                  }}>
-                    <td
-                      className="demo-2"
-                      
-                    >
-                      {user.name}
-                    </td>
-                    <td
-                      className="demo-2"
-                                          >
+                  <tr
+                    key={user.id}
+                    className="row_data"
+                    onClick={() => {
+                      setDetail({
+                        id: user.id,
+                        username: user.name,
+                        phone: "0" + user.phone.substring(3),
+                        department: user.departmentId,
+                        subdepartment: user.subDepartmentId,
+                        email: user.email,
+                        address: user.address,
+                        status: user.status,
+                        role: user.role,
+                      });
+                      if (user.status === 0) {
+                        setCheckActive(false);
+                      } else {
+                        setCheckActive(true);
+                      }
+                      setOpenEdit(true);
+                      setDetailUser(user);
+                    }}
+                  >
+                    <td className="demo-2">{user.name}</td>
+                    <td className="demo-2">
                       <GetDepartment id={user.departmentId} />
                     </td>
-                    <td
-                      className="demo-2"
-                      
-                    >
-                      {user.phone}
-                    </td>
-                    <td
-                      className="demo-2"
-                      
-                    >
-                      {user.email}
-                    </td>
+                    <td className="demo-2">{user.phone}</td>
+                    <td className="demo-2">{user.email}</td>
                   </tr>
                 ))}
             </tbody>
@@ -980,12 +974,12 @@ function UserManagement() {
                 <Select
                   name="department"
                   value={detail.department}
-                  onChange={(e)=>{
+                  onChange={(e) => {
                     setDetail({
                       ...detail,
                       department: e.target.value,
-                      subdepartment: '',
-                    })
+                      subdepartment: "",
+                    });
                   }}
                   label="Department"
                   error={error.depart}
