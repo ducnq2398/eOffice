@@ -292,33 +292,28 @@ function Document() {
       </header>
       <main className="main-panel">
         <Dialog open={isOpen} onClose={toogle} TransitionComponent={Transition}>
-          <DialogContent>
-            <img
-              style={{ marginLeft: "20%" }}
-              src={choo}
-              alt=""
-              width="280px"
-              height="280px"
-            />
+          <DialogContent
+            style={{
+              marginLeft: "auto",
+              marginRight: "auto",
+            }}
+          >
+            <img src={choo} alt="" className="l" />
           </DialogContent>
           <DialogTitle>
             Please select the type of document you want create?
           </DialogTitle>
-          <DialogActions style={{ paddingBottom: "30px" }}>
-            <Button
-              variant="contained"
-              color="primary"
-              style={{ marginRight: "15%" }}
-              onClick={AddContract}
-            >
+          <DialogActions
+            style={{
+              paddingBottom: "30px",
+              marginLeft: "auto",
+              marginRight: "auto",
+            }}
+          >
+            <Button variant="contained" color="primary" onClick={AddContract}>
               Contract
             </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              style={{ marginRight: "20%", width: "104px" }}
-              onClick={AddInvoice}
-            >
+            <Button variant="contained" color="primary" onClick={AddInvoice}>
               Invoice
             </Button>
           </DialogActions>
@@ -496,7 +491,7 @@ function Document() {
                         {doc.contractUrl ? (
                           <ContractStepper value={doc.status} />
                         ) : (
-                          <div style={{marginRight:80}}>
+                          <div style={{ marginRight: 80 }}>
                             <InvoiceStepper
                               value={doc.status === 2 ? 1 : doc.status}
                             />
@@ -665,7 +660,7 @@ function Document() {
                         {data.contractUrl ? (
                           <ContractStepper value={data.status} />
                         ) : (
-                          <div style={{marginRight:80}}>
+                          <div style={{ marginRight: 80 }}>
                             <InvoiceStepper
                               value={data.status === 2 ? 1 : data.status}
                             />

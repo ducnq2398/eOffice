@@ -111,7 +111,13 @@ function CreateDocument() {
     async function fetListCompany() {
       try {
         const response = await companyListAPI.getAll();
-        setListCompany(response.data);
+        setListCompany(
+          response.data.filter((data) => {
+            if (data.status === 1) {
+              return data;
+            }
+          })
+        );
       } catch (error) {
         console.log(error);
       }
@@ -124,7 +130,13 @@ function CreateDocument() {
       const companyId = getUser().CompanyId;
       try {
         const response = await userListAPI.getUserByCompanyId(companyId);
-        setListSigner(response.data);
+        setListSigner(
+          response.data.filter((data) => {
+            if (data.status === 1) {
+              return data;
+            }
+          })
+        );
       } catch (error) {
         console.log(error);
       }
@@ -136,7 +148,13 @@ function CreateDocument() {
       const id = dataUpload.company_guest.id;
       try {
         const response = await userListAPI.getUserByCompanyId(id);
-        setListGuest(response.data);
+        setListGuest(
+          response.data.filter((data) => {
+            if (data.status === 1) {
+              return data;
+            }
+          })
+        );
       } catch (error) {
         console.log(error);
       }
@@ -161,10 +179,7 @@ function CreateDocument() {
           3000
         );
       });
-    } else if (
-      Moment(selectedDate).format("DD-MM-YYYY" + "T" + "HH:mm:ss.SSS" + "Z") <
-      Moment(new Date()).format("DD-MM-YYYY" + "T" + "HH:mm:ss.SSS" + "Z")
-    ) {
+    } else if (selectedDate.getTime() < new Date().getTime()) {
       setAlert({
         ...alert,
         date: true,
@@ -267,8 +282,8 @@ function CreateDocument() {
       <header>
         <Navbar />
       </header>
-      <VerticalLinearStepper activeStep={activeStep} />
-      <main className="main-contract">
+
+      <main className="main-panel">
         <Snackbar
           style={{ marginTop: 70 }}
           anchorOrigin={{ vertical: "top", horizontal: "center" }}
@@ -298,6 +313,9 @@ function CreateDocument() {
             }}
           />
           <Row>
+            <Col md={2}>
+              <VerticalLinearStepper activeStep={activeStep} />
+            </Col>
             <Col>
               <Tooltip title="Choose location sign A" placement="top-start">
                 <IconButton
@@ -612,9 +630,16 @@ function CreateDocument() {
                 </Label>
                 <Autocomplete
                   options={listCompany}
+                  disableClearable={true}
                   getOptionLabel={(option) => option.name}
                   onChange={(event, newValue) => {
-                    setDataUpload({ ...dataUpload, company_guest: newValue });
+                    setDataUpload({
+                      ...dataUpload,
+                      company_guest: newValue,
+                      signer_guest: null,
+                    });
+                    setViewer([]);
+                    setViewerGuest([]);
                   }}
                   renderInput={(params) => (
                     <TextField
@@ -860,13 +885,13 @@ function CreateDocument() {
                 </Button>
               </div>
             </Col>
-            <Col>
+            <Col md={6}>
               <Form className="form-doc">
                 <FormGroup row>
                   <div hidden={show} style={{ marginTop: "4rem" }}>
                     <img src={demo} alt="demo" width="600" height="600" />
                   </div>
-                  <Paper elevation={3}>
+                  <Paper>
                     <Document
                       file={file[0]}
                       onLoadSuccess={onDocumentLoadSuccess}

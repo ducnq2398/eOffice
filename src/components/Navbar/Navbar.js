@@ -13,7 +13,6 @@ import Badge from "@material-ui/core/Badge";
 import notiAPI from "../../api/notiAPI";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import userListAPI from "../../api/userListAPI";
 function Navbar() {
   const history = useHistory();
@@ -22,11 +21,16 @@ function Navbar() {
   const [listNoti, setListNoti] = useState([]);
   const [openNoti, setOpenNoti] = useState(false);
   const [openProfile, setOpenProfile] = useState(false);
-  const count = listNoti.length;
+  const count = listNoti.filter((data)=>{
+    if(data.status===0){
+      return data;
+    }
+  });
   const [currentPage] = useState(1);
   const [postPerPage] = useState(9);
   const indexOfLastPost = currentPage * postPerPage;
   const indexOfFirstPost = indexOfLastPost - postPerPage;
+
   var postNotification = listNoti
     .sort((a, b) => {
       return (
@@ -43,13 +47,7 @@ function Navbar() {
     async function fetListNoti() {
       try {
         const res = await notiAPI.getById(getUser().Id);
-        setListNoti(
-          res.data.filter((noti) => {
-            if (noti.status===0) {
-              return noti;
-            }
-          })
-        );
+        setListNoti(res.data);
       } catch (error) {
         console.log(error);
       }
@@ -182,6 +180,7 @@ function Navbar() {
       </div>
     );
   }
+
   return (
     <IconContext.Provider value={{ color: "#404f9f" }}>
       <div className="navbar1 navbar-fixed-top">
@@ -194,12 +193,17 @@ function Navbar() {
           }}
           className="menu-bars"
         />
-        <img src={logo} alt="" style={{ marginLeft: 20, marginTop: 10 }} />
+        <img
+          className="lo"
+          src={logo}
+          alt=""
+          style={{ marginLeft: 20, marginTop: 10 }}
+        />
         <nav style={{ display: "flex", right: 20, position: "absolute" }}>
           <ul className="navbar-nav">
             <NavItemNoti
               icon={
-                <Badge badgeContent={count < 10 ? count : "9+"} color="error">
+                <Badge badgeContent={count.length < 10 ? count.length : "9+"} color="error">
                   <NotificationsIcon
                     style={{ cursor: "pointer" }}
                     color="action"

@@ -35,7 +35,7 @@ const contractAPI = {
     });
   },
   getContractByViewerId: (id) => {
-    const url = `/contracts/getbyviewrid?id=${id}`;
+    const url = `/contracts/getbyviewerid?id=${id}`;
     return axiosClient.get(url, {
       headers: {
         Authorization: `Bearer ${getUser().IdToken}`,

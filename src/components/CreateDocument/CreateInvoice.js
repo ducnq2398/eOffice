@@ -107,10 +107,7 @@ function CreateInvoice() {
           date: false,
         });
       }, 3000);
-    } else if (
-      Moment(selectedDate).format("yyyy-MM-DD" + "T" + "HH:mm:ss.SSS" + "Z") <
-      Moment(new Date()).format("yyyy-MM-DD" + "T" + "HH:mm:ss.SSS" + "Z")
-    ) {
+    } else if (selectedDate.getTime() < new Date().getTime()) {
       setAlert({
         ...alert,
         date: true,
@@ -157,7 +154,13 @@ function CreateInvoice() {
     async function fetListUser() {
       try {
         const response = await userListAPI.getUserByCompanyId(companyId);
-        setListSigner(response.data);
+        setListSigner(
+          response.data.filter((data) => {
+            if (data.status === 1) {
+              return data;
+            }
+          })
+        );
       } catch (error) {
         console.log(error);
       }

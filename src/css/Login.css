@@ -1,19 +1,9 @@
-.b {
-  overflow: auto;
-  display: block;
-  position: relative;
-  width: calc(100%);
-  height: calc(100vh);
-  transition: 0.33s, cubic-bezier(0.685, 0.0473, 0.346, 1);
-}
 .form-login {
-  padding: 10px 50px 50px;
-  width: 60%;
-  margin-top: 12%;
-  margin-left: 10%;
   background-color: #f8f8f8;
   border-radius: 10px;
+  margin-top: 20px;
 }
+
 
 .form-forgot {
   float: right;
@@ -24,19 +14,39 @@
   float: left;
   margin-left: 10%;
 }
-h1 {
-  color: white;
-  font-weight: bold;
-  font-size: 47px;
+.positionBox {
+  margin-top: 10%;
 }
 .sp {
   float: left;
 }
-.background{
+.background {
+  overflow: auto;
   width: 100%;
   height: 100vh;
-  background-image: url('../images/background.png');
+  background-image: url("../images/background.png");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
 }
+
+
+.content-panel {
+  padding: 20px 40px;
+  position: relative;
+}
+
+.logo-fpt{
+  width:300px;
+  height: 180px;
+}
+
+.logo-system{
+  width: 250px;
+  height: 130px;
+}
+.logo-sp{
+  width: 400px;
+  height: 80px;
+}
+

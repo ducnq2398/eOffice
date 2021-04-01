@@ -86,3 +86,8 @@
   text-overflow: ellipsis;
   max-width: 400px;
 }
+
+.l{
+  width: 280px;
+  height: 280px;
+}

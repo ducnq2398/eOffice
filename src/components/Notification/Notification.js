@@ -69,26 +69,170 @@ function Notification() {
     setPage(newPage);
   }
   function filterSeen() {
-    setFilter(
-      all
-        .filter((data) => {
-          if (data.status === 1) {
-            return data;
-          }
-        })
-        .sort((a, b) => {
-          return (
-            new Date(a.dateCreate).getTime() - new Date(b.dateCreate).getTime()
-          );
-        })
-        .reverse()
-    );
+    if (filterByType === "1") {
+      setFilter(
+        all
+          .filter((data) => {
+            if (data.status === 1) {
+              return data;
+            }
+          })
+          .sort((a, b) => {
+            return (
+              new Date(a.dateCreate).getTime() -
+              new Date(b.dateCreate).getTime()
+            );
+          })
+          .reverse()
+      );
+    } else if (filterByType === "2") {
+      setFilter(
+        all
+          .filter((data) => {
+            if (data.title.includes("Contract") && data.status === 1) {
+              return data;
+            }
+          })
+          .sort((a, b) => {
+            return (
+              new Date(a.dateCreate).getTime() -
+              new Date(b.dateCreate).getTime()
+            );
+          })
+          .reverse()
+      );
+    } else {
+      setFilter(
+        all
+          .filter((data) => {
+            if (data.title.includes("Invoice") && data.status === 1) {
+              return data;
+            }
+          })
+          .sort((a, b) => {
+            return (
+              new Date(a.dateCreate).getTime() -
+              new Date(b.dateCreate).getTime()
+            );
+          })
+          .reverse()
+      );
+    }
   }
   function filterNotSeen() {
+    if (filterByType === "1") {
+      setFilter(
+        all
+          .filter((data) => {
+            if (data.status === 0) {
+              return data;
+            }
+          })
+          .sort((a, b) => {
+            return (
+              new Date(a.dateCreate).getTime() -
+              new Date(b.dateCreate).getTime()
+            );
+          })
+          .reverse()
+      );
+    } else if (filterByType === "2") {
+      setFilter(
+        all
+          .filter((data) => {
+            if (data.title.includes("Contract") && data.status === 0) {
+              return data;
+            }
+          })
+          .sort((a, b) => {
+            return (
+              new Date(a.dateCreate).getTime() -
+              new Date(b.dateCreate).getTime()
+            );
+          })
+          .reverse()
+      );
+    } else {
+      setFilter(
+        all
+          .filter((data) => {
+            if (data.title.includes("Invoice") && data.status === 0) {
+              return data;
+            }
+          })
+          .sort((a, b) => {
+            return (
+              new Date(a.dateCreate).getTime() -
+              new Date(b.dateCreate).getTime()
+            );
+          })
+          .reverse()
+      );
+    }
+  }
+  function filterAll() {
+    if (filterByType === "1") {
+      setFilter(
+        all
+          .sort((a, b) => {
+            return (
+              new Date(a.dateCreate).getTime() -
+              new Date(b.dateCreate).getTime()
+            );
+          })
+          .reverse()
+      );
+    } else if (filterByType === "2") {
+      setFilter(
+        all
+          .filter((data) => {
+            if (data.title.includes("Contract")) {
+              return data;
+            }
+          })
+          .sort((a, b) => {
+            return (
+              new Date(a.dateCreate).getTime() -
+              new Date(b.dateCreate).getTime()
+            );
+          })
+          .reverse()
+      );
+    } else {
+      setFilter(
+        all
+          .filter((data) => {
+            if (data.title.includes("Invoice")) {
+              return data;
+            }
+          })
+          .sort((a, b) => {
+            return (
+              new Date(a.dateCreate).getTime() -
+              new Date(b.dateCreate).getTime()
+            );
+          })
+          .reverse()
+      );
+    }
+  }
+  function allNoti() {
+    setFilter(
+      all
+        .sort((a, b) => {
+          return (
+            new Date(a.dateCreate).getTime() - new Date(b.dateCreate).getTime()
+          );
+        })
+        .reverse()
+    );
+    setFilterByStatus("1");
+  }
+  function allNotiContract() {
     setFilter(
       all
         .filter((data) => {
-          if (data.status === 0) {
+          if (data.title.includes("Contract")) {
             return data;
           }
         })
@@ -99,10 +243,16 @@ function Notification() {
         })
         .reverse()
     );
+    setFilterByStatus("1");
   }
-  function filterAll() {
+  function allNotiInvoice() {
     setFilter(
       all
+        .filter((data) => {
+          if (data.title.includes("Invoice")) {
+            return data;
+          }
+        })
         .sort((a, b) => {
           return (
             new Date(a.dateCreate).getTime() - new Date(b.dateCreate).getTime()
@@ -110,8 +260,8 @@ function Notification() {
         })
         .reverse()
     );
+    setFilterByStatus("1");
   }
-
   return (
     <div>
       <header>
@@ -144,9 +294,15 @@ function Notification() {
                 value={filterByType}
                 onChange={handleChange2}
               >
-                <MenuItem value="1">All</MenuItem>
-                <MenuItem value="2">Contract</MenuItem>
-                <MenuItem value="3">Invoice</MenuItem>
+                <MenuItem onClick={allNoti} value="1">
+                  All
+                </MenuItem>
+                <MenuItem onClick={allNotiContract} value="2">
+                  Contract
+                </MenuItem>
+                <MenuItem onClick={allNotiInvoice} value="3">
+                  Invoice
+                </MenuItem>
               </Select>
               <FormHelperText>-Filter by type-</FormHelperText>
             </FormControl>
