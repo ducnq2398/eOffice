@@ -82,5 +82,21 @@ const departmentAPI = {
       },
     });
   },
+  deactiveDepartment: (id) => {
+    const url = `/departments/deactivatedepartment?departmentid=${id}`;
+    return axiosClient.put(url, "", {
+      headers: {
+        Authorization: `Bearer ${getUser().IdToken}`,
+      },
+    });
+  },
+  deactiveSubDepartment: (id) => {
+    const url = `/subdepartments/deactivatesubdepartment?subdepartmentid=${id}`;
+    return axiosClient.put(url, "", {
+      headers: {
+        Authorization: `Bearer ${getUser().IdToken}`,
+      },
+    });
+  },
 };
 export default departmentAPI;

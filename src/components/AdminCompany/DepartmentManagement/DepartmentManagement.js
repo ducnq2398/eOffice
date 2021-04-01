@@ -147,6 +147,7 @@ function DepartmentManagerment() {
         dateCreate: Moment(new Date()).format(
           "yyyy-MM-DD" + "T" + "HH:mm:ss.SSS" + "Z"
         ),
+        status: 1,
       };
       departmentAPI
         .addDepartment(params)
@@ -211,6 +212,7 @@ function DepartmentManagerment() {
         dateCreate: Moment(new Date()).format(
           "yyyy-MM-DD" + "T" + "HH:mm:ss.SSS" + "Z"
         ),
+        status: 1,
       };
       departmentAPI
         .addSubDepartment(params)
@@ -273,6 +275,7 @@ function DepartmentManagerment() {
         dateCreate: Moment(new Date()).format(
           "yyyy-MM-DD" + "T" + "HH:mm:ss.SSS" + "Z"
         ),
+        status: 1,
       };
       departmentAPI
         .editDepartmentById(params)
@@ -280,9 +283,7 @@ function DepartmentManagerment() {
           toast.success("Update department successfully", {
             position: toast.POSITION.TOP_CENTER,
           });
-          setTimeout(() => {
-            window.location.reload();
-          }, 3000);
+          window.location.reload();
         })
         .catch(function (error) {
           console.log(error);
@@ -339,6 +340,7 @@ function DepartmentManagerment() {
         dateCreate: Moment(new Date()).format(
           "yyyy-MM-DD" + "T" + "HH:mm:ss.SSS" + "Z"
         ),
+        status: 1,
       };
       departmentAPI
         .editSubDepartmentById(params)
@@ -346,9 +348,7 @@ function DepartmentManagerment() {
           toast.success("Update child department successfully", {
             position: toast.POSITION.TOP_CENTER,
           });
-          setTimeout(() => {
-            window.location.reload();
-          }, 3000);
+          window.location.reload();
         })
         .catch(function (error) {
           console.log(error);
@@ -370,38 +370,48 @@ function DepartmentManagerment() {
   function deleteSubDepartment(e) {
     e.preventDefault();
     departmentAPI
-      .deleteSubDepartmentById(departmentID.id)
+      .deactiveSubDepartment(departmentID.id)
       .then(function () {
-        toast.success("Delete child department successfully", {
-          position: toast.POSITION.TOP_CENTER,
-        });
-        setTimeout(() => {
-          window.location.reload();
-        }, 3000);
+        departmentAPI
+          .deleteSubDepartmentById(departmentID.id)
+          .then(function () {
+            toast.success("Delete child department successfully", {
+              position: toast.POSITION.TOP_CENTER,
+            });
+            window.location.reload();
+          })
+          .catch(function (error) {
+            toast.error("You can not delete child department", {
+              position: toast.POSITION.TOP_CENTER,
+            });
+            console.log(error);
+          });
       })
       .catch(function (error) {
-        toast.error("You can not delete child department", {
-          position: toast.POSITION.TOP_CENTER,
-        });
         console.log(error);
       });
   }
-  function deleteDepartment(e) {
-    e.preventDefault();
+  console.log(departmentID);
+  function deleteDepartment() {
     departmentAPI
-      .deleteDepartmentById(departmentID.id)
+      .deactiveDepartment(departmentID.id)
       .then(function () {
-        toast.success("Delete department successfully", {
-          position: toast.POSITION.TOP_CENTER,
-        });
-        setTimeout(() => {
-          window.location.reload();
-        }, 3000);
+        departmentAPI
+          .deleteDepartmentById(departmentID.id)
+          .then(function () {
+            toast.success("Delete department successfully", {
+              position: toast.POSITION.TOP_CENTER,
+            });
+            window.location.reload();
+          })
+          .catch(function (error) {
+            toast.error("You can not delete department", {
+              position: toast.POSITION.TOP_CENTER,
+            });
+            console.log(error);
+          });
       })
       .catch(function (error) {
-        toast.error("You can not delete department", {
-          position: toast.POSITION.TOP_CENTER,
-        });
         console.log(error);
       });
   }
@@ -582,7 +592,7 @@ function DepartmentManagerment() {
                               }}
                               onClick={() => {
                                 setDepartmentID(row);
-                                setIsOpen4(true);
+                                setIsOpen3(!isOpen3);
                               }}
                             />
                           </td>
@@ -767,8 +777,6 @@ function DepartmentManagerment() {
         </Dialog>
         <Dialog
           open={isOpen3}
-          TransitionComponent={Transition}
-          keepMounted
           disableBackdropClick
           disableEscapeKeyDown
           fullWidth
