@@ -309,7 +309,7 @@ function CompanyRegister() {
   return (
     <div>
       <SidebarAdmin />
-      <div className="main-panel">
+      <div className="main-panel1">
         <Container fluid={true}>
           <Snackbar
             open={error.company_name}
@@ -361,9 +361,13 @@ function CompanyRegister() {
               {error.message}
             </Alert>
           </Snackbar>
-
+        <Row>
+          <Col>
+          </Col>
+          
+        </Row>
           <div>
-            <img style={{ marginTop: "20px" }} src={register} alt="" />
+            <img className="lo1" style={{ marginTop: "20px" }} src={register} alt="" />
           </div>
           <Form
             style={{

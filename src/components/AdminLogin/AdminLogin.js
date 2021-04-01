@@ -66,7 +66,7 @@ function AdminLogin() {
         </Snackbar>
         <Form className="form-admin" onSubmit={handleSubmit}>
           <FormGroup>
-            <img src={logo} alt="" />
+            <img className="logo-system" src={logo} alt="" />
           </FormGroup>
           <FormGroup>
             <TextField
