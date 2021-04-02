@@ -265,7 +265,7 @@ function Document() {
           setDel(false);
           setTimeout(() => {
             window.location.reload();
-          }, 3000);
+          }, 5000);
         })
         .catch(function (error) {
           console.log(error);
@@ -280,7 +280,7 @@ function Document() {
           setDel(false);
           setTimeout(() => {
             window.location.reload();
-          }, 3000);
+          }, 5000);
         })
         .catch(function (error) {
           console.log(error);

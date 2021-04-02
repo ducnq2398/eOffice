@@ -1,17 +1,28 @@
 import { Link, NavLink } from "react-router-dom";
 import logo from "../../images/eoffice.png";
-import HomeIcon from "@material-ui/icons/Home";
-import usericon from "../../images/company.png";
-import group from "../../images/list.png";
-import logout from "../../images/logout.png";
 import "../../css/Sidebar.css";
 import { Col, Row } from "reactstrap";
-import { removeUserSession } from "../../utils/Common";
+import { getUser, removeUserSession } from "../../utils/Common";
+import { browserName } from "react-device-detect";
+import logoutAPI from "../../api/logoutAPI";
+import * as Icon from "react-icons/ai";
+import * as IconName from "react-icons/ri";
 
 function SidebarAdmin() {
   function Logout(e) {
     e.preventDefault();
-    removeUserSession();
+    const params = {
+      id: getUser().Id,
+      device: browserName,
+    };
+    logoutAPI
+      .logout(params)
+      .then(function () {
+        removeUserSession();
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
   return (
     <div className="sidebar">
@@ -28,7 +39,7 @@ function SidebarAdmin() {
             >
               <Row>
                 <Col sm={3}>
-                  <HomeIcon color="inherit" fontSize="large" />
+                  <Icon.AiFillHome size="30px" />
                 </Col>
                 <Col sm={4}>
                   <p>Admin</p>
@@ -44,7 +55,7 @@ function SidebarAdmin() {
             >
               <Row>
                 <Col sm={3}>
-                  <img src={usericon} width="24px" height="24px" alt="" />
+                  <IconName.RiBuilding4Fill size="30px" />
                 </Col>
                 <Col sm={5}>
                   <p>Register Company</p>
@@ -60,7 +71,7 @@ function SidebarAdmin() {
             >
               <Row>
                 <Col sm={3}>
-                  <img src={group} width="24px" height="24px" alt="" />
+                  <IconName.RiBuildingFill size="30px" />
                 </Col>
                 <Col sm={5}>
                   <p>List Company</p>
@@ -72,7 +83,7 @@ function SidebarAdmin() {
             <Link className="nav-link" to="/admin">
               <Row>
                 <Col sm={3}>
-                  <img src={logout} width="24px" height="24px" alt="" />
+                  <Icon.AiOutlineLogout size="30px" />
                 </Col>
                 <Col sm={4}>
                   <p>Logout</p>

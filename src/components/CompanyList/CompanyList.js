@@ -1,16 +1,4 @@
-import {
-  Container,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
-  Table,
-  Form,
-  FormGroup,
-  Input,
-  Row,
-  Col,
-} from "reactstrap";
+import { Container, Table, Form, FormGroup, Row, Col } from "reactstrap";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import TablePagination from "@material-ui/core/TablePagination";
@@ -20,11 +8,17 @@ import "../../css/CompanyList.css";
 import GetAdminCompany from "../GetAdminCompany/GetAdminCompany";
 import Moment from "moment";
 import ScaleLoader from "react-spinners/ScaleLoader";
+import {
+  FormControl,
+  InputAdornment,
+  MenuItem,
+  Select,
+  TextField,
+} from "@material-ui/core";
+import SearchIcon from "@material-ui/icons/Search";
 
 function CompanyList() {
-  const [filter, setFilter] = useState(false);
   const [loading, setLoading] = useState(true);
-  const toggle = () => setFilter((prevState) => !prevState);
   const [page, setPage] = useState(0);
   const [rowsPerPage] = useState(10);
   const [search, setSearch] = useState("");
@@ -33,7 +27,7 @@ function CompanyList() {
   const indexOfLastPost = (page + 1) * rowsPerPage;
   const indexOfFirstPost = indexOfLastPost - rowsPerPage;
   const currentPosts = postList.slice(indexOfFirstPost, indexOfLastPost);
-
+  const [value, setValue] = useState(1);
   function changePage(event, newPage) {
     setPage(newPage);
   }
@@ -73,6 +67,7 @@ function CompanyList() {
   function All() {
     setPostList(data);
   }
+
   return (
     <div>
       <SidebarAdmin />
@@ -83,29 +78,48 @@ function CompanyList() {
               <FormGroup>
                 <Row>
                   <Col xs={10}>
-                    <Input
-                      type="search"
-                      className="form-control rounded"
+                    <TextField
+                      name="search"
+                      type="text"
+                      variant="outlined"
                       value={search}
+                      placeholder="Search by name company"
                       onChange={(event) => {
                         setSearch(event.target.value);
                       }}
-                      placeholder="Search by name company"
+                      size="small"
+                      fullWidth
+                      style={{ marginLeft: 20 }}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <SearchIcon color="primary" />
+                          </InputAdornment>
+                        ),
+                      }}
                     />
                   </Col>
                   <Col xs={2}>
-                    <Dropdown isOpen={filter} toggle={toggle}>
-                      <DropdownToggle color="primary" caret>
-                        Filter
-                      </DropdownToggle>
-                      <DropdownMenu>
-                        <DropdownItem onClick={All}>All</DropdownItem>
-                        <DropdownItem onClick={Active}>Active</DropdownItem>
-                        <DropdownItem onClick={listDeactive}>
+                    <FormControl
+                      size="small"
+                      variant="outlined"
+                      style={{ marginLeft: 20 }}
+                    >
+                      <Select
+                        value={value}
+                        onChange={(e) => setValue(e.target.value)}
+                      >
+                        <MenuItem onClick={All} value={1}>
+                          All
+                        </MenuItem>
+                        <MenuItem onClick={Active} value={2}>
+                          Active
+                        </MenuItem>
+                        <MenuItem onClick={listDeactive} value={3}>
                           Deactive
-                        </DropdownItem>
-                      </DropdownMenu>
-                    </Dropdown>
+                        </MenuItem>
+                      </Select>
+                    </FormControl>
                   </Col>
                 </Row>
               </FormGroup>

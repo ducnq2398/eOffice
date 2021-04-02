@@ -75,7 +75,7 @@ function CompanyRegister() {
       <div className="main-panel">
         <Container fluid={true}>
           <div>
-            <img style={{ marginTop: "20px" }} src={register} alt="" />
+            <img className="lo1" style={{ marginTop: "20px" }} src={register} alt="" />
           </div>
           <Form
             style={{

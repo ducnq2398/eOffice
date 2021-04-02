@@ -16,13 +16,15 @@ import {
 import Moment from "moment";
 import md5 from "md5";
 import Alert from "@material-ui/lab/Alert";
-import { getUser } from "../../utils/Common";
+import { getUser, removeUserSession } from "../../utils/Common";
 import companyListAPI from "../../api/companyListAPI";
 import departmentAPI from "../../api/departmentAPI";
 import userListAPI from "../../api/userListAPI";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router";
 import validateAPI from "../../api/validateAPI";
+import { browserName } from "react-device-detect";
+import logoutAPI from "../../api/logoutAPI";
 
 function TransitionLeft(props) {
   return <Slide {...props} direction="right" />;
@@ -290,7 +292,22 @@ function CompanyRegister() {
               }, 3000);
             });
         })
-        .catch(function () {
+        .catch(function (error) {
+          if (error.response.status === 401) {
+            const params = {
+              id: getUser().Id,
+              device: browserName,
+            };
+            logoutAPI
+              .logout(params)
+              .then(function () {
+                removeUserSession();
+                history.push("/admin");
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+          }
           setError({
             ...error,
             email: true,
