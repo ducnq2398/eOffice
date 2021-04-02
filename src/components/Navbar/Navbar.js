@@ -188,7 +188,7 @@ function Navbar() {
                 }
               }}
             >
-              <DropdownItem2>{noti.title}</DropdownItem2>
+              <DropdownItem2>{noti.content}</DropdownItem2>
             </div>
           );
         })}

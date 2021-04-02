@@ -58,14 +58,10 @@ function DepartmentManagerment() {
   const [child_department, setChild_Department] = useState("");
   const [departmentID, setDepartmentID] = useState([]);
   const [sub_departmentID, setSub_DepartmentID] = useState([]);
-  const [page, setPage] = useState(0);
   const [page2, setPage2] = useState(0);
   const [rowsPerPage] = useState(10);
-  const indexOfLastPost = (page + 1) * rowsPerPage;
   const indexOfLastPost2 = (page2 + 1) * rowsPerPage;
-  const indexOfFirstPost = indexOfLastPost - rowsPerPage;
   const indexOfFirstPost2 = indexOfLastPost2 - rowsPerPage;
-  const currentPosts = listDepartment.slice(indexOfFirstPost, indexOfLastPost);
   const currentPosts2 = listChild.slice(indexOfFirstPost2, indexOfLastPost2);
   const [error, setError] = useState({
     depart: false,
@@ -73,10 +69,7 @@ function DepartmentManagerment() {
     message_depart: "",
     message_subdepart: "",
   });
-  function changePage(event, newPage) {
-    setPage(newPage);
-    setListChild([]);
-  }
+
   function changePage2(event, newPage) {
     setPage2(newPage);
   }
@@ -386,6 +379,9 @@ function DepartmentManagerment() {
       })
       .catch(function (error) {
         console.log(error);
+        toast.error("You can not delete child department", {
+          position: toast.POSITION.TOP_CENTER,
+        });
       });
   }
 
@@ -410,6 +406,9 @@ function DepartmentManagerment() {
       })
       .catch(function (error) {
         console.log(error);
+        toast.error("You can not delete child department", {
+          position: toast.POSITION.TOP_CENTER,
+        });
       });
   }
   return (

@@ -1,14 +1,4 @@
-import {
-  Container,
-  Row,
-  FormGroup,
-  Col,
-  Table,
-  Label,
-  Modal,
-  ModalHeader,
-  ModalFooter,
-} from "reactstrap";
+import { Container, Row, FormGroup, Col, Table, Label } from "reactstrap";
 
 import "../../css/Document.css";
 import TablePagination from "@material-ui/core/TablePagination";
@@ -44,13 +34,13 @@ import Navbar from "../Navbar/Navbar";
 import InvoiceStepper from "../Stepper/InvoiceStepper";
 import ContractStepper from "../Stepper/ContractStepper";
 import { toast } from "react-toastify";
-import Backdrop from '@material-ui/core/Backdrop';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import Backdrop from "@material-ui/core/Backdrop";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
   backdrop: {
     zIndex: theme.zIndex.drawer + 1,
-    color: '#fff',
+    color: "#fff",
   },
 }));
 const Transition = forwardRef(function Transition(props, ref) {
@@ -761,14 +751,18 @@ function Document() {
                 ))}
             </tbody>
           </Table>
-          <Modal isOpen={dele}>
-            <ModalHeader>Are you sure delete document?</ModalHeader>
-            <ModalFooter>
+          <Dialog
+            open={dele}
+            disableBackdropClick
+            disableEscapeKeyDown
+            fullWidth
+          >
+            <DialogTitle>{"Are you sure delete document?"}</DialogTitle>
+            <DialogActions>
               <Button
+                onClick={() => setDel(!dele)}
                 color="secondary"
                 variant="contained"
-                style={{ marginRight: "5px" }}
-                onClick={() => setDel(!dele)}
               >
                 No
               </Button>
@@ -779,8 +773,8 @@ function Document() {
               >
                 Yes
               </Button>
-            </ModalFooter>
-          </Modal>
+            </DialogActions>
+          </Dialog>
         </Container>
       </main>
       <Backdrop className={classes.backdrop} open={open}>
