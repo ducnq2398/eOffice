@@ -31,9 +31,6 @@ import {
 } from "@material-ui/core";
 import Navbar from "../../Navbar/Navbar";
 import moment from "moment";
-const Transition = forwardRef(function Transition(props, ref) {
-  return <Slide direction="down" ref={ref} {...props} />;
-});
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,

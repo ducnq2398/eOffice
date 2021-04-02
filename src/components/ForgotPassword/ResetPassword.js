@@ -109,13 +109,13 @@ function ResetPassword() {
 
   return (
     <div className="background">
-      <Container className="a">
+      <Container fluid>
         <Form className="reset">
           <FormGroup>
-            <img src={logo} alt="" />
+            <img className="logo-system" src={logo} alt="" />
           </FormGroup>
           <FormGroup>
-            <h3>Forgot Password?</h3>
+            <h3>Create New Password</h3>
           </FormGroup>
           <FormGroup>
             <div>
@@ -152,7 +152,8 @@ function ResetPassword() {
           </FormGroup>
         </Form>
         <img
-          style={{ position: "fixed", bottom: 0, left: 0 }}
+          className="logo-sp"
+          style={{ position: "absolute", bottom: 0, left: -40 }}
           src={support}
           alt=""
           width="500"

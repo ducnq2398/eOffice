@@ -29,7 +29,7 @@ function ForgotPassword(props) {
   }
   const [errorOTP, setErrorOTP] = useState({
     error: false,
-    message: ''
+    message: "",
   });
   const [modal, setModal] = useState(false);
   const toggle = () => {
@@ -75,90 +75,97 @@ function ForgotPassword(props) {
         console.log(error);
         setErrorOTP({
           error: true,
-          message: 'Invalid verification code'
+          message: "Invalid verification code",
         });
         setTimeout(() => {
           setErrorOTP({
             error: false,
-            message:''
+            message: "",
           });
         }, 5000);
       });
   }
   return (
     <div className="background">
-      <Container className="a">
-        <Form className="forgot">
-          <FormGroup>
-            <img src={logo} alt="" />
-          </FormGroup>
-          <FormGroup>
-            <h3>Forgot Password?</h3>
-          </FormGroup>
-          <FormGroup>
-            <TextField
-              error={check.error}
-              helperText={check.message}
-              fullWidth
-              type="phone"
-              required
-              variant="outlined"
-              placeholder="Please enter phone number"
-              onChange={handleOnChange}
-            />
-            <div
-              id="recaptcha"
-              style={{ marginLeft: "90px", marginTop: "10px" }}
-            ></div>
-          </FormGroup>
-          <FormGroup className="next">
-            <Button color="primary" variant="contained" onClick={toggle}>
-              Next
-            </Button>
-          </FormGroup>
-        </Form>
-        <Modal style={{ marginTop: "18%" }} isOpen={modal} toggle={toggle}>
-          <ModalHeader className="otp_banner">Verifying OTP</ModalHeader>
-          <ModalBody>
-            <Form>
-              <FormGroup>
-                <span>
-                  Please enter the OTP sent to Phone number to retrieve your
-                  password
-                </span>
-              </FormGroup>
-              <FormGroup>
-                <Row>
-                  <Col>
-                    <TextField
-                      fullWidth
-                      variant="outlined"
-                      name="otp"
-                      error={errorOTP.error}
-                      helperText={errorOTP.message}
-                      onChange={(e) => setOtp(e.target.value)}
-                    />
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Form>
-          </ModalBody>
-          <ModalFooter>
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={() => window.location.reload()}
-              style={{ marginRight: 5 }}
-            >
-              Cancel
-            </Button>
-            <Button onClick={handleConfirm} variant="contained" color="primary">
-              Confirm
-            </Button>
-          </ModalFooter>
-        </Modal>
+      <Container fluid>
+        <Col>
+          <Form className="forgot">
+            <FormGroup>
+              <img className="logo-system" src={logo} alt="" />
+            </FormGroup>
+            <FormGroup>
+              <h3>Forgot Password?</h3>
+            </FormGroup>
+            <FormGroup>
+              <TextField
+                error={check.error}
+                helperText={check.message}
+                fullWidth
+                type="phone"
+                required
+                variant="outlined"
+                placeholder="Please enter phone number"
+                onChange={handleOnChange}
+              />
+              <div
+                id="recaptcha"
+                style={{ marginLeft: "90px", marginTop: "10px" }}
+              ></div>
+            </FormGroup>
+            <FormGroup className="next">
+              <Button color="primary" variant="contained" onClick={toggle}>
+                Next
+              </Button>
+            </FormGroup>
+          </Form>
+          <Modal style={{ marginTop: "18%" }} isOpen={modal} toggle={toggle}>
+            <ModalHeader className="otp_banner">Verifying OTP</ModalHeader>
+            <ModalBody>
+              <Form>
+                <FormGroup>
+                  <span>
+                    Please enter the OTP sent to Phone number to retrieve your
+                    password
+                  </span>
+                </FormGroup>
+                <FormGroup>
+                  <Row>
+                    <Col>
+                      <TextField
+                        fullWidth
+                        variant="outlined"
+                        name="otp"
+                        error={errorOTP.error}
+                        helperText={errorOTP.message}
+                        onChange={(e) => setOtp(e.target.value)}
+                      />
+                    </Col>
+                  </Row>
+                </FormGroup>
+              </Form>
+            </ModalBody>
+            <ModalFooter>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={() => window.location.reload()}
+                style={{ marginRight: 5 }}
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={handleConfirm}
+                variant="contained"
+                color="primary"
+              >
+                Confirm
+              </Button>
+            </ModalFooter>
+          </Modal>
+        </Col>
         <img
-          style={{ position: "fixed", bottom: 0, left: 0 }}
+          className="logo-sp"
+          style={{ position: "absolute", bottom: 0, left: -40 }}
           src={support}
           alt=""
           width="500"

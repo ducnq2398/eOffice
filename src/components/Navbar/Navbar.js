@@ -14,6 +14,8 @@ import notiAPI from "../../api/notiAPI";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import userListAPI from "../../api/userListAPI";
+import { browserName } from "react-device-detect";
+import logoutAPI from "../../api/logoutAPI";
 function Navbar() {
   const history = useHistory();
   const [sidebar, setSidebar] = useState(false);
@@ -21,8 +23,8 @@ function Navbar() {
   const [listNoti, setListNoti] = useState([]);
   const [openNoti, setOpenNoti] = useState(false);
   const [openProfile, setOpenProfile] = useState(false);
-  const count = listNoti.filter((data)=>{
-    if(data.status===0){
+  const count = listNoti.filter((data) => {
+    if (data.status === 0) {
       return data;
     }
   });
@@ -49,7 +51,21 @@ function Navbar() {
         const res = await notiAPI.getById(getUser().Id);
         setListNoti(res.data);
       } catch (error) {
-        console.log(error);
+        if (error.response.status === 401) {
+          const params = {
+            id: getUser().Id,
+            device: browserName,
+          };
+          logoutAPI
+            .logout(params)
+            .then(function () {
+              removeUserSession();
+              history.push("/");
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        }
       }
     }
     fetListNoti();
@@ -61,8 +77,19 @@ function Navbar() {
         setUsers(response.data);
       } catch (error) {
         if (error.response.status === 401) {
-          removeUserSession();
-          history.push("/");
+          const params = {
+            id: getUser().Id,
+            device: browserName,
+          };
+          logoutAPI
+            .logout(params)
+            .then(function () {
+              removeUserSession();
+              history.push("/");
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
         }
       }
     }
@@ -100,8 +127,19 @@ function Navbar() {
   }
   function Logout(e) {
     e.preventDefault();
-    removeUserSession();
-    history.push("/");
+    const params = {
+      id: getUser().Id,
+      device: browserName,
+    };
+    logoutAPI
+      .logout(params)
+      .then(function () {
+        removeUserSession();
+        history.push("/");
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
   function Profile(e) {
     e.preventDefault();
@@ -203,7 +241,10 @@ function Navbar() {
           <ul className="navbar-nav">
             <NavItemNoti
               icon={
-                <Badge badgeContent={count.length < 10 ? count.length : "9+"} color="error">
+                <Badge
+                  badgeContent={count.length < 10 ? count.length : "9+"}
+                  color="error"
+                >
                   <NotificationsIcon
                     style={{ cursor: "pointer" }}
                     color="action"

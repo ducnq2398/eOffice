@@ -2,7 +2,7 @@ import { getUser } from "../utils/Common";
 import axiosClient from "./axiosClient";
 
 const logoutAPI = {
-  loginAdmin: (params) => {
+  logout: (params) => {
     const url = "/accounts/logout";
     return axiosClient.post(url, params, {
       headers: {

@@ -39,6 +39,7 @@ import {
   DialogContentText,
   FormHelperText,
   InputAdornment,
+  makeStyles,
 } from "@material-ui/core";
 import Moment from "moment";
 import md5 from "md5";
@@ -47,6 +48,8 @@ import { CSVLink } from "react-csv";
 import * as Icon from "react-icons/bi";
 import getData from "../../GetData/Department";
 import getDataSub from "../../GetData/SubDepartment";
+import Backdrop from "@material-ui/core/Backdrop";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const TransitionAdd = forwardRef(function Transition(props, ref) {
   return <Slide direction="right" ref={ref} {...props} />;
@@ -54,8 +57,15 @@ const TransitionAdd = forwardRef(function Transition(props, ref) {
 const TransitionDetail = forwardRef(function Transition(props, ref) {
   return <Slide direction="left" ref={ref} {...props} />;
 });
-
+const useStyles = makeStyles((theme) => ({
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: "#fff",
+  },
+}));
 function UserManagement() {
+  const classes = useStyles();
+  const [open, setOpen] = useState(false);
   const [userList, setUserList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [listActive, setListActive] = useState([]);
@@ -356,6 +366,8 @@ function UserManagement() {
         });
       }, 5000);
     } else {
+      setOpen(!open);
+      setIsOpen(!isOpen);
       const tel = "+84" + user.phone.substring(1);
       const params = {
         name: user.username,
@@ -470,6 +482,8 @@ function UserManagement() {
         setCheckDisable(false);
       }, 4000);
     } else if (detail.status === detailUser.status) {
+      setOpen(!open);
+      setOpenEdit(!openEdit);
       const tel = "+84" + detail.phone.substring(1);
       const params = {
         id: detail.id,
@@ -500,6 +514,8 @@ function UserManagement() {
           console.log(error);
         });
     } else {
+      setOpen(!open);
+      setOpenEdit(!openEdit);
       if (detail.status === 0) {
         userListAPI
           .deActiveUser(detail.id)
@@ -1117,6 +1133,9 @@ function UserManagement() {
           </Modal>
         </Container>
       </main>
+      <Backdrop className={classes.backdrop} open={open}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </div>
   );
 }

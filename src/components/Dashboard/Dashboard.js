@@ -196,7 +196,7 @@ function Dashboard() {
                                     alt=""
                                   />
                                 ) : (
-                                  <img src={done} alt="" />
+                                  <img className="not-sign" src={done} alt="" />
                                 )}
                               </td>
                               <td style={{ textAlign: "right" }}>
@@ -259,7 +259,7 @@ function Dashboard() {
                                 {data.status < 2 ? (
                                   <img className="not-sign" src={notsigned} alt="" />
                                 ) : (
-                                  <img src={doneinvoice} alt="" />
+                                  <img className="not-sign" src={doneinvoice} alt="" />
                                 )}
                               </td>
                               <td style={{ textAlign: "right" }}>

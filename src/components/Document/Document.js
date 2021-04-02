@@ -34,7 +34,7 @@ import Paper from "@material-ui/core/Paper";
 import Tabs from "@material-ui/core/Tabs";
 import Button from "@material-ui/core/Button";
 import Slide from "@material-ui/core/Slide";
-import { InputAdornment } from "@material-ui/core";
+import { InputAdornment, makeStyles } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
@@ -44,12 +44,22 @@ import Navbar from "../Navbar/Navbar";
 import InvoiceStepper from "../Stepper/InvoiceStepper";
 import ContractStepper from "../Stepper/ContractStepper";
 import { toast } from "react-toastify";
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
+const useStyles = makeStyles((theme) => ({
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: '#fff',
+  },
+}));
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
 function Document() {
   const history = useHistory();
+  const classes = useStyles();
+  const [open, setOpen] = useState(false);
   let [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
   const [dele, setDel] = useState(false);
@@ -253,6 +263,8 @@ function Document() {
   const [documentDelete, setDocumentDelete] = useState("");
   function deleteDocument(e) {
     e.preventDefault();
+    setOpen(!open);
+    setDel(!dele);
     if (documentDelete.invoiceURL) {
       invoiceAPI
         .deleteInvoice(documentDelete.id)
@@ -771,6 +783,9 @@ function Document() {
           </Modal>
         </Container>
       </main>
+      <Backdrop className={classes.backdrop} open={open}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </div>
   );
 }

@@ -20,7 +20,6 @@ import IconButton from "@material-ui/core/IconButton";
 import PhotoCamera from "@material-ui/icons/PhotoCamera";
 import EditIcon from "@material-ui/icons/Edit";
 import BusinessIcon from "@material-ui/icons/Business";
-import avt from "../../images/avatar.png";
 import {
   Card,
   Dialog,
@@ -61,6 +60,7 @@ function Profile() {
     username: "",
     address: "",
   });
+  const [open, setOpen] = useState(false);
   const [newAvater, setNewAvatar] = useState(false);
   const [error1, setError1] = useState(true);
   const [error2, setError2] = useState(true);
@@ -78,7 +78,6 @@ function Profile() {
       [name]: value,
     });
   }
-  const [open, setOpen] = useState(false);
   useEffect(() => {
     async function fetPassword() {
       try {
@@ -91,6 +90,7 @@ function Profile() {
     }
     fetPassword();
   }, []);
+  
   function handleChangePassword(e) {
     e.preventDefault();
     const md5CurrentPass = md5(password.current_pass);

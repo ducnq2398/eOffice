@@ -12,7 +12,7 @@ import invoiceAPI from "../../api/invoiceAPI";
 import Moment from "moment";
 import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
-import { withStyles } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import {
   Dialog,
@@ -34,6 +34,8 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import moment from "moment";
 import Navbar from "../Navbar/Navbar";
+import Backdrop from "@material-ui/core/Backdrop";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 toast.configure();
 const Transition = forwardRef(function Transition(props, ref) {
@@ -48,7 +50,12 @@ const StyledTableCell = withStyles((theme) => ({
     fontSize: 14,
   },
 }))(TableCell);
-
+const useStyles = makeStyles((theme) => ({
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: "#fff",
+  },
+}));
 const StyledTableRow = withStyles((theme) => ({
   root: {
     "&:nth-of-type(odd)": {
@@ -58,6 +65,8 @@ const StyledTableRow = withStyles((theme) => ({
 }))(TableRow);
 
 function InvoiceContent() {
+  const classes = useStyles();
+  const [open, setOpen] = useState(false);
   const location = useLocation();
   const history = useHistory();
   const [create, setCreate] = useState(false);
@@ -90,6 +99,8 @@ function InvoiceContent() {
 
   async function handleCreated(e) {
     e.preventDefault();
+    setOpen(!open);
+    setCreate(!create);
     const file = location.state.file[0];
     const convertBase64 = await base64(file);
     const url = convertBase64.slice(28);
@@ -300,6 +311,9 @@ function InvoiceContent() {
           </DialogActions>
         </Dialog>
       </main>
+      <Backdrop className={classes.backdrop} open={open}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </div>
   );
 }

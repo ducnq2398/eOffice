@@ -33,12 +33,21 @@ import {
   DialogTitle,
   DialogActions,
   Slide,
+  makeStyles,
 } from "@material-ui/core";
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import moment from "moment";
 import Navbar from "../Navbar/Navbar";
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
+const useStyles = makeStyles((theme) => ({
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: '#fff',
+  },
+}));
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.white,
@@ -57,6 +66,8 @@ const StyledTableRow = withStyles((theme) => ({
 }))(TableRow);
 
 function ContractContent() {
+  const classes = useStyles();
+  const [open, setOpen] = useState(false);
   const location = useLocation();
   const history = useHistory();
   const [create, setCreate] = useState(false);
@@ -116,6 +127,8 @@ function ContractContent() {
 
   async function handleCreated(e) {
     e.preventDefault();
+    setOpen(!open);
+    setCreate(!create);
     const file = location.state.file[0];
     const convertBase64 = await base64(file);
     const url = convertBase64.slice(28);
@@ -411,6 +424,9 @@ function ContractContent() {
           </DialogActions>
         </Dialog>
       </main>
+      <Backdrop className={classes.backdrop} open={open}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </div>
   );
 }
