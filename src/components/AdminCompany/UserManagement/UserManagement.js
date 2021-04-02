@@ -389,7 +389,6 @@ function UserManagement() {
       userListAPI
         .addUser(params)
         .then(function () {
-          window.location.reload();
           setUser({
             username: "",
             department: "",
@@ -401,6 +400,9 @@ function UserManagement() {
           toast.success("You has created user successfully", {
             position: toast.POSITION.TOP_CENTER,
           });
+          setTimeout(()=>{
+            window.location.reload();
+          },5000)
         })
         .catch(function (error) {
           if (
@@ -505,10 +507,12 @@ function UserManagement() {
       userListAPI
         .updateUser(params)
         .then(function () {
-          window.location.reload();
           toast.success("You has updated user successfully", {
             position: toast.POSITION.TOP_CENTER,
           });
+          setTimeout(()=>{
+            window.location.reload();
+          },5000)
         })
         .catch(function (error) {
           console.log(error);
@@ -520,10 +524,12 @@ function UserManagement() {
         userListAPI
           .deActiveUser(detail.id)
           .then(function () {
-            window.location.reload();
             toast.success("You has updated user successfully", {
               position: toast.POSITION.TOP_CENTER,
             });
+            setTimeout(()=>{
+              window.location.reload();
+            },5000)
           })
           .catch(function (error) {
             console.log(error);
@@ -532,10 +538,12 @@ function UserManagement() {
         userListAPI
           .activeUser(detail.id)
           .then(() => {
-            window.location.reload();
             toast.success("You has updated user successfully", {
               position: toast.POSITION.TOP_CENTER,
             });
+            setTimeout(()=>{
+              window.location.reload();
+            },5000)
           })
           .catch(function (error) {
             console.log(error);

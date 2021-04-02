@@ -90,7 +90,7 @@ function Profile() {
     }
     fetPassword();
   }, []);
-  
+
   function handleChangePassword(e) {
     e.preventDefault();
     const md5CurrentPass = md5(password.current_pass);
@@ -192,7 +192,7 @@ function Profile() {
           setTimeout(() => {
             removeUserSession();
             history.push("/");
-          }, 6000);
+          }, 5000);
         })
         .catch(function (error) {
           console.log(error);
@@ -252,11 +252,17 @@ function Profile() {
       address: getUser().Address,
       subDepartmentId: getUser().SubDepartmentId,
       departmentId: getUser().DepartmentId,
+      status: 1,
     };
     userListAPI
       .changeAvatar(params)
       .then(function () {
-        window.location.reload();
+        toast.success("Update avatar successfully", {
+          position: toast.POSITION.TOP_CENTER,
+        });
+        setTimeout(() => {
+          window.location.reload();
+        }, 5000);
       })
       .catch(function (error) {
         console.log(error);
@@ -299,11 +305,17 @@ function Profile() {
         address: userProfile.address,
         subDepartmentId: getUser().SubDepartmentId,
         departmentId: getUser().DepartmentId,
+        status: 1,
       };
       userListAPI
         .updateUser(params)
         .then(function () {
-          window.location.reload();
+          toast.success("Update profile successfully", {
+            position: toast.POSITION.TOP_CENTER,
+          });
+          setTimeout(() => {
+            window.location.reload();
+          }, 5000);
         })
         .catch(function (error) {
           console.log(error);
@@ -333,7 +345,7 @@ function Profile() {
             USER PROFILE
           </Label>
         </div>
-        <Container fluid={true}>
+        <Container fluid>
           <Col style={{ top: "-100px" }}>
             <div>
               <img
