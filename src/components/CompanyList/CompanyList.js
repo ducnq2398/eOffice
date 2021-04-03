@@ -213,7 +213,7 @@ function CompanyList() {
                     </td>
                     <td>{data.dateCreate}</td>
                     <td>
-                      {data.status === 1 ? (
+                      {data.status === 1 ? (    
                         <p style={{ color: "green" }}>Active</p>
                       ) : (
                         <p style={{ color: "red" }}>Deactive</p>
