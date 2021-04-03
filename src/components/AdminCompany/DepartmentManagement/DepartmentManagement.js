@@ -103,7 +103,7 @@ function DepartmentManagerment() {
   }
   function addDepartment(e) {
     e.preventDefault();
-    if (department.trim() === "") {
+    if (department.trim().split(/ +/).join(' ') === "") {
       setError({
         ...error,
         depart: true,
@@ -116,7 +116,7 @@ function DepartmentManagerment() {
           message_depart: "",
         });
       }, 3000);
-    } else if (department.trim().length > 255) {
+    } else if (department.trim().split(/ +/).join(' ').length > 255) {
       setError({
         ...error,
         depart: true,
@@ -131,7 +131,7 @@ function DepartmentManagerment() {
       }, 3000);
     } else {
       const params = {
-        name: department,
+        name: department.trim().split(/ +/).join(' '),
         companyId: getUser().CompanyId,
         creatorId: getUser().Id,
         dateCreate: Moment(new Date()).format(
@@ -166,7 +166,7 @@ function DepartmentManagerment() {
   }
   function addSubDepartment(e) {
     e.preventDefault();
-    if (child_department.trim() === "") {
+    if (child_department.trim().split(/ +/).join(' ') === "") {
       setError({
         ...error,
         subdepart: true,
@@ -179,7 +179,7 @@ function DepartmentManagerment() {
           message_subdepart: "",
         });
       }, 3000);
-    } else if (child_department.trim().length > 255) {
+    } else if (child_department.trim().split(/ +/).join(' ').length > 255) {
       setError({
         ...error,
         subdepart: true,
@@ -195,7 +195,7 @@ function DepartmentManagerment() {
       }, 3000);
     } else {
       const params = {
-        name: child_department,
+        name: child_department.trim().split(/ +/).join(' '),
         departmentId: departmentID.id,
         companyId: getUser().CompanyId,
         creatorId: getUser().Id,
@@ -230,7 +230,7 @@ function DepartmentManagerment() {
   }
   function editDepartment(e) {
     e.preventDefault();
-    if (department.trim() === "") {
+    if (department.trim().split(/ +/).join(' ') === "") {
       setError({
         ...error,
         depart: true,
@@ -243,7 +243,7 @@ function DepartmentManagerment() {
           message_depart: "",
         });
       }, 3000);
-    } else if (department.trim().length > 255) {
+    } else if (department.trim().split(/ +/).join(' ').length > 255) {
       setError({
         ...error,
         depart: true,
@@ -259,7 +259,7 @@ function DepartmentManagerment() {
     } else {
       const params = {
         id: departmentID.id,
-        name: department,
+        name: department.trim().split(/ +/).join(' '),
         companyId: getUser().CompanyId,
         creatorId: getUser().Id,
         dateCreate: Moment(new Date()).format(
@@ -294,7 +294,7 @@ function DepartmentManagerment() {
   }
   function editSubDepartment(e) {
     e.preventDefault();
-    if (child_department.trim() === "") {
+    if (child_department.trim().split(/ +/).join(' ') === "") {
       setError({
         ...error,
         subdepart: true,
@@ -307,7 +307,7 @@ function DepartmentManagerment() {
           message_subdepart: "",
         });
       }, 3000);
-    } else if (child_department.trim().length > 255) {
+    } else if (child_department.trim().split(/ +/).join(' ').length > 255) {
       setError({
         ...error,
         subdepart: true,
@@ -323,7 +323,7 @@ function DepartmentManagerment() {
     } else {
       const params = {
         id: sub_departmentID.id,
-        name: child_department,
+        name: child_department.trim().split(/ +/).join(' '),
         departmentId: sub_departmentID.departmentId,
         companyId: getUser().CompanyId,
         creatorId: getUser().Id,
@@ -469,7 +469,10 @@ function DepartmentManagerment() {
                 <List
                   className={classes.root}
                   subheader={
-                    <ListSubheader component="div">Department</ListSubheader>
+                    <ListSubheader component="div">
+                      <PeopleAltIcon color="primary" fontSize="large"/><br/>
+                      Department
+                    </ListSubheader>
                   }
                 >
                   {listDepartment.map((row) => {

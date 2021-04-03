@@ -370,12 +370,12 @@ function UserManagement() {
       setIsOpen(!isOpen);
       const tel = "+84" + user.phone.substring(1);
       const params = {
-        name: user.username,
+        name: user.username.trim().split(/ +/).join(' '),
         avatar: "",
         email: user.email,
         password: md5("123Aabc").trim().toString(),
         phone: tel,
-        address: user.address,
+        address: user.address.trim().split(/ +/).join(' '),
         dateCreate: Moment(new Date()).format(
           "yyyy-MM-DD" + "T" + "HH:mm:ss.SSS" + "Z"
         ),

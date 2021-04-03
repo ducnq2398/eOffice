@@ -62,9 +62,9 @@ function CompanyRegister() {
   function handleSubmit(event) {
     event.preventDefault();
     const company = {
-      name: companyRegister.company_name,
+      name: companyRegister.company_name.trim().split(/ +/).join(' '),
       phone: "+84" + companyRegister.phone.substring(1),
-      address: companyRegister.address,
+      address: companyRegister.address.trim().split(/ +/).join(' '),
       dateCreate: Moment(new Date()).format(
         "yyyy-MM-DD" + "T" + "HH:mm:ss.SSS" + "Z"
       ),
@@ -96,12 +96,12 @@ function CompanyRegister() {
             };
             departmentAPI.addSubDepartment(sub).then(function (subdepartment) {
               const user = {
-                name: companyRegister.manager_name,
+                name: companyRegister.manager_name.trim().split(/ +/).join(' '),
                 avatar: "",
                 email: companyRegister.manager_email,
                 password: md5("123Aabc").trim().toString(),
                 phone: "+84" + companyRegister.phone.substring(1),
-                address: companyRegister.address,
+                address: companyRegister.address.trim().split(/ +/).join(' '),
                 dateCreate: Moment(new Date()).format(
                   "yyyy-MM-DD" + "T" + "HH:mm:ss.SSS" + "Z"
                 ),
@@ -118,7 +118,7 @@ function CompanyRegister() {
                   const data = {
                     id: res.data.id,
                     phone: "+84" + companyRegister.phone.substring(1),
-                    address: companyRegister.address,
+                    address: companyRegister.address.trim().split(/ +/).join(' '),
                     dateCreate: Moment(new Date()).format(
                       "yyyy-MM-DD" + "T" + "HH:mm:ss.SSS" + "Z"
                     ),
