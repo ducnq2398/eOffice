@@ -13,7 +13,9 @@ import moment from "moment";
 import notiAPI from "../../api/notiAPI";
 import Navbar from "../Navbar/Navbar";
 
+
 function Dashboard() {
+  
   const history = useHistory();
   const [noti, setNoti] = useState([]);
   const [listContract, setListContract] = useState([]);
@@ -22,20 +24,14 @@ function Dashboard() {
   const [postPerPage] = useState(5);
   const indexOfLastPost = currentPage * postPerPage;
   const indexOfFirstPost = indexOfLastPost - postPerPage;
-  const invoice = listInvoice
-    .sort((a, b) => {
-      return (
-        new Date(a.dateCreate).getTime() - new Date(b.dateCreate).getTime()
-      );
-    })
-    .reverse();
-  const contract = listContract
-    .sort((a, b) => {
-      return (
-        new Date(a.dateCreate).getTime() - new Date(b.dateCreate).getTime()
-      );
-    })
-    .reverse();
+  const invoice = listInvoice.sort((a, b) => {
+    return new Date(b.dateCreate).getTime() - new Date(a.dateCreate).getTime();
+  });
+
+  const contract = listContract.sort((a, b) => {
+    return new Date(b.dateCreate).getTime() - new Date(a.dateCreate).getTime();
+  });
+
   const currentPostsContract = contract.slice(
     indexOfFirstPost,
     indexOfLastPost
@@ -44,13 +40,12 @@ function Dashboard() {
   let [loadingInvoice, setLoadingInvoice] = useState(true);
   let [loadingContract, setLoadingContract] = useState(true);
   let [loadingActivity, setLoadingActivity] = useState(true);
-  var listNoti = noti
-    .sort((a, b) => {
-      return (
-        new Date(a.createdDate).getTime() - new Date(b.createdDate).getTime()
-      );
-    })
-    .reverse();
+  var listNoti = noti.sort((a, b) => {
+    return (
+      new Date(b.createdDate).getTime() - new Date(a.createdDate).getTime()
+    );
+  });
+
   const currentPostsNoti = listNoti.slice(indexOfFirstPost, indexOfLastPost);
   useEffect(() => {
     async function fetListNoti() {
@@ -146,6 +141,7 @@ function Dashboard() {
     getListDocument();
   }, []);
 
+ 
   return (
     <div>
       <header>

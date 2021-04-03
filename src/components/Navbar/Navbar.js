@@ -1,7 +1,7 @@
 import * as Icon from "react-icons/fa";
 import * as AiIcon from "react-icons/ai";
 import { Link, useHistory } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { IconContext } from "react-icons";
 import * as IoIcon from "react-icons/io";
 import * as IoOIcon from "react-icons/io5";
@@ -16,6 +16,7 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import userListAPI from "../../api/userListAPI";
 import { browserName } from "react-device-detect";
 import logoutAPI from "../../api/logoutAPI";
+import moment from "moment";
 function Navbar() {
   const history = useHistory();
   const [sidebar, setSidebar] = useState(false);
@@ -39,14 +40,12 @@ function Navbar() {
       try {
         const res = await notiAPI.getById(getUser().Id);
         setListNoti(
-          res.data
-            .sort((a, b) => {
-              return (
-                new Date(a.dateCreate).getTime() -
-                new Date(b.dateCreate).getTime()
-              );
-            })
-            .reverse()
+          res.data.sort((a, b) => {
+            return (
+              new Date(b.dateCreate).getTime() -
+              new Date(a.dateCreate).getTime()
+            );
+          })
         );
       } catch (error) {
         if (error.response.status === 401) {
@@ -62,12 +61,14 @@ function Navbar() {
             })
             .catch(function (error) {
               console.log(error);
+              removeUserSession();
+              history.push("/");
             });
         }
       }
     }
     fetListNoti();
-  });
+  }, []);
   useEffect(() => {
     async function getUsers() {
       try {
@@ -87,15 +88,19 @@ function Navbar() {
             })
             .catch(function (error) {
               console.log(error);
+              removeUserSession();
+              history.push("/");
             });
         }
       }
     }
     getUsers();
   }, []);
+
   function NavItemProfile(props) {
     return (
       <li
+        ref={ref}
         className="navbar-item"
         onClick={(e) => {
           e.preventDefault();
@@ -108,9 +113,34 @@ function Navbar() {
       </li>
     );
   }
+  const ref = useRef(null);
+  const handleClickOutside = (event) => {
+    if (ref.current && !ref.current.contains(event.target)) {
+      setOpenNoti(false);
+    }
+  };
+  const handleClickOutside2 = (event) => {
+    if (ref.current && !ref.current.contains(event.target)) {
+      setOpenProfile(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside, true);
+    return () => {
+      document.removeEventListener("click", handleClickOutside, true);
+    };
+  });
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside2, true);
+    return () => {
+      document.removeEventListener("click", handleClickOutside2, true);
+    };
+  });
   function NavItemNoti(props) {
     return (
       <li
+        ref={ref}
         className="navbar-item"
         onClick={(e) => {
           e.preventDefault();
@@ -149,11 +179,16 @@ function Navbar() {
   function DropdownMenu2() {
     function DropdownItem2(props) {
       return (
-        <div className="menu-item" onClick={props.function}>
+        <p
+          style={{ textAlign: "left" }}
+          className="menu-item"
+          onClick={props.function}
+        >
           {props.children}
-        </div>
+        </p>
       );
     }
+
     return (
       <div className="dropdown-navbar">
         {listNoti.length === 0 ? (
@@ -189,7 +224,11 @@ function Navbar() {
                   }
                 }}
               >
-                <DropdownItem2>{noti.content}</DropdownItem2>
+                <DropdownItem2>
+                  {noti.content}
+                  <br />
+                  {moment(noti.createdDate).format("DD/MM/YYYY HH:mm:ss")}
+                </DropdownItem2>
               </div>
             );
           })

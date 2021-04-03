@@ -402,7 +402,7 @@ function UserManagement() {
           });
           setTimeout(() => {
             window.location.reload();
-          }, 3000);
+          }, 2000);
         })
         .catch(function (error) {
           if (
@@ -512,7 +512,7 @@ function UserManagement() {
           });
           setTimeout(() => {
             window.location.reload();
-          }, 3000);
+          }, 2000);
         })
         .catch(function (error) {
           console.log(error);
@@ -529,7 +529,7 @@ function UserManagement() {
             });
             setTimeout(() => {
               window.location.reload();
-            }, 3000);
+            }, 2000);
           })
           .catch(function (error) {
             console.log(error);
@@ -543,7 +543,7 @@ function UserManagement() {
             });
             setTimeout(() => {
               window.location.reload();
-            }, 3000);
+            }, 2000);
           })
           .catch(function (error) {
             console.log(error);

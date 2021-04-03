@@ -27,15 +27,27 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  makeStyles,
 } from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 import md5 from "md5";
 import userListAPI from "../../api/userListAPI";
 import * as Icon from "react-icons/ai";
 import { toast } from "react-toastify";
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
+const useStyles = makeStyles((theme) => ({
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: '#fff',
+  },
+}));
 
 function Profile() {
   const history = useHistory();
+  const classes = useStyles();
+  const [process, setProcess] = useState(false);
   const [changePassword, setChangePassword] = useState(false);
   const [avatar, setAvatar] = useState("");
   const [company, setCompany] = useState("");
@@ -242,6 +254,8 @@ function Profile() {
   }, []);
 
   function handleNewAvatar(e) {
+    setProcess(!process);
+    setNewAvatar(!newAvater);
     e.preventDefault();
     const url = avatar.substring(23);
     const params = {
@@ -262,7 +276,7 @@ function Profile() {
         });
         setTimeout(() => {
           window.location.reload();
-        }, 5000);
+        }, 2000);
       })
       .catch(function (error) {
         console.log(error);
@@ -297,6 +311,8 @@ function Profile() {
         });
       });
     } else {
+      setProcess(!process);
+      setOpen(!open);
       const params = {
         id: getUser().Id,
         password: oldPass,
@@ -315,7 +331,7 @@ function Profile() {
           });
           setTimeout(() => {
             window.location.reload();
-          }, 5000);
+          }, 2000);
         })
         .catch(function (error) {
           console.log(error);
@@ -692,11 +708,10 @@ function Profile() {
             </DialogTitle>
             <DialogContent>
               <img
+                className="new-avt"
                 src={avatar}
                 style={{ borderRadius: "50%" }}
                 alt=""
-                width="400px"
-                height="400px"
               />
             </DialogContent>
             <DialogActions>
@@ -732,6 +747,9 @@ function Profile() {
           </Dialog>
         </Container>
       </main>
+      <Backdrop className={classes.backdrop} open={process}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </div>
   );
 }

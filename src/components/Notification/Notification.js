@@ -40,24 +40,20 @@ function Notification() {
         .getById(getUser().Id)
         .then(function (res) {
           setFilter(
-            res.data
-              .sort((a, b) => {
-                return (
-                  new Date(a.dateCreate).getTime() -
-                  new Date(b.dateCreate).getTime()
-                );
-              })
-              .reverse()
+            res.data.sort((a, b) => {
+              return (
+                new Date(b.dateCreate).getTime() -
+                new Date(a.dateCreate).getTime()
+              );
+            })
           );
           setAll(
-            res.data
-              .sort((a, b) => {
-                return (
-                  new Date(a.dateCreate).getTime() -
-                  new Date(b.dateCreate).getTime()
-                );
-              })
-              .reverse()
+            res.data.sort((a, b) => {
+              return (
+                new Date(b.dateCreate).getTime() -
+                new Date(a.dateCreate).getTime()
+              );
+            })
           );
           setTimeout(() => {
             setLoading(false);
@@ -83,11 +79,10 @@ function Notification() {
           })
           .sort((a, b) => {
             return (
-              new Date(a.dateCreate).getTime() -
-              new Date(b.dateCreate).getTime()
+              new Date(b.dateCreate).getTime() -
+              new Date(a.dateCreate).getTime()
             );
           })
-          .reverse()
       );
     } else if (filterByType === "2") {
       setFilter(
@@ -99,11 +94,10 @@ function Notification() {
           })
           .sort((a, b) => {
             return (
-              new Date(a.dateCreate).getTime() -
-              new Date(b.dateCreate).getTime()
+              new Date(b.dateCreate).getTime() -
+              new Date(a.dateCreate).getTime()
             );
           })
-          .reverse()
       );
     } else {
       setFilter(
@@ -115,11 +109,10 @@ function Notification() {
           })
           .sort((a, b) => {
             return (
-              new Date(a.dateCreate).getTime() -
-              new Date(b.dateCreate).getTime()
+              new Date(b.dateCreate).getTime() -
+              new Date(a.dateCreate).getTime()
             );
           })
-          .reverse()
       );
     }
   }
@@ -134,11 +127,10 @@ function Notification() {
           })
           .sort((a, b) => {
             return (
-              new Date(a.dateCreate).getTime() -
-              new Date(b.dateCreate).getTime()
+              new Date(b.dateCreate).getTime() -
+              new Date(a.dateCreate).getTime()
             );
           })
-          .reverse()
       );
     } else if (filterByType === "2") {
       setFilter(
@@ -150,11 +142,10 @@ function Notification() {
           })
           .sort((a, b) => {
             return (
-              new Date(a.dateCreate).getTime() -
-              new Date(b.dateCreate).getTime()
+              new Date(b.dateCreate).getTime() -
+              new Date(a.dateCreate).getTime()
             );
           })
-          .reverse()
       );
     } else {
       setFilter(
@@ -166,25 +157,21 @@ function Notification() {
           })
           .sort((a, b) => {
             return (
-              new Date(a.dateCreate).getTime() -
-              new Date(b.dateCreate).getTime()
+              new Date(b.dateCreate).getTime() -
+              new Date(a.dateCreate).getTime()
             );
           })
-          .reverse()
       );
     }
   }
   function filterAll() {
     if (filterByType === "1") {
       setFilter(
-        all
-          .sort((a, b) => {
-            return (
-              new Date(a.dateCreate).getTime() -
-              new Date(b.dateCreate).getTime()
-            );
-          })
-          .reverse()
+        all.sort((a, b) => {
+          return (
+            new Date(b.dateCreate).getTime() - new Date(a.dateCreate).getTime()
+          );
+        })
       );
     } else if (filterByType === "2") {
       setFilter(
@@ -196,11 +183,10 @@ function Notification() {
           })
           .sort((a, b) => {
             return (
-              new Date(a.dateCreate).getTime() -
-              new Date(b.dateCreate).getTime()
+              new Date(b.dateCreate).getTime() -
+              new Date(a.dateCreate).getTime()
             );
           })
-          .reverse()
       );
     } else {
       setFilter(
@@ -222,13 +208,11 @@ function Notification() {
   }
   function allNoti() {
     setFilter(
-      all
-        .sort((a, b) => {
-          return (
-            new Date(a.dateCreate).getTime() - new Date(b.dateCreate).getTime()
-          );
-        })
-        .reverse()
+      all.sort((a, b) => {
+        return (
+          new Date(b.dateCreate).getTime() - new Date(a.dateCreate).getTime()
+        );
+      })
     );
     setFilterByStatus("1");
   }
@@ -242,10 +226,9 @@ function Notification() {
         })
         .sort((a, b) => {
           return (
-            new Date(a.dateCreate).getTime() - new Date(b.dateCreate).getTime()
+            new Date(b.dateCreate).getTime() - new Date(a.dateCreate).getTime()
           );
         })
-        .reverse()
     );
     setFilterByStatus("1");
   }
@@ -259,10 +242,9 @@ function Notification() {
         })
         .sort((a, b) => {
           return (
-            new Date(a.dateCreate).getTime() - new Date(b.dateCreate).getTime()
+            new Date(b.dateCreate).getTime() - new Date(a.dateCreate).getTime()
           );
         })
-        .reverse()
     );
     setFilterByStatus("1");
   }
