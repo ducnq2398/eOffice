@@ -47,6 +47,7 @@ function CompanyList() {
     }, 2000);
   }, []);
   function Active() {
+    setPage(0);
     setPostList(
       data.filter((data) => {
         if (data.status === 1) {
@@ -56,6 +57,7 @@ function CompanyList() {
     );
   }
   function listDeactive() {
+    setPage(0);
     setPostList(
       data.filter((data) => {
         if (data.status !== 1) {
@@ -66,6 +68,7 @@ function CompanyList() {
   }
   function All() {
     setPostList(data);
+    setPage(0);
   }
 
   return (
@@ -213,7 +216,7 @@ function CompanyList() {
                     </td>
                     <td>{data.dateCreate}</td>
                     <td>
-                      {data.status === 1 ? (    
+                      {data.status === 1 ? (
                         <p style={{ color: "green" }}>Active</p>
                       ) : (
                         <p style={{ color: "red" }}>Deactive</p>
