@@ -33,36 +33,40 @@ function Notification() {
   const handleChange2 = (event) => {
     setFilterByType(event.target.value);
   };
-  var listNoti = filter
-    .sort((a, b) => {
-      return (
-        new Date(a.dateCreate).getTime() - new Date(b.dateCreate).getTime()
-      );
-    })
-    .reverse();
-  const currentPost = listNoti.slice(indexOfFirstPost, indexOfLastPost);
+  const currentPost = filter.slice(indexOfFirstPost, indexOfLastPost);
   useEffect(() => {
     async function fetListNoti() {
-      try {
-        const res = await notiAPI.getById(getUser().Id);
-        setFilter(res.data);
-        setAll(
-          res.data
-            .sort((a, b) => {
-              return (
-                new Date(a.dateCreate).getTime() -
-                new Date(b.dateCreate).getTime()
-              );
-            })
-            .reverse()
-        );
-      } catch (error) {
-        console.log(error);
-      }
+      await notiAPI
+        .getById(getUser().Id)
+        .then(function (res) {
+          setFilter(
+            res.data
+              .sort((a, b) => {
+                return (
+                  new Date(a.dateCreate).getTime() -
+                  new Date(b.dateCreate).getTime()
+                );
+              })
+              .reverse()
+          );
+          setAll(
+            res.data
+              .sort((a, b) => {
+                return (
+                  new Date(a.dateCreate).getTime() -
+                  new Date(b.dateCreate).getTime()
+                );
+              })
+              .reverse()
+          );
+          setTimeout(() => {
+            setLoading(false);
+          }, 2000);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     }
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
     fetListNoti();
   }, []);
   function changePage(event, newPage) {

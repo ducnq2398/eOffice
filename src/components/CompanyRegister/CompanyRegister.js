@@ -150,7 +150,7 @@ function CompanyRegister() {
     var pattern = new RegExp(
       /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i
     );
-    if (companyRegister.company_name.length > 255) {
+    if (companyRegister.company_name.trim().split(/ +/).join(' ').length > 255) {
       setError({
         ...error,
         company_name: true,
@@ -163,7 +163,7 @@ function CompanyRegister() {
           message: "",
         });
       }, 3000);
-    } else if (companyRegister.company_name === "") {
+    } else if (companyRegister.company_name.trim().split(/ +/).join(' ') === "") {
       setError({
         ...error,
         company_name: true,
@@ -176,7 +176,7 @@ function CompanyRegister() {
           message: "",
         });
       }, 3000);
-    } else if (companyRegister.manager_name.length > 255) {
+    } else if (companyRegister.manager_name.trim().split(/ +/).join(' ').length > 255) {
       setError({
         ...error,
         manager_name: true,
@@ -189,7 +189,7 @@ function CompanyRegister() {
           message: "",
         });
       }, 3000);
-    } else if (companyRegister.manager_name === "") {
+    } else if (companyRegister.manager_name.trim().split(/ +/).join(' ') === "") {
       setError({
         ...error,
         manager_name: true,
@@ -254,7 +254,7 @@ function CompanyRegister() {
           message: "",
         });
       }, 3000);
-    } else if (companyRegister.address.length > 255) {
+    } else if (companyRegister.address.trim().split(/ +/).join(' ').length > 255) {
       setError({
         ...error,
         address: true,
@@ -305,6 +305,8 @@ function CompanyRegister() {
                 history.push("/admin");
               })
               .catch(function (error) {
+                removeUserSession();
+                history.push("/admin");
                 console.log(error);
               });
           }

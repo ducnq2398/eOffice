@@ -16,7 +16,6 @@ import Navbar from "../Navbar/Navbar";
 function Dashboard() {
   const history = useHistory();
   const [noti, setNoti] = useState([]);
-  const [hidden, setHidden] = useState(true);
   const [listContract, setListContract] = useState([]);
   const [listInvoice, setListInvoice] = useState([]);
   const [currentPage] = useState(1);
@@ -44,6 +43,7 @@ function Dashboard() {
   const currentPostsInvoice = invoice.slice(indexOfFirstPost, indexOfLastPost);
   let [loadingInvoice, setLoadingInvoice] = useState(true);
   let [loadingContract, setLoadingContract] = useState(true);
+  let [loadingActivity, setLoadingActivity] = useState(true);
   var listNoti = noti
     .sort((a, b) => {
       return (
@@ -55,8 +55,17 @@ function Dashboard() {
   useEffect(() => {
     async function fetListNoti() {
       try {
-        const res = await notiAPI.getById(getUser().Id);
-        setNoti(res.data);
+        await notiAPI
+          .getById(getUser().Id)
+          .then(function (res) {
+            setNoti(res.data);
+            setTimeout(() => {
+              setLoadingActivity(false);
+            });
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
       } catch (error) {
         console.log(error);
       }
@@ -107,11 +116,6 @@ function Dashboard() {
                           const listContract1 = [...res3.data, ...res4.data];
                           setListInvoice(listInvoice1);
                           setListContract(listContract1);
-                          if (listInvoice1 === "") {
-                            setHidden(false);
-                          } else {
-                            setHidden(true);
-                          }
                           setTimeout(() => {
                             setLoadingContract(false);
                           }, 2000);
@@ -257,9 +261,17 @@ function Dashboard() {
                               </td>
                               <td>
                                 {data.status < 2 ? (
-                                  <img className="not-sign" src={notsigned} alt="" />
+                                  <img
+                                    className="not-sign"
+                                    src={notsigned}
+                                    alt=""
+                                  />
                                 ) : (
-                                  <img className="not-sign" src={doneinvoice} alt="" />
+                                  <img
+                                    className="not-sign"
+                                    src={doneinvoice}
+                                    alt=""
+                                  />
                                 )}
                               </td>
                               <td style={{ textAlign: "right" }}>
@@ -288,68 +300,76 @@ function Dashboard() {
                 <Label className="title">Activity Log</Label>
               </FormGroup>
               <FormGroup>
-                <Table hover style={{ marginTop: 20 }}>
-                  <tbody>
-                    {currentPostsNoti.map((row) => (
-                      <tr key={row.id}>
-                        <td>
-                          <Row style={{ fontWeight: "bold", marginLeft: 1 }}>
-                            {row.content}
-                          </Row>
-                          <Row style={{ marginLeft: 10 }}>{row.title}</Row>
-                          <Row style={{ marginLeft: 10 }}>
-                            <Link
-                              onClick={() => {
-                                if (row.title.includes("Contract")) {
-                                  const params = {
-                                    id: row.id,
-                                    status: 1,
-                                  };
-                                  notiAPI
-                                    .changeStatus(params)
-                                    .catch(function (error) {
-                                      console.log(error);
+                {loadingActivity ? (
+                  <ScaleLoader
+                    color={"#2512DF"}
+                    loading={loadingActivity}
+                    size={35}
+                  />
+                ) : (
+                  <Table hover style={{ marginTop: 20 }}>
+                    <tbody>
+                      {currentPostsNoti.map((row) => (
+                        <tr key={row.id}>
+                          <td>
+                            <Row style={{ fontWeight: "bold", marginLeft: 1 }}>
+                              {row.content}
+                            </Row>
+                            <Row style={{ marginLeft: 10 }}>{row.title}</Row>
+                            <Row style={{ marginLeft: 10 }}>
+                              <Link
+                                onClick={() => {
+                                  if (row.title.includes("Contract")) {
+                                    const params = {
+                                      id: row.id,
+                                      status: 1,
+                                    };
+                                    notiAPI
+                                      .changeStatus(params)
+                                      .catch(function (error) {
+                                        console.log(error);
+                                      });
+                                    history.push({
+                                      pathname:
+                                        "/detail/contract/" +
+                                        row.objectId +
+                                        "/" +
+                                        row.content,
                                     });
-                                  history.push({
-                                    pathname:
-                                      "/detail/contract/" +
-                                      row.objectId +
-                                      "/" +
-                                      row.content,
-                                  });
-                                } else {
-                                  const params = {
-                                    id: row.id,
-                                    status: 1,
-                                  };
-                                  notiAPI
-                                    .changeStatus(params)
-                                    .catch(function (error) {
-                                      console.log(error);
+                                  } else {
+                                    const params = {
+                                      id: row.id,
+                                      status: 1,
+                                    };
+                                    notiAPI
+                                      .changeStatus(params)
+                                      .catch(function (error) {
+                                        console.log(error);
+                                      });
+                                    history.push({
+                                      pathname:
+                                        "/detail/invoice/" +
+                                        row.objectId +
+                                        "/" +
+                                        row.content,
                                     });
-                                  history.push({
-                                    pathname:
-                                      "/detail/invoice/" +
-                                      row.objectId +
-                                      "/" +
-                                      row.content,
-                                  });
-                                }
-                              }}
-                            >
-                              View detail
-                            </Link>
-                          </Row>
-                        </td>
-                        <td style={{ position: "absolute", right: 10 }}>
-                          {moment(row.createdDate).format(
-                            "DD/MM/YYYY HH:mm:ss"
-                          )}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </Table>
+                                  }
+                                }}
+                              >
+                                View detail
+                              </Link>
+                            </Row>
+                          </td>
+                          <td style={{ position: "absolute", right: 10 }}>
+                            {moment(row.createdDate).format(
+                              "DD/MM/YYYY HH:mm:ss"
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
+                )}
               </FormGroup>
             </Form>
             <div>

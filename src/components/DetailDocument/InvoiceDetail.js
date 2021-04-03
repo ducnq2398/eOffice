@@ -121,12 +121,12 @@ function InvoiceDetail() {
                 <br />
                 <Label style={{ marginTop: "10px" }}>
                   <img
-                    hidden={document.status === 3 ? false : true}
+                    hidden={document.status === 2 ? false : true}
                     src={done}
                     alt=""
                   />
                   <img
-                    hidden={document.status !== 3 ? false : true}
+                    hidden={document.status === 0 ? false : true}
                     src={notsigned}
                     alt=""
                   />

@@ -71,11 +71,19 @@ function Login() {
       })
       .catch(function (error) {
         console.log(error);
-        setCheckLogin({
-          ...checkLogin,
-          error: true,
-          messaging: 'Invalid email or password. Please try again!!!'
-        })
+        if(error.response.data === 'Invalid username or password!'){
+          setCheckLogin({
+            ...checkLogin,
+            error: true,
+            messaging: 'Invalid email or password. Please try again!!!'
+          })
+        }else{
+          setCheckLogin({
+            ...checkLogin,
+            error: true,
+            messaging: 'Account was disable!!!'
+          })
+        }
       });
   }
 

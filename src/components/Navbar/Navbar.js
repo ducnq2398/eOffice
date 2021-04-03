@@ -32,23 +32,22 @@ function Navbar() {
   const [postPerPage] = useState(9);
   const indexOfLastPost = currentPage * postPerPage;
   const indexOfFirstPost = indexOfLastPost - postPerPage;
-
-  
-  const currentPostsNoti = listNoti.slice(
-    indexOfFirstPost,
-    indexOfLastPost
-  );
+  const currentPostsNoti = listNoti.slice(indexOfFirstPost, indexOfLastPost);
   const [users, setUsers] = useState([]);
   useEffect(() => {
     async function fetListNoti() {
       try {
         const res = await notiAPI.getById(getUser().Id);
-        setListNoti(res.data.sort((a, b) => {
-          return (
-            new Date(a.dateCreate).getTime() - new Date(b.dateCreate).getTime()
-          );
-        })
-        .reverse());
+        setListNoti(
+          res.data
+            .sort((a, b) => {
+              return (
+                new Date(a.dateCreate).getTime() -
+                new Date(b.dateCreate).getTime()
+              );
+            })
+            .reverse()
+        );
       } catch (error) {
         if (error.response.status === 401) {
           const params = {
@@ -93,7 +92,7 @@ function Navbar() {
       }
     }
     getUsers();
-  },[]);
+  }, []);
   function NavItemProfile(props) {
     return (
       <li
@@ -157,42 +156,44 @@ function Navbar() {
     }
     return (
       <div className="dropdown-navbar">
-        {listNoti.length===0 ? <div>You have no unread notifications</div> : currentPostsNoti.map((noti, index) => {
-          return (
-            <div
-              key={index}
-              onClick={() => {
-                if (noti.title.includes("Contract")) {
-                  const params = {
-                    id: noti.id,
-                    status: 1,
-                  };
-                  notiAPI.changeStatus(params).catch(function (error) {
-                    console.log(error);
-                  });
-                  history.push({
-                    pathname:
-                      "/detail/contract/" + noti.objectId + "/" + noti.content,
-                  });
-                } else {
-                  const params = {
-                    id: noti.id,
-                    status: 1,
-                  };
-                  notiAPI.changeStatus(params).catch(function (error) {
-                    console.log(error);
-                  });
-                  history.push({
-                    pathname:
-                      "/detail/invoice/" + noti.objectId + "/" + noti.content,
-                  });
-                }
-              }}
-            >
-              <DropdownItem2>{noti.content}</DropdownItem2>
-            </div>
-          );
-        })}
+        {listNoti.length === 0 ? (
+          <div>You have no unread notifications</div>
+        ) : (
+          currentPostsNoti.map((noti, index) => {
+            return (
+              <div
+                key={index}
+                onClick={() => {
+                  if (noti.title.includes("Contract")) {
+                    const params = {
+                      id: noti.id,
+                      status: 1,
+                    };
+                    notiAPI.changeStatus(params).catch(function (error) {
+                      console.log(error);
+                    });
+                    window.location.assign(
+                      "/detail/contract/" + noti.objectId + "/" + noti.content
+                    );
+                  } else {
+                    const params = {
+                      id: noti.id,
+                      status: 1,
+                    };
+                    notiAPI.changeStatus(params).catch(function (error) {
+                      console.log(error);
+                    });
+                    window.location.assign(
+                      "/detail/invoice/" + noti.objectId + "/" + noti.content
+                    );
+                  }
+                }}
+              >
+                <DropdownItem2>{noti.content}</DropdownItem2>
+              </div>
+            );
+          })
+        )}
         <Link to="/notification" hidden={count < 10 ? true : false}>
           See more
         </Link>
