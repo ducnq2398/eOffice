@@ -821,14 +821,16 @@ function UserManagement() {
               />
             </div>
             {/* <div hidden={search !== "" ? true : false} className="ex">
-              <CSVLink filename={"data user.csv"} data={li}>
+              <CSVLink filename={"data user.csv"} 
+              data
+              >
                 Import
                 <Icon.BiImport fontSize="25" tableValues="a" />
               </CSVLink>
               <CSVLink
                 style={{ marginLeft: 10 }}
                 filename={"data user.csv"}
-                data={data}
+                data
               >
                 Export
                 <Icon.BiExport fontSize="25" />

@@ -138,6 +138,8 @@ function Navbar() {
         history.push("/");
       })
       .catch(function (error) {
+        removeUserSession();
+        history.push("/");
         console.log(error);
       });
   }
