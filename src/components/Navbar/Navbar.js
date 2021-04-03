@@ -33,14 +33,8 @@ function Navbar() {
   const indexOfLastPost = currentPage * postPerPage;
   const indexOfFirstPost = indexOfLastPost - postPerPage;
 
-  var postNotification = listNoti
-    .sort((a, b) => {
-      return (
-        new Date(a.dateCreate).getTime() - new Date(b.dateCreate).getTime()
-      );
-    })
-    .reverse();
-  const currentPostsNoti = postNotification.slice(
+  
+  const currentPostsNoti = listNoti.slice(
     indexOfFirstPost,
     indexOfLastPost
   );
@@ -49,7 +43,12 @@ function Navbar() {
     async function fetListNoti() {
       try {
         const res = await notiAPI.getById(getUser().Id);
-        setListNoti(res.data);
+        setListNoti(res.data.sort((a, b) => {
+          return (
+            new Date(a.dateCreate).getTime() - new Date(b.dateCreate).getTime()
+          );
+        })
+        .reverse());
       } catch (error) {
         if (error.response.status === 401) {
           const params = {
@@ -69,7 +68,7 @@ function Navbar() {
       }
     }
     fetListNoti();
-  }, []);
+  });
   useEffect(() => {
     async function getUsers() {
       try {
@@ -94,7 +93,7 @@ function Navbar() {
       }
     }
     getUsers();
-  }, []);
+  },[]);
   function NavItemProfile(props) {
     return (
       <li
@@ -158,7 +157,7 @@ function Navbar() {
     }
     return (
       <div className="dropdown-navbar">
-        {currentPostsNoti.map((noti, index) => {
+        {listNoti.length===0 ? <div>You have no unread notifications</div> : currentPostsNoti.map((noti, index) => {
           return (
             <div
               key={index}
