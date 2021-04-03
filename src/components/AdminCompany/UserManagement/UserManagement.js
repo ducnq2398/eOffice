@@ -453,14 +453,14 @@ function UserManagement() {
         ...error,
         loi: true,
         depart: true,
-        message: "Please choose one department",
+        message_depart: "Please choose one department",
       });
       setTimeout(() => {
         setError({
           ...error,
           loi: false,
           depart: false,
-          message: "",
+          message_depart: "",
         });
       }, 4000);
     } else if (detail.subdepartment === "") {
@@ -468,14 +468,14 @@ function UserManagement() {
         ...error,
         loi: true,
         subdepart: true,
-        message: "Please choose one child department",
+        message_subdepart: "Please choose one child department",
       });
       setTimeout(() => {
         setError({
           ...error,
           loi: false,
           subdepart: false,
-          message: "",
+          message_subdepart: "",
         });
       }, 4000);
     } else if (detail.role === "1" && detail.status === 0) {
@@ -1026,7 +1026,7 @@ function UserManagement() {
             </DialogContent>
             <DialogContent>
               <FormControl variant="outlined" style={{ width: "270px" }}>
-                <InputLabel id="demo">Department</InputLabel>
+                <InputLabel id="demo">Department*</InputLabel>
                 <Select
                   name="department"
                   value={detail.department}
@@ -1039,6 +1039,7 @@ function UserManagement() {
                   }}
                   label="Department"
                   error={error.depart}
+                  disabled={detail.role==='1' ? true : false}
                 >
                   <MenuItem value="">
                     <em>None</em>
@@ -1049,17 +1050,22 @@ function UserManagement() {
                     </MenuItem>
                   ))}
                 </Select>
+                <FormHelperText style={{ color: "red" }}>
+                  {error.message_depart}
+                </FormHelperText>
               </FormControl>
               <FormControl
                 variant="outlined"
                 style={{ marginLeft: "10px", width: "270px" }}
               >
-                <InputLabel id="demo">Sub Department</InputLabel>
+                <InputLabel id="demo">Child Department*</InputLabel>
                 <Select
                   name="subdepartment"
                   value={detail.subdepartment}
                   onChange={handleOnDetail}
-                  label="Sub Department"
+                  label="Child Department"
+                  disabled={detail.role==='1' ? true : false}
+                  error={error.subdepart}
                 >
                   <MenuItem value="">
                     <em>None</em>
@@ -1070,6 +1076,9 @@ function UserManagement() {
                     </MenuItem>
                   ))}
                 </Select>
+                <FormHelperText style={{ color: "red" }}>
+                  {error.message_subdepart}
+                </FormHelperText>
               </FormControl>
             </DialogContent>
             <DialogContent>
