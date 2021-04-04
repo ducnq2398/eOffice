@@ -36,6 +36,7 @@ import ContractStepper from "../Stepper/ContractStepper";
 import { toast } from "react-toastify";
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import moment from "moment";
 
 const useStyles = makeStyles((theme) => ({
   backdrop: {
@@ -82,7 +83,7 @@ function Document() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
+ 
   useEffect(() => {
     async function getListDocument() {
       try {

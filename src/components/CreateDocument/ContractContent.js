@@ -170,15 +170,10 @@ function ContractContent() {
               },
             }
           )
-          .then(function (res) {
-            const listViewerId = [];
-            location.state.viewer.map((v) => {
-              listViewerId.push(v.id);
-            });
-            listViewerId.push(getUser().Id);
+          .then(function () {
             const viewer = {
               contractId: contractId,
-              listViewersId: listViewerId,
+              listViewersId: location.state.listViewerId,
             };
             axios
               .put(

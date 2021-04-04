@@ -159,6 +159,18 @@ function CreateContract() {
   }, [dataUpload.company_guest]);
 
   function handleContent() {
+    const listViewerId = [];
+    const listViewer = [...viewer, ...viewerGuest];
+    if (dataUpload.signer.id === getUser().Id) {
+      listViewer.map((view) => {
+        listViewerId.push(view.id);
+      });
+    } else {
+      listViewerId.push(getUser().Id);
+      listViewer.map((view) => {
+        listViewerId.push(view.id);
+      });
+    }
     if (selectedDate === null) {
       setAlert({
         ...alert,
@@ -211,13 +223,14 @@ function CreateContract() {
         });
       }, 3000);
     } else {
-      const listViewer = [...viewer, ...viewerGuest];
+      
       history.push({
         pathname: "/contract-confirm",
         state: {
           file: file,
           data: dataUpload,
           viewer: listViewer,
+          listViewerId: listViewerId,
           signLocationA: positionA,
           signLocationB: positionB,
           numberPage: pageNumber,

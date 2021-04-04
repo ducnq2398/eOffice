@@ -91,11 +91,17 @@ function CreateInvoice() {
   }
 
   function handleContent() {
-    const listViewerId = [getUser().Id];
-    viewer.map((view) => {
-      listViewerId.push(view.id);
-    });
-
+    const listViewerId = [];
+    if (dataUpload.signer.id === getUser().Id) {
+      viewer.map((view) => {
+        listViewerId.push(view.id);
+      });
+    } else {
+      listViewerId.push(getUser().Id);
+      viewer.map((view) => {
+        listViewerId.push(view.id);
+      });
+    }
     if (selectedDate === null) {
       setAlert({
         ...alert,

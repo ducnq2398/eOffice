@@ -148,6 +148,17 @@ function CreateContractInternal() {
   }, []);
 
   function handleContent() {
+    const listViewerId = [];
+    if (dataUpload.signer.id === getUser().Id) {
+      viewer.map((view) => {
+        listViewerId.push(view.id);
+      });
+    } else {
+      listViewerId.push(getUser().Id);
+      viewer.map((view) => {
+        listViewerId.push(view.id);
+      });
+    }
     if (selectedDate === null) {
       setAlert({
         ...alert,
@@ -206,6 +217,7 @@ function CreateContractInternal() {
           file: file,
           data: dataUpload,
           viewer: viewer,
+          listViewerId: listViewerId,
           signLocationA: positionA,
           signLocationB: positionB,
           numberPage: pageNumber,

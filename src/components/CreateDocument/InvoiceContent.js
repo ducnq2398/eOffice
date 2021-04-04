@@ -14,6 +14,7 @@ import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
+import BusinessIcon from "@material-ui/icons/Business";
 import {
   Dialog,
   DialogActions,
@@ -36,6 +37,7 @@ import moment from "moment";
 import Navbar from "../Navbar/Navbar";
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import companyListAPI from "../../api/companyListAPI";
 
 toast.configure();
 const Transition = forwardRef(function Transition(props, ref) {
@@ -74,6 +76,7 @@ function InvoiceContent() {
     setCreate(!create);
   }
   const [signer, setSigner] = useState("");
+  const [company, setCompany] = useState([]);
   const viewer = location.state.viewer;
   const [page, setPage] = useState(0);
   const [rowsPerPage] = useState(4);
@@ -96,6 +99,20 @@ function InvoiceContent() {
     }
     getSigner();
   }, [location.state.data.signer.id]);
+
+  useEffect(() => {
+    async function getCompany() {
+      try {
+        const res = await companyListAPI.getCompanyById(
+          location.state.data.signer.companyId
+        );
+        setCompany(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getCompany();
+  }, [location.state.data.signer.companyId]);
 
   async function handleCreated(e) {
     e.preventDefault();
@@ -190,6 +207,20 @@ function InvoiceContent() {
                     startAdornment: (
                       <InputAdornment position="start">
                         <TitleIcon color="primary" fontSize="large" />
+                      </InputAdornment>
+                    ),
+                    readOnly: true,
+                  }}
+                />
+                <TextField
+                  variant="standard"
+                  value={company.name}
+                  fullWidth
+                  style={{ marginTop: "20px", padding: "10px 10px 10px" }}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <BusinessIcon color="primary" fontSize="large" />
                       </InputAdornment>
                     ),
                     readOnly: true,

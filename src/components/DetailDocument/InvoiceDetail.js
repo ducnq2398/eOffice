@@ -32,6 +32,9 @@ import SaveIcon from "@material-ui/icons/Save";
 import PrintIcon from "@material-ui/icons/Print";
 import Navbar from "../Navbar/Navbar";
 import printJS from "print-js";
+import companyListAPI from "../../api/companyListAPI";
+import { getUser } from "../../utils/Common";
+import BusinessIcon from "@material-ui/icons/Business";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -55,6 +58,7 @@ function InvoiceDetail() {
   const [activeStep, setActiveStep] = useState(1);
   const [document, setDocument] = useState([]);
   const [signer, setSigner] = useState([]);
+  const [company, setCompany] = useState([]);
   const [viewer, setViewer] = useState([]);
   const [signerId, setSignerId] = useState();
   const [page, setPage] = useState(0);
@@ -91,6 +95,18 @@ function InvoiceDetail() {
     }
     getSigner();
   }, [signerId]);
+
+  useEffect(() => {
+    async function getCompany() {
+      try {
+        const res = await companyListAPI.getCompanyById(getUser().CompanyId);
+        setCompany(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getCompany();
+  }, [getUser().CompanyId]);
 
   function printFile() {
     printJS({
@@ -141,6 +157,20 @@ function InvoiceDetail() {
                     startAdornment: (
                       <InputAdornment position="start">
                         <TitleIcon color="primary" />
+                      </InputAdornment>
+                    ),
+                    readOnly: true,
+                  }}
+                />
+                <TextField
+                  variant="standard"
+                  value={company.name}
+                  fullWidth
+                  style={{ marginTop: "20px", padding: "10px 10px 10px" }}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <BusinessIcon color="primary" fontSize="large" />
                       </InputAdornment>
                     ),
                     readOnly: true,
