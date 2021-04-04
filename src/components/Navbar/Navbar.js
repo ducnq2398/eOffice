@@ -114,8 +114,9 @@ function Navbar() {
     );
   }
   const ref = useRef(null);
+  const ref2 = useRef(null);
   const handleClickOutside = (event) => {
-    if (ref.current && !ref.current.contains(event.target)) {
+    if (ref2.current && !ref2.current.contains(event.target)) {
       setOpenNoti(false);
     }
   };
@@ -140,7 +141,7 @@ function Navbar() {
   function NavItemNoti(props) {
     return (
       <li
-        ref={ref}
+        ref={ref2}
         className="navbar-item"
         onClick={(e) => {
           e.preventDefault();
@@ -188,7 +189,6 @@ function Navbar() {
         </p>
       );
     }
-
     return (
       <div className="dropdown-navbar">
         {listNoti.length === 0 ? (
