@@ -26,7 +26,6 @@ import {
   ListSubheader,
   makeStyles,
   Paper,
-  Slide,
   TextField,
 } from "@material-ui/core";
 import Navbar from "../../Navbar/Navbar";
@@ -85,9 +84,7 @@ function DepartmentManagerment() {
       try {
         const response = await departmentAPI.getDepartmentByCompanyId(id);
         setListDepartment(response.data);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     }
     getDepartment();
   }, []);
@@ -97,13 +94,11 @@ function DepartmentManagerment() {
       .then(function (res) {
         setListChild(res.data);
       })
-      .catch(function (error) {
-        console.log(error);
-      });
+      .catch(function (error) {});
   }
   function addDepartment(e) {
     e.preventDefault();
-    if (department.trim().split(/ +/).join(' ') === "") {
+    if (department.trim().split(/ +/).join(" ") === "") {
       setError({
         ...error,
         depart: true,
@@ -116,7 +111,7 @@ function DepartmentManagerment() {
           message_depart: "",
         });
       }, 3000);
-    } else if (department.trim().split(/ +/).join(' ').length > 255) {
+    } else if (department.trim().split(/ +/).join(" ").length > 255) {
       setError({
         ...error,
         depart: true,
@@ -131,7 +126,7 @@ function DepartmentManagerment() {
       }, 3000);
     } else {
       const params = {
-        name: department.trim().split(/ +/).join(' '),
+        name: department.trim().split(/ +/).join(" "),
         companyId: getUser().CompanyId,
         creatorId: getUser().Id,
         dateCreate: Moment(new Date()).format(
@@ -147,8 +142,7 @@ function DepartmentManagerment() {
           });
           window.location.reload();
         })
-        .catch(function (error) {
-          console.log(error);
+        .catch(function () {
           setError({
             ...error,
             depart: true,
@@ -166,7 +160,7 @@ function DepartmentManagerment() {
   }
   function addSubDepartment(e) {
     e.preventDefault();
-    if (child_department.trim().split(/ +/).join(' ') === "") {
+    if (child_department.trim().split(/ +/).join(" ") === "") {
       setError({
         ...error,
         subdepart: true,
@@ -179,7 +173,7 @@ function DepartmentManagerment() {
           message_subdepart: "",
         });
       }, 3000);
-    } else if (child_department.trim().split(/ +/).join(' ').length > 255) {
+    } else if (child_department.trim().split(/ +/).join(" ").length > 255) {
       setError({
         ...error,
         subdepart: true,
@@ -195,7 +189,7 @@ function DepartmentManagerment() {
       }, 3000);
     } else {
       const params = {
-        name: child_department.trim().split(/ +/).join(' '),
+        name: child_department.trim().split(/ +/).join(" "),
         departmentId: departmentID.id,
         companyId: getUser().CompanyId,
         creatorId: getUser().Id,
@@ -212,7 +206,7 @@ function DepartmentManagerment() {
           });
           window.location.reload();
         })
-        .catch(function (error) {
+        .catch(function () {
           setError({
             ...error,
             subdepart: true,
@@ -230,7 +224,7 @@ function DepartmentManagerment() {
   }
   function editDepartment(e) {
     e.preventDefault();
-    if (department.trim().split(/ +/).join(' ') === "") {
+    if (department.trim().split(/ +/).join(" ") === "") {
       setError({
         ...error,
         depart: true,
@@ -243,7 +237,7 @@ function DepartmentManagerment() {
           message_depart: "",
         });
       }, 3000);
-    } else if (department.trim().split(/ +/).join(' ').length > 255) {
+    } else if (department.trim().split(/ +/).join(" ").length > 255) {
       setError({
         ...error,
         depart: true,
@@ -259,7 +253,7 @@ function DepartmentManagerment() {
     } else {
       const params = {
         id: departmentID.id,
-        name: department.trim().split(/ +/).join(' '),
+        name: department.trim().split(/ +/).join(" "),
         companyId: getUser().CompanyId,
         creatorId: getUser().Id,
         dateCreate: Moment(new Date()).format(
@@ -276,7 +270,6 @@ function DepartmentManagerment() {
           window.location.reload();
         })
         .catch(function (error) {
-          console.log(error);
           setError({
             ...error,
             depart: true,
@@ -294,7 +287,7 @@ function DepartmentManagerment() {
   }
   function editSubDepartment(e) {
     e.preventDefault();
-    if (child_department.trim().split(/ +/).join(' ') === "") {
+    if (child_department.trim().split(/ +/).join(" ") === "") {
       setError({
         ...error,
         subdepart: true,
@@ -307,7 +300,7 @@ function DepartmentManagerment() {
           message_subdepart: "",
         });
       }, 3000);
-    } else if (child_department.trim().split(/ +/).join(' ').length > 255) {
+    } else if (child_department.trim().split(/ +/).join(" ").length > 255) {
       setError({
         ...error,
         subdepart: true,
@@ -323,7 +316,7 @@ function DepartmentManagerment() {
     } else {
       const params = {
         id: sub_departmentID.id,
-        name: child_department.trim().split(/ +/).join(' '),
+        name: child_department.trim().split(/ +/).join(" "),
         departmentId: sub_departmentID.departmentId,
         companyId: getUser().CompanyId,
         creatorId: getUser().Id,
@@ -340,8 +333,7 @@ function DepartmentManagerment() {
           });
           window.location.reload();
         })
-        .catch(function (error) {
-          console.log(error);
+        .catch(function () {
           setError({
             ...error,
             subdepart: true,
@@ -370,15 +362,13 @@ function DepartmentManagerment() {
             });
             window.location.reload();
           })
-          .catch(function (error) {
+          .catch(function () {
             toast.error("You can not delete child department", {
               position: toast.POSITION.TOP_CENTER,
             });
-            console.log(error);
           });
       })
-      .catch(function (error) {
-        console.log(error);
+      .catch(function () {
         toast.error("You can not delete child department", {
           position: toast.POSITION.TOP_CENTER,
         });
@@ -397,15 +387,13 @@ function DepartmentManagerment() {
             });
             window.location.reload();
           })
-          .catch(function (error) {
+          .catch(function () {
             toast.error("You can not delete department", {
               position: toast.POSITION.TOP_CENTER,
             });
-            console.log(error);
           });
       })
-      .catch(function (error) {
-        console.log(error);
+      .catch(function () {
         toast.error("You can not delete child department", {
           position: toast.POSITION.TOP_CENTER,
         });
@@ -470,7 +458,8 @@ function DepartmentManagerment() {
                   className={classes.root}
                   subheader={
                     <ListSubheader component="div">
-                      <PeopleAltIcon color="primary" fontSize="large"/><br/>
+                      <PeopleAltIcon color="primary" fontSize="large" />
+                      <br />
                       Department
                     </ListSubheader>
                   }

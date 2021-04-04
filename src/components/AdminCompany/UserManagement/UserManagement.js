@@ -158,9 +158,7 @@ function UserManagement() {
             }
           })
         );
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     }
     setTimeout(() => {
       setLoading(false);
@@ -175,9 +173,7 @@ function UserManagement() {
           getUser().CompanyId
         );
         setDepartment(res.data);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     }
     getDepartment();
   }, []);
@@ -187,9 +183,7 @@ function UserManagement() {
       try {
         const res = await departmentAPI.getSubDepartment(user.department);
         setSubDepartment(res.data);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     }
     getSubDepartment();
   }, [user.department]);
@@ -199,9 +193,7 @@ function UserManagement() {
       try {
         const res = await departmentAPI.getSubDepartment(detail.department);
         setSubDepartment2(res.data);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     }
     getSubDepartment();
   }, [detail.department]);
@@ -370,12 +362,12 @@ function UserManagement() {
       setIsOpen(!isOpen);
       const tel = "+84" + user.phone.substring(1);
       const params = {
-        name: user.username.trim().split(/ +/).join(' '),
+        name: user.username.trim().split(/ +/).join(" "),
         avatar: "",
         email: user.email,
         password: md5("123Aabc").trim().toString(),
         phone: tel,
-        address: user.address.trim().split(/ +/).join(' '),
+        address: user.address.trim().split(/ +/).join(" "),
         dateCreate: Moment(new Date()).format(
           "yyyy-MM-DD" + "T" + "HH:mm:ss.SSS" + "Z"
         ),
@@ -442,7 +434,6 @@ function UserManagement() {
               });
             }, 5000);
           }
-          console.log(error);
         });
     }
   }
@@ -514,9 +505,7 @@ function UserManagement() {
             window.location.reload();
           }, 2000);
         })
-        .catch(function (error) {
-          console.log(error);
-        });
+        .catch(function (error) {});
     } else {
       setOpen(!open);
       setOpenEdit(!openEdit);
@@ -531,9 +520,7 @@ function UserManagement() {
               window.location.reload();
             }, 2000);
           })
-          .catch(function (error) {
-            console.log(error);
-          });
+          .catch(function (error) {});
       } else {
         userListAPI
           .activeUser(detail.id)
@@ -545,9 +532,7 @@ function UserManagement() {
               window.location.reload();
             }, 2000);
           })
-          .catch(function (error) {
-            console.log(error);
-          });
+          .catch(function (error) {});
       }
     }
   }
@@ -1041,7 +1026,7 @@ function UserManagement() {
                   }}
                   label="Department"
                   error={error.depart}
-                  disabled={detail.role==='1' ? true : false}
+                  disabled={detail.role === "1" ? true : false}
                 >
                   <MenuItem value="">
                     <em>None</em>
@@ -1066,7 +1051,7 @@ function UserManagement() {
                   value={detail.subdepartment}
                   onChange={handleOnDetail}
                   label="Child Department"
-                  disabled={detail.role==='1' ? true : false}
+                  disabled={detail.role === "1" ? true : false}
                   error={error.subdepart}
                 >
                   <MenuItem value="">

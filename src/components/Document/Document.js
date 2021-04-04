@@ -54,6 +54,8 @@ function Document() {
   const [isOpen, setIsOpen] = useState(false);
   const [dele, setDel] = useState(false);
   const toogle = () => setIsOpen(!isOpen);
+  const [selectType, setSelectType] = useState(false);
+  const toogle2 = () => setSelectType(!selectType);
   const [filter, setFilter] = useState("1");
   const [postList, setPostList] = useState([]);
   const [listAllDocument, setListAllDocument] = useState([]);
@@ -158,13 +160,6 @@ function Document() {
     }
     getListDocument();
   }, []);
-
-  function AddContract() {
-    history.push("/contract");
-  }
-  function AddInvoice() {
-    history.push("/invoice");
-  }
 
   function All() {
     setPage(0);
@@ -312,11 +307,47 @@ function Document() {
               marginRight: "auto",
             }}
           >
-            <Button variant="contained" color="primary" onClick={AddContract}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => setSelectType(!selectType)}
+            >
               Contract
             </Button>
-            <Button variant="contained" color="primary" onClick={AddInvoice}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => history.push("/invoice")}
+            >
               Invoice
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog
+          open={selectType}
+          onClose={toogle2}
+          TransitionComponent={Transition}
+        >
+          <DialogTitle>Please select the type of contract?</DialogTitle>
+          <DialogActions
+            style={{
+              marginLeft: "auto",
+              marginRight: "auto",
+            }}
+          >
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => history.push("/contract-internal")}
+            >
+              Internal
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => history.push("/contract")}
+            >
+              Guest
             </Button>
           </DialogActions>
         </Dialog>

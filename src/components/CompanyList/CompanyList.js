@@ -37,9 +37,7 @@ function CompanyList() {
         const response = await companyListAPI.getAll();
         setPostList(response.data);
         setData(response.data);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     }
     fetListData();
     setTimeout(() => {

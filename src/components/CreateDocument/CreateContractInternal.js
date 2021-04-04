@@ -1,9 +1,7 @@
 import { Container, Form, FormGroup, Row, Col, Label } from "reactstrap";
 import { useState, useEffect } from "react";
 import "../../css/CreateDoc.css";
-import VerticalLinearStepper from "../Sidebar/Stepper";
 import { useHistory } from "react-router-dom";
-import companyListAPI from "../../api/companyListAPI";
 import userListAPI from "../../api/userListAPI";
 import { getUser } from "../../utils/Common";
 import demo from "../../images/demo.png";
@@ -31,19 +29,19 @@ import TitleIcon from "@material-ui/icons/Title";
 import { toast } from "react-toastify";
 import Alert from "@material-ui/lab/Alert";
 import Navbar from "../Navbar/Navbar";
+import StepperContractInternal from "../Sidebar/StepperContractInternal";
+import companyListAPI from "../../api/companyListAPI";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 function TransitionLeft(props) {
   return <Slide {...props} direction="right" />;
 }
 toast.configure();
-function CreateContract() {
-  const [listCompany, setListCompany] = useState([]);
+function CreateContractInternal() {
   const [fileName, setFileName] = useState("");
   const [listSinger, setListSigner] = useState([]);
-  const [listGuest, setListGuest] = useState([]);
+  const [listSinger2, setListSigner2] = useState([]);
   const history = useHistory();
-  const [listViewA, setListViewA] = useState([]);
   const [listViewB, setListViewB] = useState([]);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const handleDateChange = (date) => {
@@ -57,9 +55,25 @@ function CreateContract() {
   const [dataUpload, setDataUpload] = useState({
     title: "",
     signer: null,
-    company_guest: "",
+    company_guest: null,
     signer_guest: null,
   });
+  useEffect(() => {
+    async function getCompany() {
+      try {
+        const response = await companyListAPI.getCompanyById(
+          getUser().CompanyId
+        );
+        setDataUpload({
+          ...dataUpload,
+          company_guest: response.data,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getCompany();
+  }, []);
   const [alert, setAlert] = useState({
     file: false,
     title: false,
@@ -87,7 +101,6 @@ function CreateContract() {
     signerB: "#808080ad",
   });
   const [viewer, setViewer] = useState([]);
-  const [viewerGuest, setViewerGuest] = useState([]);
   const [numPages, setNumPages] = useState("");
   const [pageNumber, setPageNumber] = useState(0);
 
@@ -108,26 +121,9 @@ function CreateContract() {
       [name]: value,
     });
   }
-
   useEffect(() => {
-    async function fetListCompany() {
-      try {
-        const response = await companyListAPI.getAll();
-        setListCompany(
-          response.data.filter((data) => {
-            if (data.status === 1 && data.id !== getUser().CompanyId) {
-              return data;
-            }
-          })
-        );
-      } catch (error) {}
-    }
-    fetListCompany();
-  }, []);
-
-  useEffect(() => {
+    const companyId = getUser().CompanyId;
     async function fetListUser() {
-      const companyId = getUser().CompanyId;
       try {
         const response = await userListAPI.getUserByCompanyId(companyId);
         setListSigner(
@@ -137,26 +133,19 @@ function CreateContract() {
             }
           })
         );
-      } catch (error) {}
-    }
-    fetListUser();
-  }, []);
-  useEffect(() => {
-    async function fetListGuest() {
-      const id = dataUpload.company_guest.id;
-      try {
-        const response = await userListAPI.getUserByCompanyId(id);
-        setListGuest(
+        setListSigner2(
           response.data.filter((data) => {
             if (data.status === 1) {
               return data;
             }
           })
         );
-      } catch (error) {}
+      } catch (error) {
+        console.log(error);
+      }
     }
-    fetListGuest();
-  }, [dataUpload.company_guest]);
+    fetListUser();
+  }, []);
 
   function handleContent() {
     if (selectedDate === null) {
@@ -211,13 +200,12 @@ function CreateContract() {
         });
       }, 3000);
     } else {
-      const listViewer = [...viewer, ...viewerGuest];
       history.push({
         pathname: "/contract-confirm",
         state: {
           file: file,
           data: dataUpload,
-          viewer: listViewer,
+          viewer: viewer,
           signLocationA: positionA,
           signLocationB: positionB,
           numberPage: pageNumber,
@@ -278,7 +266,7 @@ function CreateContract() {
       <header>
         <Navbar />
       </header>
-      <VerticalLinearStepper activeStep={activeStep} />
+      <StepperContractInternal activeStep={activeStep} />
       <main className="main-contract">
         <Snackbar
           style={{ marginTop: 70 }}
@@ -560,12 +548,9 @@ function CreateContract() {
                   getOptionLabel={(option) => option.name}
                   onChange={(event, newValue) => {
                     setDataUpload({ ...dataUpload, signer: newValue });
-                    setListViewA(
+                    setListSigner2(
                       listSinger.filter((data) => {
-                        if (
-                          data.id !== newValue.id &&
-                          data.id !== getUser().Id
-                        ) {
+                        if (data.id !== newValue.id) {
                           return data;
                         }
                       })
@@ -616,81 +601,9 @@ function CreateContract() {
                   Next
                 </Button>
               </div>
+
               <div
                 hidden={activeStep === 3 ? false : true}
-                style={{ marginTop: "15%" }}
-              >
-                <Label
-                  style={{
-                    fontSize: "30px",
-                    fontWeight: "bold",
-                    color: "blue",
-                    float: "left",
-                    marginBottom: "30px",
-                  }}
-                >
-                  SELECT COMPANY GUEST
-                </Label>
-                <Autocomplete
-                  options={listCompany}
-                  disableClearable={true}
-                  getOptionLabel={(option) => option.name}
-                  onChange={(event, newValue) => {
-                    setDataUpload({
-                      ...dataUpload,
-                      company_guest: newValue,
-                      signer_guest: null,
-                    });
-                    setViewer([]);
-                    setViewerGuest([]);
-                  }}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="Company guest"
-                      variant="outlined"
-                      name="company_guest"
-                      error={alert.company}
-                      helperText={alert.message}
-                    />
-                  )}
-                />
-                <Button
-                  variant="contained"
-                  color="primary"
-                  style={{ marginTop: "30px" }}
-                  onClick={() => setActiveStep(activeStep - 1)}
-                >
-                  Back
-                </Button>
-                <Button
-                  variant="contained"
-                  style={{ marginTop: "30px", marginLeft: "10px" }}
-                  color="primary"
-                  onClick={() => {
-                    if (dataUpload.company_guest === "") {
-                      setAlert({
-                        ...alert,
-                        company: true,
-                        message: "Please select company guest !!!",
-                      });
-                      setTimeout(() => {
-                        setAlert({
-                          ...alert,
-                          company: false,
-                          message: "",
-                        });
-                      }, 3000);
-                    } else {
-                      setActiveStep(activeStep + 1);
-                    }
-                  }}
-                >
-                  Next
-                </Button>
-              </div>
-              <div
-                hidden={activeStep === 4 ? false : true}
                 style={{ marginTop: "15%" }}
               >
                 <Label
@@ -706,16 +619,12 @@ function CreateContract() {
                 </Label>
                 <Autocomplete
                   id="combo-box-demo"
-                  options={listGuest.filter((data) => {
-                    if (data.id !== dataUpload.signer.id) {
-                      return data;
-                    }
-                  })}
+                  options={listSinger2}
                   getOptionLabel={(option) => option.name}
                   onChange={(event, newValue) => {
                     setDataUpload({ ...dataUpload, signer_guest: newValue });
                     setListViewB(
-                      listGuest.filter((data) => {
+                      listSinger.filter((data) => {
                         if (
                           data.id !== newValue.id &&
                           data.id !== dataUpload.signer.id &&
@@ -773,7 +682,7 @@ function CreateContract() {
                 </Button>
               </div>
               <div
-                hidden={activeStep === 5 ? false : true}
+                hidden={activeStep === 4 ? false : true}
                 style={{ marginTop: "15%" }}
               >
                 <Row>
@@ -795,7 +704,7 @@ function CreateContract() {
                     <Autocomplete
                       multiple
                       id="tags-outlined"
-                      options={listViewA}
+                      options={listViewB}
                       getOptionLabel={(option) => option.name}
                       filterSelectedOptions
                       onChange={(event, newValue) => {
@@ -807,25 +716,6 @@ function CreateContract() {
                           variant="outlined"
                           label="Select viewer"
                           placeholder="Viewer "
-                        />
-                      )}
-                    />
-                  </Col>
-                  <Col>
-                    <Autocomplete
-                      multiple
-                      options={listViewB}
-                      getOptionLabel={(option) => option.name}
-                      filterSelectedOptions
-                      onChange={(event, newValue) => {
-                        setViewerGuest(newValue);
-                      }}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          variant="outlined"
-                          label="Select viewer"
-                          placeholder="Viewer guest"
                         />
                       )}
                     />
@@ -851,7 +741,7 @@ function CreateContract() {
                 </Button>
               </div>
               <div
-                hidden={activeStep === 6 ? false : true}
+                hidden={activeStep === 5 ? false : true}
                 style={{ marginTop: "15%" }}
               >
                 <Label
@@ -862,7 +752,7 @@ function CreateContract() {
                     float: "left",
                   }}
                 >
-                  DATE EXPIRATION CONTRACT
+                  DATE EXPIRATION INVOICE
                 </Label>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <Grid container justify="space-around">
@@ -953,4 +843,4 @@ function CreateContract() {
     </div>
   );
 }
-export default CreateContract;
+export default CreateContractInternal;

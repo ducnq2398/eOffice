@@ -44,7 +44,7 @@ function AdminLogin() {
           history.push("/error");
         }
       })
-      .catch(function (error) {
+      .catch(function () {
         setSubmit(true);
         setTimeout(() => {
           setSubmit(false);

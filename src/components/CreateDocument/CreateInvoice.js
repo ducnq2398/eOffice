@@ -40,6 +40,7 @@ function TransitionLeft(props) {
 function CreateInvoice() {
   const history = useHistory();
   const [listSinger, setListSigner] = useState([]);
+  const [listView, setListView] = useState([]);
   const [show, setShow] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
   const [file, setFile] = useState([]);
@@ -196,7 +197,6 @@ function CreateInvoice() {
   const onMouseMove = (e) => {
     setCursor({ x: e.clientX, y: e.clientY });
   };
-
   return (
     <div>
       <header>
@@ -458,6 +458,16 @@ function CreateInvoice() {
                   getOptionLabel={(option) => option.name}
                   onChange={(event, newValue) => {
                     setDataUpload({ ...dataUpload, signer: newValue });
+                    setListView(
+                      listSinger.filter((data) => {
+                        if (
+                          data.id !== newValue.id &&
+                          data.id !== getUser().Id
+                        ) {
+                          return data;
+                        }
+                      })
+                    );
                   }}
                   renderInput={(params) => (
                     <TextField
@@ -524,7 +534,7 @@ function CreateInvoice() {
                 <Autocomplete
                   multiple
                   id="tags-outlined"
-                  options={listSinger}
+                  options={listView}
                   getOptionLabel={(option) => option.name}
                   filterSelectedOptions
                   onChange={(event, newValue) => {

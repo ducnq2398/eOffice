@@ -26,6 +26,7 @@ import Profile from "../Profile/Profile";
 import ContractContent from "../CreateDocument/ContractContent";
 import InvoiceDetail from "../DetailDocument/InvoiceDetail";
 import ContractDetail from "../DetailDocument/ContractDetail";
+import CreateContractInternal from "../CreateDocument/CreateContractInternal";
 
 function RouterURL() {
   const PrivateRoute = ({ component: Component, ...rest }) => (
@@ -82,6 +83,7 @@ function RouterURL() {
         <Route path="/reset-password" component={ResetPassword} />
         <Route path="/error" component={Error} />
         <UserRoute path="/contract" component={CreateContract} />
+        <UserRoute path="/contract-internal" component={CreateContractInternal} />
         <UserRoute path="/invoice" component={CreateInvoice} />
         <UserRoute path="/dashboard" component={Dashboard} />
         <UserRoute path="/invoice-confirm" component={InvoiceContent} />

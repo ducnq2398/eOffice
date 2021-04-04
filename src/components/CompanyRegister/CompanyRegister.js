@@ -62,9 +62,9 @@ function CompanyRegister() {
   function handleSubmit(event) {
     event.preventDefault();
     const company = {
-      name: companyRegister.company_name.trim().split(/ +/).join(' '),
+      name: companyRegister.company_name.trim().split(/ +/).join(" "),
       phone: "+84" + companyRegister.phone.substring(1),
-      address: companyRegister.address.trim().split(/ +/).join(' '),
+      address: companyRegister.address.trim().split(/ +/).join(" "),
       dateCreate: Moment(new Date()).format(
         "yyyy-MM-DD" + "T" + "HH:mm:ss.SSS" + "Z"
       ),
@@ -96,12 +96,12 @@ function CompanyRegister() {
             };
             departmentAPI.addSubDepartment(sub).then(function (subdepartment) {
               const user = {
-                name: companyRegister.manager_name.trim().split(/ +/).join(' '),
+                name: companyRegister.manager_name.trim().split(/ +/).join(" "),
                 avatar: "",
                 email: companyRegister.manager_email,
                 password: md5("123Aabc").trim().toString(),
                 phone: "+84" + companyRegister.phone.substring(1),
-                address: companyRegister.address.trim().split(/ +/).join(' '),
+                address: companyRegister.address.trim().split(/ +/).join(" "),
                 dateCreate: Moment(new Date()).format(
                   "yyyy-MM-DD" + "T" + "HH:mm:ss.SSS" + "Z"
                 ),
@@ -118,7 +118,10 @@ function CompanyRegister() {
                   const data = {
                     id: res.data.id,
                     phone: "+84" + companyRegister.phone.substring(1),
-                    address: companyRegister.address.trim().split(/ +/).join(' '),
+                    address: companyRegister.address
+                      .trim()
+                      .split(/ +/)
+                      .join(" "),
                     dateCreate: Moment(new Date()).format(
                       "yyyy-MM-DD" + "T" + "HH:mm:ss.SSS" + "Z"
                     ),
@@ -132,25 +135,21 @@ function CompanyRegister() {
                     history.push("/company-list");
                   });
                 })
-                .catch(function (error) {
-                  console.log(error);
-                });
+                .catch(function (error) {});
             });
           })
-          .catch(function (error) {
-            console.log(error);
-          });
+          .catch(function (error) {});
       })
-      .catch(function (error) {
-        console.log(error);
-      });
+      .catch(function (error) {});
   }
   function handleConfirm(e) {
     e.preventDefault();
     var pattern = new RegExp(
       /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i
     );
-    if (companyRegister.company_name.trim().split(/ +/).join(' ').length > 255) {
+    if (
+      companyRegister.company_name.trim().split(/ +/).join(" ").length > 255
+    ) {
       setError({
         ...error,
         company_name: true,
@@ -163,7 +162,9 @@ function CompanyRegister() {
           message: "",
         });
       }, 3000);
-    } else if (companyRegister.company_name.trim().split(/ +/).join(' ') === "") {
+    } else if (
+      companyRegister.company_name.trim().split(/ +/).join(" ") === ""
+    ) {
       setError({
         ...error,
         company_name: true,
@@ -176,7 +177,9 @@ function CompanyRegister() {
           message: "",
         });
       }, 3000);
-    } else if (companyRegister.manager_name.trim().split(/ +/).join(' ').length > 255) {
+    } else if (
+      companyRegister.manager_name.trim().split(/ +/).join(" ").length > 255
+    ) {
       setError({
         ...error,
         manager_name: true,
@@ -189,7 +192,9 @@ function CompanyRegister() {
           message: "",
         });
       }, 3000);
-    } else if (companyRegister.manager_name.trim().split(/ +/).join(' ') === "") {
+    } else if (
+      companyRegister.manager_name.trim().split(/ +/).join(" ") === ""
+    ) {
       setError({
         ...error,
         manager_name: true,
@@ -254,7 +259,9 @@ function CompanyRegister() {
           message: "",
         });
       }, 3000);
-    } else if (companyRegister.address.trim().split(/ +/).join(' ').length > 255) {
+    } else if (
+      companyRegister.address.trim().split(/ +/).join(" ").length > 255
+    ) {
       setError({
         ...error,
         address: true,
@@ -304,10 +311,9 @@ function CompanyRegister() {
                 removeUserSession();
                 history.push("/admin");
               })
-              .catch(function (error) {
+              .catch(function () {
                 removeUserSession();
                 history.push("/admin");
-                console.log(error);
               });
           }
           setError({
@@ -380,13 +386,16 @@ function CompanyRegister() {
               {error.message}
             </Alert>
           </Snackbar>
-        <Row>
-          <Col>
-          </Col>
-          
-        </Row>
+          <Row>
+            <Col></Col>
+          </Row>
           <div>
-            <img className="lo1" style={{ marginTop: "20px" }} src={register} alt="" />
+            <img
+              className="lo1"
+              style={{ marginTop: "20px" }}
+              src={register}
+              alt=""
+            />
           </div>
           <Form
             style={{

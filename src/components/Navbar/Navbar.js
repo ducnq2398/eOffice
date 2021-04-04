@@ -68,7 +68,7 @@ function Navbar() {
       }
     }
     fetListNoti();
-  });
+  },[]);
   useEffect(() => {
     async function getUsers() {
       try {
