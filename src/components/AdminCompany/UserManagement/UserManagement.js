@@ -358,8 +358,6 @@ function UserManagement() {
         });
       }, 5000);
     } else {
-      setOpen(!open);
-      setIsOpen(!isOpen);
       const tel = "+84" + user.phone.substring(1);
       const params = {
         name: user.username.trim().split(/ +/).join(" "),
