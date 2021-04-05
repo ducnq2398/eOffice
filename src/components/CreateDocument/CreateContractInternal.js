@@ -149,7 +149,7 @@ function CreateContractInternal() {
 
   function handleContent() {
     const listViewerId = [];
-    if (dataUpload.signer.id === getUser().Id) {
+    if (dataUpload.signer.id === getUser().Id || dataUpload.signer_guest.id === getUser().Id) {
       viewer.map((view) => {
         listViewerId.push(view.id);
       });
