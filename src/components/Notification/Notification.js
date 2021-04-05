@@ -248,6 +248,17 @@ function Notification() {
     );
     setFilterByStatus("1");
   }
+  function seenAllNotifications(e) {
+    e.preventDefault();
+    notiAPI
+      .seenAllNotifications(getUser().Id)
+      .then(function () {
+        window.location.reload();
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
   return (
     <div>
       <header>
@@ -269,6 +280,7 @@ function Notification() {
             <Button
               style={{ position: "absolute", right: 0, marginTop: "20px" }}
               color="primary"
+              onClick={seenAllNotifications}
             >
               Mark all announcements as read
             </Button>

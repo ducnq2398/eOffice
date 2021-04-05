@@ -525,7 +525,7 @@ function Document() {
                         {doc.contractUrl ? (
                           <ContractStepper value={doc.status} />
                         ) : (
-                          <div style={{ marginRight: 80 }}>
+                          <div style={{ marginRight: 70 }}>
                             <InvoiceStepper
                               value={doc.status === 2 ? 1 : doc.status}
                             />
@@ -694,7 +694,7 @@ function Document() {
                         {data.contractUrl ? (
                           <ContractStepper value={data.status} />
                         ) : (
-                          <div style={{ marginRight: 80 }}>
+                          <div style={{ marginRight: 70 }}>
                             <InvoiceStepper
                               value={data.status === 2 ? 1 : data.status}
                             />

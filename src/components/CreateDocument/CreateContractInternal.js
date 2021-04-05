@@ -505,7 +505,7 @@ function CreateContractInternal() {
                   style={{ marginTop: "30px", marginLeft: "10px" }}
                   color="primary"
                   onClick={() => {
-                    if (dataUpload.title.trim() === "") {
+                    if (dataUpload.title.trim().split(/ +/).join(" ") === "") {
                       setAlert({
                         ...alert,
                         title: true,
@@ -518,7 +518,7 @@ function CreateContractInternal() {
                           message: "",
                         });
                       }, 3000);
-                    } else if (dataUpload.title.length > 255) {
+                    } else if (dataUpload.title.trim().split(/ +/).join(" ").length > 255) {
                       setAlert({
                         ...alert,
                         title: true,

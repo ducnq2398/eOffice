@@ -18,6 +18,14 @@ const notiAPI = {
       },
     });
   },
+  seenAllNotifications: (id) => {
+    const url = `/notifications/seenallnoti?accountid=${id}`;
+    return axiosClient.put(url, id, {
+      headers: {
+        Authorization: `Bearer ${getUser().IdToken}`,
+      },
+    });
+  },
 };
 
 export default notiAPI;
