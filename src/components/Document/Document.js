@@ -1,4 +1,4 @@
-import { Container, Row, FormGroup, Col, Table, Label } from "reactstrap";
+import { Container, Row, FormGroup, Col, Label } from "reactstrap";
 
 import "../../css/Document.css";
 import TablePagination from "@material-ui/core/TablePagination";
@@ -24,7 +24,16 @@ import Paper from "@material-ui/core/Paper";
 import Tabs from "@material-ui/core/Tabs";
 import Button from "@material-ui/core/Button";
 import Slide from "@material-ui/core/Slide";
-import { InputAdornment, makeStyles } from "@material-ui/core";
+import {
+  InputAdornment,
+  makeStyles,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
@@ -36,7 +45,6 @@ import ContractStepper from "../Stepper/ContractStepper";
 import { toast } from "react-toastify";
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import moment from "moment";
 
 const useStyles = makeStyles((theme) => ({
   backdrop: {
@@ -83,7 +91,7 @@ function Document() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
- 
+
   useEffect(() => {
     async function getListDocument() {
       try {
@@ -452,337 +460,467 @@ function Document() {
           {loading ? (
             <ScaleLoader color={"#2512DF"} loading={loading} size={40} />
           ) : (
-            <Table hidden={find !== "" ? true : false} hover>
-              <tbody>
-                {currentPosts.map((doc, key) => (
-                  <tr key={key}>
-                    <td
-                      onClick={() => {
-                        if (doc.contractUrl) {
-                          history.push({
-                            pathname:
-                              "/detail/contract/" + doc.id + "/" + doc.title,
-                            state: doc,
-                          });
-                        } else if (doc.invoiceURL) {
-                          history.push({
-                            pathname:
-                              "/detail/invoice/" + doc.id + "/" + doc.title,
-                            state: doc,
-                          });
-                        }
+            <TableContainer
+              hidden={find !== "" ? true : false}
+              style={{ maxHeight: "650px" }}
+            >
+              <Table stickyHeader aria-label="sticky table">
+                <TableHead style={{ backgroundColor: "blue" }}>
+                  <TableRow>
+                    <TableCell
+                      style={{
+                        textAlign: "center",
+                        background: "#3f51b5",
+                        color: "white",
                       }}
                     >
-                      <Label style={{ fontWeight: "bold" }}>Creator name</Label>
-                      <br />
-                      <Label className="demo-2">
-                        <GetCreater id={doc.creatorId} />
-                      </Label>
-                    </td>
-                    <td
-                      onClick={() => {
-                        if (doc.contractUrl) {
-                          history.push({
-                            pathname:
-                              "/detail/contract/" + doc.id + "/" + doc.title,
-                            state: doc,
-                          });
-                        } else if (doc.invoiceURL) {
-                          history.push({
-                            pathname:
-                              "/detail/invoice/" + doc.id + "/" + doc.title,
-                            state: doc,
-                          });
-                        }
+                      Creator name
+                    </TableCell>
+                    <TableCell
+                      style={{
+                        textAlign: "center",
+                        background: "#3f51b5",
+                        color: "white",
                       }}
                     >
-                      <Label style={{ fontWeight: "bold" }}>
-                        Title document
-                      </Label>
-                      <br />
-                      <Label className="demo demo-2">{doc.title}</Label>
-                    </td>
-                    <td
-                      onClick={() => {
-                        if (doc.contractUrl) {
-                          history.push({
-                            pathname:
-                              "/detail/contract/" + doc.id + "/" + doc.title,
-                            state: doc,
-                          });
-                        } else if (doc.invoiceURL) {
-                          history.push({
-                            pathname:
-                              "/detail/invoice/" + doc.id + "/" + doc.title,
-                            state: doc,
-                          });
-                        }
+                      Title document
+                    </TableCell>
+                    <TableCell
+                      style={{
+                        textAlign: "center",
+                        background: "#3f51b5",
+                        color: "white",
                       }}
                     >
-                      <Label style={{ fontWeight: "bold" }}>Status</Label>
-                      <br />
-                      <Label className="step">
-                        {doc.contractUrl ? (
-                          <ContractStepper value={doc.status} />
-                        ) : (
-                          <div style={{ marginRight: 70 }}>
-                            <InvoiceStepper
-                              value={doc.status === 2 ? 1 : doc.status}
-                            />
-                          </div>
-                        )}
-                      </Label>
-                    </td>
-                    <td
-                      onClick={() => {
-                        if (doc.contractUrl) {
-                          history.push({
-                            pathname:
-                              "/detail/contract/" + doc.id + "/" + doc.title,
-                            state: doc,
-                          });
-                        } else if (doc.invoiceURL) {
-                          history.push({
-                            pathname:
-                              "/detail/invoice/" + doc.id + "/" + doc.title,
-                            state: doc,
-                          });
-                        }
+                      Processing
+                    </TableCell>
+                    <TableCell
+                      style={{
+                        textAlign: "center",
+                        background: "#3f51b5",
+                        color: "white",
                       }}
                     >
-                      <Label></Label>
-                      <br />
-                      <Label>
-                        {doc.invoiceURL ? (
-                          <img
-                            hidden={doc.status === 2 ? false : true}
-                            src={invoicecompleted}
-                            alt=""
-                          />
-                        ) : (
-                          <img
-                            hidden={doc.status === 2 ? false : true}
-                            src={done}
-                            alt=""
-                          />
-                        )}
-                        <img
-                          hidden={doc.status < 2 ? false : true}
-                          src={notsigned}
-                          alt=""
-                        />
-                      </Label>
-                    </td>
-                    <td
-                      onClick={() => {
-                        if (doc.contractUrl) {
-                          history.push({
-                            pathname:
-                              "/detail/contract/" + doc.id + "/" + doc.title,
-                            state: doc,
-                          });
-                        } else if (doc.invoiceURL) {
-                          history.push({
-                            pathname:
-                              "/detail/invoice/" + doc.id + "/" + doc.title,
-                            state: doc,
-                          });
-                        }
+                      Status
+                    </TableCell>
+                    <TableCell
+                      style={{
+                        textAlign: "center",
+                        background: "#3f51b5",
+                        color: "white",
                       }}
                     >
-                      <Label style={{ fontWeight: "bold" }}></Label>
-                      <br />
-                      <Label>
-                        {Moment(doc.dateCreate).format("DD/MM/YYYY HH:mm:ss")}
-                      </Label>
-                    </td>
-                    <td>
-                      <Label></Label>
-                      <br />
-                      <Label hidden={doc.status < 2 ? false : true}>
-                        <DeleteIcon
+                      Date create
+                    </TableCell>
+                    <TableCell
+                      style={{
+                        textAlign: "center",
+                        background: "#3f51b5",
+                        color: "white",
+                      }}
+                    ></TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {currentPosts.map((doc) => {
+                    return (
+                      <TableRow hover tabIndex={-1} key={doc.id}>
+                        <TableCell
+                          style={{ textAlign: "center" }}
                           onClick={() => {
-                            setDel(true);
-                            setDocumentDelete(doc);
+                            if (doc.contractUrl) {
+                              history.push({
+                                pathname:
+                                  "/detail/contract/" +
+                                  doc.id +
+                                  "/" +
+                                  doc.title,
+                                state: doc,
+                              });
+                            } else if (doc.invoiceURL) {
+                              history.push({
+                                pathname:
+                                  "/detail/invoice/" + doc.id + "/" + doc.title,
+                                state: doc,
+                              });
+                            }
                           }}
-                          fontSize="default"
-                          style={{ cursor: "pointer" }}
-                        />
-                      </Label>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
+                        >
+                          <GetCreater id={doc.creatorId} />
+                        </TableCell>
+                        <TableCell
+                          onClick={() => {
+                            if (doc.contractUrl) {
+                              history.push({
+                                pathname:
+                                  "/detail/contract/" +
+                                  doc.id +
+                                  "/" +
+                                  doc.title,
+                                state: doc,
+                              });
+                            } else if (doc.invoiceURL) {
+                              history.push({
+                                pathname:
+                                  "/detail/invoice/" + doc.id + "/" + doc.title,
+                                state: doc,
+                              });
+                            }
+                          }}
+                          style={{ textAlign: "center" }}
+                        >
+                          {doc.title}
+                        </TableCell>
+                        <TableCell
+                          onClick={() => {
+                            if (doc.contractUrl) {
+                              history.push({
+                                pathname:
+                                  "/detail/contract/" +
+                                  doc.id +
+                                  "/" +
+                                  doc.title,
+                                state: doc,
+                              });
+                            } else if (doc.invoiceURL) {
+                              history.push({
+                                pathname:
+                                  "/detail/invoice/" + doc.id + "/" + doc.title,
+                                state: doc,
+                              });
+                            }
+                          }}
+                          style={{ textAlign: "center" }}
+                        >
+                          <Label className="step">
+                            {doc.contractUrl ? (
+                              <ContractStepper value={doc.status} />
+                            ) : (
+                              <div style={{ marginRight: 70 }}>
+                                <InvoiceStepper
+                                  value={doc.status === 2 ? 1 : doc.status}
+                                />
+                              </div>
+                            )}
+                          </Label>
+                        </TableCell>
+                        <TableCell
+                          onClick={() => {
+                            if (doc.contractUrl) {
+                              history.push({
+                                pathname:
+                                  "/detail/contract/" +
+                                  doc.id +
+                                  "/" +
+                                  doc.title,
+                                state: doc,
+                              });
+                            } else if (doc.invoiceURL) {
+                              history.push({
+                                pathname:
+                                  "/detail/invoice/" + doc.id + "/" + doc.title,
+                                state: doc,
+                              });
+                            }
+                          }}
+                          style={{ textAlign: "center" }}
+                        >
+                          <Label>
+                            {doc.invoiceURL ? (
+                              <img
+                                hidden={doc.status === 2 ? false : true}
+                                src={invoicecompleted}
+                                alt=""
+                              />
+                            ) : (
+                              <img
+                                hidden={doc.status === 2 ? false : true}
+                                src={done}
+                                alt=""
+                              />
+                            )}
+                            <img
+                              hidden={doc.status < 2 ? false : true}
+                              src={notsigned}
+                              alt=""
+                            />
+                          </Label>
+                        </TableCell>
+                        <TableCell
+                          onClick={() => {
+                            if (doc.contractUrl) {
+                              history.push({
+                                pathname:
+                                  "/detail/contract/" +
+                                  doc.id +
+                                  "/" +
+                                  doc.title,
+                                state: doc,
+                              });
+                            } else if (doc.invoiceURL) {
+                              history.push({
+                                pathname:
+                                  "/detail/invoice/" + doc.id + "/" + doc.title,
+                                state: doc,
+                              });
+                            }
+                          }}
+                          style={{ textAlign: "center" }}
+                        >
+                          {Moment(doc.dateCreate).format("DD/MM/YYYY HH:mm:ss")}
+                        </TableCell>
+                        <TableCell style={{ textAlign: "center" }}>
+                          <Label hidden={doc.status < 2 ? false : true}>
+                            <DeleteIcon
+                              onClick={() => {
+                                setDel(true);
+                                setDocumentDelete(doc);
+                              }}
+                              fontSize="default"
+                              style={{ cursor: "pointer" }}
+                            />
+                          </Label>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+              </Table>
+            </TableContainer>
           )}
-          <Table hover hidden={find === "" ? true : false}>
-            <tbody>
-              {postList
-                .filter((data) => {
-                  if (data.title.toLowerCase().includes(find.toLowerCase())) {
-                    return data;
-                  }
-                })
-                .map((data, key) => (
-                  <tr key={key}>
-                    <td
-                      onClick={() => {
-                        if (data.contractUrl) {
-                          history.push({
-                            pathname:
-                              "/detail/contract/" + data.id + "/" + data.title,
-                            state: data,
-                          });
-                        } else if (data.invoiceURL) {
-                          history.push({
-                            pathname:
-                              "/detail/invoice/" + data.id + "/" + data.title,
-                            state: data,
-                          });
-                        }
-                      }}
-                    >
-                      <Label style={{ fontWeight: "bold" }}>Creator name</Label>
-                      <br />
-                      <Label className="demo-2">
-                        <GetCreater id={data.creatorId} />
-                      </Label>
-                    </td>
-                    <td
-                      onClick={() => {
-                        if (data.contractUrl) {
-                          history.push({
-                            pathname:
-                              "/detail/contract/" + data.id + "/" + data.title,
-                            state: data,
-                          });
-                        } else if (data.invoiceURL) {
-                          history.push({
-                            pathname:
-                              "/detail/invoice/" + data.id + "/" + data.title,
-                            state: data,
-                          });
-                        }
-                      }}
-                    >
-                      <Label style={{ fontWeight: "bold" }}>
-                        Title document
-                      </Label>
-                      <br />
-                      <Label className="demo demo-2">{data.title}</Label>
-                    </td>
-                    <td
-                      onClick={() => {
-                        if (data.contractUrl) {
-                          history.push({
-                            pathname:
-                              "/detail/contract/" + data.id + "/" + data.title,
-                            state: data,
-                          });
-                        } else if (data.invoiceURL) {
-                          history.push({
-                            pathname:
-                              "/detail/invoice/" + data.id + "/" + data.title,
-                            state: data,
-                          });
-                        }
-                      }}
-                    >
-                      <Label style={{ fontWeight: "bold" }}>Status</Label>
-                      <br />
-                      <Label className="step">
-                        {data.contractUrl ? (
-                          <ContractStepper value={data.status} />
-                        ) : (
-                          <div style={{ marginRight: 70 }}>
-                            <InvoiceStepper
-                              value={data.status === 2 ? 1 : data.status}
-                            />
-                          </div>
-                        )}
-                      </Label>
-                    </td>
-                    <td
-                      onClick={() => {
-                        if (data.contractUrl) {
-                          history.push({
-                            pathname:
-                              "/detail/contract/" + data.id + "/" + data.title,
-                            state: data,
-                          });
-                        } else if (data.invoiceURL) {
-                          history.push({
-                            pathname:
-                              "/detail/invoice/" + data.id + "/" + data.title,
-                            state: data,
-                          });
-                        }
-                      }}
-                    >
-                      <Label></Label>
-                      <br />
-                      <Label>
-                        {data.invoiceURL ? (
-                          <img
-                            hidden={data.status === 2 ? false : true}
-                            src={invoicecompleted}
-                            alt=""
-                          />
-                        ) : (
-                          <img
-                            hidden={data.status === 2 ? false : true}
-                            src={done}
-                            alt=""
-                          />
-                        )}
-                        <img
-                          hidden={data.status < 2 ? false : true}
-                          src={notsigned}
-                          alt=""
-                        />
-                      </Label>
-                    </td>
-                    <td
-                      onClick={() => {
-                        if (data.contractUrl) {
-                          history.push({
-                            pathname:
-                              "/detail/contract/" + data.id + "/" + data.title,
-                            state: data,
-                          });
-                        } else if (data.invoiceURL) {
-                          history.push({
-                            pathname:
-                              "/detail/invoice/" + data.id + "/" + data.title,
-                            state: data,
-                          });
-                        }
-                      }}
-                    >
-                      <Label style={{ fontWeight: "bold" }}></Label>
-                      <br />
-                      <Label>
-                        {Moment(data.dateCreate).format("DD/MM/YYYY")}
-                      </Label>
-                    </td>
-                    <td>
-                      <Label></Label>
-                      <br />
-                      <Label hidden={data.status < 2 ? false : true}>
-                        <DeleteIcon
+          <TableContainer
+            hidden={find === "" ? true : false}
+            style={{ maxHeight: "750px" }}
+          >
+            <Table stickyHeader aria-label="sticky table">
+              <TableHead>
+                <TableRow>
+                  <TableCell
+                    style={{
+                      textAlign: "center",
+                      background: "#3f51b5",
+                      color: "white",
+                    }}
+                  >
+                    Creator name
+                  </TableCell>
+                  <TableCell
+                    style={{
+                      textAlign: "center",
+                      background: "#3f51b5",
+                      color: "white",
+                    }}
+                  >
+                    Title document
+                  </TableCell>
+                  <TableCell
+                    style={{
+                      textAlign: "center",
+                      background: "#3f51b5",
+                      color: "white",
+                    }}
+                  >
+                    Processing
+                  </TableCell>
+                  <TableCell
+                    style={{
+                      textAlign: "center",
+                      background: "#3f51b5",
+                      color: "white",
+                    }}
+                  >
+                    Status
+                  </TableCell>
+                  <TableCell
+                    style={{
+                      textAlign: "center",
+                      background: "#3f51b5",
+                      color: "white",
+                    }}
+                  >
+                    Date create
+                  </TableCell>
+                  <TableCell
+                    style={{
+                      textAlign: "center",
+                      background: "#3f51b5",
+                      color: "white",
+                    }}
+                  ></TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {postList
+                  .filter((data) => {
+                    if (data.title.toLowerCase().includes(find.toLowerCase())) {
+                      return data;
+                    }
+                  })
+                  .map((doc) => {
+                    return (
+                      <TableRow hover tabIndex={-1} key={doc.id}>
+                        <TableCell
                           onClick={() => {
-                            setDel(true);
-                            setDocumentDelete(data);
+                            if (doc.contractUrl) {
+                              history.push({
+                                pathname:
+                                  "/detail/contract/" +
+                                  doc.id +
+                                  "/" +
+                                  doc.title,
+                                state: doc,
+                              });
+                            } else if (doc.invoiceURL) {
+                              history.push({
+                                pathname:
+                                  "/detail/invoice/" + doc.id + "/" + doc.title,
+                                state: doc,
+                              });
+                            }
                           }}
-                          fontSize="default"
-                          style={{ cursor: "pointer" }}
-                        />
-                      </Label>
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </Table>
+                          style={{ textAlign: "center" }}
+                        >
+                          <GetCreater id={doc.creatorId} />
+                        </TableCell>
+                        <TableCell
+                          onClick={() => {
+                            if (doc.contractUrl) {
+                              history.push({
+                                pathname:
+                                  "/detail/contract/" +
+                                  doc.id +
+                                  "/" +
+                                  doc.title,
+                                state: doc,
+                              });
+                            } else if (doc.invoiceURL) {
+                              history.push({
+                                pathname:
+                                  "/detail/invoice/" + doc.id + "/" + doc.title,
+                                state: doc,
+                              });
+                            }
+                          }}
+                          style={{ textAlign: "center" }}
+                        >
+                          {doc.title}
+                        </TableCell>
+                        <TableCell
+                          onClick={() => {
+                            if (doc.contractUrl) {
+                              history.push({
+                                pathname:
+                                  "/detail/contract/" +
+                                  doc.id +
+                                  "/" +
+                                  doc.title,
+                                state: doc,
+                              });
+                            } else if (doc.invoiceURL) {
+                              history.push({
+                                pathname:
+                                  "/detail/invoice/" + doc.id + "/" + doc.title,
+                                state: doc,
+                              });
+                            }
+                          }}
+                          style={{ textAlign: "center" }}
+                        >
+                          <Label className="step">
+                            {doc.contractUrl ? (
+                              <ContractStepper value={doc.status} />
+                            ) : (
+                              <div style={{ marginRight: 70 }}>
+                                <InvoiceStepper
+                                  value={doc.status === 2 ? 1 : doc.status}
+                                />
+                              </div>
+                            )}
+                          </Label>
+                        </TableCell>
+                        <TableCell
+                          onClick={() => {
+                            if (doc.contractUrl) {
+                              history.push({
+                                pathname:
+                                  "/detail/contract/" +
+                                  doc.id +
+                                  "/" +
+                                  doc.title,
+                                state: doc,
+                              });
+                            } else if (doc.invoiceURL) {
+                              history.push({
+                                pathname:
+                                  "/detail/invoice/" + doc.id + "/" + doc.title,
+                                state: doc,
+                              });
+                            }
+                          }}
+                          style={{ textAlign: "center" }}
+                        >
+                          <Label>
+                            {doc.invoiceURL ? (
+                              <img
+                                hidden={doc.status === 2 ? false : true}
+                                src={invoicecompleted}
+                                alt=""
+                              />
+                            ) : (
+                              <img
+                                hidden={doc.status === 2 ? false : true}
+                                src={done}
+                                alt=""
+                              />
+                            )}
+                            <img
+                              hidden={doc.status < 2 ? false : true}
+                              src={notsigned}
+                              alt=""
+                            />
+                          </Label>
+                        </TableCell>
+                        <TableCell
+                          onClick={() => {
+                            if (doc.contractUrl) {
+                              history.push({
+                                pathname:
+                                  "/detail/contract/" +
+                                  doc.id +
+                                  "/" +
+                                  doc.title,
+                                state: doc,
+                              });
+                            } else if (doc.invoiceURL) {
+                              history.push({
+                                pathname:
+                                  "/detail/invoice/" + doc.id + "/" + doc.title,
+                                state: doc,
+                              });
+                            }
+                          }}
+                          style={{ textAlign: "center" }}
+                        >
+                          {Moment(doc.dateCreate).format("DD/MM/YYYY HH:mm:ss")}
+                        </TableCell>
+                        <TableCell style={{ textAlign: "center" }}>
+                          <Label hidden={doc.status < 2 ? false : true}>
+                            <DeleteIcon
+                              onClick={() => {
+                                setDel(true);
+                                setDocumentDelete(doc);
+                              }}
+                              fontSize="default"
+                              style={{ cursor: "pointer" }}
+                            />
+                          </Label>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+              </TableBody>
+            </Table>
+          </TableContainer>
           <Dialog
             open={dele}
             disableBackdropClick

@@ -2,7 +2,6 @@ import { forwardRef, useEffect, useState } from "react";
 import {
   FormGroup,
   Col,
-  Table,
   Modal,
   ModalHeader,
   Container,
@@ -40,6 +39,12 @@ import {
   FormHelperText,
   InputAdornment,
   makeStyles,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
 } from "@material-ui/core";
 import Moment from "moment";
 import md5 from "md5";
@@ -50,6 +55,7 @@ import getData from "../../GetData/Department";
 import getDataSub from "../../GetData/SubDepartment";
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import moment from "moment";
 
 const TransitionAdd = forwardRef(function Transition(props, ref) {
   return <Slide direction="right" ref={ref} {...props} />;
@@ -824,156 +830,171 @@ function UserManagement() {
           {loading ? (
             <ScaleLoader color={"#2512DF"} loading={loading} size={35} />
           ) : (
-            <Table
+            <TableContainer
               hidden={search !== "" ? true : false}
-              hover
-              className="tb"
-              style={{ textAlign: "left" }}
+              style={{ maxHeight: "650px" }}
             >
-              <thead>
-                <tr>
-                  <th>Account name</th>
-                  <th>Department</th>
-                  <th>Phone number</th>
-                  <th>Email</th>
-                </tr>
-              </thead>
-              <tbody>
-                {currentPosts.map((user) => (
-                  <tr
-                    key={user.id}
-                    className="row_data"
-                    onClick={() => {
-                      setDetail({
-                        id: user.id,
-                        username: user.name,
-                        phone: "0" + user.phone.substring(3),
-                        department: user.departmentId,
-                        subdepartment: user.subDepartmentId,
-                        email: user.email,
-                        address: user.address,
-                        status: user.status,
-                        role: user.role,
-                      });
-                      if (user.status === 0) {
-                        setCheckActive(false);
-                      } else {
-                        setCheckActive(true);
-                      }
-                      setOpenEdit(true);
-                      setDetailUser(user);
-                    }}
-                  >
-                    <td className="demo-2">{user.name}</td>
-                    <td className="demo-2">
-                      <GetDepartment id={user.departmentId} />
-                    </td>
-                    <td className="demo-2">{user.phone}</td>
-                    <td className="demo-2">{user.email}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
+              <Table stickyHeader aria-label="sticky table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell style={{background:'#3f51b5', color:'white'}}>Account name</TableCell>
+                    <TableCell style={{background:'#3f51b5', color:'white'}}>Department</TableCell>
+                    <TableCell style={{background:'#3f51b5', color:'white'}}>Phone number</TableCell>
+                    <TableCell style={{background:'#3f51b5', color:'white'}}>Email</TableCell>
+                    <TableCell style={{background:'#3f51b5', color:'white'}}>Date create</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {currentPosts.map((user) => (
+                    <TableRow
+                      hover
+                      key={user.id}
+                      className="row_data"
+                      onClick={() => {
+                        setDetail({
+                          id: user.id,
+                          username: user.name,
+                          phone: "0" + user.phone.substring(3),
+                          department: user.departmentId,
+                          subdepartment: user.subDepartmentId,
+                          email: user.email,
+                          address: user.address,
+                          status: user.status,
+                          role: user.role,
+                        });
+                        if (user.status === 0) {
+                          setCheckActive(false);
+                        } else {
+                          setCheckActive(true);
+                        }
+                        setOpenEdit(true);
+                        setDetailUser(user);
+                      }}
+                    >
+                      <TableCell className="demo-2">{user.name}</TableCell>
+                      <TableCell className="demo-2">
+                        <GetDepartment id={user.departmentId} />
+                      </TableCell>
+                      <TableCell className="demo-2">{user.phone}</TableCell>
+                      <TableCell className="demo-2">{user.email}</TableCell>
+                      <TableCell className="demo-2">
+                        {moment(user.dateCreate).format("DD/MM/YYYY")}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
           )}
-          <Table
+          <TableContainer
             hidden={search === "" ? true : false}
-            hover
-            style={{ textAlign: "left" }}
+            style={{ maxHeight: "650px" }}
           >
-            <thead>
-              <tr>
-                <th>Account name</th>
-                <th>Department</th>
-                <th>Phone number</th>
-                <th>Email</th>
-              </tr>
-            </thead>
-            <tbody>
-              {value === 1
-                ? listActive
-                    .filter((users) => {
-                      if (
-                        users.name.toLowerCase().includes(search.toLowerCase())
-                      ) {
-                        return users;
-                      }
-                    })
-                    .map((user) => (
-                      <tr
-                        key={user.id}
-                        className="row_data"
-                        onClick={() => {
-                          setDetail({
-                            id: user.id,
-                            username: user.name,
-                            phone: "0" + user.phone.substring(3),
-                            department: user.departmentId,
-                            subdepartment: user.subDepartmentId,
-                            email: user.email,
-                            address: user.address,
-                            status: user.status,
-                            role: user.role,
-                          });
-                          if (user.status === 0) {
-                            setCheckActive(false);
-                          } else {
-                            setCheckActive(true);
-                          }
-                          setOpenEdit(true);
-                          setDetailUser(user);
-                        }}
-                      >
-                        <td className="demo-2">{user.name}</td>
-                        <td className="demo-2">
-                          <GetDepartment id={user.departmentId} />
-                        </td>
-                        <td className="demo-2">{user.phone}</td>
-                        <td className="demo-2">{user.email}</td>
-                      </tr>
-                    ))
-                : listDeactive
-                    .filter((users) => {
-                      if (
-                        users.name.toLowerCase().includes(search.toLowerCase())
-                      ) {
-                        return users;
-                      }
-                    })
-                    .map((user) => (
-                      <tr
-                        key={user.id}
-                        className="row_data"
-                        onClick={() => {
-                          setDetail({
-                            id: user.id,
-                            username: user.name,
-                            phone: "0" + user.phone.substring(3),
-                            department: user.departmentId,
-                            subdepartment: user.subDepartmentId,
-                            email: user.email,
-                            address: user.address,
-                            status: user.status,
-                            role: user.role,
-                          });
-                          if (user.status === 0) {
-                            setCheckActive(false);
-                          } else {
-                            setCheckActive(true);
-                          }
-                          setOpenEdit(true);
-                          setDetailUser(user);
-                        }}
-                      >
-                        <td className="demo-2">{user.name}</td>
-                        <td className="demo-2">
-                          <GetDepartment id={user.departmentId} />
-                        </td>
-                        <td className="demo-2">{user.phone}</td>
-                        <td className="demo-2">{user.email}</td>
-                      </tr>
-                    ))}
-            </tbody>
-          </Table>
+            <Table stickyHeader aria-label="sticky table">
+              <TableHead>
+                <TableRow>
+                  <TableCell style={{background:'#3f51b5', color:'white'}}>Account name</TableCell>
+                  <TableCell style={{background:'#3f51b5', color:'white'}}>Department</TableCell>
+                  <TableCell style={{background:'#3f51b5', color:'white'}}>Phone number</TableCell>
+                  <TableCell style={{background:'#3f51b5', color:'white'}}>Email</TableCell>
+                  <TableCell style={{background:'#3f51b5', color:'white'}}>Date create</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {value === 1
+                  ? listActive
+                      .filter((users) => {
+                        if (
+                          users.name
+                            .toLowerCase()
+                            .includes(search.toLowerCase())
+                        ) {
+                          return users;
+                        }
+                      })
+                      .map((user) => (
+                        <TableRow
+                          hover
+                          key={user.id}
+                          className="row_data"
+                          onClick={() => {
+                            setDetail({
+                              id: user.id,
+                              username: user.name,
+                              phone: "0" + user.phone.substring(3),
+                              department: user.departmentId,
+                              subdepartment: user.subDepartmentId,
+                              email: user.email,
+                              address: user.address,
+                              status: user.status,
+                              role: user.role,
+                            });
+                            if (user.status === 0) {
+                              setCheckActive(false);
+                            } else {
+                              setCheckActive(true);
+                            }
+                            setOpenEdit(true);
+                            setDetailUser(user);
+                          }}
+                        >
+                          <TableCell className="demo-2">{user.name}</TableCell>
+                          <TableCell className="demo-2">
+                            <GetDepartment id={user.departmentId} />
+                          </TableCell>
+                          <TableCell className="demo-2">{user.phone}</TableCell>
+                          <TableCell className="demo-2">{user.email}</TableCell>
+                          <TableCell>{moment(user.dateCreate).format('DD/MM/YYYY')}</TableCell>
+                        </TableRow>
+                      ))
+                  : listDeactive
+                      .filter((users) => {
+                        if (
+                          users.name
+                            .toLowerCase()
+                            .includes(search.toLowerCase())
+                        ) {
+                          return users;
+                        }
+                      })
+                      .map((user) => (
+                        <TableRow
+                          hover
+                          key={user.id}
+                          className="row_data"
+                          onClick={() => {
+                            setDetail({
+                              id: user.id,
+                              username: user.name,
+                              phone: "0" + user.phone.substring(3),
+                              department: user.departmentId,
+                              subdepartment: user.subDepartmentId,
+                              email: user.email,
+                              address: user.address,
+                              status: user.status,
+                              role: user.role,
+                            });
+                            if (user.status === 0) {
+                              setCheckActive(false);
+                            } else {
+                              setCheckActive(true);
+                            }
+                            setOpenEdit(true);
+                            setDetailUser(user);
+                          }}
+                        >
+                          <TableCell className="demo-2">{user.name}</TableCell>
+                          <TableCell className="demo-2">
+                            <GetDepartment id={user.departmentId} />
+                          </TableCell>
+                          <TableCell className="demo-2">{user.phone}</TableCell>
+                          <TableCell className="demo-2">{user.email}</TableCell>
+                          <TableCell>{moment(user.dateCreate).format('DD/MM/YYYY')}</TableCell>
+                        </TableRow>
+                      ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
           <Dialog
             open={openEdit}
             TransitionComponent={TransitionDetail}
