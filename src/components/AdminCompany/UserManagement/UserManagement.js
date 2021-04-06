@@ -56,6 +56,7 @@ import getDataSub from "../../GetData/SubDepartment";
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import moment from "moment";
+import CsvDownloader from "react-csv-downloader";
 
 const TransitionAdd = forwardRef(function Transition(props, ref) {
   return <Slide direction="right" ref={ref} {...props} />;
@@ -556,34 +557,31 @@ function UserManagement() {
     setPage(0);
     setPostList(listDeactive);
   }
-  // const [data, setData] = useState([]);
-
-  // userList.map(async function (user) {
-  //   let name = await getData(user.departmentId);
-  //   let sub = await getDataSub(user.subDepartmentId);
-  //   data.push({
-  //     Account: user.name,
-  //     Department: name,
-  //     SubDepartment: sub,
-  //     Email: user.email,
-  //     Phone: user.phone,
-  //     Address: user.address,
-  //     Status: user.status === 1 ? "active" : "deactive",
-  //   });
-  // });
-
-  // const li = data.map((row) => {
-  //   return {
-  //     Account: row.Account,
-  //     Department: row.Department,
-  //     SubDepartment: row.SubDepartment,
-  //     Email: row.Email,
-  //     Phone: row.Phone,
-  //     Address: row.Address,
-  //     Status: row.Status,
-  //   };
-  // });
-
+  const [data] = useState([]);
+  useEffect(() => {
+    async function exportExcel() {
+      for (let i = 0; i < userList.length; i++) {
+        getData(userList[i].departmentId)
+          .then(function (result) {
+            getDataSub(userList[i].subDepartmentId).then(function (res) {
+              data.push({
+                Account: userList[i].name,
+                Department: result,
+                Subdepartment: res,
+                Email: userList[i].email,
+                Phone: userList[i].phone,
+                Address: userList[i].address,
+                Status: userList[i].status === 1 ? "active" : "deactive",
+              });
+            });
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+    }
+    exportExcel();
+  }, [userList.length]);
   return (
     <div>
       <header>
@@ -810,22 +808,22 @@ function UserManagement() {
                 rowsPerPageOptions={[]}
               />
             </div>
-            {/* <div hidden={search !== "" ? true : false} className="ex">
-              <CSVLink filename={"data user.csv"} 
-              data
+            <div hidden={search !== "" ? true : false} className="ex">
+              {/* <CSVLink filename={"data user.csv"} 
+              
               >
                 Import
                 <Icon.BiImport fontSize="25" tableValues="a" />
-              </CSVLink>
+              </CSVLink> */}
               <CSVLink
                 style={{ marginLeft: 10 }}
-                filename={"data user.csv"}
-                data
+                filename={"Data User.csv"}
+                data={data}
               >
                 Export
                 <Icon.BiExport fontSize="25" />
               </CSVLink>
-            </div> */}
+            </div>
           </div>
           {loading ? (
             <ScaleLoader color={"#2512DF"} loading={loading} size={35} />
@@ -837,11 +835,31 @@ function UserManagement() {
               <Table stickyHeader aria-label="sticky table">
                 <TableHead>
                   <TableRow>
-                    <TableCell style={{background:'#3f51b5', color:'white'}}>Account name</TableCell>
-                    <TableCell style={{background:'#3f51b5', color:'white'}}>Department</TableCell>
-                    <TableCell style={{background:'#3f51b5', color:'white'}}>Phone number</TableCell>
-                    <TableCell style={{background:'#3f51b5', color:'white'}}>Email</TableCell>
-                    <TableCell style={{background:'#3f51b5', color:'white'}}>Date create</TableCell>
+                    <TableCell
+                      style={{ background: "#3f51b5", color: "white" }}
+                    >
+                      Account name
+                    </TableCell>
+                    <TableCell
+                      style={{ background: "#3f51b5", color: "white" }}
+                    >
+                      Department
+                    </TableCell>
+                    <TableCell
+                      style={{ background: "#3f51b5", color: "white" }}
+                    >
+                      Phone number
+                    </TableCell>
+                    <TableCell
+                      style={{ background: "#3f51b5", color: "white" }}
+                    >
+                      Email
+                    </TableCell>
+                    <TableCell
+                      style={{ background: "#3f51b5", color: "white" }}
+                    >
+                      Date create
+                    </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -893,11 +911,21 @@ function UserManagement() {
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
                 <TableRow>
-                  <TableCell style={{background:'#3f51b5', color:'white'}}>Account name</TableCell>
-                  <TableCell style={{background:'#3f51b5', color:'white'}}>Department</TableCell>
-                  <TableCell style={{background:'#3f51b5', color:'white'}}>Phone number</TableCell>
-                  <TableCell style={{background:'#3f51b5', color:'white'}}>Email</TableCell>
-                  <TableCell style={{background:'#3f51b5', color:'white'}}>Date create</TableCell>
+                  <TableCell style={{ background: "#3f51b5", color: "white" }}>
+                    Account name
+                  </TableCell>
+                  <TableCell style={{ background: "#3f51b5", color: "white" }}>
+                    Department
+                  </TableCell>
+                  <TableCell style={{ background: "#3f51b5", color: "white" }}>
+                    Phone number
+                  </TableCell>
+                  <TableCell style={{ background: "#3f51b5", color: "white" }}>
+                    Email
+                  </TableCell>
+                  <TableCell style={{ background: "#3f51b5", color: "white" }}>
+                    Date create
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -944,7 +972,9 @@ function UserManagement() {
                           </TableCell>
                           <TableCell className="demo-2">{user.phone}</TableCell>
                           <TableCell className="demo-2">{user.email}</TableCell>
-                          <TableCell>{moment(user.dateCreate).format('DD/MM/YYYY')}</TableCell>
+                          <TableCell>
+                            {moment(user.dateCreate).format("DD/MM/YYYY")}
+                          </TableCell>
                         </TableRow>
                       ))
                   : listDeactive
@@ -989,7 +1019,9 @@ function UserManagement() {
                           </TableCell>
                           <TableCell className="demo-2">{user.phone}</TableCell>
                           <TableCell className="demo-2">{user.email}</TableCell>
-                          <TableCell>{moment(user.dateCreate).format('DD/MM/YYYY')}</TableCell>
+                          <TableCell>
+                            {moment(user.dateCreate).format("DD/MM/YYYY")}
+                          </TableCell>
                         </TableRow>
                       ))}
               </TableBody>
