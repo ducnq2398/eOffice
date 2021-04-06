@@ -107,7 +107,7 @@ function Profile() {
     e.preventDefault();
     const md5CurrentPass = md5(password.current_pass);
     var pattern = new RegExp(
-      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{6,}$/
+      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/
     );
     if (password.current_pass.trim() === "") {
       setError({
@@ -152,7 +152,7 @@ function Profile() {
       setError({
         ...error,
         new: true,
-        message_new: "Password must be at least 6 characters, 1 upper case",
+        message_new: "Password must be at least 8 characters, 1 upper case",
       });
       setTimeout(() => {
         setError({

@@ -557,17 +557,17 @@ function UserManagement() {
     setPage(0);
     setPostList(listDeactive);
   }
-  const data = userList.map((user)=>{
+  const data = userList.map((user) => {
     return {
-      Account : user.name,
+      Account: user.name,
       Department: user.department.name,
       SubDepartment: user.subDepartment.name,
       Phone: user.phone,
       Email: user.email,
       Address: user.address,
-      Status : user.status===0 ? 'deactive' : 'active'
-    }
-  })
+      Status: user.status === 0 ? "deactive" : "active",
+    };
+  });
   return (
     <div>
       <header>
@@ -586,7 +586,6 @@ function UserManagement() {
             fullWidth
           >
             <DialogTitle id="form-dialog-title">Add User</DialogTitle>
-
             <DialogContent>
               <DialogContentText style={{ color: "red" }}>
                 * If a department does not have a child department. Please

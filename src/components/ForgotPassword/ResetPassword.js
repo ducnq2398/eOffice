@@ -27,12 +27,12 @@ function ResetPassword() {
   });
   function handleSubmit(event) {
     event.preventDefault();
-    const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{6,}$/;
+    const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
 
     if (regex.exec(password.new_password) === null) {
       setError({
         correct: true,
-        message: "Password must be more than 6 characters, 1 upper case",
+        message: "Password must be more than 8 characters, 1 upper case",
       });
       setTimeout(() => {
         setError({
@@ -43,7 +43,7 @@ function ResetPassword() {
     } else if (!regex.test(password.new_password.trim())) {
       setError({
         correct: true,
-        message: "Password must be at least 6 characters,",
+        message: "Password must be at least 8 characters, 1 upper case",
       });
       setTimeout(() => {
         setError({
