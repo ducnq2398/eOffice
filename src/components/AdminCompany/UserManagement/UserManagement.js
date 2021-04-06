@@ -557,31 +557,17 @@ function UserManagement() {
     setPage(0);
     setPostList(listDeactive);
   }
-  const [data] = useState([]);
-  useEffect(() => {
-    async function exportExcel() {
-      for (let i = 0; i < userList.length; i++) {
-        getData(userList[i].departmentId)
-          .then(function (result) {
-            getDataSub(userList[i].subDepartmentId).then(function (res) {
-              data.push({
-                Account: userList[i].name,
-                Department: result,
-                Subdepartment: res,
-                Email: userList[i].email,
-                Phone: userList[i].phone,
-                Address: userList[i].address,
-                Status: userList[i].status === 1 ? "active" : "deactive",
-              });
-            });
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-      }
+  const data = userList.map((user)=>{
+    return {
+      Account : user.name,
+      Department: user.department.name,
+      SubDepartment: user.subDepartment.name,
+      Phone: user.phone,
+      Email: user.email,
+      Address: user.address,
+      Status : user.status===0 ? 'deactive' : 'active'
     }
-    exportExcel();
-  }, [userList.length]);
+  })
   return (
     <div>
       <header>
