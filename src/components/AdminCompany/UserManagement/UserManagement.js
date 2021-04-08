@@ -51,12 +51,9 @@ import md5 from "md5";
 import Navbar from "../../Navbar/Navbar";
 import { CSVLink } from "react-csv";
 import * as Icon from "react-icons/bi";
-import getData from "../../GetData/Department";
-import getDataSub from "../../GetData/SubDepartment";
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import moment from "moment";
-import CsvDownloader from "react-csv-downloader";
 
 const TransitionAdd = forwardRef(function Transition(props, ref) {
   return <Slide direction="right" ref={ref} {...props} />;
