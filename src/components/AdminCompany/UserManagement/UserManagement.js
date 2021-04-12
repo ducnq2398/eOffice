@@ -586,7 +586,7 @@ function UserManagement() {
             <DialogContent>
               <DialogContentText style={{ color: "red" }}>
                 * If a department does not have a child department. Please
-                create a child department before adding user
+                create a sub-department before add new user
               </DialogContentText>
               <TextField
                 error={error.name}
@@ -646,7 +646,7 @@ function UserManagement() {
                 variant="outlined"
                 style={{ marginLeft: "10px", width: "270px" }}
               >
-                <InputLabel id="demo">Child Department*</InputLabel>
+                <InputLabel id="demo">Sub-Department*</InputLabel>
                 <Select
                   name="subdepartment"
                   value={user.subdepartment}
@@ -1079,7 +1079,7 @@ function UserManagement() {
                 variant="outlined"
                 style={{ marginLeft: "10px", width: "270px" }}
               >
-                <InputLabel id="demo">Child Department*</InputLabel>
+                <InputLabel id="demo">Sub-Department*</InputLabel>
                 <Select
                   name="subdepartment"
                   value={detail.subdepartment}

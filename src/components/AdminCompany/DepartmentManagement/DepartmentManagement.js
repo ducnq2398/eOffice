@@ -517,7 +517,7 @@ function DepartmentManagerment() {
               disableEscapeKeyDown
             >
               <DialogTitle>
-                Child Department
+                Sub-Department
                 <Icon.AiOutlineClose
                   style={{ cursor: "pointer", float: "right" }}
                   onClick={() => {
@@ -671,16 +671,16 @@ function DepartmentManagerment() {
           onClose={toogle2}
           open={isOpen2}
         >
-          <DialogTitle id="form-dialog-title">Child Department</DialogTitle>
+          <DialogTitle id="form-dialog-title">Sub-Department</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Please enter new child department name ...
+              Please enter new sub-department name ...
             </DialogContentText>
             <TextField
               autoFocus
               margin="dense"
               id="name"
-              label="Child department name"
+              label="Sub-department name"
               type="text"
               fullWidth
               error={error.subdepart}
@@ -707,13 +707,13 @@ function DepartmentManagerment() {
           disableBackdropClick
           disableEscapeKeyDown
         >
-          <DialogTitle id="form-dialog-title">Child Department</DialogTitle>
+          <DialogTitle id="form-dialog-title">Sub-Department</DialogTitle>
           <DialogContent>
             <TextField
               autoFocus
               margin="dense"
               id="name"
-              label="Department name"
+              label="Sub-department name"
               type="text"
               fullWidth
               value={child_department}

@@ -24,7 +24,7 @@ function CompanyList() {
   const [search, setSearch] = useState("");
   const [data, setData] = useState([]);
   const [postList, setPostList] = useState([]);
-  const indexOfLastPost = (page + 1) * rowsPerPage;
+  const indexOfLastPost = page + 1 * rowsPerPage;
   const indexOfFirstPost = indexOfLastPost - rowsPerPage;
   const currentPosts = postList.slice(indexOfFirstPost, indexOfLastPost);
   const [value, setValue] = useState(1);
@@ -142,7 +142,7 @@ function CompanyList() {
               <Table hover>
                 <thead>
                   <tr>
-                    <th>No</th>
+                    <th>ID</th>
                     <th>Company Name</th>
                     <th>Manager Name</th>
                     <th>Date Created</th>
