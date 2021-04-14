@@ -162,11 +162,11 @@ function UserManagement() {
             }
           })
         );
+        setTimeout(() => {
+          setLoading(false);
+        }, 1000);
       } catch (error) {}
     }
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
     fetchUserList();
   }, []);
 
