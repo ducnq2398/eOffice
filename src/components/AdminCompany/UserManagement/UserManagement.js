@@ -791,12 +791,6 @@ function UserManagement() {
               />
             </div>
             <div hidden={search !== "" ? true : false} className="ex">
-              {/* <CSVLink filename={"data user.csv"} 
-              
-              >
-                Import
-                <Icon.BiImport fontSize="25" tableValues="a" />
-              </CSVLink> */}
               <CSVLink
                 style={{ marginLeft: 10 }}
                 filename={"Data User.csv"}
@@ -840,7 +834,7 @@ function UserManagement() {
                     <TableCell
                       style={{ background: "#3f51b5", color: "white" }}
                     >
-                      Date create
+                      Address
                     </TableCell>
                   </TableRow>
                 </TableHead>
@@ -877,9 +871,7 @@ function UserManagement() {
                       </TableCell>
                       <TableCell className="demo-2">{user.phone}</TableCell>
                       <TableCell className="demo-2">{user.email}</TableCell>
-                      <TableCell className="demo-2">
-                        {moment(user.dateCreate).format("DD/MM/YYYY")}
-                      </TableCell>
+                      <TableCell className="demo-2">{user.address}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -906,7 +898,7 @@ function UserManagement() {
                     Email
                   </TableCell>
                   <TableCell style={{ background: "#3f51b5", color: "white" }}>
-                    Date create
+                    Address
                   </TableCell>
                 </TableRow>
               </TableHead>
@@ -954,9 +946,7 @@ function UserManagement() {
                           </TableCell>
                           <TableCell className="demo-2">{user.phone}</TableCell>
                           <TableCell className="demo-2">{user.email}</TableCell>
-                          <TableCell>
-                            {moment(user.dateCreate).format("DD/MM/YYYY")}
-                          </TableCell>
+                          <TableCell className="demo-2">{user.address}</TableCell>
                         </TableRow>
                       ))
                   : listDeactive
@@ -1001,9 +991,7 @@ function UserManagement() {
                           </TableCell>
                           <TableCell className="demo-2">{user.phone}</TableCell>
                           <TableCell className="demo-2">{user.email}</TableCell>
-                          <TableCell>
-                            {moment(user.dateCreate).format("DD/MM/YYYY")}
-                          </TableCell>
+                          <TableCell className="demo-2">{user.address}</TableCell>
                         </TableRow>
                       ))}
               </TableBody>
