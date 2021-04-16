@@ -16,7 +16,6 @@ import Tab from "@material-ui/core/Tab";
 import Paper from "@material-ui/core/Paper";
 import Tabs from "@material-ui/core/Tabs";
 import { getUser } from "../../../utils/Common";
-import GetDepartment from "../../GetData/GetDepartment";
 import Switch from "@material-ui/core/Switch";
 import departmentAPI from "../../../api/departmentAPI";
 import ScaleLoader from "react-spinners/ScaleLoader";
@@ -53,7 +52,6 @@ import { CSVLink } from "react-csv";
 import * as Icon from "react-icons/bi";
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import moment from "moment";
 
 const TransitionAdd = forwardRef(function Transition(props, ref) {
   return <Slide direction="right" ref={ref} {...props} />;
@@ -557,14 +555,15 @@ function UserManagement() {
   const data = userList.map((user) => {
     return {
       Account: user.name,
-      Department: user.department.name,
-      SubDepartment: user.subDepartment.name,
+      Department: user.departmentName,
+      SubDepartment: user.subDepartmentName,
       Phone: user.phone,
       Email: user.email,
       Address: user.address,
       Status: user.status === 0 ? "deactive" : "active",
     };
   });
+  console.log(userList);
   return (
     <div>
       <header>
@@ -867,7 +866,7 @@ function UserManagement() {
                     >
                       <TableCell className="demo-2">{user.name}</TableCell>
                       <TableCell className="demo-2">
-                        <GetDepartment id={user.departmentId} />
+                        {user.departmentName}
                       </TableCell>
                       <TableCell className="demo-2">{user.phone}</TableCell>
                       <TableCell className="demo-2">{user.email}</TableCell>
@@ -942,11 +941,13 @@ function UserManagement() {
                         >
                           <TableCell className="demo-2">{user.name}</TableCell>
                           <TableCell className="demo-2">
-                            <GetDepartment id={user.departmentId} />
+                            {user.departmentName}
                           </TableCell>
                           <TableCell className="demo-2">{user.phone}</TableCell>
                           <TableCell className="demo-2">{user.email}</TableCell>
-                          <TableCell className="demo-2">{user.address}</TableCell>
+                          <TableCell className="demo-2">
+                            {user.address}
+                          </TableCell>
                         </TableRow>
                       ))
                   : listDeactive
@@ -987,11 +988,13 @@ function UserManagement() {
                         >
                           <TableCell className="demo-2">{user.name}</TableCell>
                           <TableCell className="demo-2">
-                            <GetDepartment id={user.departmentId} />
+                          {user.departmentName}
                           </TableCell>
                           <TableCell className="demo-2">{user.phone}</TableCell>
                           <TableCell className="demo-2">{user.email}</TableCell>
-                          <TableCell className="demo-2">{user.address}</TableCell>
+                          <TableCell className="demo-2">
+                            {user.address}
+                          </TableCell>
                         </TableRow>
                       ))}
               </TableBody>
