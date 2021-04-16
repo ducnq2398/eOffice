@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import notsigned from "../../images/status.png";
 import doneinvoice from "../../images/invoicecompleted.png";
 import done from "../../images/true.png";
+import expiration from "../../images/Frame 138.png";
 import invoiceAPI from "../../api/invoiceAPI";
 import { getUser } from "../../utils/Common";
 import contractAPI from "../../api/contractAPI";
@@ -13,9 +14,7 @@ import moment from "moment";
 import notiAPI from "../../api/notiAPI";
 import Navbar from "../Navbar/Navbar";
 
-
 function Dashboard() {
-  
   const history = useHistory();
   const [noti, setNoti] = useState([]);
   const [listContract, setListContract] = useState([]);
@@ -141,7 +140,6 @@ function Dashboard() {
     getListDocument();
   }, []);
 
-
   return (
     <div>
       <header>
@@ -189,14 +187,22 @@ function Dashboard() {
                                 </p>
                               </td>
                               <td>
-                                {data.status < 2 ? (
+                                {data.status === 2 && (
+                                  <img className="not-sign" src={done} alt="" />
+                                )}
+                                {data.status < 2 && (
                                   <img
                                     className="not-sign"
                                     src={notsigned}
                                     alt=""
                                   />
-                                ) : (
-                                  <img className="not-sign" src={done} alt="" />
+                                )}
+                                {data.status === 3 && (
+                                  <img
+                                    className="not-sign"
+                                    src={expiration}
+                                    alt=""
+                                  />
                                 )}
                               </td>
                               <td style={{ textAlign: "right" }}>
@@ -256,16 +262,20 @@ function Dashboard() {
                                 </p>
                               </td>
                               <td>
-                                {data.status < 2 ? (
+                                {data.status === 2 && (
+                                  <img className="not-sign" src={doneinvoice} alt="" />
+                                )}
+                                {data.status < 2 && (
                                   <img
                                     className="not-sign"
                                     src={notsigned}
                                     alt=""
                                   />
-                                ) : (
+                                )}
+                                {data.status === 3 && (
                                   <img
                                     className="not-sign"
-                                    src={doneinvoice}
+                                    src={expiration}
                                     alt=""
                                   />
                                 )}

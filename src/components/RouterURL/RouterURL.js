@@ -102,6 +102,7 @@ function RouterURL() {
         <PrivateRoute path="/company-list" component={CompanyList} />
         <PrivateRoute path="/edit-company" component={EditCompany} />
         <UserRoute path="/profile" component={Profile} />
+        <Route component={Error}/>
       </Switch>
     </div>
   );

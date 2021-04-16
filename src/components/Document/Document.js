@@ -24,6 +24,7 @@ import Paper from "@material-ui/core/Paper";
 import Tabs from "@material-ui/core/Tabs";
 import Button from "@material-ui/core/Button";
 import Slide from "@material-ui/core/Slide";
+import expiration from "../../images/Frame 138.png";
 import {
   InputAdornment,
   makeStyles,
@@ -594,7 +595,9 @@ function Document() {
                         >
                           <Label className="step">
                             {doc.contractUrl ? (
-                              <ContractStepper value={doc.status} />
+                              <ContractStepper
+                                value={doc.status === 3 ? 0 : doc.status}
+                              />
                             ) : (
                               <div style={{ marginRight: 70 }}>
                                 <InvoiceStepper
@@ -644,6 +647,13 @@ function Document() {
                               src={notsigned}
                               alt=""
                             />
+                            {doc.status === 3 && (
+                              <img
+                                className="not-sign"
+                                src={expiration}
+                                alt=""
+                              />
+                            )}
                           </Label>
                         </TableCell>
                         <TableCell
@@ -670,7 +680,7 @@ function Document() {
                           {Moment(doc.dateCreate).format("DD/MM/YYYY HH:mm:ss")}
                         </TableCell>
                         <TableCell style={{ textAlign: "center" }}>
-                          <Label hidden={doc.status < 2 ? false : true}>
+                          <Label hidden={doc.status !== 2 ? false : true}>
                             <DeleteIcon
                               onClick={() => {
                                 setDel(true);
@@ -828,7 +838,9 @@ function Document() {
                         >
                           <Label className="step">
                             {doc.contractUrl ? (
-                              <ContractStepper value={doc.status} />
+                              <ContractStepper
+                                value={doc.status === 3 ? 0 : doc.status}
+                              />
                             ) : (
                               <div style={{ marginRight: 70 }}>
                                 <InvoiceStepper
@@ -878,6 +890,13 @@ function Document() {
                               src={notsigned}
                               alt=""
                             />
+                            {doc.status === 3 && (
+                              <img
+                                className="not-sign"
+                                src={expiration}
+                                alt=""
+                              />
+                            )}
                           </Label>
                         </TableCell>
                         <TableCell
@@ -904,7 +923,7 @@ function Document() {
                           {Moment(doc.dateCreate).format("DD/MM/YYYY HH:mm:ss")}
                         </TableCell>
                         <TableCell style={{ textAlign: "center" }}>
-                          <Label hidden={doc.status < 2 ? false : true}>
+                          <Label hidden={doc.status !== 2 ? false : true}>
                             <DeleteIcon
                               onClick={() => {
                                 setDel(true);
