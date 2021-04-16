@@ -35,6 +35,7 @@ import printJS from "print-js";
 import companyListAPI from "../../api/companyListAPI";
 import { getUser } from "../../utils/Common";
 import BusinessIcon from "@material-ui/icons/Business";
+import expiration from "../../images/Frame 138.png";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -119,7 +120,7 @@ function InvoiceDetail() {
       <header>
         <Navbar />
       </header>
-      <StepDetail activeStep={activeStep} />
+      <StepDetail activeStep={activeStep === 4 ? 1 : activeStep} />
       <main className="main-invoice">
         <Container fluid={true}>
           <Row>
@@ -136,18 +137,12 @@ function InvoiceDetail() {
                 </Label>
                 <br />
                 <Label style={{ marginTop: "10px" }}>
-                  <img
-                    hidden={document.status === 2 ? false : true}
-                    src={done}
-                    alt=""
-                  />
-                  <img
-                    hidden={document.status === 0 ? false : true}
-                    src={notsigned}
-                    alt=""
-                  />
+                  {document.status === 2 && <img src={done} alt="" />}
+                  {document.status < 2 && <img src={notsigned} alt="" />}
+                  {document.status === 3 && (
+                    <img className="not-sign" src={expiration} alt="" />
+                  )}
                 </Label>
-
                 <TextField
                   variant="standard"
                   value={document.title}
@@ -245,7 +240,7 @@ function InvoiceDetail() {
                 />
               </Paper>
               <Button
-                hidden={activeStep >= 3 ? false : true}
+                hidden={activeStep === 2 ? false : true}
                 variant="contained"
                 color="primary"
                 size="large"
@@ -268,7 +263,7 @@ function InvoiceDetail() {
                 Save
               </Button>
               <Button
-                hidden={activeStep >= 3 ? false : true}
+                hidden={activeStep === 2 ? false : true}
                 variant="contained"
                 color="primary"
                 size="large"

@@ -36,6 +36,7 @@ import GetPhone from "../GetData/GetPhone";
 import moment from "moment";
 import Navbar from "../Navbar/Navbar";
 import printJS from "print-js";
+import expiration from "../../images/Frame 138.png";
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.white,
@@ -80,7 +81,7 @@ function ContractDetail() {
         setViewer(res.data.contractViewers);
         setId1(res.data.contractSigners[0].signerId);
         setId2(res.data.contractSigners[1].signerId);
-        setActiveStep(res.data.status+1);
+        setActiveStep(res.data.status + 1);
       } catch (error) {
         console.log(error);
       }
@@ -144,7 +145,7 @@ function ContractDetail() {
       <header>
         <Navbar />
       </header>
-      <StepDetailContract activeStep={activeStep} />
+      <StepDetailContract activeStep={activeStep===4 ? 0 : activeStep} />
       <main className="main-contract">
         <Container fluid>
           <Row>
@@ -161,16 +162,11 @@ function ContractDetail() {
                 </Label>
                 <br />
                 <Label style={{ marginTop: "10px" }}>
-                  <img
-                    hidden={document.status === 2 ? false : true}
-                    src={done}
-                    alt=""
-                  />
-                  <img
-                    hidden={document.status !== 2 ? false : true}
-                    src={notsigned}
-                    alt=""
-                  />
+                  {document.status < 2 && <img src={notsigned} alt="" />}
+                  {document.status === 2 && <img src={done} alt="" />}
+                  {document.status === 3 && (
+                    <img className="not-sign" src={expiration} alt="" />
+                  )}
                 </Label>
 
                 <TextField
@@ -299,7 +295,7 @@ function ContractDetail() {
                 />
               </Paper>
               <Button
-                hidden={activeStep >= 3 ? false : true}
+                hidden={activeStep === 2 ? false : true}
                 variant="contained"
                 color="primary"
                 size="large"
@@ -322,7 +318,7 @@ function ContractDetail() {
                 Save
               </Button>
               <Button
-                hidden={activeStep >= 3 ? false : true}
+                hidden={activeStep === 2 ? false : true}
                 variant="contained"
                 color="primary"
                 size="large"
