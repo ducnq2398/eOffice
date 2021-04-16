@@ -570,6 +570,7 @@ function CreateContract() {
                 <Autocomplete
                   id="combo-box-demo"
                   options={listSinger}
+                  disableClearable={true}
                   getOptionLabel={(option) => option.name}
                   onChange={(event, newValue) => {
                     setDataUpload({ ...dataUpload, signer: newValue });
@@ -719,6 +720,7 @@ function CreateContract() {
                 </Label>
                 <Autocomplete
                   id="combo-box-demo"
+                  disableClearable={true}
                   options={listGuest.filter((data) => {
                     if (data.id !== dataUpload.signer.id) {
                       return data;

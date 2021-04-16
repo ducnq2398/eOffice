@@ -461,6 +461,7 @@ function CreateInvoice() {
                 <Autocomplete
                   id="combo-box-demo"
                   options={listSinger}
+                  disableClearable={true}
                   getOptionLabel={(option) => option.name}
                   onChange={(event, newValue) => {
                     setDataUpload({ ...dataUpload, signer: newValue });

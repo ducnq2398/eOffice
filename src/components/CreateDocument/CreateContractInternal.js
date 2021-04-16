@@ -557,6 +557,7 @@ function CreateContractInternal() {
                 <Autocomplete
                   id="combo-box-demo"
                   options={listSinger}
+                  disableClearable={true}
                   getOptionLabel={(option) => option.name}
                   onChange={(event, newValue) => {
                     setDataUpload({ ...dataUpload, signer: newValue });
@@ -632,6 +633,7 @@ function CreateContractInternal() {
                 <Autocomplete
                   id="combo-box-demo"
                   options={listSinger2}
+                  disableClearable={true}
                   getOptionLabel={(option) => option.name}
                   onChange={(event, newValue) => {
                     setDataUpload({ ...dataUpload, signer_guest: newValue });
