@@ -24,7 +24,7 @@ function CompanyList() {
   const [search, setSearch] = useState("");
   const [data, setData] = useState([]);
   const [postList, setPostList] = useState([]);
-  const indexOfLastPost = page + 1 * rowsPerPage;
+  const indexOfLastPost = (page + 1) * rowsPerPage;
   const indexOfFirstPost = indexOfLastPost - rowsPerPage;
   const currentPosts = postList.slice(indexOfFirstPost, indexOfLastPost);
   const [value, setValue] = useState(1);
@@ -139,10 +139,9 @@ function CompanyList() {
                 labelRowsPerPage=""
                 rowsPerPageOptions={[]}
               />
-              <Table hover>
+              <Table style={{ textAlign: "left" }} hover>
                 <thead>
                   <tr>
-                    <th>ID</th>
                     <th>Company Name</th>
                     <th>Manager Name</th>
                     <th>Date Created</th>
@@ -154,7 +153,6 @@ function CompanyList() {
                 <tbody>
                   {currentPosts.map((data, key) => (
                     <tr key={key}>
-                      <th>{data.id}</th>
                       <td>{data.name}</td>
                       <td>
                         <GetAdminCompany id={data.adminId} />
@@ -186,10 +184,12 @@ function CompanyList() {
               </Table>
             </div>
           )}
-          <Table hidden={search === "" ? true : false}>
+          <Table
+            style={{ textAlign: "left" }}
+            hidden={search === "" ? true : false}
+          >
             <thead>
               <tr>
-                <th>No</th>
                 <th>Company Name</th>
                 <th>Manager Name</th>
                 <th>Date Created</th>
@@ -207,7 +207,6 @@ function CompanyList() {
                 })
                 .map((data) => (
                   <tr key={data.id}>
-                    <th>{data.id}</th>
                     <td>{data.name}</td>
                     <td>
                       <GetAdminCompany id={data.adminId} />

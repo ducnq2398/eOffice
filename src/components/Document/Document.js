@@ -601,7 +601,7 @@ function Document() {
                             ) : (
                               <div style={{ marginRight: 70 }}>
                                 <InvoiceStepper
-                                  value={doc.status === 2 ? 1 : doc.status}
+                                  value={doc.status === 2 ? 1 : doc.status===3 ? 0 : doc.status}
                                 />
                               </div>
                             )}
@@ -844,7 +844,7 @@ function Document() {
                             ) : (
                               <div style={{ marginRight: 70 }}>
                                 <InvoiceStepper
-                                  value={doc.status === 2 ? 1 : doc.status}
+                                  value={doc.status === 2 ? 1 : doc.status===3 ? 0 : doc.status}
                                 />
                               </div>
                             )}
