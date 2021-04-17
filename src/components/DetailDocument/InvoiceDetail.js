@@ -240,7 +240,7 @@ function InvoiceDetail() {
                 />
               </Paper>
               <Button
-                hidden={activeStep === 2 ? false : true}
+                hidden={activeStep === 3 ? false : true}
                 variant="contained"
                 color="primary"
                 size="large"
@@ -263,7 +263,7 @@ function InvoiceDetail() {
                 Save
               </Button>
               <Button
-                hidden={activeStep === 2 ? false : true}
+                hidden={activeStep === 3 ? false : true}
                 variant="contained"
                 color="primary"
                 size="large"

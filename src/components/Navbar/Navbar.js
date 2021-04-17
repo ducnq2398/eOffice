@@ -68,7 +68,7 @@ function Navbar() {
       }
     }
     fetListNoti();
-  },[]);
+  }, []);
   useEffect(() => {
     async function getUsers() {
       try {
@@ -197,6 +197,11 @@ function Navbar() {
           currentPostsNoti.map((noti, index) => {
             return (
               <div
+                style={
+                  noti.status === 0
+                    ? { fontWeight: "bolder" }
+                    : { fontWeight: "normal" }
+                }
                 key={index}
                 onClick={() => {
                   if (noti.title.includes("Contract")) {
@@ -204,23 +209,37 @@ function Navbar() {
                       id: noti.id,
                       status: 1,
                     };
-                    notiAPI.changeStatus(params).catch(function (error) {
-                      console.log(error);
-                    });
-                    window.location.assign(
-                      "/detail/contract/" + noti.objectId + "/" + noti.content
-                    );
+                    notiAPI
+                      .changeStatus(params)
+                      .then(function () {
+                        window.location.assign(
+                          "/detail/contract/" +
+                            noti.objectId +
+                            "/" +
+                            noti.content
+                        );
+                      })
+                      .catch(function (error) {
+                        console.log(error);
+                      });
                   } else {
                     const params = {
                       id: noti.id,
                       status: 1,
                     };
-                    notiAPI.changeStatus(params).catch(function (error) {
-                      console.log(error);
-                    });
-                    window.location.assign(
-                      "/detail/invoice/" + noti.objectId + "/" + noti.content
-                    );
+                    notiAPI
+                      .changeStatus(params)
+                      .then(function () {
+                        window.location.assign(
+                          "/detail/invoice/" +
+                            noti.objectId +
+                            "/" +
+                            noti.content
+                        );
+                      })
+                      .catch(function (error) {
+                        console.log(error);
+                      });
                   }
                 }}
               >
@@ -273,6 +292,7 @@ function Navbar() {
           className="menu-bars"
         />
         <img
+          onClick={() => history.push("/dashboard")}
           className="lo"
           src={logo}
           alt=""

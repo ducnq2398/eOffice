@@ -295,7 +295,7 @@ function ContractDetail() {
                 />
               </Paper>
               <Button
-                hidden={activeStep === 2 ? false : true}
+                hidden={activeStep === 3 ? false : true}
                 variant="contained"
                 color="primary"
                 size="large"
@@ -318,7 +318,7 @@ function ContractDetail() {
                 Save
               </Button>
               <Button
-                hidden={activeStep === 2 ? false : true}
+                hidden={activeStep === 3 ? false : true}
                 variant="contained"
                 color="primary"
                 size="large"
