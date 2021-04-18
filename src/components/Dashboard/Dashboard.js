@@ -217,7 +217,7 @@ function Dashboard() {
                 </Form>
                 <div>
                   <Link
-                    to="/document"
+                     to={{pathname:'/document', state:'contract'}}
                     hidden={listContract.length > 5 ? false : true}
                   >
                     See more
@@ -292,7 +292,7 @@ function Dashboard() {
                 </Form>
                 <div>
                   <Link
-                    to="/document"
+                    to={{pathname:'/document', state:'invoice'}}
                     hidden={listInvoice.length > 5 ? false : true}
                   >
                     See more

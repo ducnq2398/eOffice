@@ -9,7 +9,7 @@ import invoicecompleted from "../../images/invoicecompleted.png";
 import choo from "../../images/choo.png";
 import invoiceAPI from "../../api/invoiceAPI";
 import GetCreater from "../GetData/GetCreater";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import contractAPI from "../../api/contractAPI";
 import { getUser } from "../../utils/Common";
 import ScaleLoader from "react-spinners/ScaleLoader";
@@ -66,7 +66,7 @@ function Document() {
   const toogle = () => setIsOpen(!isOpen);
   const [selectType, setSelectType] = useState(false);
   const toogle2 = () => setSelectType(!selectType);
-  const [filter, setFilter] = useState("1");
+  const [filter, setFilter] = useState("");
   const [postList, setPostList] = useState([]);
   const [listAllDocument, setListAllDocument] = useState([]);
   const [listInvoice, setListInvoice] = useState([]);
@@ -76,7 +76,6 @@ function Document() {
   const [rowsPerPage] = useState(10);
   const indexOfLastPost = (page + 1) * rowsPerPage;
   const indexOfFirstPost = indexOfLastPost - rowsPerPage;
-
   var post = postList
     .sort((a, b) => {
       return (
@@ -104,13 +103,34 @@ function Document() {
                 .getInvoiceByCompanyId(getUser().CompanyId)
                 .then(function (invoice) {
                   const list = [...contract.data, ...invoice.data];
-                  setListAllDocument(list);
-                  setPostList(list);
-                  setListInvoice(invoice.data);
-                  setListContract(contract.data);
-                  setTimeout(() => {
-                    setLoading(false);
-                  }, 2000);
+                  if (history.location.state === "contract") {
+                    setListAllDocument(list);
+                    setPostList(contract.data);
+                    setListInvoice(invoice.data);
+                    setListContract(contract.data);
+                    setFilter('2');
+                    setTimeout(() => {
+                      setLoading(false);
+                    }, 2000);
+                  } else if (history.location.state === "invoice") {
+                    setListAllDocument(list);
+                    setPostList(invoice.data);
+                    setListInvoice(invoice.data);
+                    setListContract(contract.data);
+                    setFilter('3');
+                    setTimeout(() => {
+                      setLoading(false);
+                    }, 2000);
+                  } else {
+                    setListAllDocument(list);
+                    setPostList(list);
+                    setListInvoice(invoice.data);
+                    setListContract(contract.data);
+                    setFilter('1');
+                    setTimeout(() => {
+                      setLoading(false);
+                    }, 2000);
+                  }
                 })
                 .catch(function (error) {
                   console.log(error);
@@ -140,13 +160,34 @@ function Document() {
                           ];
                           const listInvoice1 = [...res1.data, ...res2.data];
                           const listContract1 = [...res3.data, ...res4.data];
-                          setListAllDocument(list);
-                          setPostList(list);
-                          setListInvoice(listInvoice1);
-                          setListContract(listContract1);
-                          setTimeout(() => {
-                            setLoading(false);
-                          }, 2000);
+                          if (history.location.state === "invoice") {
+                            setListAllDocument(list);
+                            setPostList(listContract1);
+                            setListInvoice(listInvoice1);
+                            setListContract(listContract1);
+                            setFilter('2');
+                            setTimeout(() => {
+                              setLoading(false);
+                            }, 2000);
+                          } else if (history.location.state === "invoice") {
+                            setListAllDocument(list);
+                            setPostList(listInvoice1);
+                            setListInvoice(listInvoice1);
+                            setListContract(listContract1);
+                            setFilter('3');
+                            setTimeout(() => {
+                              setLoading(false);
+                            }, 2000);
+                          } else {
+                            setListAllDocument(list);
+                            setPostList(list);
+                            setListInvoice(listInvoice1);
+                            setListContract(listContract1);
+                            setFilter('1');
+                            setTimeout(() => {
+                              setLoading(false);
+                            }, 2000);
+                          }
                         })
                         .catch(function (error) {
                           console.log(error);
@@ -232,7 +273,7 @@ function Document() {
     if (filter === "1") {
       setPostList(
         listAllDocument.filter((data) => {
-          if (data.status < 2) {
+          if (data.status !== 2) {
             return data;
           }
         })
@@ -240,7 +281,7 @@ function Document() {
     } else if (filter === "2") {
       setPostList(
         listContract.filter((data) => {
-          if (data.status < 2) {
+          if (data.status !== 2) {
             return data;
           }
         })
@@ -248,7 +289,7 @@ function Document() {
     } else {
       setPostList(
         listInvoice.filter((data) => {
-          if (data.status < 2) {
+          if (data.status !== 2) {
             return data;
           }
         })
@@ -403,7 +444,7 @@ function Document() {
                 style={{ marginLeft: 20 }}
               >
                 <Select
-                  defaultValue={1}
+                  value={filter}
                   onChange={(e) => setFilter(e.target.value)}
                 >
                   <MenuItem onClick={All} value="1">
@@ -601,7 +642,13 @@ function Document() {
                             ) : (
                               <div style={{ marginRight: 70 }}>
                                 <InvoiceStepper
-                                  value={doc.status === 2 ? 1 : doc.status===3 ? 0 : doc.status}
+                                  value={
+                                    doc.status === 2
+                                      ? 1
+                                      : doc.status === 3
+                                      ? 0
+                                      : doc.status
+                                  }
                                 />
                               </div>
                             )}
@@ -844,7 +891,13 @@ function Document() {
                             ) : (
                               <div style={{ marginRight: 70 }}>
                                 <InvoiceStepper
-                                  value={doc.status === 2 ? 1 : doc.status===3 ? 0 : doc.status}
+                                  value={
+                                    doc.status === 2
+                                      ? 1
+                                      : doc.status === 3
+                                      ? 0
+                                      : doc.status
+                                  }
                                 />
                               </div>
                             )}
