@@ -791,7 +791,6 @@ function UserManagement() {
             </div>
             <div hidden={search !== "" ? true : false} className="ex">
               <CSVLink
-                style={{ marginLeft: 10 }}
                 filename={"Data User.csv"}
                 data={data}
               >
