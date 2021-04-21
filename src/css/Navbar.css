@@ -140,8 +140,19 @@
   cursor: pointer;
   border-radius: 4px;
 }
+.menu-item-2 {
+  display: flex;
+  align-items: center;
+  transition: background var(500ms);
+  padding: 0.5rem;
+  cursor: pointer;
+  border-radius: 4px;
+}
 
 .menu-item:hover {
+  background-color: rgb(0, 162, 255);
+}
+.menu-item-2:hover {
   background-color: rgb(0, 162, 255);
 }
 

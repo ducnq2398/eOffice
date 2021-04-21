@@ -180,13 +180,13 @@ function Navbar() {
   function DropdownMenu2() {
     function DropdownItem2(props) {
       return (
-        <p
+        <div
           style={{ textAlign: "left" }}
-          className="menu-item"
+          className="menu-item-2"
           onClick={props.function}
         >
           {props.children}
-        </p>
+        </div>
       );
     }
     return (
