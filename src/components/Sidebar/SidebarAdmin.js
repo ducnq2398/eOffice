@@ -27,7 +27,7 @@ function SidebarAdmin() {
   return (
     <div className="sidebar">
       <div className="logo">
-        <img src={logo} alt="" />
+        <img src={logo} alt="" style={{top:0}} />
       </div>
       <div className="sidebar-wrapper">
         <ul className="nav">

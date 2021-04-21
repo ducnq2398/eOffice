@@ -296,7 +296,6 @@ function Navbar() {
           className="lo"
           src={logo}
           alt=""
-          style={{ marginLeft: 20, marginTop: 10 }}
         />
         <nav style={{ display: "flex", right: 20, position: "absolute" }}>
           <ul className="navbar-nav">
@@ -337,7 +336,7 @@ function Navbar() {
       <nav className={sidebar ? "nav-menu active" : "nav-menu"}>
         <ul className="nav-menu-items sn-bg-4" onClick={showSidebar}>
           <li className="navbar-toogle">
-            <img src={logo} alt="" style={{ marginLeft: 70, marginTop: 10 }} />
+            <img src={logo} alt="" className="lo"/>
             <IoOIcon.IoClose
               onClick={showSidebar}
               className="menu-bars-close"
