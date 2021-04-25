@@ -224,7 +224,7 @@ function InvoiceDetail() {
                 />
                 <TextField
                   label="Date expiration"
-                  value={Moment(document.dateSign).format(
+                  value={Moment(document.dateExpire).format(
                     "DD/MM/YYYY HH:mm:ss"
                   )}
                   fullWidth

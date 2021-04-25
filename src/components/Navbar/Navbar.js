@@ -252,7 +252,7 @@ function Navbar() {
             );
           })
         )}
-        <Link to="/notification" hidden={count < 10 ? true : false}>
+        <Link to="/notification" hidden={listNoti.length < 10 ? true : false}>
           See more
         </Link>
       </div>
