@@ -563,7 +563,7 @@ function UserManagement() {
       Status: user.status === 0 ? "deactive" : "active",
     };
   });
-  console.log(userList);
+ 
   return (
     <div>
       <header>

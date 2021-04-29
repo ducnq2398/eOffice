@@ -3,9 +3,7 @@ import StepContract from "../Sidebar/Stepper";
 import PDF from "../PDF/PDF";
 import "../../css/CreateDoc.css";
 import { useHistory, useLocation } from "react-router-dom";
-import { forwardRef, useEffect, useState } from "react";
-import userListAPI from "../../api/userListAPI";
-import companyListAPI from "../../api/companyListAPI";
+import { forwardRef, useState } from "react";
 import { getUser } from "../../utils/Common";
 import contractAPI from "../../api/contractAPI";
 import "react-toastify/dist/ReactToastify.css";
@@ -71,9 +69,6 @@ function ContractContent() {
   const location = useLocation();
   const history = useHistory();
   const [create, setCreate] = useState(false);
-  const [signer, setSigner] = useState("");
-  const [guest, setGuest] = useState("");
-  const [company, setCompany] = useState("");
   const [page, setPage] = useState(0);
   const [rowsPerPage] = useState(2);
   const indexOfLastPost = (page + 1) * rowsPerPage;
@@ -87,37 +82,6 @@ function ContractContent() {
   function toogle() {
     setCreate(!create);
   }
-  useEffect(() => {
-    async function getSigner() {
-      try {
-        const res = await userListAPI.getUserById(
-          location.state.data.signer.id
-        );
-        setSigner(res.data);
-      } catch (error) {}
-    }
-    getSigner();
-  }, [location.state.data.signer.id]);
-  useEffect(() => {
-    async function getCompany() {
-      try {
-        const res = await companyListAPI.getCompanyById(getUser().CompanyId);
-        setCompany(res.data);
-      } catch (error) {}
-    }
-    getCompany();
-  }, []);
-  useEffect(() => {
-    async function getGuest() {
-      try {
-        const res = await userListAPI.getUserById(
-          location.state.data.signer_guest.id
-        );
-        setGuest(res.data);
-      } catch (error) {}
-    }
-    getGuest();
-  }, [location.state.data.signer_guest.id]);
 
   async function handleCreated(e) {
     e.preventDefault();
@@ -249,7 +213,7 @@ function ContractContent() {
                 />
                 <TextField
                   variant="standard"
-                  value={company.name}
+                  value={location.state.data.signer.companyName}
                   fullWidth
                   style={{ marginTop: "20px", padding: "10px 10px 10px" }}
                   InputProps={{
@@ -263,7 +227,7 @@ function ContractContent() {
                 />
                 <TextField
                   variant="standard"
-                  value={signer.name}
+                  value={location.state.data.signer.name}
                   fullWidth
                   style={{ marginTop: "20px", padding: "10px 10px 10px" }}
                   InputProps={{
@@ -291,7 +255,7 @@ function ContractContent() {
                 />
                 <TextField
                   variant="standard"
-                  value={guest.name}
+                  value={location.state.data.signer_guest.name}
                   fullWidth
                   style={{ marginTop: "20px", padding: "10px 10px 10px" }}
                   InputProps={{

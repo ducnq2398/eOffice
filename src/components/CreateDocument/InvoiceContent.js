@@ -86,33 +86,6 @@ function InvoiceContent() {
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
-  useEffect(() => {
-    async function getSigner() {
-      try {
-        const res = await userListAPI.getUserById(
-          location.state.data.signer.id
-        );
-        setSigner(res.data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    getSigner();
-  }, [location.state.data.signer.id]);
-
-  useEffect(() => {
-    async function getCompany() {
-      try {
-        const res = await companyListAPI.getCompanyById(
-          location.state.data.signer.companyId
-        );
-        setCompany(res.data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    getCompany();
-  }, [location.state.data.signer.companyId]);
 
   async function handleCreated(e) {
     e.preventDefault();
@@ -214,7 +187,7 @@ function InvoiceContent() {
                 />
                 <TextField
                   variant="standard"
-                  value={company.name}
+                  value={location.state.data.signer.companyName}
                   fullWidth
                   style={{ marginTop: "20px", padding: "10px 10px 10px" }}
                   InputProps={{
@@ -227,7 +200,7 @@ function InvoiceContent() {
                   }}
                 />
                 <TextField
-                  value={signer.name}
+                  value={location.state.data.signer.name}
                   fullWidth
                   style={{ marginTop: "20px", padding: "10px 10px 10px" }}
                   InputProps={{
