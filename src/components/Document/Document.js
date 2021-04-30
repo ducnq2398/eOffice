@@ -727,7 +727,7 @@ function Document() {
                           {Moment(doc.dateCreate).format("DD/MM/YYYY HH:mm:ss")}
                         </TableCell>
                         <TableCell style={{ textAlign: "center" }}>
-                          <Label hidden={doc.status !== 2 ? false : true}>
+                          <Label hidden={doc.status === 0 || doc.status===3 ? false : true}>
                             <DeleteIcon
                               onClick={() => {
                                 setDel(true);
@@ -976,7 +976,7 @@ function Document() {
                           {Moment(doc.dateCreate).format("DD/MM/YYYY HH:mm:ss")}
                         </TableCell>
                         <TableCell style={{ textAlign: "center" }}>
-                          <Label hidden={doc.status !== 2 ? false : true}>
+                          <Label hidden={doc.status === 0 || doc.status===3 ? false : true}>
                             <DeleteIcon
                               onClick={() => {
                                 setDel(true);
