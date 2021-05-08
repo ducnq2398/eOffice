@@ -69,6 +69,7 @@ function CompanyRegister() {
         });
     }
   }
+  
   return (
     <div>
       <SidebarAdmin />

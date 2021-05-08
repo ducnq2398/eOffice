@@ -31,6 +31,7 @@ import TitleIcon from "@material-ui/icons/Title";
 import { toast } from "react-toastify";
 import Alert from "@material-ui/lab/Alert";
 import Navbar from "../Navbar/Navbar";
+import { useRef } from "react";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 function TransitionLeft(props) {
@@ -223,7 +224,6 @@ function CreateContract() {
         });
       }, 3000);
     } else {
-      
       history.push({
         pathname: "/contract-confirm",
         state: {
@@ -531,7 +531,9 @@ function CreateContract() {
                           message: "",
                         });
                       }, 3000);
-                    } else if (dataUpload.title.trim().split(/ +/).join(" ").length > 255) {
+                    } else if (
+                      dataUpload.title.trim().split(/ +/).join(" ").length > 255
+                    ) {
                       setAlert({
                         ...alert,
                         title: true,
@@ -719,8 +721,9 @@ function CreateContract() {
                   SELECT SIGNER GUEST
                 </Label>
                 <Autocomplete
-                  id="combo-box-demo"
+                  id="MuiAutocomplete-clearIndicator"
                   disableClearable={true}
+                  
                   options={listGuest.filter((data) => {
                     if (data.id !== dataUpload.signer.id) {
                       return data;
